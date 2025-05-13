@@ -38,8 +38,6 @@ public class SymbolPainter : MonoBehaviour
     private readonly List<LineRenderer> _gestureLineRenderers = new();
     private LineRenderer _currentGestureRenderer;
 
-    private bool _recognized = false;
-
     private void Start()
     {
         _drawArea = new Rect(0, 0, Screen.width, Screen.height);
@@ -91,7 +89,6 @@ public class SymbolPainter : MonoBehaviour
             _points.Clear();
             if (valid)
             {
-                _recognized = true;
                 OnSymbolPainted?.Invoke(AlchemicalSymbol.Necromancy);
             }
         }

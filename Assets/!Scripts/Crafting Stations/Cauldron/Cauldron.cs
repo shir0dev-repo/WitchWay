@@ -16,9 +16,6 @@ public class Cauldron : MonoBehaviour
     [SerializeField, Range(1, 5)] private float _deviationHoldTime = 3.0f;
     [SerializeField, Range(5, 50)] private int _pointCount = 50;
 
-    private int _stirProgress = 0;
-    private int _stepCount = 10;
-
     private bool _isStirringCW = true;
     private Vector3 _cursorPos = Vector3.zero;
     private List<Vector3> _cursorPoints = new();
@@ -61,7 +58,6 @@ public class Cauldron : MonoBehaviour
                 _holdTimer += Time.deltaTime;
                 if (_holdTimer >= _deviationHoldTime)
                 {
-                    _stirProgress++;
                     _isStirringCW = !_isStirringCW;
                 }
             }

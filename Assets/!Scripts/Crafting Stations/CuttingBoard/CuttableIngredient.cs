@@ -7,8 +7,6 @@ using UnityEngine;
 public class CuttableIngredient : MonoBehaviour
 {
     [SerializeField] private TrailRenderer _cursorTrail;
-    private int strokeID = -1;
-    private int _vertexCount = 0;
 
     [SerializeField] Transform[] _cutPoints;
 
