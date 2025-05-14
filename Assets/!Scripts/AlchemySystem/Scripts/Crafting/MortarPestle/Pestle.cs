@@ -22,7 +22,7 @@ public class Pestle : MonoBehaviour
     {
         if (isCursorVisible)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && CastRay())
             {
                 cursorVisibility.TurnCursorInsivible();
                 isCursorVisible = false;
@@ -44,5 +44,19 @@ public class Pestle : MonoBehaviour
     void ReturnToPosition()
     {
         gameObject.transform.position = startPos;
+        gameObject.transform.rotation = Quaternion.identity;
+        rb.linearVelocity = Vector3.zero;
+    }
+    bool CastRay()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.rigidbody == rb) { return true; }
+        }
+
+        return false;
     }
 }
