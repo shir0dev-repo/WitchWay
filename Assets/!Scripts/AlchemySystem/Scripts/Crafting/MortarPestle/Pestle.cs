@@ -44,8 +44,6 @@ public class Pestle : MonoBehaviour
     void ReturnToPosition()
     {
         gameObject.transform.position = startPos;
-        gameObject.transform.rotation = Quaternion.identity;
-        rb.linearVelocity = Vector3.zero;
     }
     bool CastRay()
     {
