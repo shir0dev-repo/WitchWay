@@ -21,7 +21,6 @@ public class InfinateShelves : MonoBehaviour
     {
         ScrollInput();
 
-        UpdateShelfModelPositions();
         UpdateShelfPositions();
     }
 
@@ -33,10 +32,19 @@ public class InfinateShelves : MonoBehaviour
     }
 
     //Update postions of the shelf models
-    private void UpdateShelfModelPositions()
+    private void UpdateShelfPositions()
     {
         Vector3 delta = Vector3.up * (verticalInput * scrollSpeed * Time.deltaTime);
 
+        //updates the shelves (parent objects for things sitting on shelves)
+        foreach (Transform trans in shelves)
+        {
+            CheckShelfPassedThreshold(trans);
+
+            trans.localPosition += delta;
+        }
+
+        //update models
         foreach (Transform trans in shelfModels)
         {
             CheckPassedThreshold(trans);
@@ -45,19 +53,7 @@ public class InfinateShelves : MonoBehaviour
         }
     }
 
-    //Update positions of things that sit on shelves
-    private void UpdateShelfPositions() //can be merged with similar function
-    {
-        Vector3 delta = Vector3.up * (verticalInput * scrollSpeed * Time.deltaTime);
-
-        foreach (Transform trans in shelves)
-        {
-            CheckShelfPassedThreshold(trans);
-
-            trans.localPosition += delta;
-        }
-    }
-
+    //check if model is too far down or up
     private void CheckPassedThreshold(Transform objectTrans)
     {
         Transform otherShelf = GetOther(shelfModels, objectTrans);
@@ -74,6 +70,7 @@ public class InfinateShelves : MonoBehaviour
         }
     }
 
+    //check if sheleves are too far down or up
     private void CheckShelfPassedThreshold(Transform objectTrans)
     {
         //check too high
