@@ -21,7 +21,7 @@ public class StateOfIngredient : MonoBehaviour
     {
         if (other.gameObject.name == "mortar-pestle")
         {
-            TakeDamage(10);
+            TakeDamage(5);
             ChangeState();
         }
     }
@@ -34,19 +34,19 @@ public class StateOfIngredient : MonoBehaviour
 
     void ChangeState()
     {
-        if (durability >= 80 && durability <= 100)
+        if (durability >= 70 && durability <= 100)
         {
             CurrState = State.Chunky;
         }
-        if (durability >= 60 && durability <= 80)
+        if (durability >= 40 && durability <= 70)
         {
             CurrState = State.Crumbly;
         }
-        if (durability >= 40 && durability <= 60)
+        if (durability >= 10 && durability <= 40)
         {
             CurrState = State.Powder;
         }
-        if (durability <= 40)
+        if (durability <= 10)
         {
             CurrState = State.Dust;
         }
