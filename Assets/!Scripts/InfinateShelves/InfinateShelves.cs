@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InfinateShelves : MonoBehaviour
@@ -7,22 +8,20 @@ public class InfinateShelves : MonoBehaviour
 
     [Header("Loop Settings")]
     [SerializeField] private float shelfHeight; //25 with my test setup
+    [SerializeField] private float shelfSpacing; //5 with my test setup
 
     [Header("Objects")]
     [SerializeField] private Transform[] shelfModels;
+    [SerializeField] private Transform[] shelves;
 
     //private vars
     float verticalInput;
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
         ScrollInput();
 
+        UpdateShelfModelPositions();
         UpdateShelfPositions();
     }
 
@@ -33,19 +32,33 @@ public class InfinateShelves : MonoBehaviour
         verticalInput += Input.GetAxis("Mouse ScrollWheel") * 100;
     }
 
-    private void UpdateShelfPositions()
+    //Update postions of the shelf models
+    private void UpdateShelfModelPositions()
     {
         Vector3 delta = Vector3.up * (verticalInput * scrollSpeed * Time.deltaTime);
 
         foreach (Transform trans in shelfModels)
         {
-            CheckPassedThresehold(trans);
-            
+            CheckPassedThreshold(trans);
+
             trans.localPosition += delta;
         }
     }
 
-    private void CheckPassedThresehold(Transform objectTrans)
+    //Update positions of things that sit on shelves
+    private void UpdateShelfPositions() //can be merged with similar function
+    {
+        Vector3 delta = Vector3.up * (verticalInput * scrollSpeed * Time.deltaTime);
+
+        foreach (Transform trans in shelves)
+        {
+            CheckShelfPassedThreshold(trans);
+
+            trans.localPosition += delta;
+        }
+    }
+
+    private void CheckPassedThreshold(Transform objectTrans)
     {
         Transform otherShelf = GetOther(shelfModels, objectTrans);
 
@@ -61,11 +74,59 @@ public class InfinateShelves : MonoBehaviour
         }
     }
 
-    //Get other object of pair
+    private void CheckShelfPassedThreshold(Transform objectTrans)
+    {
+        //check too high
+        if (objectTrans.localPosition.y > (shelfHeight / 2) + 1)
+        {
+            objectTrans.localPosition = new Vector3(objectTrans.localPosition.x, GetLowestShelf().localPosition.y - shelfSpacing, objectTrans.localPosition.z);
+        }
+        //check too low
+        else if (objectTrans.localPosition.y < -(shelfHeight / 2) - 1)
+        {
+            objectTrans.localPosition = new Vector3(objectTrans.localPosition.x, GetHighestShelf().localPosition.y + shelfSpacing, objectTrans.localPosition.z);
+        }
+    }
+
+    //Get other object of pair (for shelves)
     private Transform GetOther(Transform[] pair, Transform current) //can be chnaged ot any type?
     {
         if (pair.Length != 2) return null;
 
         return pair[0] == current ? pair[1] : pair[0];
+    }
+
+    private Transform GetHighestShelf()
+    {
+        float highestY = -5;
+        Transform highestShelf = null;
+
+        foreach (Transform shelf in shelves)
+        {
+            if (shelf.localPosition.y > highestY)
+            {
+                highestShelf = shelf;
+                highestY = shelf.localPosition.y;
+            }
+        }
+
+        return highestShelf;
+    }
+
+    private Transform GetLowestShelf()
+    {
+        float lowestY = 5;
+        Transform lowestShelf = null;
+
+        foreach (Transform shelf in shelves)
+        {
+            if (shelf.localPosition.y < lowestY)
+            {
+                lowestShelf = shelf;
+                lowestY = shelf.localPosition.y;
+            }
+        }
+
+        return lowestShelf;
     }
 }
