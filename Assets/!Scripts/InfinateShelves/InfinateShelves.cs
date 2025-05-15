@@ -5,6 +5,9 @@ public class InfinateShelves : MonoBehaviour
     [Header("Scroll Settings")]
     [SerializeField] private float scrollSpeed;
 
+    [Header("Loop Settings")]
+    [SerializeField] private float shelfHeight; //25 with my test setup
+
     [Header("Objects")]
     [SerializeField] private Transform[] shelfModels;
 
@@ -36,7 +39,33 @@ public class InfinateShelves : MonoBehaviour
 
         foreach (Transform trans in shelfModels)
         {
+            CheckPassedThresehold(trans);
+            
             trans.localPosition += delta;
         }
+    }
+
+    private void CheckPassedThresehold(Transform objectTrans)
+    {
+        Transform otherShelf = GetOther(shelfModels, objectTrans);
+
+        //check too high
+        if (objectTrans.localPosition.y > shelfHeight + 1)
+        {
+            objectTrans.localPosition = new Vector3(otherShelf.localPosition.x, otherShelf.localPosition.y - shelfHeight, otherShelf.localPosition.z);
+        }
+        //check too low
+        else if (objectTrans.localPosition.y < -shelfHeight - 1)
+        {
+            objectTrans.localPosition = new Vector3(otherShelf.localPosition.x, otherShelf.localPosition.y + shelfHeight, otherShelf.localPosition.z);
+        }
+    }
+
+    //Get other object of pair
+    private Transform GetOther(Transform[] pair, Transform current) //can be chnaged ot any type?
+    {
+        if (pair.Length != 2) return null;
+
+        return pair[0] == current ? pair[1] : pair[0];
     }
 }
