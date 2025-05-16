@@ -19,7 +19,11 @@ public class CuttingBoard : MonoBehaviour
     {
         if (GUI.Button(new Rect(Screen.width - 250, 50, 150, 25), "Toggle Cutmode"))
         {
-            CanCut = !CanCut;
+            ChangeCuttingAbility();
         }
+    }
+    public void ChangeCuttingAbility() 
+    { // changed this into function so it can be called in other scripts
+        CanCut = !CanCut;
     }
 }
