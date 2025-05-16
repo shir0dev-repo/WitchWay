@@ -48,6 +48,8 @@ public class WorldIngredient : MonoBehaviour
         Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
         pos.z = oProjC.magnitude;
 
-        return _cam.ScreenToWorldPoint(pos);
+        Vector3 re = _cam.ScreenToWorldPoint(pos);
+
+        return new Vector3(re.x, re.y, gameObject.transform.position.z);
     }
 }
