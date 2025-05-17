@@ -26,10 +26,10 @@ public class Knife : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && CastRay())
             {
-                CuttingBoard.Instance.ChangeCuttingAbility();
                 cursorVisibility.TurnCursorInsivible();
                 isCursorVisible = false;
                 RotateToCuttingPosition();
+                CuttingBoard.Instance.ChangeCuttingAbility();
             }
         }
         else
