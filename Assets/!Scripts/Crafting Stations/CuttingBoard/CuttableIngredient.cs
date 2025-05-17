@@ -9,6 +9,7 @@ public class CuttableIngredient : MonoBehaviour
     [SerializeField] private TrailRenderer _cursorTrail;
 
     [SerializeField] Transform[] _cutPoints;
+    int _cutCount = 0;
 
     CuttingBoard _board = null;
 
@@ -84,6 +85,7 @@ public class CuttableIngredient : MonoBehaviour
             else
             {
                 success = true;
+                RemoveCutPoint(t);
                 break;
             }
         }
@@ -91,6 +93,26 @@ public class CuttableIngredient : MonoBehaviour
         if (success)
         {
             Debug.Log("Yay!");
+            UpdateChoppingProgress();
+            // on a successful cut, add to the count
         }
+    }
+    void RemoveCutPoint(Transform t)
+    {
+        Destroy(t.gameObject);
+        // removes the cut point so the player cannot cut the same spot twice
+    }
+    void UpdateChoppingProgress()
+    {
+        _cutCount++; 
+
+        if(_cutCount == _cutPoints.Count()) { CompleteChopping(); }
+        // when all of the sections are cut, complete the minigame
+        else { return; }
+    }
+    void CompleteChopping()
+    {
+        Debug.Log("All portions are chopped. Yay!");
+        Destroy(gameObject);
     }
 }

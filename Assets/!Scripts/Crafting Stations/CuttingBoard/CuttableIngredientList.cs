@@ -20,6 +20,15 @@ public class CuttableIngredientList : MonoBehaviour
 
     public GameObject GetPrefab(string name)
     {
-        return CutIngredientListWithNames[name];
+        if (CutIngredientListWithNames.TryGetValue(name, out GameObject prefab))
+        {
+            return prefab;
+            // now uses trygetvalue() to catch exceptions
+        }
+        else
+        {
+            Debug.LogWarning($"Prefab with name '{name}' not found in the dictionary!");
+            return null;
+        }
     }
 }

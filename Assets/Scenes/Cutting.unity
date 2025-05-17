@@ -498,8 +498,8 @@ GameObject:
   - component: {fileID: 1123069359}
   - component: {fileID: 1123069358}
   - component: {fileID: 1123069357}
-  - component: {fileID: 1123069356}
   - component: {fileID: 1123069361}
+  - component: {fileID: 1123069356}
   m_Layer: 0
   m_Name: Cuttable
   m_TagString: Ingredient
@@ -633,7 +633,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1001 &1142866862
 PrefabInstance:
@@ -645,15 +645,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: febe0be5bb7e8a44bb55db4089ea4faa, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: febe0be5bb7e8a44bb55db4089ea4faa, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: febe0be5bb7e8a44bb55db4089ea4faa, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: febe0be5bb7e8a44bb55db4089ea4faa, type: 3}
       propertyPath: m_LocalPosition.x
