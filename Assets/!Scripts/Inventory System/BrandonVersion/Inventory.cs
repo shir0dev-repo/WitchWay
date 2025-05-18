@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 /*
 TO-DO:
- - add images to slots
- - add numbers to existing item slots
- - add check for stack size
  - make type 2 inventory
  - maybe make tpye 3
+ - add sort function
 */
 
 [System.Serializable]
@@ -49,6 +47,7 @@ public class Inventory : MonoBehaviour
 
     [Header("testing")]
     [SerializeField] private IngredientSO testIngred;
+    [SerializeField] private IngredientSO testIngred2;
 
     private List<GameObject> slotParents = new List<GameObject>();
     private List<InventorySlot> slotItems = new List<InventorySlot>();
@@ -67,8 +66,12 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         AddNewItem(testIngred);
+        AddNewItem(testIngred2);
+        AddNewItem(testIngred2);
         AddNewItem(testIngred);
         AddNewItem(testIngred);
+
+        RemoveItem(testIngred2);
     }
 
     public void AddNewItem(IngredientSO newIngredient)
@@ -100,6 +103,64 @@ public class Inventory : MonoBehaviour
         if (!matchFound)
         {
             slotItems.Add(CreateNewIngredientSlot(newIngredient));
+        }
+    }
+
+    public void RemoveItem(IngredientSO ingredientToRemove)
+    {
+        //if called when not carrying anything ignore
+        if (CheckAmountCarrying() <= 0) return;
+
+        //reverse list
+        List<InventorySlot> revList = new List<InventorySlot>(slotItems);
+        revList.Reverse();
+
+        bool removed = false;
+        foreach (InventorySlot slot in revList)
+        {
+            if (slot.ingredient.ID == ingredientToRemove.ID)
+            {
+                if (slot.ingredientAmt > 1)
+                {
+                    slot.ingredientAmt -= 1;
+                    break;
+                }
+                else
+                {
+                    Destroy(slot.slotObject);
+                    slotItems.Remove(slot);
+                    removed = true;
+                    break;
+                }
+            }
+        }
+
+        //remove empty spaces to the side
+        if (removed)
+        {
+            int nextFillIndex = 0;
+            for (int i = 0; i < slotParents.Count; i++)
+            {
+                Transform trans = slotParents[i].transform;
+                if (trans.childCount > 0)
+                {
+                    if (i != nextFillIndex)
+                    {
+                        Transform movingChild = trans.GetChild(0);
+                        movingChild.SetParent(slotParents[nextFillIndex].transform, false);
+
+                        foreach (InventorySlot slot in slotItems)
+                        {
+                            if (slot.slotObject != null && slot.slotObject.transform == movingChild)
+                            {
+                                slot.slotParent = slotParents[nextFillIndex].transform;
+                                break;
+                            }
+                        }
+                    }
+                    nextFillIndex++;
+                }
+            }
         }
     }
 
