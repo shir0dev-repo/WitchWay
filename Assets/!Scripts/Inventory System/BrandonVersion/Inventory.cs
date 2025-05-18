@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,16 +12,18 @@ TO-DO:
  - maybe make tpye 3
 */
 
+[System.Serializable]
 public class InventorySlot
 {
-    public Transform slotObject;
-    public IngredientSO ingrediant;
-    public int ingrediantAmt;
+    public Transform slotParent;
+    public GameObject slotObject;
+    public IngredientSO ingredient;
+    public int ingredientAmt = 0;
 
-    public InventorySlot(IngredientSO ingredient, int ingrediantAmt)
+    public InventorySlot(IngredientSO ingredient, int ingredientAmt)
     {
-        this.ingrediant = ingredient;
-        this.ingrediantAmt = ingrediantAmt;
+        this.ingredient = ingredient;
+        this.ingredientAmt = ingredientAmt;
     }
 }
 
@@ -41,7 +44,14 @@ public class Inventory : MonoBehaviour
     [Header("Parent Transforms")]
     [SerializeField] private Transform slotsGrid;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject slotVisualObject;
+
+    [Header("testing")]
+    [SerializeField] private IngredientSO testIngred;
+
     private List<GameObject> slotParents = new List<GameObject>();
+    private List<InventorySlot> slotItems = new List<InventorySlot>();
 
     void Awake()
     {
@@ -54,6 +64,46 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+    }
+
+    public void AddNewItem(IngredientSO newIngredient)
+    {
+        //check if already at max amount
+        if (CheckAmountCarrying() >= maxAmountofItems) return;
+
+        //check item doesnt already exist
+        bool matchFound = false;
+        if (newIngredient.MaxStackSize > 1)
+        {
+            foreach (InventorySlot slot in slotItems)
+            {
+                if (slot.ingredient.ID == newIngredient.ID && slot.ingredientAmt < newIngredient.MaxStackSize)
+                {
+                    slot.ingredientAmt += 1;
+                    matchFound = true;
+
+                    if (slot.ingredientAmt > 1)
+                    {
+                        slot.slotObject.GetComponentInChildren<TMP_Text>().text = slot.ingredientAmt.ToString();
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        if (!matchFound)
+        {
+            slotItems.Add(CreateNewIngredientSlot(newIngredient));
+        }
+    }
+
+    //Create empty slot
     private void CreateEmptySlot(int slotNum)
     {
         GameObject newSlot = new GameObject();
@@ -63,5 +113,55 @@ public class Inventory : MonoBehaviour
         newSlot.SetActive(true);
 
         slotParents.Add(newSlot);
+    }
+
+    private InventorySlot CreateNewIngredientSlot(IngredientSO newIngredient)
+    {
+        Transform parentTransform = null;
+        if (inventoryType == InventoryType.AllSlotsVisible) parentTransform = FindEmptySlot();
+
+        InventorySlot newItemSlot = new InventorySlot(newIngredient, 1);
+        if (parentTransform == null)
+        {
+            CreateEmptySlot(slotParents.Count);
+            parentTransform = FindEmptySlot();
+            newItemSlot.slotParent = parentTransform;
+        }
+
+        GameObject itemSlotVisual = Instantiate(slotVisualObject, parentTransform);
+        itemSlotVisual.GetComponentInChildren<Image>().sprite = newIngredient.Sprite;
+        newItemSlot.slotObject = itemSlotVisual;
+
+        return newItemSlot;
+    } 
+
+    //check amount in inventory
+    private int CheckAmountCarrying()
+    {
+        int carriedAmount = 0;
+        if (slotItems.Count > 0)
+        {
+            foreach (InventorySlot item in slotItems)
+            {
+                carriedAmount += item.ingredientAmt;
+            }
+        }
+
+        return carriedAmount;
+    }
+
+    private Transform FindEmptySlot()
+    {
+        Transform emptySlot = null;
+        foreach (GameObject slot in slotParents)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                emptySlot = slot.transform;
+                break;
+            }
+        }
+
+        return emptySlot;
     }
 }
