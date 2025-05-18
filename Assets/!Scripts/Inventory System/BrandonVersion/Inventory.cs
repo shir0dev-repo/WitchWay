@@ -8,6 +8,7 @@ TO-DO:
  - make type 2 inventory
  - maybe make tpye 3
  - add sort function
+ - add rescaling for when more than 15
 */
 
 [System.Serializable]
@@ -37,7 +38,7 @@ public class Inventory : MonoBehaviour
     [Header("Inventory Settings")]
     [SerializeField] private InventoryType inventoryType = InventoryType.AllSlotsVisible;
     [SerializeField] private float maxAmountofItems = 15; //slots amt can possibly be made interchangable for this instead of seperate var
-    [SerializeField] private int amountOfSlots; // only applies when type is all slots visible (write editor code to hide)
+    [SerializeField] private int amountOfSlots; // only applies when type is all slots visible (write editor code to hide?)
 
     [Header("Parent Transforms")]
     [SerializeField] private Transform slotsGrid;
@@ -129,6 +130,8 @@ public class Inventory : MonoBehaviour
                 {
                     slot.slotObject.transform.SetParent(null); //objects destroyed at end of fram so this is required for the realignment
                     Destroy(slot.slotObject);
+                    if (inventoryType == InventoryType.OnlyFilledSlots) Destroy(slot.slotParent.gameObject);
+
                     slotItems.Remove(slot);
                     removed = true;
                     break;
@@ -137,7 +140,7 @@ public class Inventory : MonoBehaviour
         }
 
         //remove empty spaces to the side
-        if (removed)
+        if (removed && inventoryType == InventoryType.AllSlotsVisible)
         {
             for (int i = 0; i < slotParents.Count - 1; i++)
             {
