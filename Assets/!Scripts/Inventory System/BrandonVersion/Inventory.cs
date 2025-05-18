@@ -2,6 +2,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+TO-DO:
+ - add images to slots
+ - add numbers to existing item slots
+ - add check for stack size
+ - make type 2 inventory
+ - maybe make tpye 3
+*/
+
+public class InventorySlot
+{
+    public Transform slotObject;
+    public IngredientSO ingrediant;
+    public int ingrediantAmt;
+
+    public InventorySlot(IngredientSO ingredient, int ingrediantAmt)
+    {
+        this.ingrediant = ingredient;
+        this.ingrediantAmt = ingrediantAmt;
+    }
+}
+
 public class Inventory : MonoBehaviour
 {
     private enum InventoryType
@@ -17,78 +39,29 @@ public class Inventory : MonoBehaviour
     [SerializeField] private int amountOfSlots; // only applies when type is all slots visible (write editor code to hide)
 
     [Header("Parent Transforms")]
-    [SerializeField] private Transform slotsParent;
+    [SerializeField] private Transform slotsGrid;
 
-    //private vars
-    Dictionary<IngredientSO, int> inventorySlots = new Dictionary<IngredientSO, int>(); //ingrediant, amount of
+    private List<GameObject> slotParents = new List<GameObject>();
 
     void Awake()
     {
-        if (inventoryType == InventoryType.AllSlotsVisible) CreateAllSlots();
-    }
-
-    public void AddItem(IngredientSO newIngrediant)
-    {
-        if (CheckAmountCarrying() >= maxAmountofItems) return;
-
-        //check if already added
-        bool matchFound = false;
-        foreach (IngredientSO key in inventorySlots.Keys)
+        if (inventoryType == InventoryType.AllSlotsVisible)
         {
-            if (key.ID == newIngrediant.ID) //is ID check nessary? would the keys match?
+            for (int i = 0; i < amountOfSlots; i++)
             {
-                inventorySlots[key] += 1;
-                matchFound = true;
-                break;
-            }
-        }
-
-        if (!matchFound)
-        {
-            inventorySlots.Add(newIngrediant, 1);
-        }
-    }
-
-    public void RemoveItem(IngredientSO ingredientToRemove)
-    {
-        if (CheckAmountCarrying() <= 0) return;
-
-        foreach (IngredientSO key in inventorySlots.Keys)
-        {
-            if (key.ID == ingredientToRemove.ID)
-            {
-                inventorySlots[key] -= 1;
-
-                if (inventorySlots[key] <= 0)
-                {
-                    inventorySlots.Remove(key);
-                }
+                CreateEmptySlot(i);
             }
         }
     }
 
-    //Create all the slots for AllSlotsVisible type
-    private void CreateAllSlots()
+    private void CreateEmptySlot(int slotNum)
     {
-        for (int i = 0; i < amountOfSlots; i++)
-        {
-            //This can prob be replaced by a prefab in the future
-            GameObject newSlot = new GameObject();
-            newSlot.name = "Slot" + i;
-            newSlot.AddComponent<Image>();
-            newSlot.GetComponent<RectTransform>().SetParent(slotsParent, false);
-            newSlot.SetActive(true);
-        }
-    }
+        GameObject newSlot = new GameObject();
+        newSlot.name = "Slot" + slotNum;
+        newSlot.AddComponent<Image>();
+        newSlot.GetComponent<RectTransform>().SetParent(slotsGrid, false);
+        newSlot.SetActive(true);
 
-    private int CheckAmountCarrying()
-    {
-        int totalItems = 0;
-        foreach (KeyValuePair<IngredientSO, int> pair in inventorySlots)
-        {
-            totalItems += pair.Value;
-        }
-
-        return totalItems;
+        slotParents.Add(newSlot);
     }
 }

@@ -327,8 +327,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryType: 0
+  maxAmountofItems: 15
   amountOfSlots: 15
-  slotsParent: {fileID: 1444131263}
+  slotsGrid: {fileID: 1444131263}
 --- !u!1 &999612919
 GameObject:
   m_ObjectHideFlags: 0
