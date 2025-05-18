@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InfinateShelves : MonoBehaviour
@@ -95,7 +94,7 @@ public class InfinateShelves : MonoBehaviour
 
     private Transform GetHighestShelf()
     {
-        float highestY = -5;
+        float highestY = float.MinValue;
         Transform highestShelf = null;
 
         foreach (Transform shelf in shelves)
@@ -112,7 +111,7 @@ public class InfinateShelves : MonoBehaviour
 
     private Transform GetLowestShelf()
     {
-        float lowestY = 5;
+        float lowestY = float.MaxValue;
         Transform lowestShelf = null;
 
         foreach (Transform shelf in shelves)
