@@ -127,6 +127,7 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
+                    slot.slotObject.transform.SetParent(null); //objects destroyed at end of fram so this is required for the realignment
                     Destroy(slot.slotObject);
                     slotItems.Remove(slot);
                     removed = true;
@@ -138,27 +139,24 @@ public class Inventory : MonoBehaviour
         //remove empty spaces to the side
         if (removed)
         {
-            int nextFillIndex = 0;
-            for (int i = 0; i < slotParents.Count; i++)
+            for (int i = 0; i < slotParents.Count - 1; i++)
             {
-                Transform trans = slotParents[i].transform;
-                if (trans.childCount > 0)
+                if (slotParents[i].transform.childCount == 0 && slotParents[i + 1].transform.childCount >= 1)
                 {
-                    if (i != nextFillIndex)
-                    {
-                        Transform movingChild = trans.GetChild(0);
-                        movingChild.SetParent(slotParents[nextFillIndex].transform, false);
+                    Transform movingChild = slotParents[i + 1].transform.GetChild(0);
+                    movingChild.SetParent(slotParents[i].transform);
 
-                        foreach (InventorySlot slot in slotItems)
+                    //update InventorySlot item
+                    foreach (InventorySlot slot in slotItems)
+                    {
+                        if (slot.slotObject == movingChild)
                         {
-                            if (slot.slotObject != null && slot.slotObject.transform == movingChild)
-                            {
-                                slot.slotParent = slotParents[nextFillIndex].transform;
-                                break;
-                            }
+                            slot.slotParent = slotParents[i].transform;
+                            break;
                         }
                     }
-                    nextFillIndex++;
+
+                    i--;
                 }
             }
         }
@@ -186,8 +184,8 @@ public class Inventory : MonoBehaviour
         {
             CreateEmptySlot(slotParents.Count);
             parentTransform = FindEmptySlot();
-            newItemSlot.slotParent = parentTransform;
         }
+        newItemSlot.slotParent = parentTransform;
 
         GameObject itemSlotVisual = Instantiate(slotVisualObject, parentTransform);
         itemSlotVisual.GetComponentInChildren<Image>().sprite = newIngredient.Sprite;
