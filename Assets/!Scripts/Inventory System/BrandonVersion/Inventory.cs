@@ -4,12 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
-TO-DO:
- - add sort function
- - add rescaling for when more than 15
- - add testing ui
-*/
+//NOTE: if max item amount changes will need to add functionality to rescale items
 
 [System.Serializable]
 public class InventorySlot : IComparable<InventorySlot>
@@ -42,7 +37,7 @@ public class Inventory : MonoBehaviour
 
     [Header("Inventory Settings")]
     [SerializeField] private InventoryType inventoryType = InventoryType.AllSlotsVisible;
-    [SerializeField] private float maxAmountofItems = 15; //slots amt can possibly be made interchangable for this instead of seperate var
+    [SerializeField] private float maxAmountofItems = 15; //slots amt can possibly be made interchangable for this instead of seperate var 
     [SerializeField] private int amountOfSlots; // only applies when type is all slots visible (write editor code to hide?)
 
     [Header("Parent Transforms")]
@@ -51,7 +46,7 @@ public class Inventory : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject slotVisualObject;
 
-    [Header("testing")]
+    [Header("testing")] //REMOVE after testing
     [SerializeField] private IngredientSO testIngred;
     [SerializeField] private IngredientSO testIngred2;
 
@@ -60,6 +55,7 @@ public class Inventory : MonoBehaviour
 
     void Awake()
     {
+        //Create full inventory of slots
         if (inventoryType == InventoryType.AllSlotsVisible)
         {
             for (int i = 0; i < amountOfSlots; i++)
@@ -71,6 +67,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
+        //REMOVE after testing
         AddNewItem(testIngred);
         AddNewItem(testIngred2);
         AddNewItem(testIngred2);
@@ -92,6 +89,7 @@ public class Inventory : MonoBehaviour
         RemoveItem(testIngred2);
     }
 
+    //Add new ingrediant to be displayed and stored in inventory
     public void AddNewItem(IngredientSO newIngredient)
     {
         //check if already at max amount
@@ -118,12 +116,14 @@ public class Inventory : MonoBehaviour
             }
         }
 
+        //if item doesnt already exist or stack is full/non-stackable create new one
         if (!matchFound)
         {
             slotItems.Add(CreateNewIngredientSlot(newIngredient));
         }
     }
 
+    //Remove an item from inventory
     public void RemoveItem(IngredientSO ingredientToRemove)
     {
         //if called when not carrying anything ignore
@@ -133,6 +133,7 @@ public class Inventory : MonoBehaviour
         List<InventorySlot> revList = new List<InventorySlot>(slotItems);
         revList.Reverse();
 
+        //decrese item amount or remove it
         bool removed = false;
         foreach (InventorySlot slot in revList)
         {
@@ -202,7 +203,7 @@ public class Inventory : MonoBehaviour
     //Create empty slot
     private void CreateEmptySlot(int slotNum)
     {
-        GameObject newSlot = new GameObject();
+        GameObject newSlot = new GameObject(); //this can be replaced later with a prefab
         newSlot.name = "Slot" + slotNum;
         newSlot.AddComponent<Image>();
         newSlot.GetComponent<RectTransform>().SetParent(slotsGrid, false);
@@ -211,8 +212,10 @@ public class Inventory : MonoBehaviour
         slotParents.Add(newSlot);
     }
 
+    //create a new slot for ingrediants
     private InventorySlot CreateNewIngredientSlot(IngredientSO newIngredient)
     {
+        //no check for max items as this is never called if we are at max
         Transform parentTransform = null;
         if (inventoryType == InventoryType.AllSlotsVisible) parentTransform = FindEmptySlot();
 
@@ -246,6 +249,7 @@ public class Inventory : MonoBehaviour
         return carriedAmount;
     }
 
+    //Find an empty slot, used in AllSlotsVisible
     private Transform FindEmptySlot()
     {
         Transform emptySlot = null;
