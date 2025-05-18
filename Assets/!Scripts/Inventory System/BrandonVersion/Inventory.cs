@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -5,14 +6,13 @@ using UnityEngine.UI;
 
 /*
 TO-DO:
- - make type 2 inventory
- - maybe make tpye 3
  - add sort function
  - add rescaling for when more than 15
+ - add testing ui
 */
 
 [System.Serializable]
-public class InventorySlot
+public class InventorySlot : IComparable<InventorySlot>
 {
     public Transform slotParent;
     public GameObject slotObject;
@@ -24,6 +24,12 @@ public class InventorySlot
         this.ingredient = ingredient;
         this.ingredientAmt = ingredientAmt;
     }
+
+    public int CompareTo(InventorySlot other)
+    {
+        if (other == null) return 1;
+        return this.ingredient.ID.CompareTo(other.ingredient.ID);
+    }
 }
 
 public class Inventory : MonoBehaviour
@@ -31,8 +37,7 @@ public class Inventory : MonoBehaviour
     private enum InventoryType
     {
         AllSlotsVisible, //shows {number} slots even if items stack
-        OnlyFilledSlots //shows only slots when filled, scales 
-        //third type with diffrent scaling? starts base size
+        OnlyFilledSlots
     }
 
     [Header("Inventory Settings")]
@@ -71,6 +76,18 @@ public class Inventory : MonoBehaviour
         AddNewItem(testIngred2);
         AddNewItem(testIngred);
         AddNewItem(testIngred);
+        AddNewItem(testIngred2);
+        AddNewItem(testIngred2);
+        AddNewItem(testIngred2);
+        AddNewItem(testIngred2);
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+        AddNewItem(testIngred);
+
+        SortInventory();
 
         RemoveItem(testIngred2);
     }
@@ -128,7 +145,7 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    slot.slotObject.transform.SetParent(null); //objects destroyed at end of fram so this is required for the realignment
+                    slot.slotObject.transform.SetParent(null); //objects destroyed at end of frame so this is required for the realignment
                     Destroy(slot.slotObject);
                     if (inventoryType == InventoryType.OnlyFilledSlots) Destroy(slot.slotParent.gameObject);
 
@@ -161,6 +178,23 @@ public class Inventory : MonoBehaviour
 
                     i--;
                 }
+            }
+        }
+    }
+
+    //sorts items by lowest id number first
+    public void SortInventory()
+    {
+        //sort itmes in slotItems list
+        slotItems.Sort();
+
+        //update gameobject positions
+        for (int i = 0; i < slotItems.Count; i++)
+        {
+            if (slotItems[i].slotObject != null)
+            {
+                slotItems[i].slotObject.transform.SetParent(slotParents[i].transform, false);
+                slotItems[i].slotParent = slotParents[i].transform;
             }
         }
     }
