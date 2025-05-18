@@ -36,12 +36,15 @@ public class CuttingBoard : MonoBehaviour
         if (collision.gameObject.tag == "Ingredient")
         {
             string name = collision.gameObject.name;
-            if (list.GetPrefab(name) != null)
+            if (list.GetPrefab(name.ToLower()) != null)
             {
-                GameObject p = Instantiate(list.GetPrefab(name));
+                GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
                 p.transform.position = new Vector3(0, 1, 0);
+                p.name = name;
                 // to make sure this works, the ingredient dropped has to have the
                 // same name as the prefab it's referring too!
+
+                //later, this will just ask for the name of the scriptable object
                 Destroy(collision.gameObject);
             }
             else { return; } // if there's an exception, the thing will return.

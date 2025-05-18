@@ -497,9 +497,9 @@ GameObject:
   - component: {fileID: 1123069360}
   - component: {fileID: 1123069359}
   - component: {fileID: 1123069358}
-  - component: {fileID: 1123069357}
   - component: {fileID: 1123069361}
   - component: {fileID: 1123069356}
+  - component: {fileID: 1123069362}
   m_Layer: 0
   m_Name: Cuttable
   m_TagString: Ingredient
@@ -519,27 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &1123069357
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123069355}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1123069358
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -563,7 +542,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: -6538903991835684241, guid: 185b2a9d11b786846b1b1e9eaafcc3d5, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -592,7 +571,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123069355}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -3645058858012553506, guid: 185b2a9d11b786846b1b1e9eaafcc3d5, type: 3}
 --- !u!4 &1123069360
 Transform:
   m_ObjectHideFlags: 0
@@ -602,8 +581,8 @@ Transform:
   m_GameObject: {fileID: 1123069355}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -635,6 +614,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!65 &1123069362
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123069355}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.19629455, y: 0.19075342, z: 0.19629455}
+  m_Center: {x: 0, y: 0.09537671, z: 0}
 --- !u!1001 &1142866862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -749,8 +749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22127b591c586dc439ecf474f97bc4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ListOfPrefabs:
+  ListOfPreCutPrefabs:
   - {fileID: 2523567373597635727, guid: d56851eb9df6cc0419a452aeb0d87fc1, type: 3}
+  ListOfCutPrefabs:
+  - {fileID: 966511860492016666, guid: e02a9ca6d6e0afa43bf17a00cb7856f7, type: 3}
 --- !u!65 &1142866869
 BoxCollider:
   m_ObjectHideFlags: 0
