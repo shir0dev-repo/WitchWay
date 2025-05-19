@@ -37,7 +37,8 @@ public class Inventory : MonoBehaviour
 
     [Header("Inventory Settings")]
     [SerializeField] private InventoryType inventoryType = InventoryType.AllSlotsVisible;
-    [SerializeField] private float maxAmountofItems = 15; //slots amt can possibly be made interchangable for this instead of seperate var 
+    [SerializeField] private int maxAmountofItems = 15; //slots amt can possibly be made interchangable for this instead of seperate var 
+    [SerializeField] private int maxDifferentItems = 10;
     [SerializeField] private int amountOfSlots; // only applies when type is all slots visible (write editor code to hide?)
 
     [Header("Parent Transforms")]
@@ -93,7 +94,7 @@ public class Inventory : MonoBehaviour
     public void AddNewItem(IngredientSO newIngredient)
     {
         //check if already at max amount
-        if (CheckAmountCarrying() >= maxAmountofItems) return;
+        if (CheckAmountCarrying() >= maxAmountofItems || CheckAmountDifferent() > maxDifferentItems) return;
 
         //check item doesnt already exist
         bool matchFound = false;
@@ -247,6 +248,24 @@ public class Inventory : MonoBehaviour
         }
 
         return carriedAmount;
+    }
+
+    //check how many different items there are
+    private int CheckAmountDifferent()
+    {
+        int amountDiff = 0;
+        List<IngredientSO> checkedIngredients = new List<IngredientSO>();
+
+        foreach (InventorySlot item in slotItems)
+        {
+            if (!checkedIngredients.Contains(item.ingredient))
+            {
+                checkedIngredients.Add(item.ingredient);
+                amountDiff += 1;
+            }
+        }
+
+        return amountDiff;
     }
 
     //Find an empty slot, used in AllSlotsVisible
