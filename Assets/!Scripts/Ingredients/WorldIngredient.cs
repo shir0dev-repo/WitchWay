@@ -15,7 +15,7 @@ public class WorldIngredient : MonoBehaviour
     {
         if (_cam == null)
             _cam = Camera.main;
-        GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
+        //GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
     }
 
     private void Update()
