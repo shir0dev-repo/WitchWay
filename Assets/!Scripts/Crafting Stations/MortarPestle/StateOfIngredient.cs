@@ -13,6 +13,7 @@ public class StateOfIngredient : MonoBehaviour
     public State CurrState;
     public float durability = 100;
 
+
     private void Start()
     {
         CurrState = State.Whole;
