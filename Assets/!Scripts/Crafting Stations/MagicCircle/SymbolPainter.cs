@@ -5,15 +5,6 @@ using System.IO;
 using TMPro;
 using System;
 
-public enum AlchemicalSymbol 
-{
-    Abjuration,
-    Necromancy,
-    Enchantment,
-    Divination,
-    Evocation
-}
-
 public class SymbolPainter : MonoBehaviour
 {
     private const string _SAVE_PATH = "Symbols/";
