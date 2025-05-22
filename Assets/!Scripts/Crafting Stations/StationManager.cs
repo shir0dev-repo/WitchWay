@@ -1,14 +1,19 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class StationManager : MonoBehaviour
 {
+    public const int _STATION_COUNT = 4;
     public static StationManager Instance { get; private set; }
 
-    [Header("Stations")]
+    [Header("Controls")]
+    [SerializeField] private InputAction _changeStationAction;
+
     [Header("Cauldron")]
     [SerializeField] private Cauldron _cauldron;
     [SerializeField] private Transform _cauldronArea;
-    
+
     [Header("Cutting Board")]
     [SerializeField] private CuttingBoard _cuttingBoard;
     [SerializeField] private Transform _cuttingBoardTransform;
@@ -16,7 +21,7 @@ public class StationManager : MonoBehaviour
     [Header("Magic Circle")]
     [SerializeField] private SymbolPainter _magicCircle;
     [SerializeField] private Transform _magicCircleTransform;
-    
+
     [Header("Mortar & Pestle")]
     [SerializeField] private Pestle _pestle;
     [SerializeField] private Transform _mortarPestleTransform;
@@ -27,5 +32,66 @@ public class StationManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+
+        
+    }
+
+    private void OnEnable()
+    {
+        _changeStationAction.started += MoveToStation;
+        _changeStationAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _changeStationAction.started -= MoveToStation;
+        _changeStationAction.Disable();
+    }
+
+    private void Update()
+    {
+        
+    }
+
+    public void GoPreviousStation()
+    {
+        _currentTransformIndex--;
+
+        if (_currentTransformIndex < 0)
+            _currentTransformIndex = _STATION_COUNT - 1;
+
+        SwapStation(_currentTransformIndex);
+    }
+
+    public void GoNextStation()
+    {
+        _currentTransformIndex = (_currentTransformIndex + 1) % _STATION_COUNT;
+        SwapStation(_currentTransformIndex);
+    }
+
+
+    public void SwapStation(int targetStation)
+    {
+        Vector3 targetPos = (targetStation) switch
+        {
+            0 => _cuttingBoardTransform.position,  // Cutting Board
+            1 => _mortarPestleTransform.position,  // Mortar and Pestle
+            2 => _magicCircleTransform.position,   // Magic Circle
+            3 => _cauldronArea.position,           // Cauldron
+            _ => Vector3.zero
+        };
+
+        CameraManager.Instance.MoveToPosition(targetPos);
+        _currentTransformIndex = targetStation;
+    }
+
+    private void MoveToStation(InputAction.CallbackContext context)
+    {
+        float input = context.ReadValue<float>();
+
+        if (input < 0)
+            GoPreviousStation();
+        else if (input > 0)
+            GoNextStation();
     }
 }

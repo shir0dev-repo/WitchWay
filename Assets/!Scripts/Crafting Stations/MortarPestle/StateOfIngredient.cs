@@ -20,7 +20,7 @@ public class StateOfIngredient : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "mortar-pestle")
+        if (other.TryGetComponent<Pestle>(out _))
         {
             TakeDamage(5);
             ChangeState();
