@@ -3,7 +3,6 @@ using UnityEngine;
 public class RotateBoard : MonoBehaviour
 {
     public Transform orb;
-    float radius = 0.5f;
     float rotateSpd = 5;
 
     Transform pivot;
@@ -14,7 +13,6 @@ public class RotateBoard : MonoBehaviour
     {
         pivot = orb.transform;
         transform.parent = pivot;
-        transform.position += Vector3.up * radius;
     }
 
     void Update()
