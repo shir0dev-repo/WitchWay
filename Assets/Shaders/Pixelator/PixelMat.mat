@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PS1Material
-  m_Shader: {fileID: 4800000, guid: b3b300d4a38fc5846b1bbfd1814e7a17, type: 3}
+  m_Name: PixelMat
+  m_Shader: {fileID: -6465566751694194690, guid: 94ecd5fb695559449a0639938534d1a5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,17 +23,22 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTex:
+    - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints:
-    - _Banding: 2
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
-    - _Banding: 12.39
-    - _Glossiness: 0.5
-    - _Metallic: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Pixel_Size: 320
+    - _Rate_Of_Change: 10
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
