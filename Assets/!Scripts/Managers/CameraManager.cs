@@ -9,6 +9,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Volume _blurVolume;
     [Space]
     [SerializeField] private float _speed = 4.0f;
+    [SerializeField] private Transform _stationParent;
 
     private Vector3 _lastPosition = Vector3.zero;
     private Vector3 _targetPosition = Vector3.zero;
@@ -19,17 +20,17 @@ public class CameraManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
 
-        _targetPosition = transform.position;
-        _lastPosition = transform.position;
+        _targetPosition = _stationParent.position;
+        _lastPosition = _stationParent.position;
     }
 
     private void LateUpdate()
     {
         if (!IsMoving) return;
 
-        transform.position = Vector3.SmoothDamp(transform.position, _targetPosition, ref _velocity, _speed * Time.deltaTime);
+        _stationParent.position = Vector3.SmoothDamp(_stationParent.position, _targetPosition, ref _velocity, _speed * Time.deltaTime);
         
-        float lerp = Mathf.InverseLerp(_lastPosition.x, _targetPosition.x, transform.position.x);
+        float lerp = Mathf.InverseLerp(_lastPosition.x, _targetPosition.x, _stationParent.position.x);
         float weight = Mathf.Sin(Mathf.PI * lerp);
         _blurVolume.weight = weight;
 

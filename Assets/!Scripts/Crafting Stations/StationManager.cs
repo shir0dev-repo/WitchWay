@@ -10,21 +10,21 @@ public class StationManager : MonoBehaviour
     [Header("Controls")]
     [SerializeField] private InputAction _changeStationAction;
 
-    [Header("Cauldron")]
-    [SerializeField] private Cauldron _cauldron;
-    [SerializeField] private Transform _cauldronArea;
-
     [Header("Cutting Board")]
     [SerializeField] private CuttingBoard _cuttingBoard;
     [SerializeField] private Transform _cuttingBoardTransform;
+
+    [Header("Mortar & Pestle")]
+    [SerializeField] private Pestle _pestle;
+    [SerializeField] private Transform _mortarPestleTransform;
 
     [Header("Magic Circle")]
     [SerializeField] private SymbolPainter _magicCircle;
     [SerializeField] private Transform _magicCircleTransform;
 
-    [Header("Mortar & Pestle")]
-    [SerializeField] private Pestle _pestle;
-    [SerializeField] private Transform _mortarPestleTransform;
+    [Header("Cauldron")]
+    [SerializeField] private Cauldron _cauldron;
+    [SerializeField] private Transform _cauldronArea;
 
     private int _currentTransformIndex = 0;
 
