@@ -244,9 +244,21 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 477bb994ac6611a43966d3601ae47f67, type: 2}
+    - target: {fileID: 3723529996034731417, guid: 53411ddd72b179a478979a59c58de47d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100371747731748643, guid: 53411ddd72b179a478979a59c58de47d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7250344029148157905, guid: 53411ddd72b179a478979a59c58de47d, type: 3}
       propertyPath: m_Name
       value: Cutting Board
+      objectReference: {fileID: 0}
+    - target: {fileID: 7250344029148157905, guid: 53411ddd72b179a478979a59c58de47d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8149003039099122356, guid: 53411ddd72b179a478979a59c58de47d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -342,6 +354,159 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &350980745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 350980751}
+  - component: {fileID: 350980750}
+  - component: {fileID: 350980749}
+  - component: {fileID: 350980748}
+  - component: {fileID: 350980752}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &350980748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350980745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!81 &350980749
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350980745}
+  m_Enabled: 1
+--- !u!20 &350980750
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350980745}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &350980751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350980745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.3187112, y: 0, z: 0, w: 0.9478519}
+  m_LocalPosition: {x: 0, y: 6.77, z: -5.69}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 37.17, y: 0, z: 0}
+--- !u!114 &350980752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350980745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1abbc2b59e5bdc04bbe538b06bb75854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blurVolume: {fileID: 301741391}
+  _speed: 4
+  _stationParent: {fileID: 1964813680}
 --- !u!114 &401726780 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6637176181465134827, guid: 319b79c11884a904ea417e41e487af1e, type: 3}
@@ -493,7 +658,7 @@ GameObject:
   - component: {fileID: 592406765}
   - component: {fileID: 592406764}
   - component: {fileID: 592406763}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cuttable
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -637,7 +802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 606522768}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mortar Pestle Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -692,7 +857,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 851028651}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Magic Circle Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -727,7 +892,7 @@ GameObject:
   - component: {fileID: 949866817}
   - component: {fileID: 949866816}
   - component: {fileID: 949866815}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Countertop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +1077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1065719043}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cauldron Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -934,159 +1099,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1964813680}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1111209594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1111209597}
-  - component: {fileID: 1111209596}
-  - component: {fileID: 1111209595}
-  - component: {fileID: 1111209599}
-  - component: {fileID: 1111209598}
-  m_Layer: 0
-  m_Name: Main Camera
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!81 &1111209595
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1111209594}
-  m_Enabled: 1
---- !u!20 &1111209596
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1111209594}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &1111209597
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1111209594}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.3187112, y: 0, z: 0, w: 0.9478519}
-  m_LocalPosition: {x: 0, y: 7, z: -6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 37.17, y: 0, z: 0}
---- !u!114 &1111209598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1111209594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1abbc2b59e5bdc04bbe538b06bb75854, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _blurVolume: {fileID: 301741391}
-  _speed: 80
-  _stationParent: {fileID: 1964813680}
---- !u!114 &1111209599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1111209594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_AllowHDROutput: 1
-  m_UseScreenCoordOverride: 0
-  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
-  m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
 --- !u!1001 &1113929151
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1139,10 +1151,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pestle
       objectReference: {fileID: 0}
+    - target: {fileID: 2289858730544319578, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2809729697579456493, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 477bb994ac6611a43966d3601ae47f67, type: 2}
+    - target: {fileID: 4467243406971205176, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1203,6 +1223,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 44f1083d3cef4af41a8cdee46f087046, type: 3}
       propertyPath: m_Name
       value: Magic Disc
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 44f1083d3cef4af41a8cdee46f087046, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1321,7 +1345,7 @@ GameObject:
   - component: {fileID: 1761270451}
   - component: {fileID: 1761270450}
   - component: {fileID: 1761270449}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TestIngredient
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -1539,7 +1563,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 1111209596}
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1583,6 +1607,14 @@ PrefabInstance:
     - target: {fileID: 944883703856022765, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
       propertyPath: m_Name
       value: Mortar
+      objectReference: {fileID: 0}
+    - target: {fileID: 944883703856022765, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099576541712577744, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3459630935228994821, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1642,7 +1674,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1964813680}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StationParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1677,6 +1709,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2128221438}
     m_Modifications:
+    - target: {fileID: 459956614393760517, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 459956614393760517, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 948509880811540927, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1712,10 +1752,14 @@ PrefabInstance:
     - target: {fileID: 2117505921480895184, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c452230d4f0ee3c40bd15439b49b4853, type: 2}
+      objectReference: {fileID: 2100000, guid: 477bb994ac6611a43966d3601ae47f67, type: 2}
     - target: {fileID: 4252685244596607034, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
       propertyPath: m_Name
       value: Cooking Knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252685244596607034, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6523019914359759598, guid: 9a393acec2b61184ebab4cf26a6299a8, type: 3}
       propertyPath: m_LocalScale.x
@@ -1800,7 +1844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2128221438}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cutting Board Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1994,7 +2038,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1111209597}
+  - {fileID: 350980751}
   - {fileID: 557121455}
   - {fileID: 8845450063767204874}
   - {fileID: 1886674239}
