@@ -51,28 +51,16 @@ public class Inventory : MonoBehaviour
     [SerializeField] private TriggerForwarder addTrigger;
 
     private List<GameObject> slotParents = new List<GameObject>();
-    private List<InventorySlot> slotItems = new List<InventorySlot>();
-
-    public static Inventory Instance { get; private set; }
+    //private List<InventorySlot> slotItems = new List<InventorySlot>();
 
     void Awake()
     {
-        if (Instance != this && Instance != null)
+        //Create full inventory of slots
+        if (inventoryType == InventoryType.AllSlotsVisible)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            //Create full inventory of slots
-            if (inventoryType == InventoryType.AllSlotsVisible)
+            for (int i = 0; i < amountOfSlots; i++)
             {
-                for (int i = 0; i < amountOfSlots; i++)
-                {
-                    CreateEmptySlot(i);
-                }
+                CreateEmptySlot(i);
             }
         }
     }
@@ -82,9 +70,9 @@ public class Inventory : MonoBehaviour
         addTrigger.onTriggerEnter += AddItemTrigger;
 
         //check if already populated
-        if (slotItems.Count > 0)
+        if (PersistantItemList.inventorySlots.Count > 0)
         {
-            foreach (InventorySlot slot in slotItems)
+            foreach (InventorySlot slot in PersistantItemList.inventorySlots)
             {
                 AddNewItem(slot.ingredient);
             }
@@ -101,7 +89,7 @@ public class Inventory : MonoBehaviour
         bool matchFound = false;
         if (newIngredient.MaxStackSize > 1)
         {
-            foreach (InventorySlot slot in slotItems)
+            foreach (InventorySlot slot in PersistantItemList.inventorySlots)
             {
                 if (slot.ingredient.ID == newIngredient.ID && slot.ingredientAmt < newIngredient.MaxStackSize)
                 {
@@ -121,7 +109,7 @@ public class Inventory : MonoBehaviour
         //if item doesnt already exist or stack is full/non-stackable create new one
         if (!matchFound)
         {
-            slotItems.Add(CreateNewIngredientSlot(newIngredient));
+            PersistantItemList.inventorySlots.Add(CreateNewIngredientSlot(newIngredient));
         }
     }
 
@@ -132,7 +120,7 @@ public class Inventory : MonoBehaviour
         if (CheckAmountCarrying() <= 0) return;
 
         //reverse list
-        List<InventorySlot> revList = new List<InventorySlot>(slotItems);
+        List<InventorySlot> revList = new List<InventorySlot>(PersistantItemList.inventorySlots);
         revList.Reverse();
 
         //decrese item amount or remove it
@@ -152,7 +140,7 @@ public class Inventory : MonoBehaviour
                     Destroy(slot.slotObject);
                     if (inventoryType == InventoryType.OnlyFilledSlots) Destroy(slot.slotParent.gameObject);
 
-                    slotItems.Remove(slot);
+                    PersistantItemList.inventorySlots.Remove(slot);
                     removed = true;
                     break;
                 }
@@ -170,7 +158,7 @@ public class Inventory : MonoBehaviour
                     movingChild.SetParent(slotParents[i].transform);
 
                     //update InventorySlot item
-                    foreach (InventorySlot slot in slotItems)
+                    foreach (InventorySlot slot in PersistantItemList.inventorySlots)
                     {
                         if (slot.slotObject == movingChild)
                         {
@@ -189,15 +177,15 @@ public class Inventory : MonoBehaviour
     public void SortInventory()
     {
         //sort itmes in slotItems list
-        slotItems.Sort();
+        PersistantItemList.inventorySlots.Sort();
 
         //update gameobject positions
-        for (int i = 0; i < slotItems.Count; i++)
+        for (int i = 0; i < PersistantItemList.inventorySlots.Count; i++)
         {
-            if (slotItems[i].slotObject != null)
+            if (PersistantItemList.inventorySlots[i].slotObject != null)
             {
-                slotItems[i].slotObject.transform.SetParent(slotParents[i].transform, false);
-                slotItems[i].slotParent = slotParents[i].transform;
+                PersistantItemList.inventorySlots[i].slotObject.transform.SetParent(slotParents[i].transform, false);
+                PersistantItemList.inventorySlots[i].slotParent = slotParents[i].transform;
             }
         }
     }
@@ -241,9 +229,9 @@ public class Inventory : MonoBehaviour
     private int CheckAmountCarrying()
     {
         int carriedAmount = 0;
-        if (slotItems.Count > 0)
+        if (PersistantItemList.inventorySlots.Count > 0)
         {
-            foreach (InventorySlot item in slotItems)
+            foreach (InventorySlot item in PersistantItemList.inventorySlots)
             {
                 carriedAmount += item.ingredientAmt;
             }
@@ -258,7 +246,7 @@ public class Inventory : MonoBehaviour
         int amountDiff = 0;
         List<IngredientSO> checkedIngredients = new List<IngredientSO>();
 
-        foreach (InventorySlot item in slotItems)
+        foreach (InventorySlot item in PersistantItemList.inventorySlots)
         {
             if (!checkedIngredients.Contains(item.ingredient))
             {
@@ -293,10 +281,5 @@ public class Inventory : MonoBehaviour
         {
             AddNewItem(worldIngredient.ingredient);
         }
-    }
-
-    public void RemoveItemTrigger(Collider collision)
-    {
-
     }
 }
