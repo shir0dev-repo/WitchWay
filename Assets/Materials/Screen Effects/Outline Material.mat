@@ -7,12 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OutlinePass Material
-  m_Shader: {fileID: -6465566751694194690, guid: d283e0a70786d5b4caa2275af75cdff0, type: 3}
+  m_Name: Outline Material
+  m_Shader: {fileID: -6465566751694194690, guid: dd85a55effe66e54e882de14e289b41c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _USE_COLOR
+  - _USE_DEPTH
+  - _USE_NORMALS
+  m_InvalidKeywords:
+  - _OVERLAY
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -37,15 +41,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Color_Threshold: 0
-    - _Normal_Threshold: 0
-    - _Outline_Cutoff: 0.0005
-    - _Outline_Extrusion: 0.5
-    - _Outline_Thickness: 0.05
-    - _PixelSize: 1
-    - _USE_DEPTH: 0
-    - _USE_NORMAL: 0
+    - _Color_Strength: 0.569
+    - _Color_Threshold: 0.199
+    - _Color_Tightening: 0.74
+    - _Cutoff: 0.416
+    - _Depth_Strength: 1
+    - _Depth_Threshold: 0.173
+    - _Depth_Tightening: 1
+    - _Normal_Strength: 1
+    - _Normal_Thickness: 1.6
+    - _Normal_Threshold: 0.718
+    - _Normal_Tightening: 0
+    - _OVERLAY: 1
+    - _Thickness: 0.00283
+    - _USE_COLOR: 1
+    - _USE_DEPTH: 1
+    - _USE_NORMALS: 1
     m_Colors:
-    - _Outline_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
