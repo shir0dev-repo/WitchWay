@@ -47,47 +47,36 @@ public class Inventory : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject slotVisualObject;
 
-    [Header("testing")] //REMOVE after testing
-    [SerializeField] private IngredientSO testIngred;
-    [SerializeField] private IngredientSO testIngred2;
-
     private List<GameObject> slotParents = new List<GameObject>();
     private List<InventorySlot> slotItems = new List<InventorySlot>();
 
+    public static Inventory Instance { get; private set; }
+
     void Awake()
     {
-        //Create full inventory of slots
-        if (inventoryType == InventoryType.AllSlotsVisible)
+        if (Instance != this && Instance != null)
         {
-            for (int i = 0; i < amountOfSlots; i++)
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            //Create full inventory of slots
+            if (inventoryType == InventoryType.AllSlotsVisible)
             {
-                CreateEmptySlot(i);
+                for (int i = 0; i < amountOfSlots; i++)
+                {
+                    CreateEmptySlot(i);
+                }
             }
         }
     }
 
     void Start()
     {
-        //REMOVE after testing
-        AddNewItem(testIngred);
-        AddNewItem(testIngred2);
-        AddNewItem(testIngred2);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred2);
-        AddNewItem(testIngred2);
-        AddNewItem(testIngred2);
-        AddNewItem(testIngred2);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred);
-        AddNewItem(testIngred);
 
-        SortInventory();
-
-        RemoveItem(testIngred2);
     }
 
     //Add new ingrediant to be displayed and stored in inventory
@@ -208,6 +197,7 @@ public class Inventory : MonoBehaviour
         newSlot.name = "Slot" + slotNum;
         newSlot.AddComponent<Image>();
         newSlot.GetComponent<RectTransform>().SetParent(slotsGrid, false);
+        newSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(245, 245);
         newSlot.SetActive(true);
 
         slotParents.Add(newSlot);
@@ -233,7 +223,7 @@ public class Inventory : MonoBehaviour
         newItemSlot.slotObject = itemSlotVisual;
 
         return newItemSlot;
-    } 
+    }
 
     //check amount in inventory
     private int CheckAmountCarrying()
@@ -282,5 +272,16 @@ public class Inventory : MonoBehaviour
         }
 
         return emptySlot;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        print("collided");
+
+        WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
+        if (worldIngredient != null && worldIngredient._isDragging)
+        {
+            AddNewItem(worldIngredient.ingredient);
+        }
     }
 }
