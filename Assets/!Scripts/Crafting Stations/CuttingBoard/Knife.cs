@@ -52,7 +52,7 @@ public class Knife : MonoBehaviour
     }
     void RotateToCuttingPosition()
     { // rotates the knife by 90 degrees on the z axis
-        gameObject.transform.rotation = startRot * Quaternion.Euler(0,0,90);
+        gameObject.transform.rotation = startRot * Quaternion.Euler(90,0,0);
     }
     bool CastRay()
     {

@@ -11,7 +11,7 @@ public class Pestle : MonoBehaviour
     bool isCursorVisible = true;
     void Start()
     {
-        cursorVisibility = GetComponent<InvisibleCursor>(); //add this to the pestle so it can turn off the cursor
+        cursorVisibility = GetComponent<InvisibleCursor>(); // add this to the pestle so it can turn off the cursor
         FollowMouse = GetComponent<FollowMouse>();
         rb = GetComponent<Rigidbody>(); 
 

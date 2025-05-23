@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Outline Material
+  m_Shader: {fileID: -6465566751694194690, guid: dd85a55effe66e54e882de14e289b41c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _USE_COLOR
+  - _USE_DEPTH
+  - _USE_NORMALS
+  m_InvalidKeywords:
+  - _OVERLAY
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Color_Strength: 0.569
+    - _Color_Threshold: 0.199
+    - _Color_Tightening: 0.74
+    - _Cutoff: 0.416
+    - _Depth_Strength: 1
+    - _Depth_Threshold: 0.173
+    - _Depth_Tightening: 1
+    - _Normal_Strength: 1
+    - _Normal_Thickness: 1.6
+    - _Normal_Threshold: 0.718
+    - _Normal_Tightening: 0
+    - _OVERLAY: 1
+    - _Thickness: 0.00283
+    - _USE_COLOR: 1
+    - _USE_DEPTH: 1
+    - _USE_NORMALS: 1
+    m_Colors:
+    - _Outline_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
