@@ -47,6 +47,9 @@ public class Inventory : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject slotVisualObject;
 
+    [Header("Triggers")]
+    [SerializeField] private TriggerForwarder addTrigger;
+
     private List<GameObject> slotParents = new List<GameObject>();
     private List<InventorySlot> slotItems = new List<InventorySlot>();
 
@@ -76,7 +79,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-
+        addTrigger.onTriggerEnter += AddItemTrigger;
     }
 
     //Add new ingrediant to be displayed and stored in inventory
@@ -274,12 +277,10 @@ public class Inventory : MonoBehaviour
         return emptySlot;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public void AddItemTrigger(Collider collision)
     {
-        print("collided");
-
         WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
-        if (worldIngredient != null && worldIngredient._isDragging)
+        if (worldIngredient != null)
         {
             AddNewItem(worldIngredient.ingredient);
         }
