@@ -80,6 +80,15 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         addTrigger.onTriggerEnter += AddItemTrigger;
+
+        //check if already populated
+        if (slotItems.Count > 0)
+        {
+            foreach (InventorySlot slot in slotItems)
+            {
+                AddNewItem(slot.ingredient);
+            }
+        }
     }
 
     //Add new ingrediant to be displayed and stored in inventory
@@ -284,5 +293,10 @@ public class Inventory : MonoBehaviour
         {
             AddNewItem(worldIngredient.ingredient);
         }
+    }
+
+    public void RemoveItemTrigger(Collider collision)
+    {
+
     }
 }
