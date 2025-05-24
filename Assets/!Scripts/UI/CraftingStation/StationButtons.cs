@@ -6,8 +6,8 @@ using System.Collections;
 public class StationButtons : MonoBehaviour
 {
     [SerializeField] private List<RectTransform> stationButtons;
-    [SerializeField] private float dropAmount = 50f;
-    [SerializeField] private float animationTime = 0.1f;
+    [SerializeField] private float dropAmount;
+    [SerializeField] private float animationTime;
 
     private List<Vector2> originalPositions = new List<Vector2>();
 
