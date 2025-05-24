@@ -6,11 +6,13 @@ public class BasketItems
 {
     public Transform basket;
     public IngredientSO assignedIngredient;
+    public int itemAmount;
 
-    public BasketItems(Transform basket, IngredientSO assignedIngredient)
+    public BasketItems(Transform basket, IngredientSO assignedIngredient, int itemAmount)
     {
         this.basket = basket;
         this.assignedIngredient = assignedIngredient;
+        this.itemAmount = itemAmount;
     }
 }
 
@@ -19,8 +21,12 @@ public class StationsInventory : MonoBehaviour
     [Header("Basket Settings")]
     [SerializeField] private float spacing;
 
+    [Header("Triggers")]
+    [SerializeField] private TriggerForwarder basketsTrigger;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject basketPrefab;
+    [SerializeField] private GameObject worldItemBase;
 
     //private vars
     private List<Transform> baskets = new List<Transform>();
@@ -30,6 +36,13 @@ public class StationsInventory : MonoBehaviour
     {
         CreateBaskets();
         AddItemsToBaskets();
+    }
+
+    void Start()
+    {
+        //setup triggers
+        basketsTrigger.onTriggerEnter += AddItemTrigger;
+        basketsTrigger.onTriggerExit += RemoveItemTrigger;
     }
 
     private void CreateBaskets()
@@ -48,13 +61,14 @@ public class StationsInventory : MonoBehaviour
 
     private void AddItemsToBaskets()
     {
+        //create locations paired with basketPositions
         int amountDiff = CheckAmountDifferent();
         for (int i = 0; i < amountDiff; i++)
         {
             //check if first item
             if (basketItems.Count <= 0)
             {
-                basketItems.Add(new BasketItems(baskets[0], PersistantItemList.inventorySlots[0].ingredient));
+                basketItems.Add(new BasketItems(baskets[0], PersistantItemList.inventorySlots[0].ingredient, PersistantItemList.inventorySlots[0].ingredientAmt));
             }
             //find unused basket
             else
@@ -80,9 +94,21 @@ public class StationsInventory : MonoBehaviour
 
                 if (unassignedBasket != null)
                 {
-                    var ingredient = PersistantItemList.inventorySlots[basketItems.Count].ingredient;
-                    basketItems.Add(new BasketItems(unassignedBasket, ingredient));
+                    IngredientSO ingredient = PersistantItemList.inventorySlots[basketItems.Count].ingredient;
+                    int count = PersistantItemList.inventorySlots[basketItems.Count].ingredientAmt;
+                    basketItems.Add(new BasketItems(unassignedBasket, ingredient, count));
                 }
+            }
+        }
+
+        //Add Objects Visually
+        foreach (BasketItems bItem in basketItems)
+        {
+            for (int i = 0; i < bItem.itemAmount; i++)
+            {
+                GameObject worldItem = Instantiate(worldItemBase, bItem.basket.position, Quaternion.identity);
+                worldItem.GetComponent<WorldIngredient>().ingredient = bItem.assignedIngredient;
+                bItem.itemAmount -= 1; //bad way to fix the trigger getting hit on setup but it works
             }
         }
     }
@@ -103,5 +129,41 @@ public class StationsInventory : MonoBehaviour
         }
 
         return amountDiff;
+    }
+
+    private void AddItemTrigger(Collider collision)
+    {
+        WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
+        if (worldIngredient != null)
+        {
+            foreach (BasketItems bItem in basketItems)
+            {
+                if (bItem.assignedIngredient == worldIngredient.ingredient)
+                {
+                    bItem.itemAmount += 1;
+
+                    worldIngredient._isDragging = false;
+                    collision.gameObject.transform.position = bItem.basket.position;
+
+                    break;
+                }
+            }
+        }
+    }
+
+    private void RemoveItemTrigger(Collider collision)
+    {
+        WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
+        if (worldIngredient != null)
+        {
+            foreach (BasketItems bItem in basketItems)
+            {
+                if (bItem.assignedIngredient == worldIngredient.ingredient)
+                {
+                    bItem.itemAmount -= 1;
+                    break;
+                }
+            }
+        }
     }
 }
