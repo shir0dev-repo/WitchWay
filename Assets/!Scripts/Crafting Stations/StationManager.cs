@@ -87,6 +87,7 @@ public class StationManager : MonoBehaviour
 
         CameraManager.Instance.MoveToPosition(targetPos);
         _currentTransformIndex = targetStation;
+        OnStationChanged.Invoke(targetStation);
     }
 
     private void MoveToStation(InputAction.CallbackContext context)

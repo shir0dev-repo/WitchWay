@@ -741,7 +741,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 478012105}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8845450063767204875}
+        m_TargetAssemblyTypeName: StationManager, Assembly-CSharp
+        m_MethodName: SwapStation
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &478012105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1323,7 +1335,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 793703796}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8845450063767204875}
+        m_TargetAssemblyTypeName: StationManager, Assembly-CSharp
+        m_MethodName: SwapStation
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &793703796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1766,7 +1790,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 998966998}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8845450063767204875}
+        m_TargetAssemblyTypeName: StationManager, Assembly-CSharp
+        m_MethodName: SwapStation
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &998966998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2188,6 +2224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298473327}
+  - component: {fileID: 1298473328}
   m_Layer: 5
   m_Name: StationButtons
   m_TagString: Untagged
@@ -2218,6 +2255,25 @@ RectTransform:
   m_AnchoredPosition: {x: -596, y: -25}
   m_SizeDelta: {x: -1820, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1298473328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298473326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e667f2061fe8e9d44820707f8120f837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stationButtons:
+  - {fileID: 478012103}
+  - {fileID: 1592894419}
+  - {fileID: 793703794}
+  - {fileID: 998966996}
+  dropAmount: 50
+  animationTime: 0.2
 --- !u!1001 &1340080511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2365,7 +2421,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1592894421}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8845450063767204875}
+        m_TargetAssemblyTypeName: StationManager, Assembly-CSharp
+        m_MethodName: SwapStation
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1592894421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3205,6 +3273,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2b30dbb75ea0d14ea3d9e2838ba2248, type: 3}
+--- !u!114 &8845450063767204875 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 586690644540423048, guid: a2b30dbb75ea0d14ea3d9e2838ba2248, type: 3}
+  m_PrefabInstance: {fileID: 8845450063767204874}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff8fc0d14d4396243817fc003cf6e2e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
