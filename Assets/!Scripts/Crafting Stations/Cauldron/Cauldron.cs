@@ -24,6 +24,13 @@ public class Cauldron : MonoBehaviour
     private float _addTimer = 0.0f;
     private float _holdTimer = 0.0f;
 
+    void Start()
+    {
+        SwitchToMixing.mixingMode += ActivateMixing;
+
+        gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -140,5 +147,10 @@ public class Cauldron : MonoBehaviour
         }
 
         Gizmos.DrawLineStrip(points, true);
+    }
+
+    void ActivateMixing()
+    {
+        gameObject.SetActive(true);
     }
 }
