@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class StationManager : MonoBehaviour
 {
@@ -27,13 +28,16 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Transform _cauldronArea;
 
     private int _currentTransformIndex = 0;
+    
+    [System.Serializable]
+    public class StationChangedEvent : UnityEvent<int> { }
+
+    public StationChangedEvent OnStationChanged = new StationChangedEvent();
 
     private void Awake()
     {
         if (Instance == null)
             Instance = this;
-
-        
     }
 
     private void OnEnable()
