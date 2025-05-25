@@ -5,11 +5,8 @@ public class IngredientsInPot : MonoBehaviour
     int thingsInPot;
     int allIngredientsToAdd;
 
-    SwitchToMixing sswitch;
-
     void Start()
     {
-        sswitch = GetComponent<SwitchToMixing>();
         allIngredientsToAdd = GameObject.FindGameObjectsWithTag("Ingredient").Length;
     }
 
@@ -27,7 +24,7 @@ public class IngredientsInPot : MonoBehaviour
         if (allIngredientsToAdd == thingsInPot)
         {
             Debug.Log("everything is in the pot!");
-           sswitch.SwitchToMixNow();
+            SwitchToMixing.mixingMode?.Invoke();
         }
     }
 }

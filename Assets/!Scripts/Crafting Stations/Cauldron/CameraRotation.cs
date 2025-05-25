@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class CameraRotation : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    Transform TargetLocation;
+
     void Start()
     {
-        
+        SwitchToMixing.mixingMode += ChangeLocation;
     }
 
-    // Update is called once per frame
-    void Update()
+    void ChangeLocation()
     {
-        
+        Camera.main.transform.position = TargetLocation.position;
+        Camera.main.transform.rotation = TargetLocation.rotation;
     }
 }
