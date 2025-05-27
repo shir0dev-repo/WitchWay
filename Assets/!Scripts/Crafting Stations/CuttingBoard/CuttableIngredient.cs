@@ -99,7 +99,7 @@ public class CuttableIngredient : MonoBehaviour
     }
     void RemoveCutPoint(Transform t)
     {
-        Destroy(t.gameObject);
+        t.gameObject.SetActive(false);
         // removes the cut point so the player cannot cut the same spot twice
     }
     void UpdateChoppingProgress()
