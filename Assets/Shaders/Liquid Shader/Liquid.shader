@@ -6,7 +6,7 @@ Shader "FX/Liquid"
         [HDR]_Tint ("Tint", Color) = (1, 1, 1, 1)
         _MainTex ("Texture", 2D) = "white" {}
         [HDR]_TopColor ("Top Color", Color) = (1, 1, 1, 1)
-        
+        _FillAmount ("Fill Amount", Vector) = (0, 0.5, 0, 0)
         [Header(Foam)]
         [HDR]_FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
         _Line ("Foam Line Width", Range(0, 0.1)) = 0.0
@@ -111,7 +111,8 @@ Shader "FX/Liquid"
                 float3 worldNormal = mul(unity_ObjectToWorld, float4(i.normal, 0.0)).xyz;
 
                 float fresnel = pow(1 - saturate(dot(worldNormal, i.viewDir)), _RimPower);
-                float4 RimResult = fresnel * _RimColor * _RimColor;
+                float4 RimResult = fresnel * _RimColor;
+                RimResult *= _RimColor;
 
                 float wobbleIntensity = abs(_WobbleX) + abs(_WobbleZ);
                 float wobble = sin((i.fillPosition.x * _Freq) + (i.fillPosition.z * _Freq) + (_Time.y)) * (_Amplitude * wobbleIntensity);
