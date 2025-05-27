@@ -114,7 +114,8 @@ public class CuttableIngredient : MonoBehaviour
     {
         Debug.Log("All portions are chopped. Yay!");
 
-        Instantiate(CuttingBoard.Instance.list.GetChoppedPrefab(gameObject.name.ToLower() + "-cut"));
+        GameObject ob = Instantiate(CuttingBoard.Instance.list.GetChoppedPrefab(gameObject.name.ToLower() + "-cut"));
+        ob.transform.parent = transform.parent;
         // later, this will just grab the name of the scriptable object attached to the prefab.
 
         Destroy(gameObject);
