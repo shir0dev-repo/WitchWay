@@ -7,6 +7,7 @@ public class LiquidWobble : MonoBehaviour
     [SerializeField] private int _materialIndex;
 
     [Header("Wobble Settings")]
+    [SerializeField] private float _fillAmount = 0.5f;
     [SerializeField] private float _maxWobble = 0.03f;
     [SerializeField] private float _wobbleSpeed = 1.0f;
     [SerializeField] private float _recoveryScale = 1.0f;
@@ -17,7 +18,6 @@ public class LiquidWobble : MonoBehaviour
 
     // fill
     private Vector3 _position;
-    private float _fillAmount;
     private Mesh _mesh;
 
     // transform info
@@ -59,10 +59,9 @@ public class LiquidWobble : MonoBehaviour
         _renderer.materials[_materialIndex].SetFloat("_WobbleZ", _wobbleAmountZ);
 
         // fill amount
-        _fillAmount = _renderer.materials[_materialIndex].GetFloat("_FillAmount");
         Vector3 worldPos = transform.TransformPoint(_mesh.bounds.center);
         _position = worldPos - transform.position - new Vector3(0, _fillAmount, 0);
-        _renderer.materials[_materialIndex].SetVector("_Fill_Pivot", _position);
+        _renderer.materials[_materialIndex].SetVector("_FillAmount", _position);
 
         // velocity
         _velocity = (_lastPos - transform.position) / Time.deltaTime;
