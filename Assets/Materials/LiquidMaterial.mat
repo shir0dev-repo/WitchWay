@@ -56,15 +56,15 @@ Material:
     - _ColorDamp: 0.49
     - _Cull: 0
     - _DstBlend: 10
-    - _FillAmount: 0.146
+    - _FillAmount: 0.177
     - _Freq: 0
     - _Fresnel: 1
     - _INVERTEDTINT: 1
-    - _Line: 0
-    - _LineSmooth: 0
+    - _Line: 0.0141
+    - _LineSmooth: 0.0153
     - _QueueControl: 1
     - _QueueOffset: 0
-    - _RimPower: 0
+    - _RimPower: 10
     - _SrcBlend: 5
     - _Surface: 1
     - _WobbleX: 0
@@ -73,13 +73,14 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 1
     m_Colors:
+    - _FillAmount: {r: 0, g: -0.35, b: 0, a: 0}
     - _FillTint: {r: 1.4980392, g: 0.11764702, b: 1.2449435, a: 1}
     - _Fill_Pivot: {r: 0, g: 0, b: 0, a: 0}
-    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamColor: {r: 4, g: 0.07833545, b: 0, a: 1}
     - _FresnelTint: {r: 4, g: 0, b: 3.1214333, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 6.4715505, g: 1.9953029, b: 8.279265, a: 1}
-    - _TopColor: {r: 0.754717, g: 0.13883947, b: 0.13883947, a: 1}
+    - _Tint: {r: 2, g: 0, b: 0.0968647, a: 1}
+    - _TopColor: {r: 8, g: 0.069735914, b: 0, a: 1}
     - _TopTint: {r: 1.4980392, g: 0.11764702, b: 1.4956322, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
