@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InfinateShelves : MonoBehaviour
+public class InfiniteShelves : MonoBehaviour
 {
     [Header("Scroll Settings")]
     [SerializeField] private float scrollSpeed;
