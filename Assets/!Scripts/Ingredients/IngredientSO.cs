@@ -7,5 +7,16 @@ public class IngredientSO : ItemData
 {
     [Space]
     [Range(0.5f, 5.0f)] public float CostMultiplier = 1.0f;
-    public PotionEffect PotionEffect;
+    
+    [Header("Representation")]
+    public new Sprite Sprite;
+    public GameObject WorldPrefab;
+
+    [Header("Modification Flags")]
+    public bool CanBeCut;
+    public bool CanBeCrushed;
+    public bool CanBeFrozen;
+    public bool CanBeHeated;
+    public bool CanBeMolded;
+    public AlchemicalSymbol AllowedCircles;
 }

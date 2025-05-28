@@ -13,13 +13,14 @@ public class StateOfIngredient : MonoBehaviour
     public State CurrState;
     public float durability = 100;
 
+
     private void Start()
     {
         CurrState = State.Whole;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "mortar-pestle")
+        if (other.TryGetComponent<Pestle>(out _))
         {
             TakeDamage(5);
             ChangeState();
