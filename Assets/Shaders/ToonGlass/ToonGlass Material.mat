@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -48,25 +48,29 @@ Material:
     - _FresnelStrength: 5.58
     - _Inner_Rim_Power: 0
     - _Inner_Rim_Smoothness: 0
-    - _Light_Specular_Cutoff: 0.36
+    - _Light_Specular_Cutoff: 0.766
     - _Opacity: 0.287
+    - _Outer_Rim_Power: 1.6
+    - _Outer_Rim_Smoothness: 0
     - _QueueControl: 1
     - _QueueOffset: 0
     - _Rim_Power: 1
-    - _Rim_Smoothness: 0.89
+    - _Rim_Smoothness: 0
     - _Smoothness: 0
     - _SpecularCutoff: 0.609
     - _SpecularStrength: 9.65
     - _Specular_Smoothness: 0
+    - _TextureStrength: 1
     - _Transparency: 0.235
-    - _View_Specular_Cutoff: 0.997
+    - _View_Specular_Cutoff: 0.924
     m_Colors:
     - _FresnelColor: {r: 0, g: 1, b: 0.91385865, a: 1}
-    - _Inner_Rim_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Inner_Rim_Color: {r: 0.7709594, g: 0.9339623, b: 0.919921, a: 1}
+    - _Outer_Rim_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Rim_Color: {r: 0, g: 1, b: 0.92019224, a: 1}
     - _SpecularColor: {r: 0, g: 1, b: 0.74202245, a: 1}
     - _Specular_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 0.11627802, g: 0.3679245, b: 0.34604222, a: 0}
+    - _Tint: {r: 0.7008722, g: 0.8490566, b: 0.8350769, a: 0.4392157}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2156515768098831882
