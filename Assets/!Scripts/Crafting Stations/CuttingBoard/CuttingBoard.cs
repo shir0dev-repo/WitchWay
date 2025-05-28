@@ -34,6 +34,7 @@ public class CuttingBoard : MonoBehaviour
             {
                 GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
                 p.transform.position = new Vector3(0, 1, 0);
+                p.transform.parent = transform;
                 p.name = name;
                 // to make sure this works, the ingredient dropped has to have the
                 // same name as the prefab it's referring too!

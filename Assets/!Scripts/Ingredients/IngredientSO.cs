@@ -7,19 +7,16 @@ public class IngredientSO : ItemData
 {
     [Space]
     [Range(0.5f, 5.0f)] public float CostMultiplier = 1.0f;
-    public PotionEffect PotionEffect;
-    public ulong DescriptorFlags = 0;
-    [TextArea]
-    public string DeserializedDescriptors = string.Empty;
+    
+    [Header("Representation")]
+    public new Sprite Sprite;
+    public GameObject WorldPrefab;
 
-    [ContextMenu("Serialize Descriptors")]
-    public void SerializeDescriptors()
-    {
-
-    }
-
-    private static Dictionary<string, byte> _descriptorFlagLookup = new Dictionary<string, byte>()
-    {
-        
-    };
+    [Header("Modification Flags")]
+    public bool CanBeCut;
+    public bool CanBeCrushed;
+    public bool CanBeFrozen;
+    public bool CanBeHeated;
+    public bool CanBeMolded;
+    public AlchemicalSymbol AllowedCircles;
 }

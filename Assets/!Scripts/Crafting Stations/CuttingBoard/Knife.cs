@@ -6,7 +6,8 @@ public class Knife : MonoBehaviour
     FollowMouse FollowMouse;
     Rigidbody rb;
 
-    Vector3 startPos;
+    [SerializeField] Transform startPos;
+
     Quaternion startRot;
 
     bool isCursorVisible = true;
@@ -16,7 +17,6 @@ public class Knife : MonoBehaviour
         FollowMouse = GetComponent<FollowMouse>();
         rb = GetComponent<Rigidbody>();
 
-        startPos = gameObject.transform.position;
         startRot = gameObject.transform.rotation;
     }
 
@@ -47,7 +47,7 @@ public class Knife : MonoBehaviour
     }
     void ReturnToPosition()
     {
-        gameObject.transform.position = startPos;
+        gameObject.transform.position = startPos.position;
         gameObject.transform.rotation = startRot;
     }
     void RotateToCuttingPosition()

@@ -6,7 +6,7 @@ public class Pestle : MonoBehaviour
     FollowMouse FollowMouse;
     Rigidbody rb;
 
-    Vector3 startPos;
+    [SerializeField] Transform startPos;
 
     bool isCursorVisible = true;
     void Start()
@@ -14,8 +14,6 @@ public class Pestle : MonoBehaviour
         cursorVisibility = GetComponent<InvisibleCursor>(); // add this to the pestle so it can turn off the cursor
         FollowMouse = GetComponent<FollowMouse>();
         rb = GetComponent<Rigidbody>(); 
-
-        startPos = gameObject.transform.position;
     }
 
     void Update()
@@ -43,7 +41,7 @@ public class Pestle : MonoBehaviour
 
     void ReturnToPosition()
     {
-        gameObject.transform.position = startPos;
+        gameObject.transform.position = startPos.position;
     }
     bool CastRay()
     {

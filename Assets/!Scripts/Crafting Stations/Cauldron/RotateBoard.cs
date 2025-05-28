@@ -13,6 +13,8 @@ public class RotateBoard : MonoBehaviour
     {
         pivot = orb.transform;
         transform.parent = pivot;
+
+        SwitchToMixing.mixingMode += FinishRotating;
     }
 
     void Update()
@@ -30,5 +32,10 @@ public class RotateBoard : MonoBehaviour
         // dampen the movement so it's not crazy, rotation is clamped so player cannot do crazy stuff
 
         pivot.localEulerAngles = new Vector3(clampedX, currRotate.y, currRotate.z);
+    }
+
+    void FinishRotating()
+    {
+        gameObject.SetActive(false);
     }
 }
