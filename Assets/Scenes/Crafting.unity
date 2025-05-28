@@ -1042,6 +1042,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ingredient: {fileID: 0}
+  _isDragging: 0
 --- !u!54 &592406765
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3646,6 +3648,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ingredient: {fileID: 0}
+  _isDragging: 0
 --- !u!54 &1761270451
 Rigidbody:
   m_ObjectHideFlags: 0
