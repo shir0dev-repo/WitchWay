@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class StationManager : MonoBehaviour
 {
@@ -120,6 +121,9 @@ public class StationManager : MonoBehaviour
     // Dragging logic
     private bool ClickedOnTable()
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        return false;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
     }
