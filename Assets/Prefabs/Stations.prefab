@@ -141,6 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8fc0d14d4396243817fc003cf6e2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnStationChanged:
+    m_PersistentCalls:
+      m_Calls: []
   _changeStationAction:
     m_Name: Change Station
     m_Type: 0
@@ -207,9 +210,7 @@ MonoBehaviour:
   _cauldron: {fileID: 0}
   _cauldronArea: {fileID: 5395888322168563671}
   recipeBookOpen: 0
-  OnStationChanged:
-    m_PersistentCalls:
-      m_Calls: []
+  _useCameraSmoothing: 1
   stationDragThreshold: 500
   stationDragThresholdVisual: 50
   tableTransform: {fileID: 0}
