@@ -18,9 +18,9 @@ public class StateOfIngredient : MonoBehaviour
     {
         CurrState = State.Whole;
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other) // changed from trigger to prevent multiple calls while mashing
     {
-        if (other.TryGetComponent<Pestle>(out _))
+        if (other.gameObject.TryGetComponent(out Pestle pestle))
         {
             TakeDamage(5);
             ChangeState();
@@ -35,15 +35,15 @@ public class StateOfIngredient : MonoBehaviour
 
     void ChangeState()
     {
-        if (durability >= 70 && durability <= 100)
+        if (durability > 70)
         {
             CurrState = State.Chunky;
         }
-        if (durability >= 40 && durability <= 70)
+        if (durability > 40)
         {
             CurrState = State.Crumbly;
         }
-        if (durability >= 10 && durability <= 40)
+        if (durability > 10)
         {
             CurrState = State.Powder;
         }
