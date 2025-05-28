@@ -8,9 +8,13 @@ public class StationManager : MonoBehaviour
     public const int _STATION_COUNT = 4;
     public static StationManager Instance { get; private set; }
 
+    [Serializable]
+    public class StationChangedEvent : UnityEvent<int> { }
+    public StationChangedEvent OnStationChanged = new StationChangedEvent();
+
     [Header("Controls")]
     [SerializeField] private InputAction _changeStationAction;
-
+    
     [Header("Cutting Board")]
     [SerializeField] private CuttingBoard _cuttingBoard;
     [SerializeField] private Transform _cuttingBoardTransform;
@@ -32,18 +36,15 @@ public class StationManager : MonoBehaviour
     [HideInInspector]
     public bool recipeBookOpen = false;
 
-    [System.Serializable]
-    public class StationChangedEvent : UnityEvent<int> { }
-
-    public StationChangedEvent OnStationChanged = new StationChangedEvent();
-
     [Header("Drag Detection")]
-    [SerializeField] private float stationDragThreshold, stationDragThresholdVisual;
+    [SerializeField] private bool _useCameraSmoothing = false;
+    [SerializeField] private float stationDragThreshold;
+    [SerializeField] private float stationDragThresholdVisual;
     [SerializeField] private Transform tableTransform;
     [SerializeField] private Collider tableCollider;
 
     private Vector2 dragStartPos, dragEndPos, tableStartPos;
-    private bool isDragging = false, stationChangedDuringDrag = false, clickedOnTable = false;
+    private bool isDragging = false, clickedOnTable = false;
 
     private void Awake()
     {
@@ -134,7 +135,9 @@ public class StationManager : MonoBehaviour
                 isDragging = true;
                 clickedOnTable = true;
                 dragStartPos = Input.mousePosition;
-                tableStartPos = tableTransform.position;
+                
+                bool camSmooth = _useCameraSmoothing && CameraManager.Instance.IsMoving;
+                tableStartPos = camSmooth ? CameraManager.Instance.GetTargetPosition() : tableTransform.position;
             }
         }
 
@@ -175,6 +178,10 @@ public class StationManager : MonoBehaviour
                 GoPreviousStation();
             else
                 GoNextStation();
+        }
+        else if (_useCameraSmoothing)
+        {
+            CameraManager.Instance.MoveToPosition(tableStartPos);
         }
         else
         {
