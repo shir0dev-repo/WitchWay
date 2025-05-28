@@ -11,8 +11,10 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float _speed = 4.0f;
     [SerializeField] private Transform _stationParent;
 
-    private Vector3 _lastPosition = Vector3.zero;
+    public Vector3 GetTargetPosition() => _targetPosition;
     private Vector3 _targetPosition = Vector3.zero;
+
+    private Vector3 _lastPosition = Vector3.zero;
     private Vector3 _velocity = Vector3.zero;
 
     private void Awake()

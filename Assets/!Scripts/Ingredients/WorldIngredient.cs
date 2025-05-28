@@ -3,7 +3,9 @@ using UnityEngine.EventSystems;
 
 public class WorldIngredient : MonoBehaviour
 {
-    private bool _isDragging = false;
+    public IngredientSO ingredient; //added this so can ref what ingrediant it is
+
+    [HideInInspector] public bool _isDragging = false;
 
     private Vector3 _mousePosWS = Vector3.zero;
     private Vector3 _velocity = Vector3.zero;
