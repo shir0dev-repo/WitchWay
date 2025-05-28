@@ -87,22 +87,20 @@ public class Inventory : MonoBehaviour
 
         //check item doesnt already exist
         bool matchFound = false;
-        if (newIngredient.MaxStackSize > 1)
+
+        foreach (InventorySlot slot in PersistantItemList.inventorySlots)
         {
-            foreach (InventorySlot slot in PersistantItemList.inventorySlots)
+            if (slot.ingredient.ID == newIngredient.ID)
             {
-                if (slot.ingredient.ID == newIngredient.ID && slot.ingredientAmt < newIngredient.MaxStackSize)
+                slot.ingredientAmt += 1;
+                matchFound = true;
+
+                if (slot.ingredientAmt > 1)
                 {
-                    slot.ingredientAmt += 1;
-                    matchFound = true;
-
-                    if (slot.ingredientAmt > 1)
-                    {
-                        slot.slotObject.GetComponentInChildren<TMP_Text>().text = slot.ingredientAmt.ToString();
-                    }
-
-                    break;
+                    slot.slotObject.GetComponentInChildren<TMP_Text>().text = slot.ingredientAmt.ToString();
                 }
+
+                break;
             }
         }
 
