@@ -7,30 +7,31 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 69bca6b8472056b40a40699144f5bd2c, type: 3}
+  m_Name: Potion Material Dark Blue
+  m_Shader: {fileID: 4800000, guid: 628189a7ef02e1e438157552dd0fe1b1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHATEST_ON
-  - _SURFACE_TYPE_TRANSPARENT
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - _INVERTEDTINT
+  - _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2999
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Main_Texture:
-        m_Texture: {fileID: 10307, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -49,28 +50,37 @@ Material:
     m_Floats:
     - _AlphaClip: 1
     - _AlphaToMask: 0
+    - _Amplitude: 0.15
     - _Blend: 0
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _ColorDamp: 0.49
     - _Cull: 0
     - _DstBlend: 10
-    - _FillAmount: 1
+    - _FillAmount: 0.177
+    - _Freq: 0
     - _Fresnel: 1
     - _INVERTEDTINT: 1
+    - _Line: 0.0141
+    - _LineSmooth: 0.0153
     - _QueueControl: 1
     - _QueueOffset: 0
+    - _RimPower: 10
     - _SrcBlend: 5
     - _Surface: 1
     - _WobbleX: 0
     - _WobbleZ: 0
     - _ZTest: 4
-    - _ZWrite: 0
-    - _ZWriteControl: 0
+    - _ZWrite: 1
+    - _ZWriteControl: 1
     m_Colors:
+    - _FillAmount: {r: 0, g: -0.28, b: 0, a: 0}
     - _FillTint: {r: 1.4980392, g: 0.11764702, b: 1.2449435, a: 1}
+    - _Fill_Pivot: {r: 0, g: 0, b: 0, a: 0}
+    - _FoamColor: {r: 0.079092495, g: 0.19979748, b: 1.490809, a: 1}
     - _FresnelTint: {r: 4, g: 0, b: 3.1214333, a: 1}
-    - _Tint: {r: 6.4715505, g: 1.9953029, b: 8.279265, a: 1}
-    - _TopColor: {r: 0.754717, g: 0.13883947, b: 0.13883947, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0, g: 0.01604557, b: 2, a: 1}
+    - _TopColor: {r: 0.07843135, g: 0.19765285, b: 1.4980392, a: 1}
     - _TopTint: {r: 1.4980392, g: 0.11764702, b: 1.4956322, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

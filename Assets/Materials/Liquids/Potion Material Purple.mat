@@ -7,16 +7,18 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ToonGlass Material
-  m_Shader: {fileID: -6465566751694194690, guid: e521e487cbbb7b0478bc88bf2016f64a, type: 3}
+  m_Name: Potion Material Purple
+  m_Shader: {fileID: 4800000, guid: 628189a7ef02e1e438157552dd0fe1b1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _INVERTEDTINT
+  - _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3001
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -25,6 +27,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -42,39 +48,43 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FresnelBias: 0
-    - _FresnelPower: 6.65
-    - _FresnelScale: 4.77
-    - _FresnelStrength: 5.58
-    - _Highlight_Strength: 1
-    - _Inner_Rim_Power: 0
-    - _Inner_Rim_Smoothness: 0
-    - _Light_Specular_Cutoff: 0.439
-    - _Opacity: 0.287
-    - _Outer_Rim_Power: 2.7
-    - _Outer_Rim_Smoothness: 0.047
+    - _AlphaClip: 1
+    - _AlphaToMask: 0
+    - _Amplitude: 0.15
+    - _Blend: 0
+    - _CastShadows: 0
+    - _ColorDamp: 0.49
+    - _Cull: 0
+    - _DstBlend: 10
+    - _FillAmount: 0.177
+    - _Freq: 0
+    - _Fresnel: 1
+    - _INVERTEDTINT: 1
+    - _Line: 0.019
+    - _LineSmooth: 0.0147
     - _QueueControl: 1
     - _QueueOffset: 0
-    - _Rim_Power: 1
-    - _Rim_Smoothness: 0
-    - _Smoothness: 0
-    - _SpecularCutoff: 0.609
-    - _SpecularStrength: 9.65
-    - _Specular_Smoothness: 0
-    - _TextureStrength: 0
-    - _Transparency: 0.235
-    - _View_Specular_Cutoff: 0.971
+    - _RimPower: 10
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _WobbleX: 0
+    - _WobbleZ: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 1
     m_Colors:
-    - _FresnelColor: {r: 0, g: 1, b: 0.91385865, a: 1}
-    - _Inner_Rim_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Outer_Rim_Color: {r: 0.58431375, g: 0.69803923, b: 0.69411767, a: 1}
-    - _Rim_Color: {r: 0, g: 1, b: 0.92019224, a: 1}
-    - _SpecularColor: {r: 0, g: 1, b: 0.74202245, a: 1}
-    - _Specular_Color: {r: 0.5828587, g: 0.6981132, b: 0.69253117, a: 1}
-    - _Tint: {r: 0.7008722, g: 0.8490566, b: 0.8350769, a: 0.105882354}
+    - _FillAmount: {r: 0, g: -0.37, b: 0, a: 0}
+    - _FillTint: {r: 1.4980392, g: 0.11764702, b: 1.2449435, a: 1}
+    - _Fill_Pivot: {r: 0, g: 0, b: 0, a: 0}
+    - _FoamColor: {r: 0.2941178, g: 0.09803921, b: 1, a: 1}
+    - _FresnelTint: {r: 4, g: 0, b: 3.1214333, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0.2434783, g: 0, b: 1, a: 1}
+    - _TopColor: {r: 0.29646108, g: 0.106000006, b: 1, a: 1}
+    - _TopTint: {r: 1.4980392, g: 0.11764702, b: 1.4956322, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2156515768098831882
+--- !u!114 &8460501225026083566
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

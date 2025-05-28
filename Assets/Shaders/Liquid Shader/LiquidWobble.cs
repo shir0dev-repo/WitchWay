@@ -7,6 +7,7 @@ public class LiquidWobble : MonoBehaviour
     [SerializeField] private int _materialIndex;
 
     [Header("Wobble Settings")]
+    [SerializeField] private float _fillAmount = 0.5f;
     [SerializeField] private float _maxWobble = 0.03f;
     [SerializeField] private float _wobbleSpeed = 1.0f;
     [SerializeField] private float _recoveryScale = 1.0f;
@@ -14,6 +15,10 @@ public class LiquidWobble : MonoBehaviour
     private float _wobbleAmountX = 0.0f, _wobbleAmountZ = 0.0f;
     private float _wobbleAmountToAddX = 0.0f, _wobbleAmountToAddZ = 0.0f;
     private float _pulse;
+
+    // fill
+    private Vector3 _position;
+    private Mesh _mesh;
 
     // transform info
     private Vector3 _lastPos;
@@ -26,13 +31,20 @@ public class LiquidWobble : MonoBehaviour
     private void Start()
     {
         _renderer = GetComponent<Renderer>();
+        if (TryGetComponent(out MeshFilter mf))
+        {
+            _mesh = mf.sharedMesh;
+        }
+
         _lastPos = transform.position;
         _lastRot = transform.rotation.eulerAngles;
+        _renderer.materials[_materialIndex].SetVector("_Fill_Pivot", transform.localPosition);
     }
 
     private void Update()
     {
         if (_renderer == null) return;
+        else if (_mesh == null) return;
 
         _wobbleAmountToAddX = Mathf.Lerp(_wobbleAmountToAddX, 0, Time.deltaTime * (_recoveryScale));
         _wobbleAmountToAddZ = Mathf.Lerp(_wobbleAmountToAddZ, 0, Time.deltaTime * (_recoveryScale));
@@ -46,6 +58,11 @@ public class LiquidWobble : MonoBehaviour
         _renderer.materials[_materialIndex].SetFloat("_WobbleX", _wobbleAmountX);
         _renderer.materials[_materialIndex].SetFloat("_WobbleZ", _wobbleAmountZ);
 
+        // fill amount
+        Vector3 worldPos = transform.TransformPoint(_mesh.bounds.center);
+        _position = worldPos - transform.position - new Vector3(0, _fillAmount, 0);
+        _renderer.materials[_materialIndex].SetVector("_FillAmount", _position);
+
         // velocity
         _velocity = (_lastPos - transform.position) / Time.deltaTime;
         _angularVelocity = transform.rotation.eulerAngles - _lastRot;
@@ -58,5 +75,11 @@ public class LiquidWobble : MonoBehaviour
         // keep last position
         _lastPos = transform.position;
         _lastRot = transform.rotation.eulerAngles;
+    }
+
+    [ContextMenu("Set Pivot")]
+    public void SetPivot()
+    {
+        GetComponent<MeshRenderer>().sharedMaterials[_materialIndex].SetVector("_Fill_Pivot", transform.localPosition);
     }
 }
