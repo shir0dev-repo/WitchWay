@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ToonGlass Material
-  m_Shader: {fileID: -6465566751694194690, guid: 9035e9c0aba368b499c1f6b36b6b74ab, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e521e487cbbb7b0478bc88bf2016f64a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -38,11 +42,31 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _QueueControl: 0
+    - _FresnelBias: 0
+    - _FresnelPower: 6.65
+    - _FresnelScale: 4.77
+    - _FresnelStrength: 5.58
+    - _Inner_Rim_Power: 0
+    - _Inner_Rim_Smoothness: 0
+    - _Light_Specular_Cutoff: 0.36
+    - _Opacity: 0.287
+    - _QueueControl: 1
     - _QueueOffset: 0
+    - _Rim_Power: 1
+    - _Rim_Smoothness: 0.89
+    - _Smoothness: 0
+    - _SpecularCutoff: 0.609
+    - _SpecularStrength: 9.65
+    - _Specular_Smoothness: 0
     - _Transparency: 0.235
+    - _View_Specular_Cutoff: 0.997
     m_Colors:
-    - _Tint: {r: 0.7311321, g: 1, b: 0.9892524, a: 1}
+    - _FresnelColor: {r: 0, g: 1, b: 0.91385865, a: 1}
+    - _Inner_Rim_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Rim_Color: {r: 0, g: 1, b: 0.92019224, a: 1}
+    - _SpecularColor: {r: 0, g: 1, b: 0.74202245, a: 1}
+    - _Specular_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0.11627802, g: 0.3679245, b: 0.34604222, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2156515768098831882

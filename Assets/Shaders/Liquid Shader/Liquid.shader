@@ -28,7 +28,7 @@ Shader "FX/Liquid"
         {
             Zwrite On
             Cull Off
-            AlphaToMask On
+            AlphaToMask Off
 
 
             CGPROGRAM
