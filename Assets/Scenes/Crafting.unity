@@ -364,9 +364,9 @@ GameObject:
   m_Component:
   - component: {fileID: 350980751}
   - component: {fileID: 350980750}
-  - component: {fileID: 350980749}
   - component: {fileID: 350980748}
   - component: {fileID: 350980752}
+  - component: {fileID: 350980753}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -418,14 +418,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!81 &350980749
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 350980745}
-  m_Enabled: 1
 --- !u!20 &350980750
 Camera:
   m_ObjectHideFlags: 0
@@ -507,6 +499,20 @@ MonoBehaviour:
   _blurVolume: {fileID: 301741391}
   _speed: 50
   _stationParent: {fileID: 1964813680}
+--- !u!114 &350980753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350980745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!114 &401726780 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6637176181465134827, guid: 319b79c11884a904ea417e41e487af1e, type: 3}
