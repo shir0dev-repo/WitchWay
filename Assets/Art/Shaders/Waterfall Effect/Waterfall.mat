@@ -46,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Secondary_Foam_Texture:
-        m_Texture: {fileID: 2800000, guid: 8ecd22f5f283d0546ab82e545b60639f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44b629ae890b16042928030952a7811b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -63,23 +63,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Primary_Foam_Scroll_Speed: -0.1
+    - _Primary_Foam_Scroll_Speed: 0.08
     - _Primary_Foam_Size: 1
-    - _Primary_Foam_Strength: 0.582
-    - _Primary_Ripple_Speed: 0
-    - _Primary_Ripple_Strength: 0.0037
+    - _Primary_Foam_Strength: 1
+    - _Primary_Ripple_Speed: 0.008
+    - _Primary_Ripple_Strength: 0.03
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Secondary_Foam_Scroll_Speed: -0.05
-    - _Secondary_Foam_Size: 2
-    - _Secondary_Foam_Strength: 0.202
-    - _Secondary_Ripple_Speed: 0
-    - _Secondary_Ripple_Strength: 0.0053
+    - _Secondary_Foam_Scroll_Speed: -0.08
+    - _Secondary_Foam_Size: 0.72
+    - _Secondary_Foam_Strength: 0.101
+    - _Secondary_Ripple_Speed: 0.01
+    - _Secondary_Ripple_Strength: 0.0414
     - _Water_Opacity: 0
     m_Colors:
-    - _Primary_Foam_Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Secondary_Foam_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Primary_Foam_Color: {r: 0.8496703, g: 0.544, b: 1, a: 1}
+    - _Secondary_Foam_Color: {r: 1, g: 0, b: 0.7807932, a: 1}
     - _Secondary_Foam_Offset: {r: 0.1, g: 0, b: 0, a: 0}
-    - _Water_Color: {r: 0.2117646, g: 0.6392157, b: 0.99607843, a: 1}
+    - _Water_Color: {r: 0.46074462, g: 0.25632977, b: 0.61, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
