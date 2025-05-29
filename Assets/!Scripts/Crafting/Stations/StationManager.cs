@@ -45,7 +45,12 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Collider tableCollider;
 
     private Vector2 dragStartPos, dragEndPos, tableStartPos;
-    private bool isDragging = false, clickedOnTable = false;
+    private bool isDragging = false, clickedOnTable = false, canDrag = true;
+
+    public void ToggleDrag(int stationID)
+    {
+        canDrag = stationID != 2;
+    }
 
     private void Awake()
     {
@@ -121,7 +126,7 @@ public class StationManager : MonoBehaviour
     // Dragging logic
     private bool ClickedOnTable()
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        if (canDrag == false || EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         return false;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

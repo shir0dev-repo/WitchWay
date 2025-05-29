@@ -26,6 +26,11 @@ public class Cauldron : MonoBehaviour
 
     float switchStirDirectionTimer = 10.0f;
 
+    public void Enable(int stationID)
+    {
+        gameObject.SetActive(stationID == 3);
+    }
+
     void Start()
     {
         SwitchToMixing.mixingMode += ActivateMixing;
