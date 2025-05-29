@@ -13,6 +13,7 @@ public class StateOfIngredient : MonoBehaviour
     public State CurrState;
     public float durability = 100;
 
+    public bool isInMortar = false;
 
     private void Start()
     {
@@ -20,7 +21,7 @@ public class StateOfIngredient : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other) // changed from trigger to prevent multiple calls while mashing
     {
-        if (other.gameObject.TryGetComponent(out Pestle pestle))
+        if (other.gameObject.TryGetComponent(out Pestle pestle) && isInMortar == true)
         {
             TakeDamage(5);
             ChangeState();
@@ -35,27 +36,31 @@ public class StateOfIngredient : MonoBehaviour
 
     void ChangeState()
     {
+        Mathf.Clamp(durability, 0, 100);
+
         if (durability > 70)
         {
             CurrState = State.Chunky;
         }
-        if (durability > 40)
+        else if (durability > 40)
         {
             CurrState = State.Crumbly;
         }
-        if (durability > 10)
+        else if (durability > 10)
         {
             CurrState = State.Powder;
         }
-        if (durability <= 10)
+        else
         {
             CurrState = State.Dust;
         }
 
-        Mathf.Clamp(durability, 0, 100);
-
         Debug.Log("Ingredient is currently: " + CurrState.ToString() + "\n"
             + "Ingredient's Durability: " + durability.ToString());
+    }
 
+    public void ChangeIfInBowl(bool thing)
+    {
+        isInMortar = thing;
     }
 }
