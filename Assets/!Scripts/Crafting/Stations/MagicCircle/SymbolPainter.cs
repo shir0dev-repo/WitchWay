@@ -12,7 +12,7 @@ public class SymbolPainter : MonoBehaviour
     [SerializeField] private Transform _gestureLRPrefab;
     [SerializeField] private Canvas _UICanvas;
 
-    public static Action<AlchemicalSymbol> OnSymbolPainted;
+    public static Action<string, float> OnGestureCompleted;
     public static Action OnLineDrawn;
 
     [Header("Debug")]
@@ -26,8 +26,6 @@ public class SymbolPainter : MonoBehaviour
     private int _vertexCount = 0;
 
     private Vector3 _virtualKeyPosition = Vector3.zero;
-
-
 
     private readonly List<LineRenderer> _gestureLineRenderers = new();
     public LineRenderer CurrentGestureRenderer { get; private set; }
@@ -79,7 +77,9 @@ public class SymbolPainter : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            bool valid = _points.Count > 0 && Recognize(AlchemicalSymbol.Necromancy);
+            if (_points.Count <= 0) return;
+            bool valid = RecognizeSymbol(out string gName, out float gScore);
+
             foreach (LineRenderer lr in _gestureLineRenderers)
             {
                 if (lr == CurrentGestureRenderer)
@@ -94,7 +94,7 @@ public class SymbolPainter : MonoBehaviour
             _points.Clear();
             if (valid)
             {
-                OnSymbolPainted?.Invoke(AlchemicalSymbol.Necromancy);
+                OnGestureCompleted?.Invoke(gName, gScore);
             }
         }
     }
@@ -135,24 +135,17 @@ public class SymbolPainter : MonoBehaviour
         }
     }
 
-    public bool Recognize(AlchemicalSymbol targetSymbol)
+    public bool RecognizeSymbol(out string gestureName, out float score)
     {
         Gesture candidate = new Gesture(_points.ToArray());
         Result gestureResult = PointCloudRecognizer.Classify(candidate, _trainingSet.ToArray());
 
         _message.text = gestureResult.GestureClass + " " + $"{gestureResult.Score:F2}";
-        AlchemicalSymbol drawnSymbol = GetSymbolFromName(gestureResult.GestureClass);
         strokeID = 0;
-        return !gestureResult.GestureClass.Equals("null") && gestureResult.Score > 0.75f && drawnSymbol == targetSymbol;
-    }
 
-    private AlchemicalSymbol GetSymbolFromName(string name)
-    {
-        return (name) switch
-        {
-            "necromancy" => AlchemicalSymbol.Necromancy,
-            _ => AlchemicalSymbol.Evocation
-        };
+        gestureName = gestureResult.GestureClass;
+        score = gestureResult.Score;
+        return !gestureResult.GestureClass.Equals("null");
     }
 
     internal void ToggleMessage(bool toggle)
