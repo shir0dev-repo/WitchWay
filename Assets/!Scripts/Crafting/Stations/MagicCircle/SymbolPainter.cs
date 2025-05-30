@@ -10,6 +10,7 @@ public class SymbolPainter : MonoBehaviour
     private const string _SAVE_PATH = "Symbols/";
 
     [SerializeField] private Transform _gestureLRPrefab;
+    [SerializeField] private Canvas _UICanvas;
 
     public static Action<AlchemicalSymbol> OnSymbolPainted;
 
@@ -24,14 +25,12 @@ public class SymbolPainter : MonoBehaviour
     private int _vertexCount = 0;
 
     private Vector3 _virtualKeyPosition = Vector3.zero;
-    private Rect _drawArea;
 
     private readonly List<LineRenderer> _gestureLineRenderers = new();
     private LineRenderer _currentGestureRenderer;
 
     private void Start()
     {
-        _drawArea = new Rect(0, 0, Screen.width, Screen.height);
         InitGestures();
     }
 
@@ -49,7 +48,7 @@ public class SymbolPainter : MonoBehaviour
             _virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
         }
 
-        if (_drawArea.Contains(_virtualKeyPosition))
+        if (_UICanvas.pixelRect.Contains(_virtualKeyPosition))
         {
             if (Input.GetMouseButtonDown(0))
             {
