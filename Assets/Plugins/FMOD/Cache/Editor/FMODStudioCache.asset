@@ -51,10 +51,10 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638840520584829940
+  lastModified: 638842411645618621
   FileSizes:
   - Name: 
-    Value: 972
+    Value: 1032
   Exists: 1
 --- !u!114 &-3314956055981720832
 MonoBehaviour:
@@ -123,12 +123,13 @@ MonoBehaviour:
   EditorEvents:
   - {fileID: -3314956055981720832}
   - {fileID: 1425161473165416023}
+  - {fileID: 2552667729377446404}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1377112150471365517}
   StringsBanks:
   - {fileID: -4536780508406070236}
-  cacheTime: 638840520585176300
+  cacheTime: 638842411645854215
   cacheVersion: 131624
 --- !u!114 &693909531939594152
 MonoBehaviour:
@@ -145,7 +146,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638840520584840000
+  lastModified: 638842411645854215
   FileSizes: []
   Exists: 1
 --- !u!114 &1425161473165416023
@@ -175,6 +176,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 206832
+--- !u!114 &2552667729377446404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/mus_potionbrewing
+  m_EditorClassIdentifier: 
+  Path: event:/mus_potionbrewing
+  Guid:
+    Data1: 226333202
+    Data2: 1193245450
+    Data3: 2077539206
+    Data4: -1109822673
+  Banks:
+  - {fileID: 693909531939594152}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 136000
 --- !u!114 &8161603314406422067
 MonoBehaviour:
   m_ObjectHideFlags: 0
