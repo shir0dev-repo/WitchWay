@@ -3,8 +3,21 @@ using UnityEngine;
 public class Siphon : MonoBehaviour
 {
     public static Siphon instance {  get; private set; }
+    [SerializeField] SliderBar slider;
 
     public float pressureAmount = 0;
+
+    void Start()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     void Update()
     {
@@ -13,16 +26,31 @@ public class Siphon : MonoBehaviour
             IncreasePressure();
         }
 
-        pressureAmount -= Time.deltaTime;
+        DecreasePressure();
+        slider.SetValue(pressureAmount);
     }
 
     public void IncreasePressure()
     {
         pressureAmount += 5;
+        pressureAmount = ClampPressureAmount();
+    }
 
-        if ( pressureAmount > 100 )
-        {
-            pressureAmount = 100;
-        }
+    public void DecreasePressure()
+    {
+        if (pressureAmount > 75) { pressureAmount -= Time.deltaTime * 15; }
+        else if (pressureAmount > 50 ) { pressureAmount -= Time.deltaTime * 10; }
+        else { pressureAmount -= Time.deltaTime * 5; }
+
+        pressureAmount = ClampPressureAmount();
+    }
+
+    float ClampPressureAmount()
+    {
+        return Mathf.Clamp( pressureAmount, 0, 100);
+    }
+    public float GetCurrentPressureAmount()
+    {
+        return pressureAmount;
     }
 }
