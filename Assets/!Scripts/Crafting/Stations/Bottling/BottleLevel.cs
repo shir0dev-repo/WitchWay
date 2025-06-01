@@ -8,15 +8,22 @@ public class BottleLevel : MonoBehaviour
 
     public float amount = 0f;
     float rateOfStream = 0f;
-    bool bottleIsFull = false;
+
+    void OnEnable()
+    {
+        Siphon.filledBottle += EndMinigame;
+    }
+    void OnDisable()
+    {
+        Siphon.filledBottle -= EndMinigame;
+    }
 
     void Update()
     {
-        if (CheckIfFilled() || bottleIsFull)
+        if (CheckIfFilled())
         {
             return;
-            // checks if the bottle is filled either via the function or the bool
-            // i'll change this so there's an event... somewhere
+            // checks if the bottle is filled via the function
         }
         RaiseStreamLevel();
         FillBottle();
@@ -47,14 +54,18 @@ public class BottleLevel : MonoBehaviour
     }
     bool CheckIfFilled()
     {
-        if (amount >= 100 && !bottleIsFull)
+        if (amount >= 100)
         {
-            bottleIsFull = true;
             Debug.Log("The bottle is full!");
-            Siphon.instance.ToggleButtonAbility();
+            Siphon.filledBottle?.Invoke();
             return true;
             // later, add stuff to disable the pump if the bottle is full
         }
         return false;
+    }
+    void EndMinigame()
+    {
+        slider.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

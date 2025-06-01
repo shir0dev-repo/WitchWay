@@ -8,6 +8,9 @@ public class Siphon : MonoBehaviour
 
     public float pressureAmount = 0;
     bool canPressButton = true;
+
+    public delegate void FinishMinigame();
+    public static FinishMinigame filledBottle;
     void Start()
     {
         if (instance != null && instance != this)
@@ -18,6 +21,14 @@ public class Siphon : MonoBehaviour
         {
             instance = this;
         }
+    }
+    private void OnEnable()
+    {
+        filledBottle += EndMinigame;
+    }
+    private void OnDisable()
+    {
+        filledBottle -= EndMinigame;
     }
 
     void Update()
@@ -60,11 +71,17 @@ public class Siphon : MonoBehaviour
     {
         canPressButton = !canPressButton;
         ResetPressure();
-        // whenever the ability to increase the pressure is toggled, reset the bar's progress
     }
     public void ResetPressure()
     {
         pressureAmount = 0;
         slider.SetValue(pressureAmount);
+    }
+    void EndMinigame()
+    {
+        canPressButton = false;
+        ResetPressure();
+        slider.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
