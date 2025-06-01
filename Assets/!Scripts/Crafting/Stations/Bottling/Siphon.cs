@@ -9,8 +9,6 @@ public class Siphon : MonoBehaviour
     public float pressureAmount = 0;
     bool canPressButton = true;
 
-    public delegate void FinishMinigame();
-    public static FinishMinigame filledBottle;
     void Start()
     {
         if (instance != null && instance != this)
@@ -21,14 +19,18 @@ public class Siphon : MonoBehaviour
         {
             instance = this;
         }
+
+        this.enabled = false;
     }
     private void OnEnable()
     {
-        filledBottle += EndMinigame;
+        BottleDetection.filledBottle += EndMinigame;
+        BottleDetection.bottlePlaced -= StartMinigame;
     }
     private void OnDisable()
     {
-        filledBottle -= EndMinigame;
+        BottleDetection.filledBottle -= EndMinigame;
+        BottleDetection.bottlePlaced += StartMinigame;
     }
 
     void Update()
@@ -77,11 +79,17 @@ public class Siphon : MonoBehaviour
         pressureAmount = 0;
         slider.SetValue(pressureAmount);
     }
+    void StartMinigame()
+    {
+        canPressButton = true;
+        ResetPressure();
+        slider.gameObject.SetActive(true);
+    }
     void EndMinigame()
     {
         canPressButton = false;
-        ResetPressure();
         slider.gameObject.SetActive(false);
-        gameObject.SetActive(false);
+        
+        this.enabled = false;
     }
 }
