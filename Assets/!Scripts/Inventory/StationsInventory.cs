@@ -24,6 +24,10 @@ public class StationsInventory : MonoBehaviour
     [Header("Triggers")]
     [SerializeField] private TriggerForwarder basketsTrigger;
 
+    [Header("Positioning")]
+    [SerializeField] private float yPos;
+    [SerializeField] private float zPos;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject basketPrefab;
     [SerializeField] private GameObject worldItemBase;
@@ -52,7 +56,7 @@ public class StationsInventory : MonoBehaviour
         {
             float x = (i - (amountDiff / 2)) * spacing;
             if (amountDiff % 2 == 0) x += spacing / 2f;
-            Vector3 pos = new Vector3(x, 0, 0);
+            Vector3 pos = new Vector3(x, yPos, zPos);
 
             GameObject newBasket = Instantiate(basketPrefab, pos, Quaternion.identity);
             baskets.Add(newBasket.transform);

@@ -243,6 +243,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: cef1af563efd02b41b3d0e18249d897f, type: 2}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 0
 --- !u!54 &85366722
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -497,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec964154a8bf85c45a82d7aff069b8d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: InventoryStationBasketTest
+  sceneName: Crafting
 --- !u!1 &870509823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,6 +1309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: 9da33b95022c80a47b63fa23a343d032, type: 2}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 0
 --- !u!54 &1525527741
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1701,6 +1705,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 0
 --- !u!1 &7742676147440482213
 GameObject:
   m_ObjectHideFlags: 0

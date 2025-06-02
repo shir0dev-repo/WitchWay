@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 503824813933450238}
   m_Layer: 0
   m_Name: WorldObjectBase
-  m_TagString: Untagged
+  m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,3 +151,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 10
