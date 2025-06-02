@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -19,6 +20,10 @@ public class WorldIngredient : MonoBehaviour
 
     private Rigidbody rb;
     private float currentDepth;
+    private bool isStationValid = true;
+    [HideInInspector] public Vector3 startPos = Vector3.zero;
+
+    private StationManager stationManger;
 
     private void Start()
     {
@@ -27,6 +32,9 @@ public class WorldIngredient : MonoBehaviour
         //GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
 
         rb = GetComponent<Rigidbody>();
+
+        stationManger = StationManager.Instance;
+        if (stationManger != null) stationManger.OnStationChanged.AddListener(CheckValid);
     }
 
     private void Update()
@@ -74,6 +82,7 @@ public class WorldIngredient : MonoBehaviour
         {
             if (hit.collider.gameObject == gameObject)
             {
+                startPos = hit.collider.transform.position;
                 BeginDrag();
             }
         }
@@ -101,5 +110,27 @@ public class WorldIngredient : MonoBehaviour
     {
         _isDragging = false;
         rb.useGravity = true;
+
+        if (!isStationValid)
+        {
+            transform.position = startPos;
+        }
+    }
+
+    private void CheckValid(int stationId)
+    {
+        if (ingredient == null)
+        {
+            StartCoroutine(DeferredCheck(stationId));
+            return;
+        }
+        isStationValid = ingredient.CanBeUsedAtStation(stationId);
+    }
+
+    private IEnumerator DeferredCheck(int stationId)
+    {
+        yield return null;
+        if (ingredient != null)
+            isStationValid = ingredient.CanBeUsedAtStation(stationId);
     }
 }

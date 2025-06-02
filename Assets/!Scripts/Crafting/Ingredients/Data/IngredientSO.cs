@@ -7,7 +7,7 @@ public class IngredientSO : SODatabase.DatabaseObject
 
     [Space]
     [Range(0.5f, 5.0f)] public float CostMultiplier = 1.0f;
-    
+
     [Header("Representation")]
     public Sprite Sprite;
     public GameObject WorldPrefab;
@@ -19,4 +19,15 @@ public class IngredientSO : SODatabase.DatabaseObject
     public bool CanBeHeated;
     public bool CanBeMolded;
     public AlchemicalSymbol AllowedCircles;
+
+    public bool CanBeUsedAtStation(int stationId)
+    {
+        switch (stationId)
+        {
+            case 0: return CanBeCut;
+            case 1: return CanBeFrozen || CanBeHeated;
+                //add more when more stations
+            default: return false;
+        }
+    }
 }

@@ -160,6 +160,8 @@ public class StationsInventory : MonoBehaviour
                     tempRb.linearVelocity = Vector3.zero;
                     tempRb.angularVelocity = Vector3.zero;
 
+                    worldIngredient.startPos = bItem.basket.position;
+
                     break;
                 }
             }
