@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +37,8 @@ public class StationsInventory : MonoBehaviour
     private List<Transform> baskets = new List<Transform>();
     private List<BasketItems> basketItems = new List<BasketItems>();
 
+    private StationManager stationManger;
+
     void Awake()
     {
         CreateBaskets();
@@ -44,6 +47,9 @@ public class StationsInventory : MonoBehaviour
 
     void Start()
     {
+        stationManger = StationManager.Instance;
+        if (stationManger != null) stationManger.OnStationChanged.AddListener(OnStationChangedHandler);
+
         //setup triggers
         basketsTrigger.onTriggerEnter += AddItemTrigger;
         basketsTrigger.onTriggerExit += RemoveItemTrigger;
@@ -137,6 +143,7 @@ public class StationsInventory : MonoBehaviour
 
     private void AddItemTrigger(Collider collision)
     {
+        print("add trigger");
         WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
         if (worldIngredient != null)
         {
@@ -148,6 +155,10 @@ public class StationsInventory : MonoBehaviour
 
                     worldIngredient._isDragging = false;
                     collision.gameObject.transform.position = bItem.basket.position;
+
+                    Rigidbody tempRb = worldIngredient.gameObject.GetComponent<Rigidbody>();
+                    tempRb.linearVelocity = Vector3.zero;
+                    tempRb.angularVelocity = Vector3.zero;
 
                     break;
                 }
@@ -168,6 +179,31 @@ public class StationsInventory : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    private void OnStationChangedHandler(int stationId)
+    {
+        print("station chnaged");
+        WorldIngredient[] worldIngreds = FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None);
+
+        List<WorldIngredient> toBeReturned = new List<WorldIngredient>();
+        foreach (WorldIngredient ingred in worldIngreds)
+        {
+            foreach (BasketItems basketItem in basketItems)
+            {
+                if (ingred.ingredient == basketItem.assignedIngredient)
+                {
+                    if(!basketsTrigger.GetComponent<BoxCollider>().bounds.Contains(ingred.transform.position)) toBeReturned.Add(ingred);
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i < toBeReturned.Count; i++)
+        {
+            float xPos = basketsTrigger.GetComponent<BoxCollider>().bounds.min.x + 2 * (i + 1);
+            toBeReturned[i].transform.position = new Vector3(xPos, yPos, zPos);
         }
     }
 }

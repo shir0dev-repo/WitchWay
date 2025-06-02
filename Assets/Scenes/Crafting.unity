@@ -706,6 +706,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 0}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 0
 --- !u!54 &592406765
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1446,6 +1448,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 0}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 0
 --- !u!54 &1320362557
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1914,6 +1918,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: {fileID: 0}
   _isDragging: 0
+  baseDepth: 0
+  baseDepthDeviation: 0
 --- !u!54 &1761270451
 Rigidbody:
   m_ObjectHideFlags: 0
