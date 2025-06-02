@@ -4,10 +4,12 @@ using UnityEngine;
 public class BottleLevel : MonoBehaviour
 {
     [SerializeField] SliderBar slider;
+    [SerializeField] private float maxStreamRate = 15.0f;
     // slider for now until i figure out how to hook this thing up to the bottle
 
     public float amount = 0f;
-    float rateOfStream = 0f;
+    float rateOfStream = 0.0f;
+
     private void Start()
     {
         this.enabled = false;
@@ -37,14 +39,8 @@ public class BottleLevel : MonoBehaviour
     }
     void RaiseStreamLevel()
     {
-        float i = Siphon.instance.GetCurrentPressureAmount();
-
-        if (i == 0) { rateOfStream = 0; }
-        else if (i <= 25) { rateOfStream = 1; }
-        else if (i <= 50) { rateOfStream = 5; }
-        else if (i <= 80) { rateOfStream = 10; }
-        else { rateOfStream = 15; }
-        // if there's a better way to do this please replace this
+        float pressure = Siphon.Instance.GetCurrentPressureAmount();
+        rateOfStream = Mathf.InverseLerp(0, 100, pressure) * maxStreamRate;
     }
     void FillBottle()
     {
@@ -78,6 +74,6 @@ public class BottleLevel : MonoBehaviour
         slider.gameObject.SetActive(true);
 
         amount = 0;
-        rateOfStream = 0;
+        rateOfStream = 0.0f;
     }
 }

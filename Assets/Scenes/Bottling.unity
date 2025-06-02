@@ -591,6 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1946968274}
+  maxStreamRate: 15
   amount: 0
 --- !u!114 &1417470349
 MonoBehaviour:
@@ -605,6 +606,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1751182297855979740}
+  _minFallSpeed: 5
+  _maxFallSpeed: 25
+  _addedPressure: 5
+  _maxPressureIncrease: 5
+  _pressureSmoothing: 0.75
   pressureAmount: 0
 --- !u!114 &1417470350
 MonoBehaviour:
@@ -704,6 +710,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Siphon
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4e6081b9377aace439be71abccb705b6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -784,6 +794,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b0dfd4f5d423f01458fa729140840744, type: 3}
       propertyPath: m_Name
       value: glass
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0dfd4f5d423f01458fa729140840744, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b0dfd4f5d423f01458fa729140840744, type: 3}
       propertyPath: m_TagString

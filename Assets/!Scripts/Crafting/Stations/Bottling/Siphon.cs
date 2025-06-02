@@ -2,22 +2,33 @@ using UnityEngine;
 
 public class Siphon : MonoBehaviour
 {
-    public static Siphon instance {  get; private set; }
+    public static Siphon Instance {  get; private set; }
     [SerializeField] SliderBar slider;
+
+    [Header("Pressure Rates")]
+    [SerializeField] private float _minFallSpeed = 5.0f;
+    [SerializeField] private float _maxFallSpeed = 25.0f;
+
+    [Header("Pressure Fill Speed")]
+    [SerializeField] private float _addedPressure = 2.5f;
+    [SerializeField] private float _maxPressureIncrease = 5.0f;
+    [SerializeField] private float _pressureSmoothing = 0.75f;
+
     // siphon requires it's own slider
 
-    public float pressureAmount = 0;
+    public float pressureAmount = 0.0f;
+
     bool canPressButton = true;
 
     void Start()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(this);
         }
         else
         {
-            instance = this;
+            Instance = this;
         }
 
         this.enabled = false;
@@ -49,21 +60,21 @@ public class Siphon : MonoBehaviour
 
     public void IncreasePressure()
     {
-        pressureAmount += 5;
+        pressureAmount += _addedPressure;
         pressureAmount = ClampPressureAmount();
     }
 
     public void DecreasePressure()
     {
-        if (pressureAmount > 75) { pressureAmount -= Time.deltaTime * 15; }
-        else if (pressureAmount > 50 ) { pressureAmount -= Time.deltaTime * 10; }
-        else { pressureAmount -= Time.deltaTime * 5; }
+        float currentPercent = 1.0f - (pressureAmount * 0.01f);
+        float decrease = Mathf.Lerp(_maxFallSpeed, _minFallSpeed, currentPercent);
 
+        pressureAmount -= decrease * Time.deltaTime;
         pressureAmount = ClampPressureAmount();
     }
     float ClampPressureAmount()
     {
-        return Mathf.Clamp( pressureAmount, 0, 100);
+        return Mathf.Clamp(pressureAmount, 0, 100);
     }
     public float GetCurrentPressureAmount()
     {
@@ -76,7 +87,7 @@ public class Siphon : MonoBehaviour
     }
     public void ResetPressure()
     {
-        pressureAmount = 0;
+        pressureAmount = 0.0f;
         slider.SetValue(pressureAmount);
     }
     void StartMinigame()
