@@ -17,7 +17,7 @@ public class Siphon : MonoBehaviour
     // siphon requires it's own slider
 
     public float pressureAmount = 0.0f;
-
+    float currTime = 0.0f;
     bool canPressButton = true;
 
     void Start()
@@ -46,9 +46,14 @@ public class Siphon : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canPressButton)
+        if (Input.GetKey(KeyCode.Space) && canPressButton)
         {
             IncreasePressure();
+            // now this runs when the player is holding down space
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            currTime = 0;
         }
         if (canPressButton)
         {
@@ -60,7 +65,14 @@ public class Siphon : MonoBehaviour
 
     public void IncreasePressure()
     {
-        pressureAmount += _addedPressure;
+        currTime += Time.smoothDeltaTime / 6f;
+        // increases over a duration of 6 seconds
+        currTime = Mathf.Clamp01(currTime);
+        float easedPressure = EaseIncrease(currTime);
+        easedPressure = Mathf.Clamp(easedPressure, 0, 2.5f);
+        // clamped so it doesn't go too fast when player is holding it down
+
+        pressureAmount += easedPressure;
         pressureAmount = ClampPressureAmount();
     }
 
@@ -102,5 +114,12 @@ public class Siphon : MonoBehaviour
         slider.gameObject.SetActive(false);
         
         this.enabled = false;
+    }
+    float EaseIncrease(float x) // taken from easings.net
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1;
+
+        return 1 + c3 * Mathf.Pow(x - 1, 3) + c1 * Mathf.Pow(x - 1, 2);
     }
 }
