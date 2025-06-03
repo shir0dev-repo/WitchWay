@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,8 +16,17 @@ public class BasketItems
     }
 }
 
+[System.Serializable]
+public class CraftingRectArea
+{
+    public RectTransform screenRect;
+    public float depthValue;
+}
+
 public class StationsInventory : MonoBehaviour
 {
+    public static StationsInventory Instance { get; private set; }
+
     [Header("Basket Settings")]
     [SerializeField] private float spacing;
 
@@ -33,6 +41,16 @@ public class StationsInventory : MonoBehaviour
     [SerializeField] private GameObject basketPrefab;
     [SerializeField] private GameObject worldItemBase;
 
+    [Header("Station Canvases")]
+    [SerializeField] private CraftingRectArea[] craftingRects;
+    public CraftingRectArea[] GetCraftingRects()
+    {
+        return craftingRects;
+    }
+
+    [SerializeField] private int _destroySectionIndex = 0;
+    public int DestroySectionIndex => _destroySectionIndex;
+
     //private vars
     private List<Transform> baskets = new List<Transform>();
     private List<BasketItems> basketItems = new List<BasketItems>();
@@ -43,6 +61,11 @@ public class StationsInventory : MonoBehaviour
 
     void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
         CreateBaskets();
         AddItemsToBaskets();
     }
@@ -269,7 +292,7 @@ public class StationsInventory : MonoBehaviour
                 {
                     PersistantItemList.inventorySlots.RemoveAt(i);
                 }
-                
+
                 break;
             }
         }
@@ -277,7 +300,7 @@ public class StationsInventory : MonoBehaviour
 
     private void OnStationChangedHandler(int stationId)
     {
-        print("station chnaged");
+        print("station changed");
         WorldIngredient[] worldIngreds = FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None);
 
         List<WorldIngredient> toBeReturned = new List<WorldIngredient>();

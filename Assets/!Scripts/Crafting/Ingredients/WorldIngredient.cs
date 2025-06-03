@@ -17,39 +17,31 @@ public class WorldIngredient : MonoBehaviour
     [SerializeField] private float baseDepth = 0f;
     [SerializeField] private float baseDepthDeviation;
 
-    [Header("Depth Sections")]
-    [SerializeField] private DepthSectionsConfig depthSectionsConfig;
-    [SerializeField] private int destorySectionindex = 0;
-
     private static Camera _cam = null;
 
     private Rigidbody rb;
     private float currentDepth;
     private bool isStationValid = true;
-    private bool inDestoryArea = false;
+    private bool inDestroyArea = false;
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
-    private StationManager stationManger;
+    private StationManager stationManager;
 
     private void Start()
     {
         if (_cam == null)
             _cam = Camera.main;
-        //GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
-
+        
         rb = GetComponent<Rigidbody>();
 
-        stationManger = StationManager.Instance;
-        if (stationManger != null) stationManger.OnStationChanged.AddListener(CheckValid);
+        stationManager = StationManager.Instance;
+        if (stationManager != null) stationManager.OnStationChanged.AddListener(CheckValid);
     }
 
     private void Update()
     {
-        //if (!_isDragging) return;
-
-        //transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
-
         HandleInput();
+
         if (_isDragging)
         {
             HandleScroll();
@@ -107,18 +99,20 @@ public class WorldIngredient : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
 
         currentDepth = baseDepth;
+        CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
 
-        if (depthSectionsConfig != null)
+        if (craftingRects != null)
         {
-            for (int i = 0; i < depthSectionsConfig.screenSections.Length; i++)
+            for (int i = 0; i < craftingRects.Length; i++)
             {
-                DepthChangeSections section = depthSectionsConfig.screenSections[i];
-                if (section.screenRect.Contains(new Vector2(mousePos.x, mousePos.y)))
-                {
-                    currentDepth = section.depthValue;
+                CraftingRectArea craftingRectArea = craftingRects[i];
+                RectTransform rect = craftingRectArea.screenRect;
 
-                    if (i == destorySectionindex) inDestoryArea = true;
-                    else inDestoryArea = false;
+                Vector2 localMousePosition = rect.InverseTransformPoint(mousePos);
+                if (rect.rect.Contains(localMousePosition))
+                {
+                    currentDepth = craftingRectArea.depthValue;
+                    inDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
 
                     break;
                 }
@@ -138,7 +132,7 @@ public class WorldIngredient : MonoBehaviour
         _isDragging = false;
         rb.useGravity = true;
 
-        if (inDestoryArea)
+        if (inDestroyArea)
         {
             FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
             Destroy(gameObject);
