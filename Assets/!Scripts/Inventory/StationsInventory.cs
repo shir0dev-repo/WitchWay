@@ -39,6 +39,8 @@ public class StationsInventory : MonoBehaviour
 
     private StationManager stationManger;
 
+    private List<WorldIngredient> waitingToAdd = new List<WorldIngredient>();
+
     void Awake()
     {
         CreateBaskets();
@@ -53,6 +55,11 @@ public class StationsInventory : MonoBehaviour
         //setup triggers
         basketsTrigger.onTriggerEnter += AddItemTrigger;
         basketsTrigger.onTriggerExit += RemoveItemTrigger;
+    }
+
+    void Update()
+    {
+        CheckWaitingIngrediant();
     }
 
     private void CreateBaskets()
@@ -143,7 +150,7 @@ public class StationsInventory : MonoBehaviour
 
     private void AddItemTrigger(Collider collision)
     {
-        print("add trigger");
+        /*print("add trigger");
         WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
         if (worldIngredient != null)
         {
@@ -165,6 +172,60 @@ public class StationsInventory : MonoBehaviour
                     break;
                 }
             }
+        }*/
+
+        WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
+        if (worldIngredient != null && !waitingToAdd.Contains(worldIngredient))
+        {
+            foreach (BasketItems bItem in basketItems)
+            {
+                if (bItem.assignedIngredient == worldIngredient.ingredient)
+                {
+                    bItem.itemAmount += 1;
+                    waitingToAdd.Add(worldIngredient);
+                }
+            }
+        }
+    }
+
+    private void CheckWaitingIngrediant()
+    {
+        if (waitingToAdd.Count <= 0) return;
+
+        List<WorldIngredient> toRemove = new List<WorldIngredient>();
+
+        foreach (WorldIngredient ingred in waitingToAdd)
+        {
+            if (basketsTrigger.GetComponent<BoxCollider>().bounds.Contains(ingred.transform.position))
+            {
+                if (!ingred._isDragging)
+                {
+                    foreach (BasketItems bItem in basketItems)
+                    {
+                        if (bItem.assignedIngredient == ingred.ingredient)
+                        {
+                            Rigidbody tempRb = ingred.gameObject.GetComponent<Rigidbody>();
+                            tempRb.linearVelocity = Vector3.zero;
+                            tempRb.angularVelocity = Vector3.zero;
+
+                            ingred.startPos = bItem.basket.position;
+                            ingred.transform.position = bItem.basket.position;
+
+                            toRemove.Add(ingred);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                toRemove.Add(ingred);
+            }
+        }
+
+        foreach (var ingred in toRemove)
+        {
+            waitingToAdd.Remove(ingred);
         }
     }
 

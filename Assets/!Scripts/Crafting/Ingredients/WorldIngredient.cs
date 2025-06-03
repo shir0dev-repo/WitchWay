@@ -16,6 +16,9 @@ public class WorldIngredient : MonoBehaviour
     [SerializeField] private float baseDepth = 0f;
     [SerializeField] private float baseDepthDeviation;
 
+    [Header("Depth Sections")]
+    [SerializeField] private DepthSectionsConfig depthSectionsConfig;
+
     private static Camera _cam = null;
 
     private Rigidbody rb;
@@ -92,16 +95,32 @@ public class WorldIngredient : MonoBehaviour
     {
         _isDragging = true;
         rb.useGravity = false;
-        currentDepth = baseDepth;
+        //currentDepth = baseDepth;
     }
 
     private void UpdateDragging()
     {
-        Vector3 pos = Input.mousePosition;
+        Vector3 mousePos = Input.mousePosition;
+
+        currentDepth = baseDepth;
+
+        if (depthSectionsConfig != null)
+        {
+            foreach (DepthChangeSections section in depthSectionsConfig.screenSections)
+            {
+                if (section.screenRect.Contains(new Vector2(mousePos.x, mousePos.y)))
+                {
+                    currentDepth = section.depthValue;
+                    print("in bound" + section.depthValue);
+                    break;
+                }
+            }
+        }
+
         Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
-        pos.z = oProjC.magnitude;
-        Vector3 re = _cam.ScreenToWorldPoint(pos);
-        _mousePosWS = new Vector3(re.x, re.y, currentDepth);
+        mousePos.z = oProjC.magnitude;
+        Vector3 worldPos = _cam.ScreenToWorldPoint(mousePos);
+        _mousePosWS = new Vector3(worldPos.x, worldPos.y, currentDepth);
 
         transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
     }
