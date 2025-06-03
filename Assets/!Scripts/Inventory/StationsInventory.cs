@@ -245,6 +245,36 @@ public class StationsInventory : MonoBehaviour
         }
     }
 
+    public void PermanentRemove(WorldIngredient ingredient)
+    {
+        foreach (BasketItems bItem in basketItems)
+        {
+            if (bItem.assignedIngredient == ingredient.ingredient)
+            {
+                bItem.itemAmount -= 1;
+                break;
+            }
+        }
+
+        for (int i = 0; i < PersistantItemList.inventorySlots.Count; i++)
+        {
+            InventorySlot slot = PersistantItemList.inventorySlots[i];
+            if (slot.ingredient == ingredient.ingredient)
+            {
+                if (slot.ingredientAmt > 1)
+                {
+                    slot.ingredientAmt -= 1;
+                }
+                else
+                {
+                    PersistantItemList.inventorySlots.RemoveAt(i);
+                }
+                
+                break;
+            }
+        }
+    }
+
     private void OnStationChangedHandler(int stationId)
     {
         print("station chnaged");
@@ -257,7 +287,7 @@ public class StationsInventory : MonoBehaviour
             {
                 if (ingred.ingredient == basketItem.assignedIngredient)
                 {
-                    if(!basketsTrigger.GetComponent<BoxCollider>().bounds.Contains(ingred.transform.position)) toBeReturned.Add(ingred);
+                    if (!basketsTrigger.GetComponent<BoxCollider>().bounds.Contains(ingred.transform.position)) toBeReturned.Add(ingred);
                     break;
                 }
             }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,12 +19,14 @@ public class WorldIngredient : MonoBehaviour
 
     [Header("Depth Sections")]
     [SerializeField] private DepthSectionsConfig depthSectionsConfig;
+    [SerializeField] private int destorySectionindex = 0;
 
     private static Camera _cam = null;
 
     private Rigidbody rb;
     private float currentDepth;
     private bool isStationValid = true;
+    private bool inDestoryArea = false;
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
     private StationManager stationManger;
@@ -106,12 +109,16 @@ public class WorldIngredient : MonoBehaviour
 
         if (depthSectionsConfig != null)
         {
-            foreach (DepthChangeSections section in depthSectionsConfig.screenSections)
+            for (int i = 0; i < depthSectionsConfig.screenSections.Length; i++)
             {
+                DepthChangeSections section = depthSectionsConfig.screenSections[i];
                 if (section.screenRect.Contains(new Vector2(mousePos.x, mousePos.y)))
                 {
                     currentDepth = section.depthValue;
-                    print("in bound" + section.depthValue);
+
+                    if (i == destorySectionindex) inDestoryArea = true;
+                    else inDestoryArea = false;
+
                     break;
                 }
             }
@@ -130,7 +137,12 @@ public class WorldIngredient : MonoBehaviour
         _isDragging = false;
         rb.useGravity = true;
 
-        if (!isStationValid)
+        if (inDestoryArea)
+        {
+            FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
+            Destroy(gameObject);
+        }
+        else if (!isStationValid)
         {
             transform.position = startPos;
         }
