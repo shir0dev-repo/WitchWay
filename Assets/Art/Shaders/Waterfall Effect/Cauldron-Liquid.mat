@@ -24,13 +24,15 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 1bc2a8f24ddb52b46921208d39af3ce6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -63,12 +65,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Choppiness: 0
+    - _Cull: 2
+    - _DstBlend: 10
+    - _Foam_Depth_Cutoff: 0.003
     - _Primary_Foam_Scroll_Speed: -0.08
     - _Primary_Foam_Size: 1
     - _Primary_Foam_Strength: 1
     - _Primary_Ripple_Speed: 0
     - _Primary_Ripple_Strength: 0.0311
     - _Primary_Stir_Speed: 0
+    - _PulseThreshold: 1
+    - _Pulse_Radius: 0
+    - _Pulse_Thickness: 0.3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Secondary_Foam_Scroll_Speed: -0.08
@@ -76,8 +89,16 @@ Material:
     - _Secondary_Foam_Strength: 0.101
     - _Secondary_Ripple_Speed: 0.01
     - _Secondary_Ripple_Strength: 0.0414
+    - _Secondary_Stir_Speed: 0
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _USE_PULSE: 0
     - _Water_Opacity: 0
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 1
     m_Colors:
+    - _Displacement_Axis: {r: 0, g: 1, b: 0, a: 0}
     - _Primary_Foam_Color: {r: 0.8496703, g: 0.544, b: 1, a: 1}
     - _Secondary_Foam_Color: {r: 1, g: 0, b: 0.7807932, a: 1}
     - _Secondary_Foam_Offset: {r: 0.1, g: 0, b: 0, a: 0}
