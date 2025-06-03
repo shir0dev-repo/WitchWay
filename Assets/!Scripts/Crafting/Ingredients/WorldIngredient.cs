@@ -98,6 +98,7 @@ public class WorldIngredient : MonoBehaviour
     {
         _isDragging = true;
         rb.useGravity = false;
+        rb.linearVelocity = Vector3.zero;
         //currentDepth = baseDepth;
     }
 

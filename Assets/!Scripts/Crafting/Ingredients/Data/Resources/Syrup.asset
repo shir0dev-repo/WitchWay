@@ -15,13 +15,12 @@ MonoBehaviour:
   ID: -1
   Name: 
   Description: 
-  MaxStackSize: 99
-  Sprite: {fileID: 0}
   CostMultiplier: 1
-  PotionEffect: 0
+  Sprite: {fileID: 0}
+  WorldPrefab: {fileID: 0}
   CanBeCut: 0
   CanBeCrushed: 0
   CanBeFrozen: 0
-  CanBeHeated: 0
-  CanBeMolded: 0
-  AllowedCircles: 0
+  CanBeHeated: 1
+  CanBeMolded: 1
+  AllowedCircles: 15

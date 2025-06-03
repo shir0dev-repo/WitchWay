@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1122bc5b86dcfe149ad291f124f817c3, type: 3}
-  m_Name: Dragonscale
+  m_Name: Witches Butter
   m_EditorClassIdentifier: 
-  ID: 3
-  Name: Dragonscale
-  Description: The scales of a dragon.
-  CostMultiplier: 3
-  Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  ID: 0
+  Name: Water
+  Description: 70% of a human.
+  CostMultiplier: 1.15
+  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   WorldPrefab: {fileID: 0}
-  CanBeCut: 1
-  CanBeCrushed: 1
-  CanBeFrozen: 0
+  CanBeCut: 0
+  CanBeCrushed: 0
+  CanBeFrozen: 1
   CanBeHeated: 1
   CanBeMolded: 0
-  AllowedCircles: 14
+  AllowedCircles: 22
