@@ -19,15 +19,21 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (isPlacedCorrectly) return;
+
         originPos = rectTransform.anchoredPosition;
         canvasGroup.blocksRaycasts = false;
     }
     public void OnDrag(PointerEventData evenData)
     {
+        if (isPlacedCorrectly) return;
+
         rectTransform.anchoredPosition += evenData.delta / canvas.scaleFactor;
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (isPlacedCorrectly) return;
+
         canvasGroup.blocksRaycasts = true;
         // if (!eventData.pointerEnter || !eventData.pointerEnter.GetComponent<DropSpot>())
         //{
@@ -38,11 +44,7 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public void PlacedCorrectly()
     {
         isPlacedCorrectly = true;
-        canvasGroup.interactable = false;
-    }
-    public void ResetObjPos()
-    {
-        rectTransform.anchoredPosition = originPos;
-        isPlacedCorrectly = false;
+        //canvasGroup.interactable = false;
+        // canvasGroup.blocksRaycasts = false;
     }
 }
