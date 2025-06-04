@@ -35,6 +35,13 @@ public class SymbolPainter : MonoBehaviour
         InitGestures();
     }
 
+    public void Enable(int craftingStationID)
+    {
+        bool active = craftingStationID == 2;
+        _message.enabled = active;
+        this.enabled = active;
+    }
+
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -122,5 +129,10 @@ public class SymbolPainter : MonoBehaviour
             "necromancy" => AlchemicalSymbol.Necromancy,
             _ => AlchemicalSymbol.Evocation
         };
+    }
+
+    internal void ToggleMessage(bool toggle)
+    {
+        _message.enabled = toggle;
     }
 }

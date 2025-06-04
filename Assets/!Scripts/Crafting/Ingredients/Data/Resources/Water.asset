@@ -15,7 +15,12 @@ MonoBehaviour:
   ID: 0
   Name: Water
   Description: 70% of a human.
-  MaxStackSize: 1
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   CostMultiplier: 1.15
-  PotionEffect: 0
+  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  WorldPrefab: {fileID: 0}
+  CanBeCut: 0
+  CanBeCrushed: 0
+  CanBeFrozen: 1
+  CanBeHeated: 1
+  CanBeMolded: 0
+  AllowedCircles: 22

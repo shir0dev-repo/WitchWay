@@ -24,6 +24,13 @@ public class Cauldron : MonoBehaviour
     private float _addTimer = 0.0f;
     private float _holdTimer = 0.0f;
 
+    float switchStirDirectionTimer = 10.0f;
+
+    public void Enable(int stationID)
+    {
+        gameObject.SetActive(stationID == 3);
+    }
+
     void Start()
     {
         SwitchToMixing.mixingMode += ActivateMixing;
@@ -72,6 +79,20 @@ public class Cauldron : MonoBehaviour
             {
                 _holdTimer = 0.0f;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ChangeStirringDirection();
+            // simple testing function, only works when the mouse is held down
+        }
+
+        switchStirDirectionTimer -= Time.deltaTime;
+        if (switchStirDirectionTimer <= 0)
+        {
+            ChangeStirringDirection();
+            switchStirDirectionTimer = 10.0f;
+            // simple timer function for switching directions
         }
     }
 
@@ -152,5 +173,9 @@ public class Cauldron : MonoBehaviour
     void ActivateMixing()
     {
         gameObject.SetActive(true);
+    }
+    public void ChangeStirringDirection()
+    {
+        _isStirringCW = !_isStirringCW;
     }
 }

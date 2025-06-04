@@ -15,7 +15,12 @@ MonoBehaviour:
   ID: 4
   Name: Ectoplasm
   Description: Extracted from a friendly ghost. Maybe a bit too friendly.
-  MaxStackSize: 1
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   CostMultiplier: 2.5
-  PotionEffect: 4
+  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  WorldPrefab: {fileID: 0}
+  CanBeCut: 1
+  CanBeCrushed: 0
+  CanBeFrozen: 1
+  CanBeHeated: 0
+  CanBeMolded: 1
+  AllowedCircles: 23
