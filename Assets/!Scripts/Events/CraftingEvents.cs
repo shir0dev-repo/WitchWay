@@ -19,6 +19,8 @@ public static partial class GameEvents
         public static Action<WorldIngredient, float> OnItemDurabilityChanged;
 
         public static Action<WorldIngredient> OnItemPlacedInArcaneCircle;
+        public static Action<AlchemicalSymbol> OnSymbolDrawn;
+
 
         public static Action<WorldIngredient> OnItemPlacedInCauldron;
         public static Action OnCauldronMixStepCompleted;
