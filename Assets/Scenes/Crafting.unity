@@ -1132,6 +1132,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 606522768}
     m_Modifications:
+    - target: {fileID: 42980694839654646, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e439ead34690e54b951060d869c3334, type: 2}
     - target: {fileID: 1410253870532173847, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -1176,17 +1180,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pestle
       objectReference: {fileID: 0}
-    - target: {fileID: 2289858730544319578, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2809729697579456493, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 477bb994ac6611a43966d3601ae47f67, type: 2}
-    - target: {fileID: 4467243406971205176, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
-      propertyPath: m_Layer
-      value: 7
+    - target: {fileID: 3775770145806039121, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4819694744289309647, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
       propertyPath: startPos
@@ -1900,22 +1896,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 606522768}
     m_Modifications:
+    - target: {fileID: 875813515141856933, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e439ead34690e54b951060d869c3334, type: 2}
     - target: {fileID: 944883703856022765, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
       propertyPath: m_Name
       value: Mortar
       objectReference: {fileID: 0}
-    - target: {fileID: 944883703856022765, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3099576541712577744, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3459630935228994821, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 477bb994ac6611a43966d3601ae47f67, type: 2}
     - target: {fileID: 4020039851240476334, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1955,14 +1943,6 @@ PrefabInstance:
     - target: {fileID: 4020039851240476334, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5585737934380588846, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
-      propertyPath: m_Convex
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8163398278246044488, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

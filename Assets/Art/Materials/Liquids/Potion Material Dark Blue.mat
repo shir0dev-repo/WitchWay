@@ -57,6 +57,8 @@ Material:
     - _Cull: 0
     - _DstBlend: 10
     - _FillAmount: 0.177
+    - _FillBottomOS: 0
+    - _FillTopOS: 0
     - _Freq: 0
     - _Fresnel: 1
     - _INVERTEDTINT: 1
@@ -64,6 +66,7 @@ Material:
     - _LineSmooth: 0.0153
     - _QueueControl: 1
     - _QueueOffset: 0
+    - _Rim: 0
     - _RimPower: 10
     - _SrcBlend: 5
     - _Surface: 1
@@ -73,8 +76,11 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 1
     m_Colors:
+    - _Colour: {r: 1, g: 1, b: 1, a: 1}
     - _FillAmount: {r: 0, g: -0.28, b: 0, a: 0}
+    - _FillBottomOS: {r: 0, g: 0, b: 0, a: 0}
     - _FillTint: {r: 1.4980392, g: 0.11764702, b: 1.2449435, a: 1}
+    - _FillTopOS: {r: 0, g: 0, b: 0, a: 0}
     - _Fill_Pivot: {r: 0, g: 0, b: 0, a: 0}
     - _FoamColor: {r: 0.079092495, g: 0.19979748, b: 1.490809, a: 1}
     - _FresnelTint: {r: 4, g: 0, b: 3.1214333, a: 1}
