@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class StationManager : MonoBehaviour
 {
@@ -122,16 +124,44 @@ public class StationManager : MonoBehaviour
         else if (input > 0)
             GoNextStation();
     }
+    [SerializeField] private GraphicRaycaster graphicRaycaster;
+    [SerializeField] private EventSystem eventSystem;
 
     // Dragging logic
     private bool ClickedOnTable()
     {
-        if (canDrag == false || EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-        return false;
+        if (!canDrag)
+            return false;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
+        // Check if pointer is over UI
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            // Perform UI raycast to check the exact UI element
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> uiHits = new List<RaycastResult>();
+            GraphicRaycaster raycaster = FindObjectOfType<GraphicRaycaster>(); // Or cache it if performance matters
+            raycaster.Raycast(pointerData, uiHits);
+
+            foreach (RaycastResult result in uiHits)
+            {
+                // Only block if the UI element is NOT tagged to be ignored
+                if (!result.gameObject.CompareTag("IgnoreUIDrag"))
+                {
+                    Debug.Log($"Blocked by UI element: {result.gameObject.name}");
+                    return false;
+                }
+            }
+        }
+
+    // Proceed with table raycast
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
     }
+
 
     //this block of code is for not changing stations until the mouse is let go
     private void Update()
@@ -158,7 +188,7 @@ public class StationManager : MonoBehaviour
             // a minimum offset to prevent small movements
             if (Mathf.Abs(deltaX) > stationDragThresholdVisual)
             {
-                tableTransform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
+                transform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
             }
 
         }
@@ -194,7 +224,7 @@ public class StationManager : MonoBehaviour
         }
         else
         {
-            tableTransform.position = tableStartPos;
+            transform.position = tableStartPos;
         }
     }
 }
