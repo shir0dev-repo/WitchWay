@@ -1554,6 +1554,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320362553}
   m_Mesh: {fileID: -3645058858012553506, guid: 185b2a9d11b786846b1b1e9eaafcc3d5, type: 3}
+--- !u!114 &1337756573 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3667233744668505285, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+  m_PrefabInstance: {fileID: 5649598872092470715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1340080511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2133,6 +2144,8 @@ MonoBehaviour:
   stationDragThresholdVisual: 0
   tableTransform: {fileID: 949866818}
   tableCollider: {fileID: 949866815}
+  graphicRaycaster: {fileID: 1337756573}
+  eventSystem: {fileID: 977311673}
 --- !u!1 &2013239308
 GameObject:
   m_ObjectHideFlags: 0
@@ -2519,6 +2532,14 @@ PrefabInstance:
     - target: {fileID: 5008172293113392508, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwapStation
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850382447792269864, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850382447792269864, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6602880296365579404, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
