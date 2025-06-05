@@ -4,6 +4,7 @@ public class Siphon : MonoBehaviour
 {
     public static Siphon Instance {  get; private set; }
     [SerializeField] SliderBar slider;
+    // siphon requires it's own slider
 
     [Header("Pressure Rates")]
     [SerializeField] private float _minFallSpeed = 5.0f;
@@ -13,8 +14,6 @@ public class Siphon : MonoBehaviour
     [SerializeField] private float _addedPressure = 2.5f;
     [SerializeField] private float _maxPressureIncrease = 5.0f;
     [SerializeField] private float _pressureSmoothing = 0.75f;
-
-    // siphon requires it's own slider
 
     public float pressureAmount = 0.0f;
     float currTime = 0.0f;
@@ -46,14 +45,9 @@ public class Siphon : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && canPressButton)
+        if (Input.GetKeyDown(KeyCode.Space) && canPressButton)
         {
-            IncreasePressure();
-            // now this runs when the player is holding down space
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            currTime = 0;
+            IncreasePressure(_addedPressure);
         }
         if (canPressButton)
         {
@@ -62,20 +56,11 @@ public class Siphon : MonoBehaviour
 
         slider.SetValue(pressureAmount);
     }
-
-    public void IncreasePressure()
+    void IncreasePressure(float amount)
     {
-        currTime += Time.smoothDeltaTime / 6f;
-        // increases over a duration of 6 seconds
-        currTime = Mathf.Clamp01(currTime);
-        float easedPressure = EaseIncrease(currTime);
-        easedPressure = Mathf.Clamp(easedPressure, 0, 2.5f);
-        // clamped so it doesn't go too fast when player is holding it down
-
-        pressureAmount += easedPressure;
+        pressureAmount += amount;
         pressureAmount = ClampPressureAmount();
     }
-
     public void DecreasePressure()
     {
         float currentPercent = 1.0f - (pressureAmount * 0.01f);
@@ -117,9 +102,6 @@ public class Siphon : MonoBehaviour
     }
     float EaseIncrease(float x) // taken from easings.net
     {
-        const float c1 = 1.70158f;
-        const float c3 = c1 + 1;
-
-        return 1 + c3 * Mathf.Pow(x - 1, 3) + c1 * Mathf.Pow(x - 1, 2);
+        return Mathf.Sin((x * Mathf.PI)/2);
     }
 }
