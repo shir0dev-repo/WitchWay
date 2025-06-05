@@ -97,33 +97,36 @@ public class WorldIngredient : MonoBehaviour
     private void UpdateDragging()
     {
         Vector3 mousePos = Input.mousePosition;
+        Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
+        mousePos.z = oProjC.magnitude;
 
-        currentDepth = baseDepth;
-        CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
+        Vector3 worldPos = _cam.ScreenToWorldPoint(mousePos);
 
-        if (craftingRects != null)
+        if (StationsInventory.Instance != null)
         {
-            for (int i = 0; i < craftingRects.Length; i++)
+            currentDepth = baseDepth;
+            CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
+
+            if (craftingRects != null)
             {
-                CraftingRectArea craftingRectArea = craftingRects[i];
-                RectTransform rect = craftingRectArea.screenRect;
-
-                Vector2 localMousePosition = rect.InverseTransformPoint(mousePos);
-                if (rect.rect.Contains(localMousePosition))
+                for (int i = 0; i < craftingRects.Length; i++)
                 {
-                    currentDepth = craftingRectArea.depthValue;
-                    inDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
+                    CraftingRectArea craftingRectArea = craftingRects[i];
+                    RectTransform rect = craftingRectArea.screenRect;
 
-                    break;
+                    Vector2 localMousePosition = rect.InverseTransformPoint(mousePos);
+                    if (rect.rect.Contains(localMousePosition))
+                    {
+                        currentDepth = craftingRectArea.depthValue;
+                        inDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
+
+                        break;
+                    }
                 }
             }
         }
-
-        Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
-        mousePos.z = oProjC.magnitude;
-        Vector3 worldPos = _cam.ScreenToWorldPoint(mousePos);
+        
         _mousePosWS = new Vector3(worldPos.x, worldPos.y, currentDepth);
-
         transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
     }
 
