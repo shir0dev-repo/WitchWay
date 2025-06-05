@@ -7,7 +7,8 @@ public class Knife : MonoBehaviour
     Rigidbody rb;
 
     [SerializeField] Transform startPos;
-
+    [SerializeField] Vector3 cutRotationEulers;
+    [SerializeField] Vector3 restRotationEulers;
     Quaternion startRot;
 
     bool isCursorVisible = true;
@@ -48,11 +49,11 @@ public class Knife : MonoBehaviour
     void ReturnToPosition()
     {
         gameObject.transform.position = startPos.position;
-        gameObject.transform.rotation = startRot;
+        gameObject.transform.rotation = Quaternion.Euler(restRotationEulers);
     }
     void RotateToCuttingPosition()
     { // rotates the knife by 90 degrees on the z axis
-        gameObject.transform.rotation = startRot * Quaternion.Euler(90,0,0);
+        gameObject.transform.rotation = Quaternion.Euler(cutRotationEulers);
     }
     bool CastRay()
     {

@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,47 +13,153 @@ public class WorldIngredient : MonoBehaviour
     private Vector3 _velocity = Vector3.zero;
     private float _moveSpeed = 4.5f;
 
+    [Header("Grabbing")]
+    [SerializeField] private float baseDepth = 0f;
+    [SerializeField] private float baseDepthDeviation;
+
     private static Camera _cam = null;
+
+    private Rigidbody rb;
+    private float currentDepth;
+    private bool isStationValid = true;
+    private bool inDestroyArea = false;
+    [HideInInspector] public Vector3 startPos = Vector3.zero;
+
+    private StationManager stationManager;
 
     private void Start()
     {
         if (_cam == null)
             _cam = Camera.main;
-        //GetComponent<MeshRenderer>().material.color = Random.ColorHSV(0, 1, 1, 1, 1, 1, 1, 1);
+        
+        rb = GetComponent<Rigidbody>();
+
+        stationManager = StationManager.Instance;
+        if (stationManager != null) stationManager.OnStationChanged.AddListener(CheckValid);
     }
 
     private void Update()
     {
-        if (!_isDragging) return;
+        HandleInput();
 
+        if (_isDragging)
+        {
+            HandleScroll();
+            UpdateDragging();
+        }
+    }
+
+    private void HandleInput()
+    {
+        if (!_isDragging && Input.GetMouseButtonDown(0))
+        {
+            CastRay();
+        }
+        else if (_isDragging && Input.GetMouseButtonUp(0))
+        {
+            EndDrag();
+        }
+    }
+
+    private void HandleScroll()
+    {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (Mathf.Abs(scroll) > 0.01f)
+        {
+            currentDepth += scroll * 5f;
+
+            float maxDepth = baseDepth + baseDepthDeviation;
+            currentDepth = Mathf.Clamp(currentDepth, baseDepth, maxDepth);
+        }
+    }
+
+    private void CastRay()
+    {
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject == gameObject)
+            {
+                startPos = hit.collider.transform.position;
+                BeginDrag();
+            }
+        }
+    }
+
+    private void BeginDrag()
+    {
+        _isDragging = true;
+        rb.useGravity = false;
+        rb.linearVelocity = Vector3.zero;
+        //currentDepth = baseDepth;
+    }
+
+    private void UpdateDragging()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
+        mousePos.z = oProjC.magnitude;
+
+        Vector3 worldPos = _cam.ScreenToWorldPoint(mousePos);
+
+        if (StationsInventory.Instance != null)
+        {
+            currentDepth = baseDepth;
+            CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
+
+            if (craftingRects != null)
+            {
+                for (int i = 0; i < craftingRects.Length; i++)
+                {
+                    CraftingRectArea craftingRectArea = craftingRects[i];
+                    RectTransform rect = craftingRectArea.screenRect;
+
+                    Vector2 localMousePosition = rect.InverseTransformPoint(mousePos);
+                    if (rect.rect.Contains(localMousePosition))
+                    {
+                        currentDepth = craftingRectArea.depthValue;
+                        inDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
+
+                        break;
+                    }
+                }
+            }
+        }
+        
+        _mousePosWS = new Vector3(worldPos.x, worldPos.y, currentDepth);
         transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
     }
 
-    public void OnMouseDown()
-    {
-        Debug.Log("clicked");
-        _mousePosWS = GetMousePos();
-        _isDragging = true;
-    }
-
-    public void OnMouseDrag()
-    {
-        _mousePosWS = GetMousePos();
-    }
-
-    public void OnMouseUp()
+    private void EndDrag()
     {
         _isDragging = false;
+        rb.useGravity = true;
+
+        if (inDestroyArea)
+        {
+            FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
+            Destroy(gameObject);
+        }
+        else if (!isStationValid)
+        {
+            transform.position = startPos;
+        }
     }
 
-    private Vector3 GetMousePos()
+    private void CheckValid(int stationId)
     {
-        Vector3 pos = Input.mousePosition - _mousePosWS;
-        Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
-        pos.z = oProjC.magnitude;
+        if (ingredient == null)
+        {
+            StartCoroutine(DeferredCheck(stationId));
+            return;
+        }
+        isStationValid = ingredient.CanBeUsedAtStation(stationId);
+    }
 
-        Vector3 re = _cam.ScreenToWorldPoint(pos);
-
-        return new Vector3(re.x, re.y, gameObject.transform.position.z);
+    private IEnumerator DeferredCheck(int stationId)
+    {
+        yield return null;
+        if (ingredient != null)
+            isStationValid = ingredient.CanBeUsedAtStation(stationId);
     }
 }

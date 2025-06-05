@@ -15,9 +15,12 @@ MonoBehaviour:
   ID: 3
   Name: Dragonscale
   Description: The scales of a dragon.
-  MaxStackSize: 1
-  Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   CostMultiplier: 3
-  PotionEffect: 8
-  DescriptorFlags: 0
-  DeserializedDescriptors: 
+  Sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  WorldPrefab: {fileID: 0}
+  CanBeCut: 1
+  CanBeCrushed: 1
+  CanBeFrozen: 0
+  CanBeHeated: 1
+  CanBeMolded: 0
+  AllowedCircles: 14

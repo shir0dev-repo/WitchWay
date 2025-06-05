@@ -15,7 +15,12 @@ MonoBehaviour:
   ID: 1
   Name: Fairy Heart
   Description: The heart of a Fairy.
-  MaxStackSize: 1
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   CostMultiplier: 2
-  PotionEffect: 1
+  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  WorldPrefab: {fileID: 0}
+  CanBeCut: 1
+  CanBeCrushed: 1
+  CanBeFrozen: 1
+  CanBeHeated: 0
+  CanBeMolded: 1
+  AllowedCircles: 23
