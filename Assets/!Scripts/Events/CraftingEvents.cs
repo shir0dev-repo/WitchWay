@@ -13,7 +13,7 @@ public static partial class GameEvents
         public static Action<WorldIngredient> OnItemPlacedInTrash;
 
         public static Action<WorldIngredient> OnItemPlacedOnCuttingBoard;
-        public static Action<IngredientSO> OnCutItem;
+        public static Action<WorldIngredient> OnCutItem;
 
         public static Action<WorldIngredient> OnItemPlacedInMortar;
         public static Action<WorldIngredient, float> OnItemDurabilityChanged;
