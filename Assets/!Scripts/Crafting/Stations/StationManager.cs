@@ -188,7 +188,7 @@ public class StationManager : MonoBehaviour
             // a minimum offset to prevent small movements
             if (Mathf.Abs(deltaX) > stationDragThresholdVisual)
             {
-                tableTransform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
+                transform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
             }
 
         }
@@ -224,7 +224,7 @@ public class StationManager : MonoBehaviour
         }
         else
         {
-            tableTransform.position = tableStartPos;
+            transform.position = tableStartPos;
         }
     }
 }
