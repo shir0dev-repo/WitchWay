@@ -1,26 +1,28 @@
-Shader "Unlit/CelShading"
+Shader "Toon/Cel-Shading"
 {
     Properties
     {
         [Header(Main)]
         _MainTex ("Main Texture", 2D) = "white" {}
-        _RoughnessTex ("Roughness", 2D) = "white" {}
-        _NormalTex ("Normal", 2D) = "bump" {}
-        _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
-        _AmbientStrength ("Ambient Strength", Range(0, 1)) = 0.3
-
+        [MainColor] _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
+        [NoScaleOffset][Normal] _NormalTex ("Normal", 2D) = "bump" {}
+        [NoScaleOffset] _RoughnessTex ("Roughness", 2D) = "white" {}
+        [NoScaleOffset] _EmissiveTex ("Emissive", 2D) = "white" {}
+        
         [Header(Emissive)]
-        _EmissiveTex ("Emissive", 2D) = "white" {}
         [HDR]_EmissiveColour ("Emissive Color", Color) = (0, 0, 0, 1)
         _EmissiveStrength ("Emissive Strength", Range(0, 100)) = 0
         
-        [Header(Specular)]
-        _SpecColor ("Specular Color", Color) = (1, 1, 1, 1)
+        [Header(Lighting)]
+        _AmbientStrength ("Ambient Strength", Range(0, 1)) = 0.3
         _SpecEdge0 ("Lighting Cutoff", Range(0, 1)) = 0.0
         _SpecEdge1 ("Lighting Smoothness", Range(0, 1)) = 0.01
+
+        [Header(Specular Highlights)]
+        _SpecColor ("Specular Color", Color) = (1, 1, 1, 1)
         _Glossiness ("Glossiness", Float) = 32
 
-        [Header(Rim)]
+        [Header(Rim Highlights)]
         _RimColor ("Rim Color", Color) = (1, 1, 1, 1)
         _RimAmount("Rim Amount", Range(0, 1)) = 0.65
         _RimThreshold ("Rim Threshold", Range(0, 1)) = 0.1
@@ -34,7 +36,6 @@ Shader "Unlit/CelShading"
             "DisableBatching" = "True"
         }
         
-
         Pass
         {
             Cull Back
@@ -96,6 +97,8 @@ Shader "Unlit/CelShading"
             float _RimAmount;
             float _RimThreshold;
 
+            static float4 defaultBump = float4(0.5,0.5,1,0.5);
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -125,7 +128,7 @@ Shader "Unlit/CelShading"
                 fixed4 normSample = tex2D(_NormalTex, i.uv);
                 float3 normal;
 
-                if (length(normSample) != 0) 
+                if (length(normSample - defaultBump) != 0) 
                 {
                     half3 tNormal = UnpackNormal(normSample);
                     normal.x = dot(i.tspace0, tNormal);
