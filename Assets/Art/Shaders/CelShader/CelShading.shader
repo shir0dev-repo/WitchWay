@@ -1,34 +1,45 @@
-Shader "Unlit/CelShading"
+Shader "Toon/Cel-Shading"
 {
     Properties
     {
         [Header(Main)]
         _MainTex ("Main Texture", 2D) = "white" {}
-        _RoughnessTex ("Roughness", 2D) = "white" {}
-        _EmissiveTex ("Emissive", 2D) = "white" {}
-        _NormalTex ("Normal", 2D) = "bump" {}
-
-        _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
+        [MainColor] _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
+        [NoScaleOffset][Normal] _NormalTex ("Normal", 2D) = "bump" {}
+        [NoScaleOffset] _RoughnessTex ("Roughness", 2D) = "white" {}
+        [NoScaleOffset] _EmissiveTex ("Emissive", 2D) = "white" {}
+        
+        [Header(Emissive)]
+        [HDR]_EmissiveColour ("Emissive Color", Color) = (0, 0, 0, 1)
+        _EmissiveStrength ("Emissive Strength", Range(0, 100)) = 0
+        
+        [Header(Lighting)]
         _AmbientStrength ("Ambient Strength", Range(0, 1)) = 0.3
-
-        [Header(Specular)]
-        _SpecColor ("Specular Color", Color) = (1, 1, 1, 1)
         _SpecEdge0 ("Lighting Cutoff", Range(0, 1)) = 0.0
         _SpecEdge1 ("Lighting Smoothness", Range(0, 1)) = 0.01
+
+        [Header(Specular Highlights)]
+        _SpecColor ("Specular Color", Color) = (1, 1, 1, 1)
         _Glossiness ("Glossiness", Float) = 32
 
-        [Header(Rim)]
+        [Header(Rim Highlights)]
         _RimColor ("Rim Color", Color) = (1, 1, 1, 1)
         _RimAmount("Rim Amount", Range(0, 1)) = 0.65
         _RimThreshold ("Rim Threshold", Range(0, 1)) = 0.1
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalRenderPipeline" "Queue" = "Transparent" }
+        Tags { 
+            "RenderPipeline" = "UniversalRenderPipeline" 
+            "RenderType"="Opaque" 
+            "Queue" = "Transparent"
+            "DisableBatching" = "True"
+        }
         
-
         Pass
         {
+            Cull Back
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -67,14 +78,17 @@ Shader "Unlit/CelShading"
             float4 _MainTex_ST;
             sampler2D _RoughnessTex;
             float4 _RoughnessTex_ST;
-            sampler2D _EmissiveTex;
-            float4 _EmissiveTex_ST;
             sampler2D _NormalTex;
             float4 _NormalTex_ST;
+            sampler2D _EmissiveTex;
+            float4 _EmissiveTex_ST;
 
             float4 _Diffuse;
             float _AmbientStrength;
             
+            float4 _EmissiveColour;
+            float _EmissiveStrength;
+
             float _SpecEdge0;
             float _SpecEdge1;
             float _Glossiness;
@@ -82,6 +96,8 @@ Shader "Unlit/CelShading"
             float4 _RimColor;
             float _RimAmount;
             float _RimThreshold;
+
+            static float4 defaultBump = float4(0.5,0.5,1,0.5);
 
             v2f vert (appdata v)
             {
@@ -108,21 +124,23 @@ Shader "Unlit/CelShading"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                // normals
                 fixed4 normSample = tex2D(_NormalTex, i.uv);
                 float3 normal;
 
-                if (length(normSample) != 0) 
+                if (length(normSample - defaultBump) != 0) 
                 {
                     half3 tNormal = UnpackNormal(normSample);
                     normal.x = dot(i.tspace0, tNormal);
                     normal.y = dot(i.tspace1, tNormal);
                     normal.z = dot(i.tspace2, tNormal);
                 }
-                else 
+                else
                 {
                     normal = normalize(i.worldNormal);
                 }
                 
+                // Lighting
                 float NdotL = dot(_WorldSpaceLightPos0, normal);
                 float shadow = SHADOW_ATTENUATION(i);
 
@@ -134,20 +152,27 @@ Shader "Unlit/CelShading"
                 float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
                 float NdotH = dot(normal, halfVector);
                 
+                // Specular
                 float specIntensity = pow(NdotH * lightIntensity, _Glossiness * _Glossiness);
                 float specIntensitySmooth = smoothstep(0.005, 0.01, specIntensity);
                 fixed4 specSample = tex2D(_RoughnessTex, i.uv);
                 float4 specularResult = _SpecColor * specIntensitySmooth * specSample;
 
+                // Fresnel
                 float4 rimDot = 1 - dot(viewDir, normal);
                 float rimIntensity = rimDot * pow(NdotL, _RimThreshold);
                 rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
                 fixed4 rimResult = rimIntensity * _RimColor;
 
+                // Emissive
+                fixed4 emissiveSample = tex2D(_EmissiveTex, i.uv);
+                float4 emissiveResult = _EmissiveColour * emissiveSample * _EmissiveStrength;
+
                 // sample the texture
                 fixed4 sample = tex2D(_MainTex, i.uv);
 
                 fixed4 col = _Diffuse * sample * (_AmbientStrength + lightColor + specularResult + rimResult);
+                col += emissiveResult;
                 // apply fog
 
                 UNITY_APPLY_FOG(i.fogCoord, col);
