@@ -3,6 +3,7 @@ using UnityEngine;
 public class PotTemperature : MonoBehaviour
 {
     public static PotTemperature Instance {  get; private set; }
+    [SerializeField] SliderBar slider;
 
     public float Temperature = 0;
     void Start()
@@ -19,7 +20,7 @@ public class PotTemperature : MonoBehaviour
 
     void Update()
     {
-        
+        slider.SetValue(Temperature);
     }
     public void RaiseTemp(float amount)
     {
