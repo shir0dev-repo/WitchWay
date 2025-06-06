@@ -23,7 +23,7 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Transform _cuttingBoardTransform;
 
     [Header("Mortar & Pestle")]
-    [SerializeField] private Pestle _pestle;
+    [SerializeField] private PestleTool _pestle;
     [SerializeField] private Transform _mortarPestleTransform;
 
     [Header("Magic Circle")]
@@ -49,9 +49,9 @@ public class StationManager : MonoBehaviour
     private Vector2 dragStartPos, dragEndPos, tableStartPos;
     private bool isDragging = false, clickedOnTable = false, canDrag = true;
 
-    public void ToggleDrag(int stationID)
+    public void ToggleDrag(bool toggle)
     {
-        canDrag = stationID != 2;
+        canDrag = toggle;
     }
 
     private void Awake()
@@ -108,7 +108,8 @@ public class StationManager : MonoBehaviour
 
         CameraManager.Instance.MoveToPosition(targetPos);
         _currentTransformIndex = targetStation;
-        OnStationChanged.Invoke(targetStation);
+        GameEvents.Crafting.OnStationChanged?.Invoke(targetStation);
+        OnStationChanged.Invoke(targetStation); // DEPRECATED
     }
 
     private void MoveToStation(InputAction.CallbackContext context)

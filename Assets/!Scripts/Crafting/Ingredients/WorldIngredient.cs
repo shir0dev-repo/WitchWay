@@ -1,11 +1,9 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class WorldIngredient : MonoBehaviour
 {
-    public IngredientSO ingredient; //added this so can ref what ingrediant it is
+    public IngredientSO ingredient; //added this so can ref what ingredient it is
 
     [HideInInspector] public bool _isDragging = false;
 
@@ -25,7 +23,17 @@ public class WorldIngredient : MonoBehaviour
     private bool inDestroyArea = false;
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
-    private StationManager stationManager;
+    //private StationManager stationManager;
+
+    private void OnEnable()
+    {
+        GameEvents.Crafting.OnStationChanged += CheckValid;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnStationChanged -= CheckValid;
+    }
 
     private void Start()
     {
@@ -33,9 +41,6 @@ public class WorldIngredient : MonoBehaviour
             _cam = Camera.main;
         
         rb = GetComponent<Rigidbody>();
-
-        stationManager = StationManager.Instance;
-        if (stationManager != null) stationManager.OnStationChanged.AddListener(CheckValid);
     }
 
     private void Update()

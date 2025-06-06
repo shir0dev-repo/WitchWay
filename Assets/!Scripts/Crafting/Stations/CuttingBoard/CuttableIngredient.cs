@@ -36,7 +36,7 @@ public class CuttableIngredient : MonoBehaviour
             _cutTimer = 0;
 
             _cursorTrail.enabled = false;
-            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, 10));
+            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
             _cursorTrail.Clear();
             _cursorTrail.enabled = true;
         }
@@ -44,7 +44,7 @@ public class CuttableIngredient : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
-            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, 10));
+            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
         }
 
         if (Input.GetMouseButtonUp(0))
