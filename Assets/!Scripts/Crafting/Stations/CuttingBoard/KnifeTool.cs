@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Knife : ToolBase
+public class KnifeTool : ToolBase
 {
     [SerializeField] Vector3 cutRotationEulers;
     [SerializeField] Vector3 restRotationEulers;
