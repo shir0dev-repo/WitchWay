@@ -7,7 +7,14 @@ public class PotTemperature : MonoBehaviour
     public float Temperature = 0;
     void Start()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     void Update()
