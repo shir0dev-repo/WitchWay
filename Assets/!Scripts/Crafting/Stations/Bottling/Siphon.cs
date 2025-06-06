@@ -14,10 +14,12 @@ public class Siphon : MonoBehaviour
     [SerializeField] private float _addedPressure = 2.5f;
     [SerializeField] private float _maxPressureIncrease = 5.0f;
     [SerializeField] private float _pressureSmoothing = 0.75f;
+    [SerializeField] float visiblePressure;
 
-    public float pressureAmount = 0.0f;
+    Vector2 targetValue; // the value that's actually being calculated
+    Vector2 pressureValue; // the value of the slider
+
     float currTime = 0.0f;
-    bool canPressButton = true;
 
     void Start()
     {
@@ -45,62 +47,71 @@ public class Siphon : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canPressButton)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             IncreasePressure(_addedPressure);
         }
-        if (canPressButton)
-        {
-            DecreasePressure();
-        }
 
-        slider.SetValue(pressureAmount);
+        DecreasePressure();
+        slider.SetValue(EaseValues());
+
+        visiblePressure = targetValue.x; // for debugging 
     }
     void IncreasePressure(float amount)
     {
-        pressureAmount += amount;
-        pressureAmount = ClampPressureAmount();
+        targetValue.x += amount;
+        targetValue.x = ClampPressureAmount();
+
+        currTime = 0f;
+    } 
+    float EaseValues()
+    {
+        float value;
+        currTime += Time.deltaTime;
+
+        float e = Mathf.Clamp01(currTime / 0.5f);
+        value = Easing(e);
+        // e = progress of the easing
+        // value = the current value within the easing process
+
+        pressureValue.x = Mathf.Lerp(pressureValue.x, targetValue.x, value);
+
+        return pressureValue.x;
     }
     public void DecreasePressure()
     {
-        float currentPercent = 1.0f - (pressureAmount * 0.01f);
+        float currentPercent = 1.0f - (targetValue.x * 0.01f);
         float decrease = Mathf.Lerp(_maxFallSpeed, _minFallSpeed, currentPercent);
 
-        pressureAmount -= decrease * Time.deltaTime;
-        pressureAmount = ClampPressureAmount();
+        targetValue.x -= decrease * Time.deltaTime;
+        targetValue.x = ClampPressureAmount();
     }
     float ClampPressureAmount()
     {
-        return Mathf.Clamp(pressureAmount, 0, 100);
+        return Mathf.Clamp(targetValue.x, 0, 100);
     }
     public float GetCurrentPressureAmount()
     {
-        return pressureAmount;
+        return targetValue.x;
     }
-    public void ToggleButtonAbility()
+    public void ResetPressure() 
     {
-        canPressButton = !canPressButton;
-        ResetPressure();
-    }
-    public void ResetPressure()
-    {
-        pressureAmount = 0.0f;
-        slider.SetValue(pressureAmount);
+        pressureValue.x = 0.0f;
+        targetValue.x = 0.0f;
+        slider.SetValue(targetValue.x);
     }
     void StartMinigame()
     {
-        canPressButton = true;
         ResetPressure();
         slider.gameObject.SetActive(true);
     }
     void EndMinigame()
     {
-        canPressButton = false;
         slider.gameObject.SetActive(false);
         
         this.enabled = false;
     }
-    float EaseIncrease(float x) // taken from easings.net
+    float Easing(float x) // taken from easings.net
     {
         return Mathf.Sin((x * Mathf.PI)/2);
     }
