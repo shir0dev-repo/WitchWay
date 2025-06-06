@@ -6,43 +6,71 @@ using UnityEngine;
 [RequireComponent(typeof(SymbolPainter))]
 public class ArcaneCircle : Singleton<ArcaneCircle>
 {
-    [System.Serializable]
-    public struct GestureSymbolPair
+    [Serializable] public struct GestureSymbolPair
     {
         public string GestureName;
         public AlchemicalSymbol Symbol;
         [Range(0, 1)] public float AccuracyThreshold;
     }
 
-    public static Action<AlchemicalSymbol> OnSymbolPainted;
-
+    [Header("Scene References")]
     [SerializeField] private SymbolPainter _painter;
+    [SerializeField] private GameObject _validateBtn;
+    [Space]
+    [SerializeField] private StationAreaType _areaType;
     [Space]
     [SerializeField] private List<GestureSymbolPair> _symbols;
 
     private Stack<RemoveLineCommand> _savedLines = new();
 
-    public void Enable()
+    public void Enable(ToolType type)
     {
-        _painter.enabled = true;
+        if (type == ToolType.Chalk)
+        {
+            StationManager.Instance.ToggleDrag(false);
+            _painter.enabled = true;
+        }
     }
 
-    public void Disable()
+    public void Disable(ToolType type)
     {
+        if (type == ToolType.Chalk)
+        {
+            StationManager.Instance.ToggleDrag(true);
+            _painter.enabled = false;
+        }
+    }
+
+    private void SetupStation(int stationID)
+    {
+        _validateBtn.SetActive(stationID == _areaType.GetStationID());
         _painter.Clear();
-        _painter.enabled = false;
     }
 
     private void OnEnable()
     {
-        SymbolPainter.OnLineDrawn += FinishDraw;
+        GameEvents.Crafting.OnToolSelected += Enable;
+        GameEvents.Crafting.OnToolDeselected += Disable;
+        GameEvents.Crafting.OnStationChanged += SetupStation;
+
+        SymbolPainter.OnLineDrawn += FinishLineDraw;
         SymbolPainter.OnGestureCompleted += ValidateSymbol;
     }
 
     private void OnDisable()
     {
-        SymbolPainter.OnLineDrawn -= FinishDraw;
+        GameEvents.Crafting.OnToolSelected -= Enable;
+        GameEvents.Crafting.OnToolDeselected -= Disable;
+        GameEvents.Crafting.OnStationChanged -= SetupStation;
+
+        SymbolPainter.OnLineDrawn -= FinishLineDraw;
         SymbolPainter.OnGestureCompleted -= ValidateSymbol;
+    }
+
+    private void Start()
+    {
+        _validateBtn.SetActive(false);
+        _painter.enabled = false;
     }
 
     private void ValidateSymbol(string symbolName, float accuracy)
@@ -64,7 +92,7 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
         if (valid)
         {
             Debug.Log($"{symbolName}: {accuracy:F2}%");
-            OnSymbolPainted?.Invoke(result);
+            GameEvents.Crafting.OnSymbolDrawn?.Invoke(result);
         }
     }
 
@@ -81,10 +109,10 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
 
     public void BeginDraw()
     {
-
+        
     }
 
-    public void FinishDraw()
+    public void FinishLineDraw()
     {
         _savedLines.Push(new RemoveLineCommand(_painter.CurrentGestureRenderer, _painter));
     }

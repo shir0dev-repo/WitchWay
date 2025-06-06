@@ -13,9 +13,9 @@ public abstract class ToolBase : MonoBehaviour
     public bool IsSelected { get; protected set; }
     public ToolType Type;
     [Space]
-    [SerializeField] protected Transform RestAnchor;
+    [SerializeField] protected Transform _restAnchor;
     
-    public Transform GetRestAnchor() => RestAnchor;
+    public Transform GetRestAnchor() => _restAnchor;
     
     public void SelectTool()
     {

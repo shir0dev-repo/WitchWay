@@ -85,34 +85,36 @@ public class SymbolPainter : MonoBehaviour
 
             if (Input.GetMouseButton(0))
             {
+                if (CurrentGestureRenderer == null) return;
+
                 _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, strokeID));
 
                 CurrentGestureRenderer.positionCount = ++_vertexCount;
                 CurrentGestureRenderer.SetPosition(_vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
             }
         }
+    }
 
-        if (Input.GetMouseButtonDown(1))
+    public void ValidateGesture()
+    {
+        if (_points.Count <= 0) return;
+        bool valid = RecognizeSymbol(out string gName, out float gScore);
+
+        foreach (LineRenderer lr in _gestureLineRenderers)
         {
-            if (_points.Count <= 0) return;
-            bool valid = RecognizeSymbol(out string gName, out float gScore);
-
-            foreach (LineRenderer lr in _gestureLineRenderers)
+            if (lr == CurrentGestureRenderer)
             {
-                if (lr == CurrentGestureRenderer)
-                {
-                    CurrentGestureRenderer = null;
-                }
-
-                Destroy(lr.gameObject);
+                CurrentGestureRenderer = null;
             }
 
-            _gestureLineRenderers.Clear();
-            _points.Clear();
-            if (valid)
-            {
-                OnGestureCompleted?.Invoke(gName, gScore);
-            }
+            Destroy(lr.gameObject);
+        }
+
+        _gestureLineRenderers.Clear();
+        _points.Clear();
+        if (valid)
+        {
+            OnGestureCompleted?.Invoke(gName, gScore);
         }
     }
 

@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1410253870532173847}
-  - component: {fileID: 4819694744289309647}
-  - component: {fileID: 391100805995577534}
-  - component: {fileID: 3566022604415935297}
+  - component: {fileID: 5772214784698814288}
   - component: {fileID: 8364540618126350135}
   - component: {fileID: 2908879860965759239}
   m_Layer: 7
@@ -37,7 +35,7 @@ Transform:
   - {fileID: 2336290956898412500}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4819694744289309647
+--- !u!114 &5772214784698814288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,34 +44,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2289858730544319578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3df147aabda7946bece912dfc29371, type: 3}
+  m_Script: {fileID: 11500000, guid: 83fcaf961dadfad40af38c0be5d91888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPos: {fileID: 0}
---- !u!114 &391100805995577534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2289858730544319578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25d9ec8ecf266464f9a6ec8f87b02326, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3566022604415935297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2289858730544319578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16fad1b4fc7f3504b9b3fdfeba36ba57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  Type: 3
+  _restAnchor: {fileID: 0}
+  _crushDamage: 5
 --- !u!54 &8364540618126350135
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,7 +109,6 @@ GameObject:
   - component: {fileID: 2336290956898412500}
   - component: {fileID: 4928378673655214951}
   - component: {fileID: 42980694839654646}
-  - component: {fileID: 3775770145806039121}
   m_Layer: 0
   m_Name: Pestle
   m_TagString: Untagged
@@ -187,7 +162,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 4e439ead34690e54b951060d869c3334, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,25 +184,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3775770145806039121
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4077924323375956320}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2637690639363791731, guid: 23e5ba301ce634e4fb333d171a44d521, type: 3}

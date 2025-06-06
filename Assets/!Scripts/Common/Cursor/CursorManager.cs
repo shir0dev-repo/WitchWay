@@ -3,6 +3,7 @@ using UnityEngine;
 public class CursorManager : Singleton<CursorManager>
 {
     [SerializeField] private Camera _mainCam;
+    [SerializeField] private bool _useDebug = true;
 
     private Transform _restPivot = null;
     private Transform _attachedObject = null;
@@ -11,6 +12,8 @@ public class CursorManager : Singleton<CursorManager>
     private bool _isObjectAttached = false;
     public void ToggleVisibility(bool visible)
     {
+        if (_useDebug) return;
+
         Cursor.visible = visible;
     }
 
@@ -32,9 +35,9 @@ public class CursorManager : Singleton<CursorManager>
     private void SnapCurrentObjectToCursor()
     {
         Vector3 mousePos = Input.mousePosition; //get the position of the mouse
-
-        mousePos.z = Mathf.Abs(Camera.main.transform.position.z - _attachedObject.position.z); //get how far the object is from the camera on z axis
-        Vector3 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 oProjC = Vector3.Project(_attachedObject.position - _mainCam.transform.position, _mainCam.transform.forward);
+        mousePos.z = oProjC.magnitude;// Mathf.Abs(_attachedObject.position.z - Camera.main.transform.position.z); //get how far the object is from the camera on z axis
+        Vector3 worldMousePos = _mainCam.ScreenToWorldPoint(mousePos);
 
         _attachedObject.position = new Vector3(worldMousePos.x, worldMousePos.y, _attachedObject.position.z); //set new position (keeping the object's z axis)
     }
