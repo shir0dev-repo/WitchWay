@@ -28,14 +28,14 @@ public class MortarStation : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            other.transform.position = _ingredientAnchor.position;
-
             if (other.TryGetComponent(out WorldIngredient ing))
                 GameEvents.Crafting.OnItemPlacedInMortar?.Invoke(ing);
             if (other.TryGetComponent(out Rigidbody rb))
             {
                 _ingConstraintsCache = rb.constraints;
                 rb.constraints = RigidbodyConstraints.FreezeAll;
+                rb.isKinematic = true;
+                rb.MovePosition(_ingredientAnchor.position);
             }
 
             state.SetCrushable(true);
@@ -57,6 +57,7 @@ public class MortarStation : MonoBehaviour
                 _ingConstraintsCache = RigidbodyConstraints.None;
             }
 
+            Debug.Log("mrtor");
             state.SetCrushable(false);
         }
     }
