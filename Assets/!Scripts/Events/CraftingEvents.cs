@@ -7,6 +7,8 @@ public static partial class GameEvents
     public static class Crafting
     {
         public static Action<int> OnStationChanged;
+        public static Action<ToolType> OnToolSelected;
+        public static Action<ToolType> OnToolDeselected;
 
         public static Action<IngredientSO> OnItemAddedToInventory;
         public static Action<IngredientSO> OnItemRemovedFromInventory;

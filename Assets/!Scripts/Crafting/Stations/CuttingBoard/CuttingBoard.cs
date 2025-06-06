@@ -1,27 +1,44 @@
 using System;
 using UnityEngine;
 
-public class CuttingBoard : MonoBehaviour
+public class CuttingBoard : Singleton<CuttingBoard>
 {
-    public static CuttingBoard Instance { get; private set; }
     public CuttableIngredientList list {  get; private set; }
 
     public bool CanCut = false;
     public Action OnCutComplete;
-    private void Awake()
+
+    private void OnEnable()
     {
-        if (Instance == null)
-            Instance = this;
-        else 
-            Destroy(gameObject);
+        GameEvents.Crafting.OnToolSelected += Enable;
+        GameEvents.Crafting.OnToolDeselected += Disable;
     }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnToolSelected -= Enable;
+        GameEvents.Crafting.OnToolDeselected -= Disable;
+    }
+
+    private void Enable(ToolType type)
+    {
+        if (type == ToolType.Knife)
+            CanCut = true;
+    }
+
+    private void Disable(ToolType type)
+    {
+        if (type == ToolType.Knife)
+            CanCut = false;
+    }
+
     void Start()
     {
         list = GetComponentInChildren<CuttableIngredientList>();
         // the ingredient list is part of the cutting board object!
     }
     
-    public void ChangeCuttingAbility() 
+    public void ChangeCuttingAbility()
     { // changed this into function so it can be called in other scripts
         CanCut = !CanCut;
     }

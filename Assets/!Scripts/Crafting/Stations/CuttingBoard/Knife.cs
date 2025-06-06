@@ -1,54 +1,32 @@
 using UnityEngine;
 
-public class Knife : MonoBehaviour
+public class Knife : ToolBase
 {
-    InvisibleCursor cursorVisibility;
-    FollowMouse FollowMouse;
     Rigidbody rb;
 
     [SerializeField] Transform startPos;
     [SerializeField] Vector3 cutRotationEulers;
     [SerializeField] Vector3 restRotationEulers;
-    Quaternion startRot;
 
-    bool isCursorVisible = true;
+    bool isSelected = false;
     void Start()
     {
-        cursorVisibility = GetComponent<InvisibleCursor>();
-        FollowMouse = GetComponent<FollowMouse>();
         rb = GetComponent<Rigidbody>();
-
-        startRot = gameObject.transform.rotation;
     }
 
     void Update()
     {
-        if (isCursorVisible)
+        if (!IsSelected && Input.GetMouseButtonDown(0) && CastRay())
         {
-            if (Input.GetMouseButtonDown(0) && CastRay())
-            {
-                cursorVisibility.TurnCursorInsivible();
-                isCursorVisible = false;
-                RotateToCuttingPosition();
-                CuttingBoard.Instance.ChangeCuttingAbility();
-            }
+            
         }
-        else
+        else if (IsSelected && Input.GetMouseButtonDown(1))
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                CuttingBoard.Instance.ChangeCuttingAbility();
-                cursorVisibility.TurnCursorVisible();
-                isCursorVisible = true;
-                ReturnToPosition();
-            }
-
-            FollowMouse.ObjectFollowsMouse(rb);
+            
         }
     }
-    void ReturnToPosition()
+    void RotateToRestPosition()
     {
-        gameObject.transform.position = startPos.position;
         gameObject.transform.rotation = Quaternion.Euler(restRotationEulers);
     }
     void RotateToCuttingPosition()
@@ -66,5 +44,21 @@ public class Knife : MonoBehaviour
         }
 
         return false;
+    }
+
+    protected override void OnToolSelected()
+    {
+        isSelected = true;
+        RotateToCuttingPosition();
+        CursorManager.Instance.AttachToCursor(transform, startPos.position);
+        GameEvents.Crafting.OnToolSelected?.Invoke(ToolType.Knife);
+    }
+
+    protected override void OnToolDeselected()
+    {
+        isSelected = false;
+        RotateToRestPosition();
+        CursorManager.Instance.ClearCursor();
+        GameEvents.Crafting.OnToolDeselected?.Invoke(ToolType.Knife);
     }
 }

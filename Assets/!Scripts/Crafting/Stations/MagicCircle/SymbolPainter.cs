@@ -42,6 +42,23 @@ public class SymbolPainter : MonoBehaviour
         this.enabled = active;
     }
 
+    public void Clear()
+    {
+        strokeID = -1;
+        _vertexCount = 0;
+
+        _message.text = "";
+        CurrentGestureRenderer = null;
+
+        foreach (var g in _gestureLineRenderers)
+        {
+            Destroy(g.gameObject);
+        }
+
+        _gestureLineRenderers.Clear();
+        _points.Clear();
+    }
+
     private void Update()
     {
         if (Input.GetMouseButton(0))

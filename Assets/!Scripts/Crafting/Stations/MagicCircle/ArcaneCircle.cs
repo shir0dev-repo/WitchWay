@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(SymbolPainter))]
-public class ArcaneCircle : MonoBehaviour
+public class ArcaneCircle : Singleton<ArcaneCircle>
 {
     [System.Serializable]
     public struct GestureSymbolPair
@@ -21,6 +21,17 @@ public class ArcaneCircle : MonoBehaviour
     [SerializeField] private List<GestureSymbolPair> _symbols;
 
     private Stack<RemoveLineCommand> _savedLines = new();
+
+    public void Enable()
+    {
+        _painter.enabled = true;
+    }
+
+    public void Disable()
+    {
+        _painter.Clear();
+        _painter.enabled = false;
+    }
 
     private void OnEnable()
     {
