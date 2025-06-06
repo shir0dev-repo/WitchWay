@@ -12,18 +12,19 @@ public abstract class ToolBase : MonoBehaviour
 {
     public bool IsSelected { get; protected set; }
     public ToolType Type;
-
-
+    [Space]
+    [SerializeField] protected Transform RestAnchor;
+    
+    public Transform GetRestAnchor() => RestAnchor;
+    
     public void SelectTool()
     {
         OnToolSelected();
-        GameEvents.Crafting.OnToolSelected?.Invoke(Type);
     }
 
     public void DeselectTool()
     {
         OnToolDeselected();
-        GameEvents.Crafting.OnToolDeselected?.Invoke(Type);
     }
 
     protected abstract void OnToolSelected();

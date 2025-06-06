@@ -4,7 +4,7 @@ public class CursorManager : Singleton<CursorManager>
 {
     [SerializeField] private Camera _mainCam;
 
-    private Vector3 _returnPosition = Vector3.zero;
+    private Transform _restPivot = null;
     private Transform _attachedObject = null;
 
     public bool HasObjectFollowingCursor => _isObjectAttached;
@@ -39,10 +39,10 @@ public class CursorManager : Singleton<CursorManager>
         _attachedObject.position = new Vector3(worldMousePos.x, worldMousePos.y, _attachedObject.position.z); //set new position (keeping the object's z axis)
     }
 
-    public void AttachToCursor(Transform obj, Vector3 returnPivot)
+    public void AttachToCursor(Transform obj, Transform returnPivot)
     {
         Debug.Log($"Attached {obj.name} to cursor!");
-        _returnPosition = returnPivot;
+        _restPivot = returnPivot;
         _attachedObject = obj;
         ToggleVisibility(false);
         _isObjectAttached = true;
@@ -51,8 +51,8 @@ public class CursorManager : Singleton<CursorManager>
     public void ClearCursor()
     {
         //Debug.Log($"Detached {_attachedObject.name} from cursor.");
-        _attachedObject.position = _returnPosition;
-        _returnPosition = Vector3.zero;
+        _attachedObject.position = _restPivot.position;
+        _restPivot = null;
         _attachedObject = null;
 
         _isObjectAttached = false;
