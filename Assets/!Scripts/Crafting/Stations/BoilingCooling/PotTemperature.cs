@@ -6,6 +6,7 @@ public class PotTemperature : MonoBehaviour
     [SerializeField] SliderBar slider;
 
     public float Temperature = 0;
+    public bool isChangingTemp = false;
     void Start()
     {
         if (Instance != null && Instance != this)
@@ -20,16 +21,20 @@ public class PotTemperature : MonoBehaviour
 
     void Update()
     {
-        EqualOutTemp();
+        if (!isChangingTemp) { EqualOutTemp(); }
+        // only runs when player is not hovering on button, prevents values from fighting
+
         slider.SetValue(Temperature);
     }
     public void RaiseTemp(float amount)
     {
         Temperature += amount;
+        ClampTemp();
     }
     public void LowerTemp(float amount)
     {
         Temperature -= amount;
+        ClampTemp();
     }
     public float GetCurrentTemp()
     {
@@ -38,9 +43,9 @@ public class PotTemperature : MonoBehaviour
     void EqualOutTemp()
     {
         float toMiddle = Mathf.Clamp01(Mathf.Abs(Temperature) * 0.01f);
-        float value = Mathf.Lerp(50, 0, toMiddle);
+        float value = Mathf.Lerp(5, 0, toMiddle);
         // toMiddle is the temp's percentage away from zero, no matter if its pos or neg
-        // value is the easing towards zero
+        // since this is called every frame, make value small
         
         if (Temperature > 0)
         {
