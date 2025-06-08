@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class TemperatureButtons : MonoBehaviour
 {
+    PotTemperature pot;
     public bool isHeating;
 
     [SerializeField]
     float baseValue = 1f;
-
+    private void Start()
+    {
+        pot = PotTemperature.Instance;
+    }
     private void OnMouseOver()
     {
-        PotTemperature.Instance.isChangingTemp = true;
-        float currTemp = PotTemperature.Instance.GetCurrentTemp();
+        pot.isChangingTemp = true;
+        float currTemp = pot.GetCurrentTemp();
 
         float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
         float ease = Easing(toMiddle);
@@ -22,16 +26,16 @@ public class TemperatureButtons : MonoBehaviour
         
         if (isHeating)
         {
-            PotTemperature.Instance.RaiseTemp(value);
+            pot.RaiseTemp(value);
         }
         else
         {
-            PotTemperature.Instance.LowerTemp(value);
+            pot.LowerTemp(value);
         }
     }
     private void OnMouseExit()
     {
-        PotTemperature.Instance.isChangingTemp = false;
+        pot.isChangingTemp = false;
     }
     float Easing(float x)
     {

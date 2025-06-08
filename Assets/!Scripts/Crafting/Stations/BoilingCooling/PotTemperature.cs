@@ -7,7 +7,7 @@ public class PotTemperature : MonoBehaviour
 
     public float Temperature = 0;
     public bool isChangingTemp = false;
-    void Start()
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
