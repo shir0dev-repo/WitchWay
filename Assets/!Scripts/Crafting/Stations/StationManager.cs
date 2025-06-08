@@ -134,17 +134,15 @@ public class StationManager : MonoBehaviour
         if (!canDrag)
             return false;
 
-        // Check if pointer is over UI
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
         {
-            // Perform UI raycast to check the exact UI element
             PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
                 position = Input.mousePosition
             };
 
             List<RaycastResult> uiHits = new List<RaycastResult>();
-            GraphicRaycaster raycaster = FindObjectOfType<GraphicRaycaster>(); // Or cache it if performance matters
+            GraphicRaycaster raycaster = FindObjectOfType<GraphicRaycaster>();
             raycaster.Raycast(pointerData, uiHits);
 
             foreach (RaycastResult result in uiHits)
@@ -158,7 +156,6 @@ public class StationManager : MonoBehaviour
             }
         }
 
-    // Proceed with table raycast
     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
     return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
     }
@@ -189,7 +186,8 @@ public class StationManager : MonoBehaviour
             // a minimum offset to prevent small movements
             if (Mathf.Abs(deltaX) > stationDragThresholdVisual)
             {
-                transform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
+                //transform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
+                CameraManager.Instance.SetPosition(new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z));
             }
 
         }
@@ -225,7 +223,8 @@ public class StationManager : MonoBehaviour
         }
         else
         {
-            transform.position = tableStartPos;
+            //transform.position = tableStartPos;
+            CameraManager.Instance.SetPosition(tableStartPos);
         }
     }
 }
