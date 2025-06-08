@@ -57,6 +57,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
                 // same name as the prefab it's referring too!
 
                 //later, this will just ask for the name of the scriptable object
+                CursorManager.Instance.ClearCursor();
                 Destroy(collision.gameObject);
             }
             else { return; } // if there's an exception, the thing will return.
