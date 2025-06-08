@@ -6,8 +6,9 @@ public class CursorManager : Singleton<CursorManager>
     [SerializeField] private bool _useDebug = true;
 
     private Transform _restPivot = null;
-    private Transform _attachedObject = null;
 
+    public Transform AttachedObject => _attachedObject;
+    private Transform _attachedObject = null;
     public bool HasObjectFollowingCursor => _isObjectAttached;
     private bool _isObjectAttached = false;
     public void ToggleVisibility(bool visible)
@@ -49,6 +50,13 @@ public class CursorManager : Singleton<CursorManager>
         _attachedObject = obj;
         ToggleVisibility(false);
         _isObjectAttached = true;
+    }
+
+    public void AssignReturnPivot(Transform newPivot)
+    {
+        if (_attachedObject == null) return;
+
+        _restPivot = newPivot;
     }
 
     public void ClearCursor()

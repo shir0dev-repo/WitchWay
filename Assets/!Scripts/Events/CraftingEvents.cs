@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public static partial class GameEvents
 {
@@ -14,6 +15,7 @@ public static partial class GameEvents
         public static Action<IngredientSO> OnItemAddedToInventory;
         public static Action<IngredientSO> OnItemRemovedFromInventory;
         public static Action<WorldIngredient> OnItemPlacedInTrash;
+        public static Action<WorldIngredient, StationType, Transform> OnItemPlacedInStation;
 
         // Cutting Board Events
         public static Action<WorldIngredient> OnItemPlacedOnCuttingBoard;

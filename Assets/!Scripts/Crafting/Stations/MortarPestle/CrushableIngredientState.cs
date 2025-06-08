@@ -87,6 +87,7 @@ public class CrushableIngredientState : MonoBehaviour
     public void SetCrushable(bool toggle)
     {
         // reset durability when placed in mortar
+        Debug.Log("Toggling crush: " + toggle.ToString());
         if (toggle) CurrentDurability = _maxDurability;
         canBeCrushed = toggle;
     }

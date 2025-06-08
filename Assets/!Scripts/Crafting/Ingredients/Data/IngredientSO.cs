@@ -20,14 +20,16 @@ public class IngredientSO : SODatabase.DatabaseObject
     public bool CanBeMolded;
     public AlchemicalSymbol AllowedCircles;
 
-    public bool CanBeUsedAtStation(int stationId)
+    public bool CanBeUsedAtStation(StationType station)
     {
-        switch (stationId)
+        switch (station)
         {
-            case 0: return CanBeCut;
-            case 1: return CanBeFrozen || CanBeHeated;
-                //add more when more stations
-            default: return false;
+            case StationType.CuttingBoard: return CanBeCut;
+            case StationType.Mortar: return CanBeCrushed;
+            case StationType.TemperaturePot: return CanBeFrozen || CanBeHeated;
+            
+            //add more when more stations
+            default: return true;
         }
     }
 }

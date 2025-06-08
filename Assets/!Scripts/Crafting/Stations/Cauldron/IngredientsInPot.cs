@@ -17,6 +17,9 @@ public class IngredientsInPot : MonoBehaviour
         if (other.CompareTag("Ingredient"))
         {
             thingsInPot++;
+            if (other.TryGetComponent(out WorldIngredient ing))
+                GameEvents.Crafting.OnItemPlacedInCauldron?.Invoke(ing);
+
             CheckPot();
         }
     }

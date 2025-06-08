@@ -43,7 +43,7 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
 
     private void SetupStation(int stationID)
     {
-        _validateBtn.SetActive(stationID == _areaType.GetStationID());
+        _validateBtn.SetActive(stationID == _areaType.GetStationAreaID());
         _painter.Clear();
     }
 

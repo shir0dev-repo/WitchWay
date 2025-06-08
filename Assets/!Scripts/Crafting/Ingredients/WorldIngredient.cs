@@ -21,18 +21,20 @@ public class WorldIngredient : MonoBehaviour
     private float currentDepth;
     private bool isStationValid = true;
     private bool inDestroyArea = false;
+    private bool _anchoredToStation = false;
+
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
     //private StationManager stationManager;
 
     private void OnEnable()
     {
-        GameEvents.Crafting.OnStationChanged += CheckValid;
+        GameEvents.Crafting.OnItemPlacedInStation += CheckValid;
     }
 
     private void OnDisable()
     {
-        GameEvents.Crafting.OnStationChanged -= CheckValid;
+        GameEvents.Crafting.OnItemPlacedInStation -= CheckValid;
     }
 
     private void Start()
@@ -96,7 +98,7 @@ public class WorldIngredient : MonoBehaviour
         _isDragging = true;
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
-        //currentDepth = baseDepth;
+        CursorManager.Instance.AttachToCursor(transform, transform);
     }
 
     private void UpdateDragging()
@@ -135,7 +137,7 @@ public class WorldIngredient : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
     }
 
-    private void EndDrag()
+    public void EndDrag()
     {
         _isDragging = false;
         rb.useGravity = true;
@@ -145,26 +147,34 @@ public class WorldIngredient : MonoBehaviour
             FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
             Destroy(gameObject);
         }
-        else if (!isStationValid)
+        else
         {
-            transform.position = startPos;
+            CursorManager.Instance.ClearCursor();
         }
     }
 
-    private void CheckValid(int stationId)
+    private void CheckValid(WorldIngredient wIngredient, StationType station, Transform stationAnchor)
     {
+        if (wIngredient != this) return;
+
         if (ingredient == null)
         {
-            StartCoroutine(DeferredCheck(stationId));
+            StartCoroutine(DeferredCheck(station));
             return;
         }
-        isStationValid = ingredient.CanBeUsedAtStation(stationId);
+
+        isStationValid = ingredient.CanBeUsedAtStation(station);
+        if (isStationValid)
+        {
+            _anchoredToStation = true;
+            transform.position = stationAnchor.position;
+        }
     }
 
-    private IEnumerator DeferredCheck(int stationId)
+    private IEnumerator DeferredCheck(StationType station)
     {
         yield return null;
         if (ingredient != null)
-            isStationValid = ingredient.CanBeUsedAtStation(stationId);
+            isStationValid = ingredient.CanBeUsedAtStation(station);
     }
 }
