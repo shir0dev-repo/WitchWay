@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StateOfIngredient_BurnCool : MonoBehaviour
@@ -11,6 +12,8 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
 
     float minTemp;
     float maxTemp;
+
+    List<float> ListOfTemperatures = new List<float>();
     
     void Start()
     {
@@ -18,11 +21,27 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     }
     void Update()
     {
-        
+        if (cookingTime > 0)
+        {
+            cookingTime -= Time.deltaTime;
+            StoreCurrentTemp();
+        }
+    }
+    void StoreCurrentTemp()
+    {
+        ListOfTemperatures.Add(pot.GetCurrentTemp());
+    }
+    void GetMinAndMax()
+    {
+         
+    }
+    void GetAverageTemp()
+    {
+        ListOfTemperatures.Clear();
     }
     void IngredientCookingTimeFinished()
     {
-        if (CompareTargetAndPlayerAverageTemp())
+        if (IsAverageTempInTargetRange())
         {
             if (Mathf.Sign(averageTemp) == 1)
             {
@@ -39,7 +58,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
             else { Debug.Log("ITS A FROZEN BLOCK"); }
         }
     }
-    bool CompareTargetAndPlayerAverageTemp()
+    bool IsAverageTempInTargetRange()
     {
         return (targetTemp + allowedDeviance) > averageTemp || (targetTemp - allowedDeviance) < averageTemp;
         // gonna change this later ofc
