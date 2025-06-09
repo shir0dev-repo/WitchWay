@@ -9,8 +9,10 @@ Shader "Unlit/Potion"
         
         [Header(Foam)]
         [HDR]_FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
-        _LineWidth ("Foam Line Width", Range(0, 0.1)) = 0.0
+        [HDR]_TopColor ("Top Color", Color) = (1, 1, 1, 1)
+        _LineWidth ("Foam Line Width", Range(0, 0.1)) = 0.03
         _LineSmoothness ("Foam Line Smoothness", Range(0, 0.1)) = 0.0
+
 
         [Header(Rim)]
         [HDR]_RimColor ("Rim Color", Color) = (1, 1, 1, 1)
@@ -22,13 +24,18 @@ Shader "Unlit/Potion"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent-1" }
+        Tags
+        {
+            "RenderType"="Transparent"
+            "Queue"="Transparent-1"
+            "DisableBatching"="True"
+        }
         
         Pass
         {
             Zwrite On
             Cull Off
-            AlphaToMask Off
+            AlphaToMask On
 
             CGPROGRAM
 
@@ -49,10 +56,28 @@ Shader "Unlit/Potion"
                 return Out;
             }
 
+            float2 RemapUV(float2 UV, float2 minmax1, float2 minmax2)
+            {
+                float low1, low2;
+                float high1, high2;
+                float val;
+
+                low1 = minmax1.x;
+                low2 = minmax2.x;
+
+                high1 = minmax1.y;
+                high2 = minmax2.y;
+
+                val = UV.y;
+                val = low2 + (val - low1) * (high2 - low2) / (high1 - low1);
+                return float2(UV.x, val);
+            }
+
             #pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+            #include "AutoLight.cginc"
 
             struct appdata
             {
@@ -94,8 +119,7 @@ Shader "Unlit/Potion"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-                float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                float3 pivot = lerp(_BoundsMin, _BoundsMax, _Cutoff);
+                float3 worldPos = mul(unity_ObjectToWorld, v.vertex.xyz);
                 float3 worldPosX = Unity_RotateAboutAxis_Degrees(v.vertex, _Forward, 90);
                 worldPosX = mul(unity_ObjectToWorld, worldPosX);
                 float3 worldPosZ = Unity_RotateAboutAxis_Degrees(v.vertex, _Right, 90);
@@ -127,11 +151,13 @@ Shader "Unlit/Potion"
 
                 float cutoff = lerp(_BoundsMin.y, _BoundsMax.y, _Cutoff);
                 float cutoffStep = step(movingFillPosition, cutoff);
-                float foam = cutoffStep * smoothstep(0.5 - _LineWidth - _LineSmoothness, 0.5 - _LineWidth, movingFillPosition);
+                float cutoffTop = step(movingFillPosition, 0.5);
+                float foam = cutoffTop * smoothstep(cutoff - _LineWidth - _LineSmoothness, cutoff - _LineWidth, movingFillPosition);
                 float4 foamColored = foam * _FoamColor;
 
                 float result = cutoffStep - foam;
-                fixed4 baseColor = tex2D(_MainTex, i.uv) * _Tint;
+                float2 remappedUV = RemapUV(i.uv, float2(0, 1), float2(0, result));
+                fixed4 baseColor = tex2D(_MainTex, float2(i.uv.x, movingFillPosition)) * _Tint;
                 float4 resultColored = result * baseColor;
 
                 float4 finalResult = resultColored + foamColored;
@@ -148,5 +174,10 @@ Shader "Unlit/Potion"
             }
             ENDCG
         }
+        Pass
+        {
+
+        }
+        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }
 }
