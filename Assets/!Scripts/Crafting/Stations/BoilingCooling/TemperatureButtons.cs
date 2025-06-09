@@ -7,9 +7,22 @@ public class TemperatureButtons : MonoBehaviour
 
     [SerializeField]
     float baseValue = 1f;
+
+    private void OnEnable()
+    {
+        PotTemperature.StartCooking -= StartMinigame;
+        PotTemperature.FinishCooking += EndMinigame;
+    }
+    private void OnDisable()
+    {
+        PotTemperature.StartCooking += StartMinigame;
+        PotTemperature.FinishCooking -= EndMinigame;
+    }
     private void Start()
     {
         pot = PotTemperature.Instance;
+
+        gameObject.SetActive(false);
     }
     private void OnMouseOver()
     {
@@ -36,6 +49,14 @@ public class TemperatureButtons : MonoBehaviour
     private void OnMouseExit()
     {
         pot.isChangingTemp = false;
+    }
+    void StartMinigame()
+    {
+        gameObject.SetActive(true);
+    }
+    void EndMinigame()
+    {
+        gameObject.SetActive(false);
     }
     float Easing(float x)
     {

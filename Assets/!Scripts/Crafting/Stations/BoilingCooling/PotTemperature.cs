@@ -3,6 +3,13 @@ using UnityEngine;
 public class PotTemperature : MonoBehaviour
 {
     public static PotTemperature Instance {  get; private set; }
+
+    public delegate void StartMinigame();
+    public static StartMinigame StartCooking;
+
+    public delegate void FinishMinigame();
+    public static FinishMinigame FinishCooking;
+
     [SerializeField] SliderBar slider;
 
     public float Temperature = 0;
@@ -18,13 +25,40 @@ public class PotTemperature : MonoBehaviour
             Instance = this;
         }
     }
-
+    private void OnEnable()
+    {
+        StartCooking += StartStart;
+        FinishCooking += EndEnd;
+    }
+    private void OnDisable()
+    {
+        StartCooking = null;
+        FinishCooking = null;
+    }
     void Update()
     {
-        if (!isChangingTemp) { EqualOutTemp(); }
-        // only runs when player is not hovering on button, prevents values from fighting
+        if (slider.isActiveAndEnabled)
+        {
+            if (!isChangingTemp) { EqualOutTemp(); }
+            // only runs when player is not hovering on button, prevents values from fighting
 
-        slider.SetValue(Temperature);
+            slider.SetValue(Temperature);
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
+        {
+            StartCooking?.Invoke();
+        }
+    }
+    void StartStart()
+    {
+        slider.gameObject.SetActive(true);
+    }
+    void EndEnd()
+    {
+        slider.gameObject?.SetActive(false);
     }
     public void RaiseTemp(float amount)
     {
