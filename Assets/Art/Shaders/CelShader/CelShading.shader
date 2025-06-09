@@ -154,7 +154,7 @@ Shader "Toon/Cel-Shading"
                 
                 // Specular
                 float specIntensity = pow(NdotH * lightIntensity, _Glossiness * _Glossiness);
-                float specIntensitySmooth = smoothstep(0.005, 0.01, specIntensity);
+                float specIntensitySmooth = smoothstep(_SpecEdge0, _SpecEdge1, specIntensity);
                 fixed4 specSample = tex2D(_RoughnessTex, i.uv);
                 float4 specularResult = _SpecColor * specIntensitySmooth * specSample;
 
