@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class StateOfIngredient_BurnCool : MonoBehaviour
@@ -9,21 +7,19 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
 
     public float targetTemp;
     [SerializeField] float allowedDeviance = 5;
-    [SerializeField] float cookingTime = 10; // by seconds
-    [SerializeField] float averageTemp;
-
     bool canCook = false;
 
     List<float> ListOfTemperatures = new List<float>();
+    float rating = 0;
     private void OnEnable()
     {
         PotTemperature.StartCooking += StartStart;
-        PotTemperature.FinishCooking += IngredientCookingTimeFinished;
+        PotTemperature.FinishCooking += EndEnd;
     }
     private void OnDisable()
     {
         PotTemperature.StartCooking -= StartStart;
-        PotTemperature.FinishCooking -= IngredientCookingTimeFinished;
+        PotTemperature.FinishCooking -= EndEnd;
     }
     void Start()
     {
@@ -33,14 +29,12 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     {
         if (canCook)
         {
-            if (cookingTime > 0)
+            if (pot.Progress < 100)
             {
-                 cookingTime -= Time.deltaTime;
+
             }
-            else if (cookingTime <= 0)
+            else if (pot.Progress >= 100)
             {
-                StopCoroutine(StoreCurrentTemp());
-                averageTemp = GetAverageTemp();
                 PotTemperature.FinishCooking?.Invoke();
             }
         }
@@ -48,50 +42,24 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     void StartStart()
     {
         canCook = true;
-        StartCoroutine(StoreCurrentTemp());
 
+        targetTemp = Random.Range(-50, 50);
         pot.TargetTemperature = targetTemp;
-        // when the minigame starts, it starts recording the pot's temperature
-        // via the coroutine, communicates to the pot what it's target is
     }
-    IEnumerator StoreCurrentTemp()
+    void EndEnd()
     {
-        while (canCook == true)
-        {
-            ListOfTemperatures.Add(pot.GetCurrentTemp());
-            yield return new WaitForSeconds(1f);
-        }
-    }
-    // coroutine because i've always wanted to use these lmao
-    float GetAverageTemp()
-    {
-        return ListOfTemperatures.Average();
-    }
-    void IngredientCookingTimeFinished()
-    {
-        if (IsAverageTempInTargetRange())
-        {
-            if (Mathf.Sign(averageTemp) == 1)
-            {
-                Debug.Log("You cooked the ingredient correctly!");
-            }
-            else { Debug.Log("You cooled the ingredient correctly!"); }
-        }
-        else
-        {
-            if (Mathf.Sign(averageTemp) == 1)
-            {
-                Debug.Log("YOU BURNT IT TO A CRISP");
-            }
-            else { Debug.Log("ITS A FROZEN BLOCK"); }
-        }
-        // this whole if/else statement can be replaced with more accurate endstates later
+        CalculateRating();
 
         canCook = false;
         ListOfTemperatures.Clear();
     }
-    bool IsAverageTempInTargetRange()
+    void CalculateRating()
     {
-        return (targetTemp - allowedDeviance) < averageTemp && averageTemp < (targetTemp + allowedDeviance);
+        if (rating < 50) { Debug.Log("nope!!"); }
+        else { Debug.Log("yeah its good"); }
+    }
+    bool IsTempInTargetRange(float temp)
+    {
+        return (targetTemp - allowedDeviance) < temp && temp < (targetTemp + allowedDeviance);
     }
 }

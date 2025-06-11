@@ -10,10 +10,12 @@ public class PotTemperature : MonoBehaviour
     public delegate void FinishMinigame();
     public static FinishMinigame FinishCooking;
 
-    [SerializeField] Slider_WithPointer slider;
+    [SerializeField] Slider_WithPointer TempSlider; 
+    [SerializeField] SliderBar FillValueSlider;
 
     public float TargetTemperature;
     public float Temperature = 0;
+    public float Progress = 0;
     public bool isChangingTemp = false;
     void Awake()
     {
@@ -38,12 +40,16 @@ public class PotTemperature : MonoBehaviour
     }
     void Update()
     {
-        if (slider.isActiveAndEnabled)
+        if (TempSlider.isActiveAndEnabled)
         {
             if (!isChangingTemp) { EqualOutTemp(); }
             // only runs when player is not hovering on button, prevents values from fighting
 
-            slider.SetValue(Temperature);
+            TempSlider.SetValue(Temperature);
+        }
+        if (FillValueSlider.isActiveAndEnabled)
+        {
+            FillValueSlider.SetValue(Progress);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -55,12 +61,15 @@ public class PotTemperature : MonoBehaviour
     }
     void StartStart()
     {
-        slider.gameObject.SetActive(true);
-        slider.SetPointerLocation(TargetTemperature);
+        TempSlider.gameObject.SetActive(true);
+        FillValueSlider.gameObject.SetActive(true);
+
+        TempSlider.SetPointerLocation(TargetTemperature);
     }
     void EndEnd()
     {
-        slider.gameObject?.SetActive(false);
+        TempSlider.gameObject?.SetActive(false);
+        FillValueSlider.gameObject.SetActive(false);
     }
     public void RaiseTemp(float amount)
     {
@@ -97,6 +106,16 @@ public class PotTemperature : MonoBehaviour
         else { Temperature = 0; }
         
         ClampTemp();
+    }
+    public void IncreaseProgress()
+    {
+        Progress += 7.5f * Time.deltaTime;
+        Progress = Mathf.Clamp(Progress, 0, 100);
+    }
+    public void DecreaseProgress()
+    {
+        Progress -= 5 * Time.deltaTime;
+        Progress = Mathf.Clamp(Progress, 0, 100);
     }
     void ClampTemp()
     {
