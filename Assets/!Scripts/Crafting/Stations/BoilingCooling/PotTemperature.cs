@@ -10,8 +10,9 @@ public class PotTemperature : MonoBehaviour
     public delegate void FinishMinigame();
     public static FinishMinigame FinishCooking;
 
-    [SerializeField] SliderBar slider;
+    [SerializeField] Slider_WithPointer slider;
 
+    public float TargetTemperature;
     public float Temperature = 0;
     public bool isChangingTemp = false;
     void Awake()
@@ -55,6 +56,7 @@ public class PotTemperature : MonoBehaviour
     void StartStart()
     {
         slider.gameObject.SetActive(true);
+        slider.SetPointerLocation(TargetTemperature);
     }
     void EndEnd()
     {

@@ -31,7 +31,7 @@ public class TemperatureButtons : MonoBehaviour
 
         float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
         float ease = Easing(toMiddle);
-        float t = Mathf.Lerp(5, 0, ease);
+        float t = Mathf.Lerp(10, 0, ease);
         // toMiddle is the current temp away from zero
         // since this is called every frame and is multiplied by basevalue, t is small
 

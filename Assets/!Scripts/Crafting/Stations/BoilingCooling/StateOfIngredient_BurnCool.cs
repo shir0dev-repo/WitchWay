@@ -7,7 +7,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
 {
     PotTemperature pot;
 
-    public float targetTemp = 50;
+    public float targetTemp;
     [SerializeField] float allowedDeviance = 5;
     [SerializeField] float cookingTime = 10; // by seconds
     [SerializeField] float averageTemp;
@@ -35,7 +35,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
         {
             if (cookingTime > 0)
             {
-                cookingTime -= Time.deltaTime;
+                 cookingTime -= Time.deltaTime;
             }
             else if (cookingTime <= 0)
             {
@@ -49,8 +49,10 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     {
         canCook = true;
         StartCoroutine(StoreCurrentTemp());
+
+        pot.TargetTemperature = targetTemp;
         // when the minigame starts, it starts recording the pot's temperature
-        // via the coroutine
+        // via the coroutine, communicates to the pot what it's target is
     }
     IEnumerator StoreCurrentTemp()
     {
