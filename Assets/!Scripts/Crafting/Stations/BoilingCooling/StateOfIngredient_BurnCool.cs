@@ -31,7 +31,8 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
         {
             if (pot.Progress < 100)
             {
-
+                if (IsTempInTargetRange(pot.Temperature)) { pot.IncreaseProgress(); }
+                else { pot.DecreaseProgress(); }
             }
             else if (pot.Progress >= 100)
             {
@@ -55,8 +56,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     }
     void CalculateRating()
     {
-        if (rating < 50) { Debug.Log("nope!!"); }
-        else { Debug.Log("yeah its good"); }
+        Debug.Log("yay");
     }
     bool IsTempInTargetRange(float temp)
     {
