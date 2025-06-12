@@ -26,6 +26,7 @@ public class PourRenderer : MonoBehaviour
     {
         Debug.Log("Starting Pour!");
         _currentStream = CreateStream();
+        _currentStream.gameObject.SetActive(true);
         _currentStream.Begin();
     }
 
@@ -33,7 +34,7 @@ public class PourRenderer : MonoBehaviour
     {
         Debug.Log("Ending Pour.");
         if (_currentStream != null)
-            Destroy(_currentStream.gameObject);
+            _currentStream.gameObject.SetActive(false);
     }
 
     private float CalculatePourAngle()
@@ -43,6 +44,9 @@ public class PourRenderer : MonoBehaviour
 
     private Stream CreateStream()
     {
+        if (_currentStream != null)
+            return _currentStream;
+
         GameObject streamObj = Instantiate(_streamPrefab, _origin.position, Quaternion.identity, transform);
         return streamObj.GetComponent<Stream>();
     }
