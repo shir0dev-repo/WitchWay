@@ -10,7 +10,9 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     bool canCook = false;
 
     List<float> ListOfTemperatures = new List<float>();
-    float rating = 0;
+
+    bool isUsable = true;
+    float numTimesBurnt = 0;
     private void OnEnable()
     {
         PotTemperature.StartCooking += StartStart;
@@ -56,7 +58,11 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     }
     void CalculateRating()
     {
-        Debug.Log("yay");
+        if (isUsable)
+        {
+            Debug.Log("yay");
+        }
+        else { Debug.Log("the ingredient is unusable..."); }
     }
     bool IsTempInTargetRange(float temp)
     {

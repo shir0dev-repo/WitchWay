@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class TemperatureButtons : MonoBehaviour
 {
     PotTemperature pot;
     public bool isHeating;
+    public float timeUntilBurningStarts = 5f;
 
     [SerializeField]
     float baseValue = 1f;
