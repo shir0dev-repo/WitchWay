@@ -367,6 +367,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 117149973}
+  - {fileID: 903578729}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &743580526
@@ -474,8 +475,143 @@ MonoBehaviour:
       m_Action: Look
       m_Flags: 0
     m_Flags: 0
+  jumpAction:
+    m_Name: Jump
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: e1840831-4436-4fbd-8d03-d26f6e67d70a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 00e567fc-4a9a-4eb5-b6c5-21f77971b3e3
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
+    m_Flags: 0
+  crouchAction:
+    m_Name: Crouch
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 5cdb8c29-beb4-41b8-8cd0-7ebc29923e2a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f2ba6b2c-5806-4370-bcde-9f18d873f697
+      m_Path: <Keyboard>/leftShift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Crouch
+      m_Flags: 0
+    m_Flags: 0
+  interactAction:
+    m_Name: Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 70e7eeb8-b6b2-44bc-9a9c-9d67ed7dbed6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dragAction:
+    m_Name: Drag
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 21bc4348-3b83-4842-8baa-9a82acf9efa5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  optionChangeAction:
+    m_Name: Option Change
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 2409d05d-76a0-49af-a7cf-33b27d201286
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  selectAction:
+    m_Name: Select
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 5d9bc1ed-042c-4092-9375-2dde00f67480
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  showIngrediantsAction:
+    m_Name: Show Ingrediants
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: faac589a-f372-4e73-a768-97fcb25f27ca
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  recipeBookAction:
+    m_Name: Recipe Book
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 436df6f6-5d99-4db4-8f96-05f2ec9a0bc8
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  pauseAction:
+    m_Name: Pause
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 87c003a2-af1b-4b2b-ae11-32b48f4e853e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   moveSpeed: 5
   lookSpeed: 10
+  jumpPower: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  groundCheckPos: {fileID: 903578729}
+  groundDist: 0.4
+  percentOrigHeight: 50
+--- !u!1 &903578728
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903578729}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903578729
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903578728}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.69, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 743580525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1438666507
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,7 +624,7 @@ GameObject:
   - component: {fileID: 1438666510}
   - component: {fileID: 1438666509}
   - component: {fileID: 1438666508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
