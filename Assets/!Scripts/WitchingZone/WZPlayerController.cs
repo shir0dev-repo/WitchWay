@@ -1,11 +1,33 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//this script is big may be good to split it
 public class WZPlayerController : MonoBehaviour
 {
-    [Header("Controls")]
+    [Header("World Controls")]
     [SerializeField] private InputAction moveAction;
+    [Space(5)]
     [SerializeField] private InputAction lookAction;
+    [Space(5)]
+    [SerializeField] private InputAction jumpAction;
+    [Space(5)]
+    [SerializeField] private InputAction crouchAction;
+    [Space(5)]
+    [SerializeField] private InputAction interactAction;
+    [Space(5)]
+    [SerializeField] private InputAction dragAction;
+
+    [Header("Dialogue Controls")]
+    [SerializeField] private InputAction optionChangeAction; //wasd and arrow keys
+    [Space(5)]
+    [SerializeField] private InputAction selectAction;
+
+    [Header("Misc Controls")]
+    [SerializeField] private InputAction showIngrediantsAction;
+    [Space(5)]
+    [SerializeField] private InputAction recipeBookAction;
+    [Space(5)]
+    [SerializeField] private InputAction pauseAction;
 
     [Header("Tweaking")] //prob needs a better name
     [SerializeField] private float moveSpeed = 5.0f;
