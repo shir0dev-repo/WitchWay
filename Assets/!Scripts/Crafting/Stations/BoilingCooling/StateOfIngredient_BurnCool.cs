@@ -17,11 +17,13 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     {
         PotTemperature.StartCooking += StartStart;
         PotTemperature.FinishCooking += EndEnd;
+        PotTemperature.TriggerBurning += OnBurning;
     }
     private void OnDisable()
     {
         PotTemperature.StartCooking -= StartStart;
         PotTemperature.FinishCooking -= EndEnd;
+        PotTemperature.TriggerBurning += OnBurning;
     }
     void Start()
     {
@@ -55,6 +57,16 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
 
         canCook = false;
         ListOfTemperatures.Clear();
+    }
+    void OnBurning()
+    {
+        numTimesBurnt++;
+
+        if (numTimesBurnt >= 3)
+        {
+            isUsable = false;
+            PotTemperature.FinishCooking?.Invoke();
+        }
     }
     void CalculateRating()
     {

@@ -5,7 +5,6 @@ public class TemperatureButtons : MonoBehaviour
 {
     PotTemperature pot;
     public bool isHeating;
-    public float timeUntilBurningStarts = 5f;
 
     [SerializeField]
     float baseValue = 1f;
@@ -28,24 +27,27 @@ public class TemperatureButtons : MonoBehaviour
     }
     private void OnMouseOver()
     {
-        pot.isChangingTemp = true;
-        float currTemp = pot.GetCurrentTemp();
-
-        float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
-        float ease = Easing(toMiddle);
-        float t = Mathf.Lerp(10, 0, ease);
-        // toMiddle is the current temp away from zero
-        // since this is called every frame and is multiplied by basevalue, t is small
-
-        float value = baseValue * t * Time.smoothDeltaTime;
-        
-        if (isHeating)
+        if (!pot.amCurrentlyBurning)
         {
-            pot.RaiseTemp(value);
-        }
-        else
-        {
-            pot.LowerTemp(value);
+            pot.isChangingTemp = true;
+            float currTemp = pot.GetCurrentTemp();
+
+            float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
+            float ease = Easing(toMiddle);
+            float t = Mathf.Lerp(10, 0, ease);
+            // toMiddle is the current temp away from zero
+            // since this is called every frame and is multiplied by basevalue, t is small
+
+            float value = baseValue * t * Time.smoothDeltaTime;
+
+            if (isHeating)
+            {
+                pot.RaiseTemp(value);
+            }
+            else
+            {
+                pot.LowerTemp(value);
+            }
         }
     }
     private void OnMouseExit()

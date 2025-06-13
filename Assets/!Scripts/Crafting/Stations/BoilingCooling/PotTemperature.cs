@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PotTemperature : MonoBehaviour
@@ -10,6 +11,8 @@ public class PotTemperature : MonoBehaviour
     public delegate void FinishMinigame();
     public static FinishMinigame FinishCooking;
 
+    public static event Action TriggerBurning;
+
     [SerializeField] Slider_WithPointer TempSlider; 
     [SerializeField] SliderBar FillValueSlider;
 
@@ -17,6 +20,7 @@ public class PotTemperature : MonoBehaviour
     public float Temperature = 0;
     public float Progress = 0;
     public bool isChangingTemp = false;
+    public bool amCurrentlyBurning = false;
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,19 +31,27 @@ public class PotTemperature : MonoBehaviour
         {
             Instance = this;
         }
-    }
+    } 
     private void OnEnable()
     {
         StartCooking += StartStart;
         FinishCooking += EndEnd;
+        TriggerBurning += OnBurning;
     }
     private void OnDisable()
     {
         StartCooking = null;
         FinishCooking = null;
+        TriggerBurning = null;
     }
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TriggerBurning?.Invoke();
+        }
+        // for debugging purposes, i'll add the timer later
+
         if (TempSlider.isActiveAndEnabled)
         {
             if (!isChangingTemp) { EqualOutTemp(); }
@@ -61,15 +73,25 @@ public class PotTemperature : MonoBehaviour
     }
     void StartStart()
     {
-        TempSlider.gameObject.SetActive(true);
-        FillValueSlider.gameObject.SetActive(true);
+        ToggleSliders(true);
 
         TempSlider.SetPointerLocation(TargetTemperature);
     }
     void EndEnd()
     {
-        TempSlider.gameObject?.SetActive(false);
-        FillValueSlider.gameObject.SetActive(false);
+        ToggleSliders(false);
+    }
+    void OnBurning()
+    {
+        ToggleSliders(false);
+
+        Temperature = 0;
+        amCurrentlyBurning = true;
+    }
+    public void ToggleSliders(bool value)
+    {
+        TempSlider.gameObject.SetActive(value);
+        FillValueSlider.gameObject.SetActive(value);
     }
     public void RaiseTemp(float amount)
     {
