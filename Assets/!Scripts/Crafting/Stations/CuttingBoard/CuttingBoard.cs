@@ -44,23 +44,30 @@ public class CuttingBoard : Singleton<CuttingBoard>
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ingredient")
+        try
         {
-            string name = collision.gameObject.name;
-            if (list.GetPrefab(name.ToLower()) != null)
+            if (collision.gameObject.tag == "Ingredient")
             {
-                GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
-                p.transform.position = new Vector3(0, 1, 0);
-                p.transform.parent = transform;
-                p.name = name;
-                // to make sure this works, the ingredient dropped has to have the
-                // same name as the prefab it's referring too!
+                string name = collision.gameObject.name;
+                if (list.GetPrefab(name.ToLower()) != null)
+                {
+                    GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
+                    p.transform.position = new Vector3(0, 1, 0);
+                    p.transform.parent = transform;
+                    p.name = name;
+                    // to make sure this works, the ingredient dropped has to have the
+                    // same name as the prefab it's referring too!
 
-                //later, this will just ask for the name of the scriptable object
-                CursorManager.Instance.ClearCursor();
-                Destroy(collision.gameObject);
+                    //later, this will just ask for the name of the scriptable object
+                    Destroy(collision.gameObject);
+                    if (CursorManager.Instance != null)
+                        CursorManager.Instance.ClearCursor(false);
+                }
             }
-            else { return; } // if there's an exception, the thing will return.
+        }
+        catch
+        {
+            Debug.Break();
         }
     }
 }

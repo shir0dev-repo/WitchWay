@@ -98,7 +98,8 @@ public class WorldIngredient : MonoBehaviour
         _isDragging = true;
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
-        CursorManager.Instance.AttachToCursor(transform, transform);
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.AttachToCursor(transform, transform);
     }
 
     private void UpdateDragging()
@@ -147,7 +148,7 @@ public class WorldIngredient : MonoBehaviour
             FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
             Destroy(gameObject);
         }
-        else
+        else if (CursorManager.Instance != null)
         {
             CursorManager.Instance.ClearCursor();
         }

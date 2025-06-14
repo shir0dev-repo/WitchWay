@@ -59,10 +59,12 @@ public class CursorManager : Singleton<CursorManager>
         _restPivot = newPivot;
     }
 
-    public void ClearCursor()
+    public void ClearCursor(bool returnToRestPosition = true)
     {
         //Debug.Log($"Detached {_attachedObject.name} from cursor.");
-        _attachedObject.position = _restPivot.position;
+        if (returnToRestPosition)
+            _attachedObject.position = _restPivot.position;
+
         _restPivot = null;
         _attachedObject = null;
 
