@@ -35,7 +35,7 @@ public class WZPlayerController : MonoBehaviour
     //private vars
     //input
     private Vector2 moveInput = Vector2.zero;
-    private Vector2 lookInput = Vector2.zero;
+    [HideInInspector] public Vector2 lookInput = Vector2.zero;
     private float currentSpeed;
 
     //refs

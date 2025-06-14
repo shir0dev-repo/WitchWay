@@ -27,6 +27,7 @@ public class WZPlayerInteract : MonoBehaviour
     [SerializeField] private string draggableObjectTag;
     [SerializeField] private string npcObjectTag;
     [SerializeField] private float pickupDistance;
+    [SerializeField] private float objectDragSpeed = 20f;
 
     [Header("UI Objects")]
     [SerializeField] private CanvasGroup inventoryCanvasGroup;
@@ -41,6 +42,9 @@ public class WZPlayerInteract : MonoBehaviour
     private Vector2 baseReticleSize;
 
     private bool paused = false;
+
+    private GameObject currentlyDragging;
+    private Vector3 hitPosition;
 
     void Awake()
     {
@@ -65,6 +69,7 @@ public class WZPlayerInteract : MonoBehaviour
 
         interactAction.started += OnInteract;
         dragAction.performed += OnDragObject;
+        dragAction.canceled += OffDragObject;
 
         optionChangeAction.started += OnDiaOptionChange;
         selectAction.started += OnDiaOptionSelect;
@@ -72,6 +77,7 @@ public class WZPlayerInteract : MonoBehaviour
         showIngrediantsAction.performed += OnShowIngredients;
         showIngrediantsAction.canceled += UnShowIngredients;
         recipeBookAction.performed += OnShowRecipes;
+        recipeBookAction.canceled += UnShowRecipes;
         pauseAction.started += OnPauseGame;
     }
 
@@ -79,6 +85,7 @@ public class WZPlayerInteract : MonoBehaviour
     {
         interactAction.started -= OnInteract;
         dragAction.performed -= OnDragObject;
+        dragAction.canceled -= OffDragObject;
 
         optionChangeAction.started -= OnDiaOptionChange;
         selectAction.started -= OnDiaOptionSelect;
@@ -86,6 +93,7 @@ public class WZPlayerInteract : MonoBehaviour
         showIngrediantsAction.performed -= OnShowIngredients;
         showIngrediantsAction.canceled -= UnShowIngredients;
         recipeBookAction.performed -= OnShowRecipes;
+        recipeBookAction.canceled -= UnShowRecipes;
         pauseAction.started -= OnPauseGame;
 
         interactAction.Disable();
@@ -100,6 +108,8 @@ public class WZPlayerInteract : MonoBehaviour
     void Update()
     {
         CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag);
+
+        DragObject();
     }
 
     //interaction controls
@@ -119,7 +129,7 @@ public class WZPlayerInteract : MonoBehaviour
         }
     }
 
-    //interacted with an ingrediant
+    //interacted with an ingrediant (this adds to ALL ingrediants, including ones you have previously collected. if this isnt desired i can change it)
     private void IngrediantInteracted(WZWorldIngredient ingredient)
     {
         //add ingrediant to inventory
@@ -147,7 +157,39 @@ public class WZPlayerInteract : MonoBehaviour
 
     private void OnDragObject(InputAction.CallbackContext context)
     {
+        currentlyDragging = CheckForInteractable(draggableObjectTag);
+        if (currentlyDragging != null)
+        {
+            Rigidbody draggedRb = currentlyDragging.GetComponent<Rigidbody>();
+            draggedRb.useGravity = false;
+            draggedRb.linearVelocity = Vector3.zero;
 
+            hitPosition = lastHit.point;
+        }
+    }
+
+    private void OffDragObject(InputAction.CallbackContext context)
+    {
+        if (currentlyDragging != null)
+        {
+            Rigidbody draggedRb = currentlyDragging.GetComponent<Rigidbody>();
+            draggedRb.useGravity = true;
+        }
+
+        currentlyDragging = null;
+    }
+
+    private void DragObject()
+    {
+        if (currentlyDragging != null)
+        {
+            Vector3 targetWorldPosition = cam.transform.position + cam.transform.forward * Vector3.Distance(cam.transform.position, hitPosition);
+
+            Rigidbody draggedRb = currentlyDragging.GetComponent<Rigidbody>();
+            Vector3 direction = targetWorldPosition - currentlyDragging.transform.position;
+
+            draggedRb.linearVelocity = direction * objectDragSpeed;
+        }
     }
 
     //dialogue controls
@@ -175,7 +217,12 @@ public class WZPlayerInteract : MonoBehaviour
 
     private void OnShowRecipes(InputAction.CallbackContext context)
     {
+        print("showing recipes");
+    }
 
+    private void UnShowRecipes(InputAction.CallbackContext context)
+    {
+        print("stop showing recipes");
     }
 
     private void OnPauseGame(InputAction.CallbackContext context)
