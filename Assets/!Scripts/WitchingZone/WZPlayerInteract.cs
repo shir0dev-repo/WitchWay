@@ -28,6 +28,9 @@ public class WZPlayerInteract : MonoBehaviour
     [SerializeField] private string npcObjectTag;
     [SerializeField] private float pickupDistance;
 
+    [Header("UI Objects")]
+    [SerializeField] private CanvasGroup inventoryCanvasGroup;
+
     //private vars
     Camera cam;
 
@@ -46,6 +49,8 @@ public class WZPlayerInteract : MonoBehaviour
         //store reticle values
         baseReticleColor = reticleImage.color;
         baseReticleSize = reticleImage.rectTransform.sizeDelta;
+
+        inventoryCanvasGroup.alpha = 0;
     }
 
     void OnEnable()
@@ -65,6 +70,7 @@ public class WZPlayerInteract : MonoBehaviour
         selectAction.started += OnDiaOptionSelect;
 
         showIngrediantsAction.performed += OnShowIngredients;
+        showIngrediantsAction.canceled += UnShowIngredients;
         recipeBookAction.performed += OnShowRecipes;
         pauseAction.started += OnPauseGame;
     }
@@ -78,6 +84,7 @@ public class WZPlayerInteract : MonoBehaviour
         selectAction.started -= OnDiaOptionSelect;
 
         showIngrediantsAction.performed -= OnShowIngredients;
+        showIngrediantsAction.canceled -= UnShowIngredients;
         recipeBookAction.performed -= OnShowRecipes;
         pauseAction.started -= OnPauseGame;
 
@@ -103,7 +110,7 @@ public class WZPlayerInteract : MonoBehaviour
         {
             if (interactedObject.CompareTag(ingredientObjectTag))
             {
-                IngrediantInteracted();
+                IngrediantInteracted(interactedObject.GetComponent<WZWorldIngredient>());
             }
             else //only not null if one of the two passed in so no need to check for both
             {
@@ -113,11 +120,13 @@ public class WZPlayerInteract : MonoBehaviour
     }
 
     //interacted with an ingrediant
-    private void IngrediantInteracted()
+    private void IngrediantInteracted(WZWorldIngredient ingredient)
     {
         //add ingrediant to inventory
-        //inventory system needs to beredone cause idk why i didnt think of this
-        print("ingredient");
+        Inventory inventory = GetComponent<Inventory>();
+        inventory.AddNewItem(ingredient.ingredient);
+
+        Destroy(ingredient.gameObject);
     }
 
     //interacted with an npc
@@ -145,17 +154,23 @@ public class WZPlayerInteract : MonoBehaviour
     private void OnDiaOptionChange(InputAction.CallbackContext context)
     {
         Vector2 dir = context.ReadValue<Vector2>();
+        //blank until dialogue system
     }
 
     private void OnDiaOptionSelect(InputAction.CallbackContext context)
     {
-
+        //also blank until dialogue system
     }
 
     //misc controls
     private void OnShowIngredients(InputAction.CallbackContext context)
     {
+        inventoryCanvasGroup.alpha = 1;
+    }
 
+    private void UnShowIngredients(InputAction.CallbackContext context)
+    {
+        inventoryCanvasGroup.alpha = 0;
     }
 
     private void OnShowRecipes(InputAction.CallbackContext context)
