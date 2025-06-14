@@ -1,5 +1,7 @@
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 /*
 Possible improvements:
@@ -32,6 +34,10 @@ public class WZPlayerController : MonoBehaviour
     [SerializeField] private float crouchSpeed = 2.5f;
     [SerializeField] private float percentOrigHeight;
 
+    [Header("Loading")]
+    [SerializeField] private int exitPortalSceneIndex;
+    [SerializeField] private TriggerForwarder wzExitPortal;
+
     //private vars
     //input
     private Vector2 moveInput = Vector2.zero;
@@ -59,6 +65,8 @@ public class WZPlayerController : MonoBehaviour
         currentSpeed = moveSpeed;
 
         wasGrounded = Physics.CheckSphere(groundCheckPos.position, groundDist, groundLayer);
+
+        if (wzExitPortal != null) wzExitPortal.onTriggerEnterNorm += () => LoadScene(exitPortalSceneIndex); //change to collider data passer if its allowed to collide with things other thatn player
     }
 
     void OnEnable()
@@ -199,6 +207,12 @@ public class WZPlayerController : MonoBehaviour
 
         //set player position to the ground
         transform.position = new Vector3(transform.position.x, transform.position.y - newScale.y, transform.position.z);
+    }
+
+    //load scene
+    private void LoadScene(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex); //add a loading anim and load async
     }
 
     //debugging
