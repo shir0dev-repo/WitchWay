@@ -92,8 +92,17 @@ public class WZPlayerInteract : MonoBehaviour
     //interacted with an npc
     private void NPCInteracted()
     {
-        //initiate npc dialogue
-        print("Npc interacted");
+        //disable other input
+        WZPlayerController playerController = GetComponent<WZPlayerController>();
+        playerController.enabled = false;
+
+        //unlock cursor and hide reticle
+        Cursor.lockState = CursorLockMode.Confined;
+        reticleImage.gameObject.SetActive(false);
+
+        print("NPC interacted");
+
+        //NEEDS TO BE REENABLED SOMEWHERE AT SOME POINT
     }
 
     //utility
