@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class WZPlayerInteract : MonoBehaviour
 {
@@ -19,4 +20,132 @@ public class WZPlayerInteract : MonoBehaviour
     [SerializeField] private InputAction recipeBookAction;
     [Space(5)]
     [SerializeField] private InputAction pauseAction;
+
+    [Header("Interact Settings")]
+    [SerializeField] private Image reticleImage;
+    [SerializeField] private string ingredientObjectTag; //these can be changed if/when they have unique scripts
+    [SerializeField] private string draggableObjectTag;
+    [SerializeField] private string npcObjectTag;
+    [SerializeField] private float pickupDistance;
+
+    //private vars
+    Camera cam;
+
+    private RaycastHit lastHit;
+    private bool didHit;
+
+    private Color baseReticleColor;
+    private Vector2 baseReticleSize;
+
+    void Awake()
+    {
+        cam = Camera.main;
+
+        //store reticle values
+        baseReticleColor = reticleImage.color;
+        baseReticleSize = reticleImage.rectTransform.sizeDelta;
+    }
+
+    void OnEnable()
+    {
+        interactAction.Enable();
+
+        interactAction.started += OnInteract;
+    }
+
+    void OnDisable()
+    {
+        interactAction.started -= OnInteract;
+
+        interactAction.Disable();
+    }
+
+    void Update()
+    {
+        CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag);
+    }
+
+    private void OnInteract(InputAction.CallbackContext context)
+    {
+        GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag); //if null no object found
+        if (interactedObject != null)
+        {
+            if (interactedObject.CompareTag(ingredientObjectTag))
+            {
+                IngrediantInteracted();
+            }
+            else //only not null if one of the two passed in so no need to check for both
+            {
+                NPCInteracted();
+            }
+        }
+    }
+
+    //interacted with an ingrediant
+    private void IngrediantInteracted()
+    {
+        //add ingrediant to inventory
+        print("ingrediant");
+    }
+
+    //interacted with an npc
+    private void NPCInteracted()
+    {
+        //initiate npc dialogue
+    }
+
+    //utility
+    private void CastInteractRay(params string[] tagsToCheck)
+    {
+        Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Ray ray = cam.ScreenPointToRay(center);
+
+        didHit = Physics.Raycast(ray, out lastHit, pickupDistance);
+        if (didHit)
+        {
+            foreach (string tag in tagsToCheck)
+            {
+                if (lastHit.transform.CompareTag(tag))
+                {
+                    //maybe store these at start?
+                    Color newRetColor = new Color(baseReticleColor.r, baseReticleColor.g, baseReticleColor.b, baseReticleColor.a + (baseReticleColor.a * 0.25f));
+                    reticleImage.color = newRetColor;
+
+                    Vector2 newRetSize = new Vector2(baseReticleSize.x + (baseReticleSize.x * 0.25f), baseReticleSize.y + (baseReticleSize.y * 0.25f));
+                    reticleImage.rectTransform.sizeDelta = newRetSize;
+
+                    break;
+                }
+                else
+                {
+                    reticleImage.color = baseReticleColor;
+                    reticleImage.rectTransform.sizeDelta = baseReticleSize;
+                }
+            }
+        }
+        else
+        {
+            reticleImage.color = baseReticleColor;
+            reticleImage.rectTransform.sizeDelta = baseReticleSize;
+        }
+
+#if UNITY_ENGINE
+        Debug.DrawRay(ray.origin, ray.direction * pickupDistance, Color.red);
+#endif
+    }
+    
+    private GameObject CheckForInteractable(params string[] tagsToCheck)
+    {
+        //send out ray from camera center
+        if (!didHit) return null;
+
+        foreach (string tag in tagsToCheck)
+        {
+            if (lastHit.transform.CompareTag(tag))
+            {
+                return lastHit.transform.gameObject;
+            }
+        }
+        return null;
+    }
 }
