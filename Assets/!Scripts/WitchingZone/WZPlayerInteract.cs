@@ -37,6 +37,8 @@ public class WZPlayerInteract : MonoBehaviour
     private Color baseReticleColor;
     private Vector2 baseReticleSize;
 
+    private bool paused = false;
+
     void Awake()
     {
         cam = Camera.main;
@@ -49,15 +51,43 @@ public class WZPlayerInteract : MonoBehaviour
     void OnEnable()
     {
         interactAction.Enable();
+        dragAction.Enable();
+        optionChangeAction.Enable();
+        selectAction.Enable();
+        showIngrediantsAction.Enable();
+        recipeBookAction.Enable();
+        pauseAction.Enable();
 
         interactAction.started += OnInteract;
+        dragAction.performed += OnDragObject;
+
+        optionChangeAction.started += OnDiaOptionChange;
+        selectAction.started += OnDiaOptionSelect;
+
+        showIngrediantsAction.performed += OnShowIngredients;
+        recipeBookAction.performed += OnShowRecipes;
+        pauseAction.started += OnPauseGame;
     }
 
     void OnDisable()
     {
         interactAction.started -= OnInteract;
+        dragAction.performed -= OnDragObject;
+
+        optionChangeAction.started -= OnDiaOptionChange;
+        selectAction.started -= OnDiaOptionSelect;
+
+        showIngrediantsAction.performed -= OnShowIngredients;
+        recipeBookAction.performed -= OnShowRecipes;
+        pauseAction.started -= OnPauseGame;
 
         interactAction.Disable();
+        dragAction.Disable();
+        optionChangeAction.Disable();
+        selectAction.Disable();
+        showIngrediantsAction.Disable();
+        recipeBookAction.Disable();
+        pauseAction.Disable();
     }
 
     void Update()
@@ -65,6 +95,7 @@ public class WZPlayerInteract : MonoBehaviour
         CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag);
     }
 
+    //interaction controls
     private void OnInteract(InputAction.CallbackContext context)
     {
         GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag); //if null no object found
@@ -103,6 +134,51 @@ public class WZPlayerInteract : MonoBehaviour
         print("NPC interacted");
 
         //NEEDS TO BE REENABLED SOMEWHERE AT SOME POINT
+    }
+
+    private void OnDragObject(InputAction.CallbackContext context)
+    {
+
+    }
+
+    //dialogue controls
+    private void OnDiaOptionChange(InputAction.CallbackContext context)
+    {
+        Vector2 dir = context.ReadValue<Vector2>();
+    }
+
+    private void OnDiaOptionSelect(InputAction.CallbackContext context)
+    {
+
+    }
+
+    //misc controls
+    private void OnShowIngredients(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void OnShowRecipes(InputAction.CallbackContext context)
+    {
+
+    }
+
+    private void OnPauseGame(InputAction.CallbackContext context)
+    {
+        //this could be swapped for just disabling inputs 
+        paused = !paused;
+        if (paused)
+        {
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        //add code for a Ui appearing
     }
 
     //utility
