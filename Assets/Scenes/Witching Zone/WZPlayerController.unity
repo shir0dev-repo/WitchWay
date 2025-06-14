@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 743580523}
   - component: {fileID: 743580522}
   - component: {fileID: 743580526}
+  - component: {fileID: 743580530}
   - component: {fileID: 743580527}
   - component: {fileID: 743580528}
   - component: {fileID: 743580529}
@@ -952,6 +953,7 @@ MonoBehaviour:
   groundDist: 0.4
   crouchSpeed: 2.5
   percentOrigHeight: 50
+  lookInput: {x: 0, y: 0}
 --- !u!114 &743580528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,6 +1210,7 @@ MonoBehaviour:
   draggableObjectTag: WZDraggable
   npcObjectTag: WZnpc
   pickupDistance: 5
+  objectDragSpeed: 20
   inventoryCanvasGroup: {fileID: 583407261}
 --- !u!114 &743580529
 MonoBehaviour:
@@ -1228,6 +1231,19 @@ MonoBehaviour:
   slotsGrid: {fileID: 1858509389}
   slotVisualObject: {fileID: 4433735583167603129, guid: 43cce3865e4a8ee46a993e0b69d87e79, type: 3}
   addTrigger: {fileID: 0}
+--- !u!114 &743580530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743580521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b901388c889255345a256ad4e6a8ecec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSanity: 10
 --- !u!1 &903578728
 GameObject:
   m_ObjectHideFlags: 0
