@@ -21,6 +21,9 @@ public class PotTemperature : MonoBehaviour
     public float Progress = 0;
     public bool isChangingTemp { get; set; }
     public bool amCurrentlyBurning {  get; set; }
+
+    float TimeUntilBurn = 0;
+    [SerializeField] float BurnTimerThreshold = 5f;
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,11 +49,11 @@ public class PotTemperature : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !amCurrentlyBurning)
+        if(Temperature > 45 || Temperature < -45)
         {
-            TriggerBurning?.Invoke();
+            InBurningThreshold();
         }
-        // for debugging purposes, i'll add the timer later
+        else { TimeUntilBurn = Mathf.Max(TimeUntilBurn - Time.deltaTime, 0); }
 
         if (TempSlider.isActiveAndEnabled)
         {
@@ -81,16 +84,22 @@ public class PotTemperature : MonoBehaviour
     {
         ToggleSliders(false);
     }
+    void InBurningThreshold()
+    {
+        TimeUntilBurn = Mathf.Min(TimeUntilBurn + Time.deltaTime, BurnTimerThreshold);
+
+        if (TimeUntilBurn >= BurnTimerThreshold)
+        {
+            TriggerBurning?.Invoke();
+        }
+    }
     void OnBurning()
     {
         ToggleSliders(false);
 
         Temperature = 0;
+        TimeUntilBurn = 0;
         amCurrentlyBurning = true;
-    }
-    public void InvokeBurning()
-    {
-        TriggerBurning?.Invoke();
     }
     public void ToggleSliders(bool value)
     {

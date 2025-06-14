@@ -12,8 +12,6 @@ public class Siphon : MonoBehaviour
 
     [Header("Pressure Fill Speed")]
     [SerializeField] private float _addedPressure = 2.5f;
-    [SerializeField] private float _maxPressureIncrease = 5.0f;
-    [SerializeField] private float _pressureSmoothing = 0.75f;
     [SerializeField] float visiblePressure;
 
     Vector2 targetValue; // the value that's actually being calculated

@@ -9,8 +9,6 @@ public class TemperatureButtons : MonoBehaviour
 
     [SerializeField]
     float baseValue = 1f;
-
-    [SerializeField] float timeUntilBurningStarts = 5f;
     private void OnEnable()
     {
         PotTemperature.StartCooking -= StartMinigame;
@@ -32,7 +30,6 @@ public class TemperatureButtons : MonoBehaviour
         if (pot.amCurrentlyBurning) { return; }
 
         pot.isChangingTemp = true;
-        TimerUntilBurning();
 
         float currTemp = pot.GetCurrentTemp();
         float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
@@ -63,16 +60,6 @@ public class TemperatureButtons : MonoBehaviour
     void EndMinigame()
     {
         gameObject.SetActive(false);
-    }
-    void TimerUntilBurning()
-    {
-        timeUntilBurningStarts -= Time.deltaTime;
-
-        if(timeUntilBurningStarts <= 0)
-        {
-            pot.InvokeBurning();
-            timeUntilBurningStarts = 5f;
-        }
     }
     float Easing(float x)
     {
