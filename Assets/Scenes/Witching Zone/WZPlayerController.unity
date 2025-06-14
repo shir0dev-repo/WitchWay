@@ -635,6 +635,14 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Move
       m_Flags: 8
+    - m_Name: 
+      m_Id: 0cd6fb85-5277-45a5-981f-61b7e9279cf8
+      m_Path: <Gamepad>/leftStick
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move
+      m_Flags: 0
     m_Flags: 0
   lookAction:
     m_Name: Look
@@ -647,6 +655,14 @@ MonoBehaviour:
     - m_Name: 
       m_Id: 213c2918-93ec-46b4-863f-e5a3d65ca73a
       m_Path: <Mouse>/delta
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Look
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 14b3c3a5-47da-48f4-9862-191b12107f27
+      m_Path: <Gamepad>/rightStick
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -669,6 +685,14 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Jump
       m_Flags: 0
+    - m_Name: 
+      m_Id: da31286d-47d0-473b-ba2f-922db71fc9fa
+      m_Path: <Gamepad>/buttonSouth
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Jump
+      m_Flags: 0
     m_Flags: 0
   crouchAction:
     m_Name: Crouch
@@ -681,6 +705,14 @@ MonoBehaviour:
     - m_Name: 
       m_Id: f2ba6b2c-5806-4370-bcde-9f18d873f697
       m_Path: <Keyboard>/leftShift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Crouch
+      m_Flags: 0
+    - m_Name: 
+      m_Id: a56e7d80-69b4-498e-8469-60efdb78616f
+      m_Path: <Gamepad>/leftStickPress
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -720,6 +752,14 @@ MonoBehaviour:
     - m_Name: 
       m_Id: e9bb015e-baae-4fd8-b5a9-2c0a8cb9ae69
       m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Interact
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 77a1b6f0-9e4f-4a96-b94e-e87e8bb9fc62
+      m_Path: <Gamepad>/buttonEast
       m_Interactions: 
       m_Processors: 
       m_Groups: 
