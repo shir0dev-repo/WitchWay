@@ -85,13 +85,15 @@ public class WZPlayerInteract : MonoBehaviour
     private void IngrediantInteracted()
     {
         //add ingrediant to inventory
-        print("ingrediant");
+        //inventory system needs to beredone cause idk why i didnt think of this
+        print("ingredient");
     }
 
     //interacted with an npc
     private void NPCInteracted()
     {
         //initiate npc dialogue
+        print("Npc interacted");
     }
 
     //utility
@@ -134,6 +136,7 @@ public class WZPlayerInteract : MonoBehaviour
 #endif
     }
     
+    //check if the hit ingrediant is a correct type
     private GameObject CheckForInteractable(params string[] tagsToCheck)
     {
         //send out ray from camera center

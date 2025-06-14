@@ -113,10 +113,10 @@ public class WZPlayerController : MonoBehaviour
         DoMove();
 
         //grounded check
-         bool isGrounded = Physics.CheckSphere(groundCheckPos.position, groundDist, groundLayer);
+        bool isGrounded = Physics.CheckSphere(groundCheckPos.position, groundDist, groundLayer);
         if (!wasGrounded && isGrounded)
         {
-            if (crouchAction.inProgress) ApplyCrouch();
+            if (crouchAction.inProgress) ApplyCrouch(); //if holding crouch when landing, crouch
         }
         wasGrounded = isGrounded;
     }
@@ -143,6 +143,7 @@ public class WZPlayerController : MonoBehaviour
         }
     }
 
+    //use mouse input to move camera
     private void DoLook()
     {
         float mouseX = lookInput.x * lookSpeed * Time.deltaTime;
@@ -156,6 +157,7 @@ public class WZPlayerController : MonoBehaviour
         camTransform.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
     }
 
+    //jump when space pressed
     private void DoJump(InputAction.CallbackContext context)
     {
         if (Physics.CheckSphere(groundCheckPos.position, groundDist, groundLayer))
