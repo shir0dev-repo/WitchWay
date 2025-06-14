@@ -13,6 +13,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
 
     bool isUsable = true;
     float numTimesBurnt = 0;
+    [SerializeField] const float maxTimesBurnt = 3;
     private void OnEnable()
     {
         PotTemperature.StartCooking += StartStart;
@@ -23,7 +24,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     {
         PotTemperature.StartCooking -= StartStart;
         PotTemperature.FinishCooking -= EndEnd;
-        PotTemperature.TriggerBurning += OnBurning;
+        PotTemperature.TriggerBurning -= OnBurning;
     }
     void Start()
     {
@@ -31,17 +32,15 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     }
     void Update()
     {
-        if (canCook)
+        if (!canCook) return;
+
+        if (pot.Progress < 100)
         {
-            if (pot.Progress < 100)
-            {
-                if (IsTempInTargetRange(pot.Temperature)) { pot.IncreaseProgress(); }
-                else { pot.DecreaseProgress(); }
-            }
-            else if (pot.Progress >= 100)
-            {
-                PotTemperature.FinishCooking?.Invoke();
-            }
+            CookIngredient(pot.Temperature);
+        }
+        else if (pot.Progress >= 100)
+        {
+            PotTemperature.FinishCooking?.Invoke();
         }
     }
     void StartStart()
@@ -58,14 +57,18 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
         canCook = false;
         ListOfTemperatures.Clear();
     }
+    void CookIngredient(float currTemp)
+    {
+        if (IsTempInTargetRange(currTemp)) { pot.IncreaseProgress(); }
+        else { pot.DecreaseProgress(); }
+    }
     void OnBurning()
     {
         numTimesBurnt++;
 
-        if (numTimesBurnt >= 3)
+        if (numTimesBurnt >= maxTimesBurnt)
         {
             isUsable = false;
-            PotTemperature.FinishCooking?.Invoke();
         }
     }
     void CalculateRating()

@@ -4,12 +4,12 @@ using UnityEngine;
 public class PotTemperature : MonoBehaviour
 {
     public static PotTemperature Instance {  get; private set; }
+    public FailState_BurnCool FailState { get; private set; }
 
-    public delegate void StartMinigame();
-    public static StartMinigame StartCooking;
-
-    public delegate void FinishMinigame();
-    public static FinishMinigame FinishCooking;
+    public delegate void MinigameActivation();
+    public static MinigameActivation StartCooking;
+    public static MinigameActivation FinishCooking;
+    // i have realized that you can make multiple delegates out of the same one.
 
     public static event Action TriggerBurning;
 
@@ -19,18 +19,18 @@ public class PotTemperature : MonoBehaviour
     public float TargetTemperature;
     public float Temperature = 0;
     public float Progress = 0;
-    public bool isChangingTemp = false;
-    public bool amCurrentlyBurning = false;
+    public bool isChangingTemp { get; set; }
+    public bool amCurrentlyBurning {  get; set; }
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
             Destroy(this);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
+        
+        Instance = this;
+        FailState = GetComponentInChildren<FailState_BurnCool>();
     } 
     private void OnEnable()
     {
@@ -46,7 +46,7 @@ public class PotTemperature : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !amCurrentlyBurning)
         {
             TriggerBurning?.Invoke();
         }
@@ -87,6 +87,10 @@ public class PotTemperature : MonoBehaviour
 
         Temperature = 0;
         amCurrentlyBurning = true;
+    }
+    public void InvokeBurning()
+    {
+        TriggerBurning?.Invoke();
     }
     public void ToggleSliders(bool value)
     {

@@ -4,11 +4,13 @@ using UnityEngine;
 public class TemperatureButtons : MonoBehaviour
 {
     PotTemperature pot;
-    public bool isHeating;
+    [SerializeField]
+    bool isHeating;
 
     [SerializeField]
     float baseValue = 1f;
 
+    [SerializeField] float timeUntilBurningStarts = 5f;
     private void OnEnable()
     {
         PotTemperature.StartCooking -= StartMinigame;
@@ -27,27 +29,27 @@ public class TemperatureButtons : MonoBehaviour
     }
     private void OnMouseOver()
     {
-        if (!pot.amCurrentlyBurning)
+        if (pot.amCurrentlyBurning) { return; }
+
+        pot.isChangingTemp = true;
+        TimerUntilBurning();
+
+        float currTemp = pot.GetCurrentTemp();
+        float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
+        float ease = Easing(toMiddle);
+        float t = Mathf.Lerp(10, 0, ease);
+        // toMiddle is the current temp away from zero
+        // since this is called every frame and is multiplied by basevalue, t is small
+
+        float value = baseValue * t * Time.smoothDeltaTime;
+
+        if (isHeating)
         {
-            pot.isChangingTemp = true;
-            float currTemp = pot.GetCurrentTemp();
-
-            float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
-            float ease = Easing(toMiddle);
-            float t = Mathf.Lerp(10, 0, ease);
-            // toMiddle is the current temp away from zero
-            // since this is called every frame and is multiplied by basevalue, t is small
-
-            float value = baseValue * t * Time.smoothDeltaTime;
-
-            if (isHeating)
-            {
-                pot.RaiseTemp(value);
-            }
-            else
-            {
-                pot.LowerTemp(value);
-            }
+            pot.RaiseTemp(value);
+        }
+        else
+        {
+            pot.LowerTemp(value);
         }
     }
     private void OnMouseExit()
@@ -61,6 +63,16 @@ public class TemperatureButtons : MonoBehaviour
     void EndMinigame()
     {
         gameObject.SetActive(false);
+    }
+    void TimerUntilBurning()
+    {
+        timeUntilBurningStarts -= Time.deltaTime;
+
+        if(timeUntilBurningStarts <= 0)
+        {
+            pot.InvokeBurning();
+            timeUntilBurningStarts = 5f;
+        }
     }
     float Easing(float x)
     {
