@@ -10,6 +10,7 @@ public class CuttableIngredient : MonoBehaviour
 
     [SerializeField] Transform[] _cutPoints;
     int _cutCount = 0;
+    int _successfulCutCount = 0;
 
     CuttingBoard _board = null;
 
@@ -85,7 +86,6 @@ public class CuttableIngredient : MonoBehaviour
             else
             {
                 success = true;
-                RemoveCutPoint(t);
                 break;
             }
         }
@@ -93,20 +93,17 @@ public class CuttableIngredient : MonoBehaviour
         if (success)
         {
             Debug.Log("Yay!");
-            UpdateChoppingProgress();
+            UpdateChoppingProgress(true);
             // on a successful cut, add to the count
         }
+        else { UpdateChoppingProgress(false); } 
     }
-    void RemoveCutPoint(Transform t)
+    void UpdateChoppingProgress(bool result)
     {
-        t.gameObject.SetActive(false);
-        // removes the cut point so the player cannot cut the same spot twice
-    }
-    void UpdateChoppingProgress()
-    {
+        if (result) { _successfulCutCount++; }
         _cutCount++; 
 
-        if(_cutCount == _cutPoints.Count()) { CompleteChopping(); }
+        if(_successfulCutCount == _cutPoints.Count()) { CompleteChopping(); }
         // when all of the sections are cut, complete the minigame
         else { return; }
     }
