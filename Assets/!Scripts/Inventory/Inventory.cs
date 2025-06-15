@@ -67,7 +67,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        addTrigger.onTriggerEnter += AddItemTrigger;
+        if(addTrigger != null) addTrigger.onTriggerEnter += AddItemTrigger;
 
         //check if already populated
         if (PersistantItemList.inventorySlots.Count > 0)
