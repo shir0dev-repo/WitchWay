@@ -36,7 +36,7 @@ public class MortarStation : MonoBehaviour
     {
         if (other.TryGetComponent(out CrushableIngredientState state))
         {
-            if (other.TryGetComponent(out WorldIngredient ing) && !ing.ingredient.CanBeCrushed) return;
+            if (other.TryGetComponent(out WorldIngredient ing) && !ing.BaseIngredient.CanBeCrushed) return;
 
             if (CursorManager.Instance.AttachedObject == transform)
                 CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);

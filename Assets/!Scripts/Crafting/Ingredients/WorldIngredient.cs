@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class WorldIngredient : MonoBehaviour
 {
-    public IngredientSO ingredient; //added this so can ref what ingredient it is
-
+    public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
+    
+    public ModifiedIngredient ModifiedState => _data;
+    [SerializeField] private ModifiedIngredient _data;
     [HideInInspector] public bool _isDragging = false;
 
     private Vector3 _mousePosWS = Vector3.zero;
@@ -158,13 +160,13 @@ public class WorldIngredient : MonoBehaviour
     {
         if (wIngredient != this) return;
 
-        if (ingredient == null)
+        if (BaseIngredient == null)
         {
             StartCoroutine(DeferredCheck(station));
             return;
         }
 
-        isStationValid = ingredient.CanBeUsedAtStation(station);
+        isStationValid = BaseIngredient.CanBeUsedAtStation(station);
         if (isStationValid)
         {
             _anchoredToStation = true;
@@ -175,7 +177,7 @@ public class WorldIngredient : MonoBehaviour
     private IEnumerator DeferredCheck(StationType station)
     {
         yield return null;
-        if (ingredient != null)
-            isStationValid = ingredient.CanBeUsedAtStation(station);
+        if (BaseIngredient != null)
+            isStationValid = BaseIngredient.CanBeUsedAtStation(station);
     }
 }
