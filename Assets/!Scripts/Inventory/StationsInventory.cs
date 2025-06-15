@@ -147,7 +147,7 @@ public class StationsInventory : MonoBehaviour
             for (int i = 0; i < bItem.itemAmount; i++)
             {
                 GameObject worldItem = Instantiate(worldItemBase, bItem.basket.position, Quaternion.identity);
-                worldItem.GetComponent<WorldIngredient>().ingredient = bItem.assignedIngredient;
+                worldItem.GetComponent<WorldIngredient>().SetIngredient(bItem.assignedIngredient);
                 bItem.itemAmount -= 1; //bad way to fix the trigger getting hit on setup but it works
             }
         }

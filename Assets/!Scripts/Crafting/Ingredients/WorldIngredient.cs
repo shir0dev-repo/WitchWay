@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class WorldIngredient : MonoBehaviour
 {
+    public void SetIngredient(IngredientSO data)
+    {
+        _data.BaseIngredient = data;
+    }
+
     public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
     
     public ModifiedIngredient ModifiedState => _data;
@@ -23,7 +28,6 @@ public class WorldIngredient : MonoBehaviour
     private float currentDepth;
     private bool isStationValid = true;
     private bool inDestroyArea = false;
-    private bool _anchoredToStation = false;
 
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
@@ -169,7 +173,6 @@ public class WorldIngredient : MonoBehaviour
         isStationValid = BaseIngredient.CanBeUsedAtStation(station);
         if (isStationValid)
         {
-            _anchoredToStation = true;
             transform.position = stationAnchor.position;
         }
     }
