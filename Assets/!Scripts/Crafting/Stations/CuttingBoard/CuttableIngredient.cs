@@ -11,6 +11,8 @@ public class CuttableIngredient : MonoBehaviour
     [SerializeField] Transform[] _cutPoints;
     int _cutCount = 0;
     int _successfulCutCount = 0;
+    float ingredientDurability;
+    // get this from the ingredient's stats
 
     CuttingBoard _board = null;
 
@@ -24,6 +26,9 @@ public class CuttableIngredient : MonoBehaviour
     private void Start()
     {
         _board = CuttingBoard.Instance;
+
+        ingredientDurability = 100;
+        // for debugging purposes
     }
 
     private void Update()
@@ -52,9 +57,15 @@ public class CuttableIngredient : MonoBehaviour
         {
             _isCutting = false;
             _cutTimer = _cutInterval;
-            CompareCuts();
-            
+            CompareCuts();  
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CompleteChopping();
+        }
+        // for debugging purposes, provides the player with a way to quit cutting
+        // at least until i implement something else lmao
 
         if (!_isCutting) return;
 
@@ -96,25 +107,37 @@ public class CuttableIngredient : MonoBehaviour
             UpdateChoppingProgress(true);
             // on a successful cut, add to the count
         }
-        else { UpdateChoppingProgress(false); } 
+        else { UpdateChoppingProgress(false); }
     }
     void UpdateChoppingProgress(bool result)
     {
         if (result) { _successfulCutCount++; }
-        _cutCount++; 
 
-        if(_successfulCutCount == _cutPoints.Count()) { CompleteChopping(); }
-        // when all of the sections are cut, complete the minigame
-        else { return; }
+        _cutCount++;
+        ingredientDurability -= 10;
+        ingredientDurability = Mathf.Clamp(ingredientDurability, 0f, 100f);
+
+        CheckIngredientStatus();
     }
     void CompleteChopping()
     {
-        Debug.Log("All portions are chopped. Yay!");
+        Debug.Log("All portions are chopped. Yay!" + '\n' + RateChopping());
 
         GameObject ob = Instantiate(CuttingBoard.Instance.list.GetChoppedPrefab(gameObject.name.ToLower() + "-cut"));
         ob.transform.parent = transform.parent;
         // later, this will just grab the name of the scriptable object attached to the prefab.
 
         Destroy(gameObject);
+    }
+    string RateChopping()
+    {
+        if (_cutCount > _cursorPoints.Count()) { return "you cut too much!"; }
+        else if(_cutCount == _cursorPoints.Count()) { return "you cut it perfectly!"; }
+        else { return "you cut it too little lol"; }
+    }
+    void CheckIngredientStatus()
+    {
+        // would communicate with the ingredient's state but for now its just checking the number of cuts
+        
     }
 }
