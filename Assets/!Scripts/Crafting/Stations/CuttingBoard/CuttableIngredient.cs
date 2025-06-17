@@ -7,33 +7,37 @@ using UnityEngine;
 public class CuttableIngredient : MonoBehaviour
 {
     [SerializeField] private TrailRenderer _cursorTrail;
-
     [SerializeField] Transform[] _cutPoints;
-    int _cutCount = 0;
-    int _successfulCutCount = 0;
-    float ingredientDurability;
-    // get this from the ingredient's stats
-
-    CuttingBoard _board = null;
+    [SerializeField] private int _dstThreshold = 50;
 
     List<Vector3> _cursorPoints = new List<Vector3>();
     Vector3 _cursorPos = Vector3.zero;
-    
-    private bool _isCutting = false;
-    [SerializeField] private int _dstThreshold = 50;
+    CuttingBoard _board;
+
+    int _cutCount = 0;
+    float ingredientDurability = 100f;
     private float _cutInterval = 0.25f, _cutTimer = 0.25f;
+
+    private bool _isCutting = false;
+
+    Camera _mainCamera;
 
     private void Start()
     {
         _board = CuttingBoard.Instance;
-
-        ingredientDurability = 100;
-        // for debugging purposes
+        _mainCamera = Camera.main;
     }
 
     private void Update()
     {
-        if (!_board.CanCut) return;
+        if (!_board.CanCut)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                CompleteChopping();
+            }
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -42,7 +46,7 @@ public class CuttableIngredient : MonoBehaviour
             _cutTimer = 0;
 
             _cursorTrail.enabled = false;
-            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
+            _cursorTrail.transform.position = _mainCamera.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
             _cursorTrail.Clear();
             _cursorTrail.enabled = true;
         }
@@ -50,7 +54,7 @@ public class CuttableIngredient : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
-            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
+            _cursorTrail.transform.position = _mainCamera.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -59,13 +63,6 @@ public class CuttableIngredient : MonoBehaviour
             _cutTimer = _cutInterval;
             CompareCuts();  
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CompleteChopping();
-        }
-        // for debugging purposes, provides the player with a way to quit cutting
-        // at least until i implement something else lmao
 
         if (!_isCutting) return;
 
@@ -83,13 +80,12 @@ public class CuttableIngredient : MonoBehaviour
     private void CompareCuts()
     {
         bool success = false;
-        int count = _cursorPoints.Count;
 
-        if (count < 2) return;
+        if (_cursorPoints.Count < 2) return;
 
         foreach (Transform t in _cutPoints)
         {
-            float xPosition = Camera.main.WorldToScreenPoint(t.position).x;
+            float xPosition = _mainCamera.WorldToScreenPoint(t.position).x;
 
             if (_cursorPoints.Any(p => Mathf.Abs(p.x - xPosition) > _dstThreshold))
                 continue;
@@ -111,17 +107,14 @@ public class CuttableIngredient : MonoBehaviour
     }
     void UpdateChoppingProgress(bool result)
     {
-        if (result) { _successfulCutCount++; }
-
         _cutCount++;
-        ingredientDurability -= 10;
-        ingredientDurability = Mathf.Clamp(ingredientDurability, 0f, 100f);
+        ingredientDurability = Mathf.Clamp(ingredientDurability - 10f, 0f, 100f);
 
         CheckIngredientStatus();
     }
     void CompleteChopping()
     {
-        Debug.Log("All portions are chopped. Yay!" + '\n' + RateChopping());
+        Debug.Log("player is done cutting!" + '\n' + RateChopping());
 
         GameObject ob = Instantiate(CuttingBoard.Instance.list.GetChoppedPrefab(gameObject.name.ToLower() + "-cut"));
         ob.transform.parent = transform.parent;
@@ -131,9 +124,11 @@ public class CuttableIngredient : MonoBehaviour
     }
     string RateChopping()
     {
-        if (_cutCount > _cursorPoints.Count()) { return "you cut too much!"; }
-        else if(_cutCount == _cursorPoints.Count()) { return "you cut it perfectly!"; }
-        else { return "you cut it too little lol"; }
+        if (_cutCount == 0) return "no cuts were made.";
+        if (_cutCount > _cutPoints.Count()) return "you cut it too much!";
+        if (_cutCount == _cutPoints.Count()) return "you cut it perfectly!";
+
+        return "you cut it too little.";
     }
     void CheckIngredientStatus()
     {
