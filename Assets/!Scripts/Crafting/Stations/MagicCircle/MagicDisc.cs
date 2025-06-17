@@ -12,7 +12,17 @@ public class MagicDisc : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        GameEvents.Crafting.OnSymbolDrawn += SpellbindIngredients;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnSymbolDrawn -= SpellbindIngredients;
+    }
+
+    private void SpellbindIngredients(AlchemicalSymbol symbol)
+    {
+        _currentlyHeldIngredients.ForEach(ing => ing.ModifiedState.Spellbind(symbol));
     }
 
     private void AddIngredient(WorldIngredient ingredient)
@@ -25,6 +35,17 @@ public class MagicDisc : MonoBehaviour
         SetIngredientPositions();
 
         GameEvents.Crafting.OnItemPlacedInArcaneCircle?.Invoke(ingredient);
+    }
+
+    private void RemoveIngredient(WorldIngredient ingredient)
+    {
+        if (_currentlyHeldIngredients.Contains(ingredient))
+            _currentlyHeldIngredients.Remove(ingredient);
+
+        RecalculateAnchors();
+        SetIngredientPositions();
+
+        GameEvents.Crafting.OnItemRemovedFromArcaneCircle?.Invoke(ingredient);
     }
 
     private void RecalculateAnchors()
@@ -73,10 +94,24 @@ public class MagicDisc : MonoBehaviour
         if (!collision.gameObject.TryGetComponent(out WorldIngredient ing)) return;
         if (_currentlyHeldIngredients.Count >= 3) return;
 
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.ClearCursor(false);
+        
         collision.collider.isTrigger = true;
         collision.rigidbody.useGravity = false;
         collision.rigidbody.linearVelocity = Vector3.zero;
         AddIngredient(ing);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Ingredient")) return;
+        if (!collision.gameObject.TryGetComponent(out WorldIngredient ing)) return;
+        if (CursorManager.Instance != null && CursorManager.Instance.AttachedObject != collision.transform) return;
+
+        collision.collider.isTrigger = false;
+        collision.rigidbody.useGravity = true;
+        RemoveIngredient(ing);
     }
 
     private void OnDrawGizmos()

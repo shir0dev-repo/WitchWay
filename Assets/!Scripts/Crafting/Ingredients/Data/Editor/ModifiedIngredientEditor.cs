@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(ModifiedIngredient))]
-public class ModifiedIngredientEditor : PropertyDrawer
+public class ModifiedIngredientDrawer : PropertyDrawer
 {
     private SerializedProperty _ingredientProp;
     private Editor _ingredientEditor;

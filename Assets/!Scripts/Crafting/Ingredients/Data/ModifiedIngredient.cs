@@ -11,15 +11,11 @@ public class ModifiedIngredient
     public bool HasBeenFrozen = false;
     public bool HasBeenHeated = false;
     public bool HasBeenMolded = false;
-    public bool HasBeenAbjurated = false;
-    public bool HasBeenNecromanced = false;
-    public bool HasBeenEnchanted = false;
-    public bool HasBeenDivinated = false;
-    public bool HasBeenEvocated = false;
+    public AlchemicalSymbol CurrentSpell = AlchemicalSymbol.None;
 
     public void Cut()
     {
-        HasBeenCut = BaseIngredient.CanBeCut && true;
+        HasBeenCut = !HasBeenCrushed && BaseIngredient.CanBeCut && true;
     }
 
     public void Crush()
@@ -42,28 +38,62 @@ public class ModifiedIngredient
         HasBeenMolded = BaseIngredient.CanBeMolded && true;
     }
 
+    public void Spellbind(AlchemicalSymbol symbol)
+    {
+        switch (symbol)
+        {
+            case AlchemicalSymbol.Abjuration:
+                Abjurate();
+                break;
+            case AlchemicalSymbol.Necromancy:
+                Necromance();
+                break;
+            case AlchemicalSymbol.Enchantment:
+                Enchant();
+                break;
+            case AlchemicalSymbol.Divination:
+                Divinate();
+                break;
+            case AlchemicalSymbol.Evocation:
+                Evocate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void Purify()
+    {
+        CurrentSpell = AlchemicalSymbol.None;
+    }
+
     public void Abjurate()
     {
-        HasBeenAbjurated = BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Abjuration) && true;
+        if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Abjuration))
+            CurrentSpell = AlchemicalSymbol.Abjuration;
     }
 
     public void Necromance()
     {
-        HasBeenNecromanced = BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Necromancy) && true;
+        if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Necromancy))
+            CurrentSpell = AlchemicalSymbol.Necromancy;
     }
 
     public void Enchant()
     {
-        HasBeenEnchanted = BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Enchantment) && true;
+        if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Enchantment))
+            CurrentSpell = AlchemicalSymbol.Enchantment;
     }
 
     public void Divinate()
     {
-        HasBeenDivinated = BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Divination) && true;
+        if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Divination))
+            CurrentSpell = AlchemicalSymbol.Divination;
     }
 
     public void Evocate()
     {
-        HasBeenEvocated = BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Evocation) && true;
+        if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Evocation))
+            CurrentSpell = AlchemicalSymbol.Evocation;
     }
 }
