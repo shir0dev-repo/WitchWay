@@ -11,6 +11,8 @@ public class IngredientSO : SODatabase.DatabaseObject
     [Header("Representation")]
     public Sprite Sprite;
     public GameObject WorldPrefab;
+    public GameObject CutWorldPrefab;
+    public GameObject CrushedWorldPrefab;
 
     [Header("Modification Flags")]
     public bool CanBeCut;

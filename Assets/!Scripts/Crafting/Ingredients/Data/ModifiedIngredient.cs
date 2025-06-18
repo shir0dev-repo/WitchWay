@@ -10,8 +10,14 @@ public class ModifiedIngredient
     public bool HasBeenCrushed = false;
     public bool HasBeenFrozen = false;
     public bool HasBeenHeated = false;
-    public bool HasBeenMolded = false;
     public AlchemicalSymbol CurrentSpell = AlchemicalSymbol.None;
+
+    public GameObject GetWorldRepresentation()
+    {
+        if (HasBeenCut) return BaseIngredient.CutWorldPrefab;
+        else if (HasBeenCrushed) return BaseIngredient.CrushedWorldPrefab;
+        else return BaseIngredient.WorldPrefab;
+    }
 
     public void Cut()
     {
@@ -31,11 +37,6 @@ public class ModifiedIngredient
     public void Heat()
     {
         HasBeenHeated = BaseIngredient.CanBeHeated && true;
-    }
-
-    public void Mold()
-    {
-        HasBeenMolded = BaseIngredient.CanBeMolded && true;
     }
 
     public void Spellbind(AlchemicalSymbol symbol)
