@@ -860,8 +860,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 798462747}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 32.5, y: 0, z: 0}
 --- !u!114 &350980752
@@ -1771,7 +1770,7 @@ GameObject:
   - component: {fileID: 798462749}
   - component: {fileID: 798462748}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ParallaxCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1797,7 +1796,7 @@ RectTransform:
   - {fileID: 61146720}
   - {fileID: 313568854}
   - {fileID: 645603893}
-  m_Father: {fileID: 350980751}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3325,6 +3324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6b759aba4db8944b25d82d6a3a2ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrState: 0
+  _maxDurability: 100
+  canBeCrushed: 0
 --- !u!114 &1761270450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4529,3 +4531,4 @@ SceneRoots:
   - {fileID: 1175823821}
   - {fileID: 205773478}
   - {fileID: 2021062883}
+  - {fileID: 798462747}
