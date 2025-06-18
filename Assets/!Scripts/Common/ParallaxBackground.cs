@@ -1,19 +1,24 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParallaxLayer : MonoBehaviour
 {
-    [SerializeField, Tooltip("How much this layer moves in response to the crafting station. 0 = static, 1 = full match.")]
+    [SerializeField, Tooltip("0 = static, 1 = full match.")]
     private float parallaxFactor = 0.5f;
 
-    private Vector3 _initialPosition;
+    private RawImage _rawImage;
+    private Vector2 _uvOffset = Vector2.zero;
 
-    private void Start()
+    private void Awake()
     {
-        _initialPosition = transform.position;
+        _rawImage = GetComponent<RawImage>();
     }
 
     public void Move(Vector3 deltaMovement)
     {
-        transform.position = transform.position + deltaMovement * parallaxFactor;
+        _uvOffset.x += (deltaMovement.x/14) * -parallaxFactor;
+        _uvOffset.x %= 1f;
+        _rawImage.uvRect = new Rect(_uvOffset, _rawImage.uvRect.size);
+
     }
 }
