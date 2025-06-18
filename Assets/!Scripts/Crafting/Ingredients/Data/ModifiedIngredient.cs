@@ -12,6 +12,18 @@ public class ModifiedIngredient
     public bool HasBeenHeated = false;
     public AlchemicalSymbol CurrentSpell = AlchemicalSymbol.None;
 
+    public ModifiedIngredient() : base() { }
+
+    public ModifiedIngredient(ModifiedIngredient other)
+    {
+        BaseIngredient = other.BaseIngredient;
+        HasBeenCut = other.HasBeenCut;
+        HasBeenCrushed = other.HasBeenCrushed;
+        HasBeenFrozen = other.HasBeenFrozen;
+        HasBeenHeated = other.HasBeenHeated;
+        CurrentSpell = other.CurrentSpell;
+    }
+
     public GameObject GetWorldRepresentation()
     {
         if (HasBeenCut) return BaseIngredient.CutWorldPrefab;
