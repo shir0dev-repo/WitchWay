@@ -13,6 +13,8 @@ public class CuttableIngredient : MonoBehaviour
     List<Vector3> _cursorPoints = new List<Vector3>();
     Vector3 _cursorPos = Vector3.zero;
     CuttingBoard _board;
+    public IngredientSO _ingredientSO;
+    // when the cuttable is instantiated, this should already be filled (hopefully)
 
     int _cutCount = 0;
     float ingredientDurability = 100f;
@@ -132,7 +134,17 @@ public class CuttableIngredient : MonoBehaviour
     }
     void CheckIngredientStatus()
     {
-        // would communicate with the ingredient's state but for now its just checking the number of cuts
-        
+        if (ingredientDurability < 10)
+        {
+            if (_ingredientSO.CanBeCrushed)
+            {
+                Debug.Log("the ingredient has been turned into a powder btw...");
+            }
+            else
+            {
+                Debug.Log("the ingredient has been rendered unuseable...");
+                // will add more to this later
+            }
+        }
     }
 }
