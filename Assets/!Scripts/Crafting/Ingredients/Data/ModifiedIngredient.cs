@@ -4,7 +4,8 @@ using UnityEngine;
 public class ModifiedIngredient
 {
     public IngredientSO BaseIngredient;
-    
+    public ModifierList ModifierList;
+
     [Space]
     public bool HasBeenCut = false;
     public bool HasBeenCrushed = false;
@@ -34,16 +35,19 @@ public class ModifiedIngredient
     public void Cut()
     {
         HasBeenCut = !HasBeenCrushed && BaseIngredient.CanBeCut && true;
+        ModifierList.CacheModifier(CraftingOperation.Cut);
     }
 
     public void Crush()
     {
         HasBeenCrushed = BaseIngredient.CanBeCrushed && true;
+        ModifierList.CacheModifier(CraftingOperation.Crushed);
     }
 
     public void Freeze()
     {
         HasBeenFrozen = BaseIngredient.CanBeFrozen && true;
+        ModifierList.CacheModifier(CraftingOperation.Cooled);
     }
 
     public void Heat()
