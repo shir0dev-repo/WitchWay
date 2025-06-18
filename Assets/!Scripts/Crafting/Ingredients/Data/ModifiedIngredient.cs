@@ -70,6 +70,9 @@ public class ModifiedIngredient
             case AlchemicalSymbol.Evocation:
                 Evocate();
                 break;
+            case AlchemicalSymbol.Purify:
+                Purify();
+                break;
             default:
                 break;
         }

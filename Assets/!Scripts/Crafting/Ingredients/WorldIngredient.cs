@@ -156,7 +156,8 @@ public class WorldIngredient : MonoBehaviour
         }
         else if (CursorManager.Instance != null)
         {
-            CursorManager.Instance.ClearCursor();
+            if (CursorManager.Instance.AttachedObject == transform)
+                CursorManager.Instance.ClearCursor();
         }
     }
 

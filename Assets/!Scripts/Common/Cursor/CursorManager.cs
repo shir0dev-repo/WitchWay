@@ -50,6 +50,12 @@ public class CursorManager : Singleton<CursorManager>
         _attachedObject = obj;
         ToggleVisibility(false);
         _isObjectAttached = true;
+
+        if (_attachedObject.TryGetComponent(out ToolBase _))
+        {
+            Vector3 p = _attachedObject.position;
+            _attachedObject.position = new(p.x, p.y, 0);
+        }
     }
 
     public void AssignReturnPivot(Transform newPivot)
@@ -70,5 +76,11 @@ public class CursorManager : Singleton<CursorManager>
 
         _isObjectAttached = false;
         ToggleVisibility(true);
+    }
+
+    public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit, LayerMask layermask)
+    {
+        Ray r = Camera.main.ScreenPointToRay(mousePos);
+        return Physics.Raycast(r, out hit, Mathf.Infinity, layermask);
     }
 }
