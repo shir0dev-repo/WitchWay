@@ -147,7 +147,7 @@ public class StationsInventory : MonoBehaviour
             for (int i = 0; i < bItem.itemAmount; i++)
             {
                 GameObject worldItem = Instantiate(worldItemBase, bItem.basket.position, Quaternion.identity);
-                worldItem.GetComponent<WorldIngredient>().ingredient = bItem.assignedIngredient;
+                worldItem.GetComponent<WorldIngredient>().SetIngredient(bItem.assignedIngredient);
                 bItem.itemAmount -= 1; //bad way to fix the trigger getting hit on setup but it works
             }
         }
@@ -202,7 +202,7 @@ public class StationsInventory : MonoBehaviour
         {
             foreach (BasketItems bItem in basketItems)
             {
-                if (bItem.assignedIngredient == worldIngredient.ingredient)
+                if (bItem.assignedIngredient == worldIngredient.BaseIngredient)
                 {
                     bItem.itemAmount += 1;
                     waitingToAdd.Add(worldIngredient);
@@ -225,7 +225,7 @@ public class StationsInventory : MonoBehaviour
                 {
                     foreach (BasketItems bItem in basketItems)
                     {
-                        if (bItem.assignedIngredient == ingred.ingredient)
+                        if (bItem.assignedIngredient == ingred.BaseIngredient)
                         {
                             Rigidbody tempRb = ingred.gameObject.GetComponent<Rigidbody>();
                             tempRb.linearVelocity = Vector3.zero;
@@ -259,7 +259,7 @@ public class StationsInventory : MonoBehaviour
         {
             foreach (BasketItems bItem in basketItems)
             {
-                if (bItem.assignedIngredient == worldIngredient.ingredient)
+                if (bItem.assignedIngredient == worldIngredient.BaseIngredient)
                 {
                     bItem.itemAmount -= 1;
                     break;
@@ -272,7 +272,7 @@ public class StationsInventory : MonoBehaviour
     {
         foreach (BasketItems bItem in basketItems)
         {
-            if (bItem.assignedIngredient == ingredient.ingredient)
+            if (bItem.assignedIngredient == ingredient.BaseIngredient)
             {
                 bItem.itemAmount -= 1;
                 break;
@@ -282,7 +282,7 @@ public class StationsInventory : MonoBehaviour
         for (int i = 0; i < PersistantItemList.inventorySlots.Count; i++)
         {
             InventorySlot slot = PersistantItemList.inventorySlots[i];
-            if (slot.ingredient == ingredient.ingredient)
+            if (slot.ingredient == ingredient.BaseIngredient)
             {
                 if (slot.ingredientAmt > 1)
                 {
@@ -308,7 +308,7 @@ public class StationsInventory : MonoBehaviour
         {
             foreach (BasketItems basketItem in basketItems)
             {
-                if (ingred.ingredient == basketItem.assignedIngredient)
+                if (ingred.BaseIngredient == basketItem.assignedIngredient)
                 {
                     if (!basketsTrigger.GetComponent<BoxCollider>().bounds.Contains(ingred.transform.position)) toBeReturned.Add(ingred);
                     break;

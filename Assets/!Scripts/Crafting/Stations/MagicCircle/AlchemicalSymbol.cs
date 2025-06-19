@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-
 [System.Flags]
 public enum AlchemicalSymbol : sbyte
 {
@@ -10,5 +7,6 @@ public enum AlchemicalSymbol : sbyte
     Enchantment = 4,
     Divination = 8,
     Evocation = 16,
+    Purify = 32,
     All = ~0b0
 }

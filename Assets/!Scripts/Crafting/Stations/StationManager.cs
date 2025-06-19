@@ -142,7 +142,7 @@ public class StationManager : MonoBehaviour
             };
 
             List<RaycastResult> uiHits = new List<RaycastResult>();
-            GraphicRaycaster raycaster = FindObjectOfType<GraphicRaycaster>();
+            GraphicRaycaster raycaster = FindFirstObjectByType<GraphicRaycaster>();
             raycaster.Raycast(pointerData, uiHits);
 
             foreach (RaycastResult result in uiHits)

@@ -31,7 +31,7 @@ public class CrushableIngredientState : MonoBehaviour
     {
         if (TryGetComponent(out WorldIngredient ing))
         {
-            return ing.ingredient.CanBeCrushed;
+            return ing.BaseIngredient.CanBeCrushed;
         }
 
         return false;
