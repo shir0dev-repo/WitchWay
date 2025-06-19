@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class CuttableIngredient : MonoBehaviour
 {
-    [SerializeField] private TrailRenderer _cursorTrail;
+    
     [SerializeField] Transform[] _cutPoints;
     [SerializeField] private int _dstThreshold = 50;
 
     List<Vector3> _cursorPoints = new List<Vector3>();
     Vector3 _cursorPos = Vector3.zero;
     CuttingBoard _board;
-    public IngredientSO _ingredientSO;
+
+    private WorldIngredient _ingredient;
+
+    //public IngredientSO _ingredientSO;
     // when the cuttable is instantiated, this should already be filled (hopefully)
 
     int _cutCount = 0;
@@ -28,6 +31,7 @@ public class CuttableIngredient : MonoBehaviour
     {
         _board = CuttingBoard.Instance;
         _mainCamera = Camera.main;
+        _ingredient = GetComponent<WorldIngredient>();
     }
 
     private void Update()
@@ -46,17 +50,11 @@ public class CuttableIngredient : MonoBehaviour
             _cursorPoints.Clear();
             _isCutting = true;
             _cutTimer = 0;
-
-            _cursorTrail.enabled = false;
-            _cursorTrail.transform.position = _mainCamera.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
-            _cursorTrail.Clear();
-            _cursorTrail.enabled = true;
         }
 
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
-            _cursorTrail.transform.position = _mainCamera.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, transform.position.z));
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -116,13 +114,10 @@ public class CuttableIngredient : MonoBehaviour
     }
     void CompleteChopping()
     {
+        _ingredient.ModifiedState.Cut();
+
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
-
-        GameObject ob = Instantiate(CuttingBoard.Instance.list.GetChoppedPrefab(gameObject.name.ToLower() + "-cut"));
-        ob.transform.parent = transform.parent;
         // later, this will just grab the name of the scriptable object attached to the prefab.
-
-        Destroy(gameObject);
     }
     string RateChopping()
     {
@@ -136,7 +131,7 @@ public class CuttableIngredient : MonoBehaviour
     {
         if (ingredientDurability < 10)
         {
-            if (_ingredientSO.CanBeCrushed)
+            if (_ingredient.BaseIngredient.CanBeCrushed)
             {
                 Debug.Log("the ingredient has been turned into a powder btw...");
             }

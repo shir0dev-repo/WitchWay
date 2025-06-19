@@ -53,6 +53,7 @@ public class ModifiedIngredient
     public void Heat()
     {
         HasBeenHeated = BaseIngredient.CanBeHeated && true;
+        ModifierList.CacheModifier(CraftingOperation.Heated);
     }
 
     public void Spellbind(AlchemicalSymbol symbol)
