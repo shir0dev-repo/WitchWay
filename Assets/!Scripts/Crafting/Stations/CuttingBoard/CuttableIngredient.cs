@@ -24,11 +24,15 @@ public class CuttableIngredient : MonoBehaviour
 
     Camera _mainCamera;
 
+    static event Action EndAction;
+
     private void Start()
     {
         _board = CuttingBoard.Instance;
         _mainCamera = Camera.main;
         _ingredient = GetComponent<WorldIngredient>();
+
+        EndAction = _ingredient.ModifiedState.Cut;
     }
 
     private void Update()
@@ -111,7 +115,7 @@ public class CuttableIngredient : MonoBehaviour
     }
     void CompleteChopping()
     {
-        _ingredient.ModifiedState.Cut();
+        EndAction?.Invoke();
 
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
         // later, this will just grab the name of the scriptable object attached to the prefab.
@@ -131,12 +135,17 @@ public class CuttableIngredient : MonoBehaviour
             if (_ingredient.BaseIngredient.CanBeCrushed)
             {
                 Debug.Log("the ingredient has been turned into a powder btw...");
+                EndAction = _ingredient.ModifiedState.Crush;
             }
             else
             {
                 Debug.Log("the ingredient has been rendered unuseable...");
-                // will add more to this later
+                EndAction = DeleteIngredient;
             }
         }
+    }
+    void DeleteIngredient()
+    {
+        Destroy(gameObject);
     }
 }
