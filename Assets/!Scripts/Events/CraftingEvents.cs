@@ -23,7 +23,7 @@ public static partial class GameEvents
 
         public static Action<WorldIngredient> OnSuccessfullyCutItem;
         public static Action<WorldIngredient> OnFailedToCutItem;
-        
+
         public static Action<WorldIngredient> OnCutItem;
 
         // Mortar and Pestle Events
@@ -48,7 +48,7 @@ public static partial class GameEvents
         // Arcane Circle events
         public static Action<WorldIngredient> OnItemPlacedInArcaneCircle;
         public static Action<WorldIngredient> OnItemRemovedFromArcaneCircle;
-        
+
         public static Action<WorldIngredient, AlchemicalSymbol> OnItemSuccessfullySpellbound;
         public static Action<WorldIngredient> OnFailedToSpellbindItem;
 
@@ -68,5 +68,10 @@ public static partial class GameEvents
 
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;
+    }
+
+    public static class WitchingZone
+    {
+        public static Action OnSanityChanged;
     }
 }
