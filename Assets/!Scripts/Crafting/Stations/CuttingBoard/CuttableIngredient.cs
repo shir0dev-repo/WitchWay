@@ -16,9 +16,6 @@ public class CuttableIngredient : MonoBehaviour
 
     private WorldIngredient _ingredient;
 
-    //public IngredientSO _ingredientSO;
-    // when the cuttable is instantiated, this should already be filled (hopefully)
-
     int _cutCount = 0;
     float ingredientDurability = 100f;
     private float _cutInterval = 0.25f, _cutTimer = 0.25f;

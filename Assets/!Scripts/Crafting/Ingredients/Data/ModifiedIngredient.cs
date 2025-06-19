@@ -4,7 +4,7 @@ using UnityEngine;
 public class ModifiedIngredient
 {
     public IngredientSO BaseIngredient;
-    public ModifierList ModifierList;
+    public ModifierList ModifierList = new ModifierList();
 
     [Space]
     public bool HasBeenCut = false;
