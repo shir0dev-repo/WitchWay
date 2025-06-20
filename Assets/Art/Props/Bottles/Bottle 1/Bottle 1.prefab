@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.342736, y: 0.34273592, z: 0.34273592}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4240145838341980808}
@@ -40,7 +40,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2974204554426794704}
-  m_Mesh: {fileID: 7472513386611061255, guid: ef100de0d2fdd1f4bbc8183d6eaeef6b, type: 3}
+  m_Mesh: {fileID: 7472513386611061255, guid: af011af752fe7af489af6b0bd99bf4b9, type: 3}
 --- !u!23 &1341962475091438066
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 236627490909284305}
   - component: {fileID: 3585276567562239992}
   - component: {fileID: 2396200163047275340}
+  - component: {fileID: 3318651297034598859}
   m_Layer: 0
   m_Name: Liquid
   m_TagString: Untagged
@@ -126,7 +127,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4355482165126331526}
-  m_Mesh: {fileID: -1867907498720653394, guid: ef100de0d2fdd1f4bbc8183d6eaeef6b, type: 3}
+  m_Mesh: {fileID: -1867907498720653394, guid: af011af752fe7af489af6b0bd99bf4b9, type: 3}
 --- !u!23 &2396200163047275340
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -172,6 +173,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3318651297034598859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4355482165126331526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad4c2505493fb245be84321f012f4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _FillAmount: 0.52
+  _viscosity: 0.5
+  _wobbleSpeed: 12
+  _maxWobble: 5
+  _WobbleX: 0
+  _WobbleZ: 0
+  _debugEnabled: 0
 --- !u!1 &6850087812721848427
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,7 +232,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6850087812721848427}
-  m_Mesh: {fileID: -4568716079777758408, guid: ef100de0d2fdd1f4bbc8183d6eaeef6b, type: 3}
+  m_Mesh: {fileID: -4568716079777758408, guid: af011af752fe7af489af6b0bd99bf4b9, type: 3}
 --- !u!23 &3692577677365255964
 MeshRenderer:
   m_ObjectHideFlags: 0
