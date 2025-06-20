@@ -16,6 +16,7 @@ public enum CraftingOperation
     Evocated = 256
 }
 
+[System.Serializable]
 public class ModifierList
 {
     public Queue<CraftingOperation> OperationsPerformed = new();

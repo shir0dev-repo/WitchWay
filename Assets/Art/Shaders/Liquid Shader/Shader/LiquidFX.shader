@@ -6,10 +6,10 @@ Shader "Shir0dev/Liquid"
         _MainTex ("Texture", 2D) = "white" {}
         [HDR]_Tint ("Tint", Color) = (1, 1, 1, 1)
         _Cutoff ("Cutoff", Range(0, 1)) = 0.5
-        
+
         [Header(Foam)]
         [HDR]_FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
-        _LineWidth ("Foam Line Width", Range(0, 1)) = 0.0
+        _LineWidth ("Foam Line Width", Range(0, 0.1)) = 0.0
         _LineSmoothness ("Foam Line Smoothness", Range(0, 0.1)) = 0.0
 
         [Header(Rim)]
@@ -22,7 +22,7 @@ Shader "Shir0dev/Liquid"
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent-1" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent-1" "IgnoreProjector" = "True" }
         
         Pass
         {
@@ -74,7 +74,7 @@ Shader "Shir0dev/Liquid"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _Tint;
-            
+
             float4 _RimColor;
             float _RimPower;
 
