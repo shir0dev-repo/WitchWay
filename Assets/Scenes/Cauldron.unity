@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &160685984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6976475544702505408, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
+  m_PrefabInstance: {fileID: 7217444558528630178}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &311477332
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,11 +390,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &885518582 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1773148017663054216, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
-  m_PrefabInstance: {fileID: 7217444558528630178}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &907608728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ PrefabInstance:
     - target: {fileID: 8753385291518312672, guid: 594e323b977a9ea42abb93e8de458e5b, type: 3}
       propertyPath: _centerPoint
       value: 
-      objectReference: {fileID: 885518582}
+      objectReference: {fileID: 160685984}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1188,6 +1188,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7422568762210453803, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
+      propertyPath: 'IngredientsToAdd.Array.data[0]'
+      value: 
+      objectReference: {fileID: 489460462}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
