@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1234277972655045902}
   - component: {fileID: 2131547485704800467}
   - component: {fileID: 773942686397586833}
+  - component: {fileID: 5358133346291913436}
   m_Layer: 0
   m_Name: Liquid
   m_TagString: Untagged
@@ -86,6 +87,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5358133346291913436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475898816457416973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad4c2505493fb245be84321f012f4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _FillAmount: 0.5
+  _viscosity: 0.5
+  _wobbleSpeed: 12
+  _maxWobble: 5
+  _WobbleX: 0
+  _WobbleZ: 0
+  _debugEnabled: 0
 --- !u!1 &4615756019985081790
 GameObject:
   m_ObjectHideFlags: 0

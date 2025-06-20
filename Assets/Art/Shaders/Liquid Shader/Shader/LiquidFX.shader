@@ -1,4 +1,4 @@
-Shader "Unlit/Potion"
+Shader "Shir0dev/Liquid"
 {
     Properties
     {
@@ -9,7 +9,7 @@ Shader "Unlit/Potion"
         
         [Header(Foam)]
         [HDR]_FoamColor ("Foam Color", Color) = (1, 1, 1, 1)
-        _LineWidth ("Foam Line Width", Range(0, 0.1)) = 0.0
+        _LineWidth ("Foam Line Width", Range(0, 1)) = 0.0
         _LineSmoothness ("Foam Line Smoothness", Range(0, 0.1)) = 0.0
 
         [Header(Rim)]
@@ -82,8 +82,6 @@ Shader "Unlit/Potion"
             float _LineWidth;
             float _LineSmoothness;
 
-            float4 _TopColor;
-
             float _Cutoff;
             float _WobbleX, _WobbleZ;
             float3 _BoundsMin, _BoundsCenter, _BoundsMax;
@@ -95,11 +93,12 @@ Shader "Unlit/Potion"
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
                 float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-                float3 pivot = lerp(_BoundsMin, _BoundsMax, _Cutoff);
+                
                 float3 worldPosX = Unity_RotateAboutAxis_Degrees(v.vertex, _Forward, 90);
                 worldPosX = mul(unity_ObjectToWorld, worldPosX);
                 float3 worldPosZ = Unity_RotateAboutAxis_Degrees(v.vertex, _Right, 90);
                 worldPosZ = mul(unity_ObjectToWorld, worldPosZ);
+                
                 float3 worldPosAdjusted = worldPos + (worldPosX * _WobbleX) + (worldPosZ * _WobbleZ);
 
                 o.positionWS = worldPos;
@@ -122,12 +121,15 @@ Shader "Unlit/Potion"
                 
                 // Wobble calculations
                 float wobbleIntensity = abs(_WobbleX) + abs(_WobbleZ);
-                float wobble = sin((i.fillPosition.x) + (i.fillPosition.z) + _Time.y) * (wobbleIntensity);
-                float movingFillPosition = i.fillPosition.y;
-
+                float wobble = sin((i.fillPosition.x) + (i.fillPosition.z)) * (wobbleIntensity);
+                float movingFillPosition = i.fillPosition.y + wobble;
+                
+                // The local cutoff value relative to the mesh bounds
+                // Values above this cutoff will be transparent
                 float cutoff = lerp(_BoundsMin.y, _BoundsMax.y, _Cutoff);
                 float cutoffStep = step(movingFillPosition, cutoff);
-                float foam = cutoffStep * smoothstep(0.5 - _LineWidth - _LineSmoothness, 0.5 - _LineWidth, movingFillPosition);
+
+                float foam = cutoffStep * smoothstep(cutoff - _LineWidth - _LineSmoothness, cutoff - _LineWidth, movingFillPosition);
                 float4 foamColored = foam * _FoamColor;
 
                 float result = cutoffStep - foam;
@@ -140,7 +142,7 @@ Shader "Unlit/Potion"
                 float backfaceFoam = cutoffStep * smoothstep(0.5 - (0.2 * _LineWidth) - _LineSmoothness, 0.5 - (0.2 * _LineWidth), movingFillPosition);
                 float4 backfaceFoamColor = _FoamColor * backfaceFoam;
 
-                float4 topColor = (_TopColor * (1 - backfaceFoam) + backfaceFoamColor) * (foam + result);
+                float4 topColor = (_FoamColor * (1 - backfaceFoam) + backfaceFoamColor) * (foam + result);
 
                 clip(result + foam - 0.01);
 
