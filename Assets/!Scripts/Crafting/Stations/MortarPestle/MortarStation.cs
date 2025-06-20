@@ -5,7 +5,6 @@ public class MortarStation : Singleton<MortarStation>
     [SerializeField] private Transform _ingredientAnchor;
 
     public bool HasIngredient => _currentIngredient != null;
-    private bool _hasIngredient = false;
     private bool _shouldAddIngredient = false;
     private CrushableIngredientState _currentIngredient = null;
     private RigidbodyConstraints _ingConstraintsCache = RigidbodyConstraints.None;
@@ -59,7 +58,6 @@ public class MortarStation : Singleton<MortarStation>
         if (Input.GetMouseButtonUp(0))
         {
             if (!other.TryGetComponent(out CrushableIngredientState state)) return;
-            _hasIngredient = true;
             state.SetCrushable(true);
         }
     }
@@ -69,7 +67,6 @@ public class MortarStation : Singleton<MortarStation>
         Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
         if (other.TryGetComponent(out CrushableIngredientState state))
         {
-            _hasIngredient = false;
             if (other.TryGetComponent(out WorldIngredient ing))
                 GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
             if (other.TryGetComponent(out Rigidbody rb))
@@ -78,7 +75,6 @@ public class MortarStation : Singleton<MortarStation>
                 _ingConstraintsCache = RigidbodyConstraints.None;
             }
 
-            Debug.Log("mrtor");
             state.SetCrushable(false);
             _currentIngredient = null;
         }
