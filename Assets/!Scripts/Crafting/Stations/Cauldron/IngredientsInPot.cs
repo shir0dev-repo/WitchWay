@@ -4,32 +4,24 @@ using UnityEngine;
 public class IngredientsInPot : MonoBehaviour
 {
     public List<GameObject> IngredientsToAdd = new();
-    int thingsInPot;
-    int allIngredientsToAdd;
 
-    void Start()
+    private void Update()
     {
-        allIngredientsToAdd = IngredientsToAdd.Count;
+        if (StationManager.Instance.GetCurrentStation() ==3 && Input.GetKeyDown(KeyCode.Space))
+        {
+            SwitchToMixing.ActivateMixing?.Invoke();
+        }
+        // press the spacebar to start mixing WHEN ITS ON THE CORRECT STATION 
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ingredient"))
         {
-            thingsInPot++;
+            IngredientsToAdd.Add(other.gameObject);
+
             if (other.TryGetComponent(out WorldIngredient ing))
                 GameEvents.Crafting.OnItemPlacedInCauldron?.Invoke(ing);
-
-            CheckPot();
         }
     }
 
-    void CheckPot()
-    {
-        if (allIngredientsToAdd == thingsInPot)
-        {
-            Debug.Log("everything is in the pot!");
-            SwitchToMixing.ActivateMixing?.Invoke();
-        }
-    }
 }

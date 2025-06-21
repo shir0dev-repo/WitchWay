@@ -61,9 +61,10 @@ public class Cauldron : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (StationManager.Instance.GetCurrentStation() == 3 && Input.GetKeyDown(KeyCode.Space))
         {
             SwitchToMixing.DeactivateMixing?.Invoke();
+            StationManager.Instance.ToggleDrag(false);
             Debug.Log("Invoking thing");
         }
 

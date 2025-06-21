@@ -2876,6 +2876,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 671623649}
   m_SourcePrefab: {fileID: 100100000, guid: 44f1083d3cef4af41a8cdee46f087046, type: 3}
+--- !u!1 &1348730853 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6980780654309340183, guid: 9a1f7e4f49563664489db43ddb0ab6af, type: 3}
+  m_PrefabInstance: {fileID: 1990412207}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1406315730
 GameObject:
   m_ObjectHideFlags: 0
@@ -3472,12 +3477,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7422568762210453803, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
       propertyPath: IngredientsToAdd.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7422568762210453803, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
       propertyPath: 'IngredientsToAdd.Array.data[0]'
       value: 
-      objectReference: {fileID: 1320362553}
+      objectReference: {fileID: 1778758769}
+    - target: {fileID: 7422568762210453803, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
+      propertyPath: 'IngredientsToAdd.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1348730853}
     - target: {fileID: 8064587266113193185, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

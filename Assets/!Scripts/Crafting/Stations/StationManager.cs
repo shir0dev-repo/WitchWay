@@ -227,4 +227,8 @@ public class StationManager : MonoBehaviour
             CameraManager.Instance.SetPosition(tableStartPos);
         }
     }
+    public int GetCurrentStation()
+    {
+        return _currentTransformIndex;
+    }
 }

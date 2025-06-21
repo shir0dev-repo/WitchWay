@@ -79,7 +79,7 @@ public class MortarStation : Singleton<MortarStation>
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
+        //Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
         if (other.TryGetComponent(out CrushableIngredientState state))
         {
             if (other.TryGetComponent(out WorldIngredient ing))
