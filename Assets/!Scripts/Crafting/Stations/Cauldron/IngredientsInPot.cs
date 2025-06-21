@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class IngredientsInPot : MonoBehaviour
 {
-    public List<GameObject> IngredientsToAdd = new();
+    public List<WorldIngredient> IngredientsToAdd = new();
 
     private void Update()
     {
@@ -17,11 +17,14 @@ public class IngredientsInPot : MonoBehaviour
     {
         if (other.CompareTag("Ingredient"))
         {
-            IngredientsToAdd.Add(other.gameObject);
-
             if (other.TryGetComponent(out WorldIngredient ing))
+            {
                 GameEvents.Crafting.OnItemPlacedInCauldron?.Invoke(ing);
+                IngredientsToAdd.Add(ing);
+            }
+                
+            other.gameObject.SetActive(false);
         }
     }
-
+    public List<WorldIngredient> GetIngredients() {  return IngredientsToAdd; }
 }

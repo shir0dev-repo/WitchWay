@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7302691139407733223}
   - component: {fileID: 1385018206323600596}
   - component: {fileID: 873813718480047497}
+  - component: {fileID: 4976866677588019910}
   m_Layer: 0
   m_Name: DragonScale_slice02
   m_TagString: Untagged
@@ -108,6 +109,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12576625, y: 0.05446202, z: 0.06783291}
   m_Center: {x: 0.001596412, y: 0.009046042, z: 0.033960965}
+--- !u!54 &4976866677588019910
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976289877575590042}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2835007729494602533
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +258,7 @@ GameObject:
   - component: {fileID: 6182163820683382202}
   - component: {fileID: 6137592559751565462}
   - component: {fileID: 6769513742191829936}
+  - component: {fileID: 4209600329082455414}
   m_Layer: 0
   m_Name: DragonScale_slice03
   m_TagString: Untagged
@@ -326,6 +355,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.11840659, y: 0.06616801, z: 0.062292945}
   m_Center: {x: -0.0021818583, y: -0.051054846, z: 0.031191288}
+--- !u!54 &4209600329082455414
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112830790019036435}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7448207465927833487
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +394,7 @@ GameObject:
   - component: {fileID: 2524426089069096390}
   - component: {fileID: 6841652915560714035}
   - component: {fileID: 1589621980816444761}
+  - component: {fileID: 1159640091771164479}
   m_Layer: 0
   m_Name: DragonScale_slice01
   m_TagString: Untagged
@@ -434,6 +491,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.12564266, y: 0.10852557, z: 0.03518536}
   m_Center: {x: 0.0016663823, y: 0.09021193, z: 0.050271858}
+--- !u!54 &1159640091771164479
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448207465927833487}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8241949851348715428
 GameObject:
   m_ObjectHideFlags: 0
