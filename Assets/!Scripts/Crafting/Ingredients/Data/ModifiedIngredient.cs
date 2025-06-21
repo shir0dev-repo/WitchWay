@@ -4,7 +4,7 @@ using UnityEngine;
 public class ModifiedIngredient
 {
     public IngredientSO BaseIngredient;
-    public ModifierList ModifierList;
+    public ModifierList ModifierList = new ModifierList();
 
     [Space]
     public bool HasBeenCut = false;
@@ -53,6 +53,7 @@ public class ModifiedIngredient
     public void Heat()
     {
         HasBeenHeated = BaseIngredient.CanBeHeated && true;
+        ModifierList.CacheModifier(CraftingOperation.Heated);
     }
 
     public void Spellbind(AlchemicalSymbol symbol)

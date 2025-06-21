@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class WorldIngredient : MonoBehaviour
 {
     public void SetIngredient(IngredientSO data)

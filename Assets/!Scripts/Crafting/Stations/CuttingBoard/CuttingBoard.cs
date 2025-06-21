@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class CuttingBoard : Singleton<CuttingBoard>
 {
-    public CuttableIngredientList list {  get; private set; }
-
     public bool CanCut = false;
     public Action OnCutComplete;
 
@@ -31,13 +29,6 @@ public class CuttingBoard : Singleton<CuttingBoard>
         if (type == ToolType.Knife)
             CanCut = false;
     }
-
-    void Start()
-    {
-        list = GetComponentInChildren<CuttableIngredientList>();
-        // the ingredient list is part of the cutting board object!
-    }
-    
     public void ChangeCuttingAbility()
     { // changed this into function so it can be called in other scripts
         CanCut = !CanCut;
@@ -49,12 +40,17 @@ public class CuttingBoard : Singleton<CuttingBoard>
             if (collision.gameObject.tag == "Ingredient")
             {
                 string name = collision.gameObject.name;
-                if (list.GetPrefab(name.ToLower()) != null)
+                IngredientSO z = collision.gameObject.GetComponent<WorldIngredient>().BaseIngredient;
+                if (z.CanBeCut == false) return;
+                GameObject cutPF = z.CutWorldPrefab;
+                if (cutPF != null)
                 {
-                    GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
+                    GameObject p = Instantiate(cutPF);
                     p.transform.position = new Vector3(0, 1, 0);
                     p.transform.parent = transform;
                     p.name = name;
+
+                    CuttableIngredient ig = p.GetComponent<CuttableIngredient>();
                     // to make sure this works, the ingredient dropped has to have the
                     // same name as the prefab it's referring too!
 
