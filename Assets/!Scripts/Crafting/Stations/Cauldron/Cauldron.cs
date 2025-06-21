@@ -34,13 +34,20 @@ public class Cauldron : MonoBehaviour
 
     void Start()
     {
-        SwitchToMixing.mixingMode += ActivateMixing;
+        SwitchToMixing.ActivateMixing += ActivateMixing;
+        SwitchToMixing.DeactivateMixing += ActivateMixing;
 
         gameObject.SetActive(false);
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SwitchToMixing.DeactivateMixing?.Invoke();
+            Debug.Log("Invoking thing");
+        }
+
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
@@ -83,13 +90,7 @@ public class Cauldron : MonoBehaviour
 
             if (!IsStirringCorrectDirection(deviation, _isStirringCW)) 
             {
-                TimeSpentStirring -= Time.deltaTime;
-
-                if (TimeSpentStirring <= 0)
-                {
-                    TimeSpentStirring = 6f;
-                    Debug.Log("you've been stirring the wrong way for a while...");
-                }
+                StirringInWrongDirection();
             }
         }
 
@@ -184,10 +185,20 @@ public class Cauldron : MonoBehaviour
 
     void ActivateMixing()
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive(!gameObject.activeSelf);
     }
     public void ChangeStirringDirection()
     {
         _isStirringCW = !_isStirringCW;
+    }
+    void StirringInWrongDirection()
+    {
+        TimeSpentStirring -= Time.deltaTime;
+
+        if (TimeSpentStirring <= 0)
+        {
+            TimeSpentStirring = 6f;
+            Debug.Log("you've been stirring the wrong way for a while...");
+        }
     }
 }

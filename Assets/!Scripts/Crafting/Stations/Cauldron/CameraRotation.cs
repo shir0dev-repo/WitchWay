@@ -4,10 +4,14 @@ public class CameraRotation : MonoBehaviour
 {
     [SerializeField]
     Transform TargetLocation;
+    Transform Prevlocation;
 
     void Start()
     {
-        SwitchToMixing.mixingMode += ChangeLocation;
+        Prevlocation = gameObject.transform;
+
+        SwitchToMixing.ActivateMixing += ChangeLocation;
+        SwitchToMixing.DeactivateMixing += ReturnToLocation;
     }
 
     void ChangeLocation()
@@ -15,4 +19,11 @@ public class CameraRotation : MonoBehaviour
         Camera.main.transform.position = TargetLocation.position;
         Camera.main.transform.rotation = TargetLocation.rotation;
     }
+    void ReturnToLocation()
+    {
+        Camera.main.transform.position = new Vector3(0,5,-5);
+        Camera.main.transform.rotation = new Quaternion(0.279829115f, 0, 0, 0.960049868f); 
+    }
+
+    //i'll eventually switch to using the camera manager just hold on
 }
