@@ -19,11 +19,11 @@ public enum CraftingOperation
 [System.Serializable]
 public class ModifierList
 {
-    public Queue<CraftingOperation> OperationsPerformed = new();
+    public List<CraftingOperation> OperationsPerformed = new();
 
     public void CacheModifier(CraftingOperation op)
     {
-        OperationsPerformed.Enqueue(op);
+        OperationsPerformed.Add(op);
     }
 
     public override bool Equals(object obj)
@@ -41,16 +41,7 @@ public class ModifierList
 
     public bool Equals(ModifierList other)
     {
-        if (other.OperationsPerformed.Count != OperationsPerformed.Count) return false;
-
-        while (OperationsPerformed.Count > 0)
-        {
-            if (OperationsPerformed.TryDequeue(out CraftingOperation op) && other.OperationsPerformed.TryDequeue(out CraftingOperation op2) && op != op2)
-                continue;
-            else return false;
-        }
-
-        return true;
+        return other.OperationsPerformed.Count != OperationsPerformed.Count;
     }
 
     public void Purify()
@@ -74,11 +65,11 @@ public class ModifierList
         {
             List<CraftingOperation> opList = OperationsPerformed.ToList();
             opList.RemoveAt(arcaneIndex);
-            OperationsPerformed = new Queue<CraftingOperation>();
+            OperationsPerformed = new List<CraftingOperation>();
             
             for (int i = 0; i < opList.Count; i++)
             {
-                OperationsPerformed.Enqueue(opList[i]);
+                OperationsPerformed.Add(opList[i]);
             }
         }
     }

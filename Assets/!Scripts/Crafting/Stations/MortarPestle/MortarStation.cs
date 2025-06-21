@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MortarStation : Singleton<MortarStation>
@@ -12,7 +13,21 @@ public class MortarStation : Singleton<MortarStation>
     protected override void Awake()
     {
         base.Awake();
+        GameEvents.Crafting.OnSuccessfullyCrushedItem += SpawnCrushedItem;
         enabled = false;
+    }
+
+    private void SpawnCrushedItem(WorldIngredient ingredient)
+    {
+        if (_currentIngredient != null && _currentIngredient.GetComponent<WorldIngredient>() == ingredient)
+        {
+            GameObject crushed = ingredient.BaseIngredient.CrushedWorldPrefab;
+            Vector3 pos = ingredient.transform.position;
+
+            Destroy(_currentIngredient.gameObject);
+
+            Instantiate(crushed, pos, Quaternion.identity);
+        }
     }
 
     private void Update()

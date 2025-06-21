@@ -9,7 +9,9 @@ public class Cauldron : MonoBehaviour
 {
     [SerializeField] private Transform _centerPoint;
     [SerializeField] private TextMeshProUGUI _stdDevUGUI;
-    
+
+    public RecipeSO recipe;
+
     [Header("Deviation")]
     [SerializeField, Range(5, 100)] private float _maxDeviation = 50;
     [SerializeField, Range(0, 1)] private float _deviationOKThreshold = 0.5f;
@@ -27,9 +29,26 @@ public class Cauldron : MonoBehaviour
 
     float switchStirDirectionTimer = 10.0f;
 
+    public List<WorldIngredient> ingredients;
+
+    
     public void Enable(int stationID)
     {
         gameObject.SetActive(stationID == 3);
+    }
+
+    [ContextMenu("Validate")]
+    public void Finish()
+    {
+        if (recipe.IsValidRecipe(ingredients.Select(ing => ing.ModifiedState).ToList()))
+        {
+            Debug.Log("win epic!");
+            
+        }
+        else
+        {
+            Debug.Log("NOOOOOOOOOOOOOOOOOOO");
+        }
     }
 
     void Start()
