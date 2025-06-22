@@ -5,7 +5,7 @@ using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class Cauldron : MonoBehaviour
+public class CauldronUI : MonoBehaviour
 {
     [SerializeField] private Transform _centerPoint;
     [SerializeField] private TextMeshProUGUI _stdDevUGUI;
@@ -29,9 +29,7 @@ public class Cauldron : MonoBehaviour
 
     float switchStirDirectionTimer = 10.0f;
 
-    public List<WorldIngredient> ingredients;
-
-    
+    List<WorldIngredient> ingredients;
     public void Enable(int stationID)
     {
         gameObject.SetActive(stationID == 3);
@@ -54,6 +52,7 @@ public class Cauldron : MonoBehaviour
     void Start()
     {
         SwitchToMixing.ActivateMixing += ActivateMixing;
+        SwitchToMixing.ActivateMixing += SetIngredients;
         SwitchToMixing.DeactivateMixing += ActivateMixing;
 
         gameObject.SetActive(false);
@@ -206,6 +205,10 @@ public class Cauldron : MonoBehaviour
     void ActivateMixing()
     {
         gameObject.SetActive(!gameObject.activeSelf);
+    }
+    void SetIngredients()
+    {
+        ingredients = CauldronMaster.Instance.InsidePot.GetIngredients();
     }
     public void ChangeStirringDirection()
     {
