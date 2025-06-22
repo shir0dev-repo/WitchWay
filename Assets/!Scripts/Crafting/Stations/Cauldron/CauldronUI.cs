@@ -10,7 +10,7 @@ public class CauldronUI : MonoBehaviour
     [SerializeField] private Transform _centerPoint;
     [SerializeField] private TextMeshProUGUI _stdDevUGUI;
 
-    public RecipeSO recipe;
+     RecipeSO recipe;
 
     [Header("Deviation")]
     [SerializeField, Range(5, 100)] private float _maxDeviation = 50;
@@ -38,6 +38,8 @@ public class CauldronUI : MonoBehaviour
     [ContextMenu("Validate")]
     public void Finish()
     {
+        //recipe = RecipeBook.Instance.list.FilterResultsByMultipleIngredients(ingredients);
+        //WORK IN PROGRESS HOLD YOUR HORSES
         if (recipe.IsValidRecipe(ingredients.Select(ing => ing.ModifiedState).ToList()))
         {
             Debug.Log("win epic!");

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RecipeList : MonoBehaviour
@@ -6,26 +7,53 @@ public class RecipeList : MonoBehaviour
     public List<RecipeSO> RecipeSOList;
     // has to be set in inspector
     
-    public List<RecipeSO> filterResultsBySingleIngredient(IngredientSO ingredient)
+    public List<RecipeSO> FilterResultsBySingleIngredient(WorldIngredient worldIngredient)
     {
-        List <RecipeSO> list = new List <RecipeSO>();
+        IngredientSO ingredient = worldIngredient.BaseIngredient;
 
-        foreach (RecipeSO s in RecipeSOList)
+        List <RecipeSO> list = new List <RecipeSO>();
+        IEnumerable<RecipeSO> result = RecipeSOList.Where(i => i.Ingredients.Any(j => j.TargetIngredient.Equals(ingredient)));
+
+        foreach (RecipeSO s in result)
         {
-            foreach (RecipeEntry r in s.Ingredients)
-            {
-                if (r.TargetIngredient == ingredient)
-                {
-                    list.Add(s);
-                }
-            }
+            list.Add(s);
         }
 
         return list;
-        // can tweak this later
+    }
+    public List<RecipeSO> FilterResultsByMultipleIngredients(List<WorldIngredient> worldIngredients)
+    {
+        List <RecipeSO> list = new List <RecipeSO>();
+        List<IngredientSO> ingredients = new List<IngredientSO>();
+
+        foreach(WorldIngredient w in worldIngredients)
+        {
+            ingredients.Add(w.BaseIngredient);
+        }
+
+        var ingredientHash = new HashSet<IngredientSO>(ingredients.Select(i => i));
+        IEnumerable<RecipeSO> result = RecipeSOList.Where(i => i.Ingredients.Any(j => ingredientHash.All(k => j.TargetIngredient.Equals(ingredientHash))));         
+
+        foreach (RecipeSO s in result)
+        {
+            list.Add(s);
+        }
+
+        return list;
     }
     public List<RecipeSO> GetAllRecipes()
     {
-        return RecipeSOList;
+         return RecipeSOList;
     } 
+    List<IngredientSO> GetAllIngredients(RecipeSO chosenRecipe)
+    {
+        List<IngredientSO> list = new List <IngredientSO>();
+
+        foreach(RecipeEntry e in chosenRecipe.Ingredients)
+        {
+            list.Add(e.TargetIngredient);
+        }
+
+        return list;
+    }
 }
