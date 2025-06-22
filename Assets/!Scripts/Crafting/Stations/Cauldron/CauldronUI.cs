@@ -51,22 +51,17 @@ public class CauldronUI : MonoBehaviour
 
     void Start()
     {
-        SwitchToMixing.ActivateMixing += ActivateMixing;
-        SwitchToMixing.ActivateMixing += SetIngredients;
-        SwitchToMixing.DeactivateMixing += ActivateMixing;
+        CauldronEvents.ActivateMixing += ActivateMixing;
+        CauldronEvents.ActivateMixing += SetIngredients;
+
+        CauldronEvents.DeactivateMixing += ActivateMixing;
+        CauldronEvents.DeactivateMixing += Finish;
 
         gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (StationManager.Instance.GetCurrentStation() == 3 && Input.GetKeyDown(KeyCode.Space))
-        {
-            SwitchToMixing.DeactivateMixing?.Invoke();
-            StationManager.Instance.ToggleDrag(false);
-            Debug.Log("Invoking thing");
-        }
-
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
