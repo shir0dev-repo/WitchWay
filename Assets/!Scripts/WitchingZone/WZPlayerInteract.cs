@@ -122,6 +122,10 @@ public class WZPlayerInteract : MonoBehaviour
             {
                 IngrediantInteracted(interactedObject.GetComponent<WZWorldIngredient>());
             }
+            else if (interactedObject.CompareTag(npcObjectTag))
+            {
+                interactedObject.GetComponent<DialogueActor>()?.Interact();
+            }
             else //only not null if one of the two passed in so no need to check for both
             {
                 NPCInteracted();
