@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class DialogueManager : MonoBehaviour
     private string currentTitle;
     private int currentLineIndex;
 
+    [Header("Input Actions")]
+    public InputAction interactAction;
+
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -24,15 +29,24 @@ public class DialogueManager : MonoBehaviour
 
         //HideDialogue();
     }
-
-    private void Update()
-{
-    if (IsDialogueActive() && currentNode != null && Input.GetKeyDown(KeyCode.F))
+    
+    private void OnEnable()
     {
-        ShowNextLine();
+    interactAction.performed += OnInteractPerformed;
     }
-}
 
+    private void OnDisable()
+    {
+    interactAction.performed -= OnInteractPerformed;
+    }
+
+    private void OnInteractPerformed(InputAction.CallbackContext context)
+    {
+        if (IsDialogueActive() && currentNode != null)
+        {
+            ShowNextLine();
+        }
+    }
 
     public void StartDialogue(string title, DialogueNode node)
     {
@@ -50,7 +64,10 @@ public class DialogueManager : MonoBehaviour
         currentLineIndex = 0;
 
         DialogTitleText.text = title;
-        //currentNode.onNodeEnter?.Invoke();
+        currentNode.onNodeEnter?.Invoke();
+
+        interactAction.Enable();
+
         ShowNextLine();
     }
 
@@ -123,6 +140,7 @@ public class DialogueManager : MonoBehaviour
         WZPlayerManager.Instance.SetCanMove(true);
         WZPlayerManager.Instance.SetCursor(false);
         DialogueParent.SetActive(false);
+        interactAction.Disable();
         currentNode = null;
     }
 

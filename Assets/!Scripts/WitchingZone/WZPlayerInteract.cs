@@ -105,6 +105,30 @@ public class WZPlayerInteract : MonoBehaviour
         pauseAction.Disable();
     }
 
+    public void SetControlsEnabled(bool enabled)
+    {
+        if (enabled)
+        {
+            interactAction.Enable();
+            dragAction.Enable();
+            optionChangeAction.Enable();
+            selectAction.Enable();
+            showIngrediantsAction.Enable();
+            recipeBookAction.Enable();
+            pauseAction.Enable();
+        }
+        else
+        {
+            interactAction.Disable();
+            dragAction.Disable();
+            optionChangeAction.Disable();
+            selectAction.Disable();
+            showIngrediantsAction.Disable();
+            recipeBookAction.Disable();
+            pauseAction.Disable();
+        }
+    }
+
     void Update()
     {
         CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag);
@@ -122,13 +146,13 @@ public class WZPlayerInteract : MonoBehaviour
             {
                 IngrediantInteracted(interactedObject.GetComponent<WZWorldIngredient>());
             }
-            else if (interactedObject.CompareTag(npcObjectTag))
+            else if (interactedObject.CompareTag(npcObjectTag) && !DialogueManager.Instance.IsDialogueActive())
             {
                 interactedObject.GetComponent<DialogueActor>()?.Interact();
             }
-            else //only not null if one of the two passed in so no need to check for both
+            else
             {
-                NPCInteracted();
+                Debug.LogWarning("Interacted with an object that is not an ingredient or NPC: " + interactedObject.name);
             }
         }
     }
@@ -141,22 +165,6 @@ public class WZPlayerInteract : MonoBehaviour
         inventory.AddNewItem(ingredient.ingredient);
 
         Destroy(ingredient.gameObject);
-    }
-
-    //interacted with an npc
-    private void NPCInteracted()
-    {
-        //disable other input
-        WZPlayerController playerController = GetComponent<WZPlayerController>();
-        playerController.enabled = false;
-
-        //unlock cursor and hide reticle
-        Cursor.lockState = CursorLockMode.Confined;
-        reticleImage.gameObject.SetActive(false);
-
-        print("NPC interacted");
-
-        //NEEDS TO BE REENABLED SOMEWHERE AT SOME POINT
     }
 
     private void OnDragObject(InputAction.CallbackContext context)

@@ -5,6 +5,7 @@ public class WZPlayerManager : MonoBehaviour
     public static WZPlayerManager Instance;
     private WZPlayerController playerController;
     private WZPlayerSanity playerSanity;
+    private WZPlayerInteract playerInteract;
 
     void Awake()
     {
@@ -20,6 +21,9 @@ public class WZPlayerManager : MonoBehaviour
     {
         if (playerController != null)
             playerController.SetCanMove(canMove);
+
+        if (playerInteract != null)
+            playerInteract.SetControlsEnabled(canMove);
     }
 
     public void IncreaseSanity(int amount)

@@ -933,6 +933,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2702721903940749494, guid: 3e0b558b93d2b1c469594e22a7b4f779, type: 3}
       insertIndex: -1
       addedObject: {fileID: 222750313}
+    - targetCorrespondingSourceObject: {fileID: 2702721903940749494, guid: 3e0b558b93d2b1c469594e22a7b4f779, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 222750321}
   m_SourcePrefab: {fileID: 100100000, guid: 3e0b558b93d2b1c469594e22a7b4f779, type: 3}
 --- !u!1 &222750308 stripped
 GameObject:
@@ -988,6 +991,39 @@ MonoBehaviour:
   DialogBodyText: {fileID: 222750310}
   responseButtonPrefab: {fileID: 9159245964153607041, guid: d76d3efe6943fa84daa495ce57727cd4, type: 3}
   responseButtonContainer: {fileID: 222750309}
+  interactAction:
+    m_Name: Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 98e20bac-5847-4fdc-a0a8-0d512f20733d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 0fff9dbf-aebe-4a4a-9c4c-7105486a35d5
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Interact
+      m_Flags: 0
+    m_Flags: 0
+--- !u!114 &222750321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222750308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd9fd329664af543bbc986fec60fd77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sanityDownNodes:
+  - {fileID: 11400000, guid: d6e1f7fd77b71ad4da3a1cd17fa29db4, type: 2}
+  sanityUpNodes:
+  - {fileID: 11400000, guid: 38b7dbe2a2393a7488c4d181207f4c44, type: 2}
 --- !u!1 &265005750
 GameObject:
   m_ObjectHideFlags: 0
