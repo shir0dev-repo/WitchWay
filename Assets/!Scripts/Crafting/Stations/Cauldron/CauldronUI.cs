@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class CauldronUI : MonoBehaviour
@@ -38,8 +37,12 @@ public class CauldronUI : MonoBehaviour
     [ContextMenu("Validate")]
     public void Finish()
     {
-        //recipe = RecipeBook.Instance.list.FilterResultsByMultipleIngredients(ingredients);
-        //WORK IN PROGRESS HOLD YOUR HORSES
+        ingredients = CauldronMaster.Instance.InsidePot.GetIngredients();
+        recipe = RecipeBook.Instance.list.GetFirstRecipeFromListofMultiple(ingredients);
+        if (recipe == null) { return; }
+
+        Debug.Log("the closest recipe to the ingredients in the pot is " + recipe.ToString());
+
         if (recipe.IsValidRecipe(ingredients.Select(ing => ing.ModifiedState).ToList()))
         {
             Debug.Log("win epic!");
