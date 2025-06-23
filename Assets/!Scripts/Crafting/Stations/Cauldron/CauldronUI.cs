@@ -45,7 +45,17 @@ public class CauldronUI : MonoBehaviour
 
         if (recipe.IsValidRecipe(ingredients.Select(ing => ing.ModifiedState).ToList()))
         {
-            Debug.Log("win epic!" + '\n'+ "the outputted potion is: " + recipe.Output.ToString());
+            if (recipe.IsDiscovered)
+            {
+                Debug.Log("win epic!" + '\n' + "the outputted potion is: " + recipe.Output.ToString()); 
+            }
+            else
+            {
+                recipe.Output = RecipeBook.Instance.MysteriousPotion;
+                Debug.Log("you haven't discovered this recipe yet!" + '\n' + "the outputted potion is: " + recipe.Output.ToString());
+                // change this so it doesn't swap out the output in the scriptable object
+            }
+
             CauldronMaster.Instance.InsidePot.UseIngredientsInValidRecipe();
         }
         else

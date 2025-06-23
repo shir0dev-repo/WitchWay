@@ -4,6 +4,8 @@ public class RecipeBook : MonoBehaviour
 {
     public static RecipeBook Instance {  get; private set; }
     public RecipeList list {  get; private set; }
+    public PotionData MysteriousPotion;
+    // set in the inspector
     private void Awake()
     {
         if (Instance != null && Instance != this)
