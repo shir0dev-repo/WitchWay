@@ -45,12 +45,13 @@ public class CauldronUI : MonoBehaviour
 
         if (recipe.IsValidRecipe(ingredients.Select(ing => ing.ModifiedState).ToList()))
         {
-            Debug.Log("win epic!");
-            
+            Debug.Log("win epic!" + '\n'+ "the outputted potion is: " + recipe.Output.ToString());
+            CauldronMaster.Instance.InsidePot.UseIngredientsInValidRecipe();
         }
         else
         {
             Debug.Log("NOOOOOOOOOOOOOOOOOOO");
+            CauldronMaster.Instance.InsidePot.ReturnRejectedIngredients();
         }
     }
 

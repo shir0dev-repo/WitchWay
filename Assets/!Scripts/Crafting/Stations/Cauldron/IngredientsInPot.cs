@@ -18,5 +18,31 @@ public class IngredientsInPot : MonoBehaviour
             other.gameObject.SetActive(false);
         }
     }
+    public void ReturnRejectedIngredients()
+    {
+        if (IngredientsToAdd == null) {  return; }
+
+        foreach(WorldIngredient i in IngredientsToAdd)
+        {
+            i.gameObject.SetActive(true);
+            i.gameObject.transform.position = new Vector3(-3,0,0);
+            i.gameObject.transform.rotation = Quaternion.identity;
+        }
+
+        ClearList();
+    }
+    public void UseIngredientsInValidRecipe()
+    {
+        foreach (WorldIngredient i in IngredientsToAdd)
+        {
+            Destroy(i.gameObject);
+        }
+
+        ClearList();
+    }
+    public void ClearList()
+    {
+        IngredientsToAdd?.Clear();
+    }
     public List<WorldIngredient> GetIngredients() {  return IngredientsToAdd; }
 }
