@@ -986,9 +986,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dbc905ace3cb3644975050f75c18d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueParent: {fileID: 222750312}
-  DialogTitleText: {fileID: 222750311}
-  DialogBodyText: {fileID: 222750310}
+  dialogueParent: {fileID: 222750312}
+  titleText: {fileID: 222750311}
+  bodyText: {fileID: 222750310}
   responseButtonPrefab: {fileID: 9159245964153607041, guid: d76d3efe6943fa84daa495ce57727cd4, type: 3}
   responseButtonContainer: {fileID: 222750309}
   interactAction:
@@ -1020,10 +1020,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd9fd329664af543bbc986fec60fd77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sanityDownNodes:
-  - {fileID: 11400000, guid: d6e1f7fd77b71ad4da3a1cd17fa29db4, type: 2}
-  sanityUpNodes:
-  - {fileID: 11400000, guid: 38b7dbe2a2393a7488c4d181207f4c44, type: 2}
+  sanityDownNodes: []
+  sanityUpNodes: []
 --- !u!1 &265005750
 GameObject:
   m_ObjectHideFlags: 0
@@ -3486,8 +3484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c8fd8395d124a45a4f664f93fa1b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Test NPC
-  Dialogue: {fileID: 11400000, guid: 6c1df91ab14a480488c0b96b40dc2a7e, type: 2}
+  rootNode: {fileID: 11400000, guid: 877f24942b3385f4ab537a476683ea86, type: 2}
   targetRenderer: {fileID: 1345404966}
   defaultMaterial: {fileID: 2100000, guid: df9eb81050dd2aa45af0bff7d7b3ea80, type: 2}
   highlightMaterial: {fileID: 2100000, guid: 42d219205ec2fe9409ea5831f95ebfab, type: 2}

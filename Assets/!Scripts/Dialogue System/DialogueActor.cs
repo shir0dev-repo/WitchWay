@@ -3,9 +3,7 @@ using UnityEngine;
 public class DialogueActor : MonoBehaviour
 {
     [SerializeField]
-    private string Name;
-    [SerializeField]
-    private Dialogue Dialogue;
+    private DialogueNode rootNode;
 
     [SerializeField]
     private Renderer targetRenderer;
@@ -16,7 +14,7 @@ public class DialogueActor : MonoBehaviour
 
     public void Interact()
     {
-        DialogueManager.Instance.StartDialogue(Name, Dialogue.RootNode);
+        DialogueManager.Instance.StartDialogue(rootNode);
     }
 
     // private void OnTriggerEnter(Collider other)

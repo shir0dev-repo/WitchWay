@@ -12,11 +12,11 @@ public class DialogueFunctions : MonoBehaviour
     {
         foreach (var node in sanityDownNodes)
         {
-            node.onNodeEnter.AddListener(() => DecreasePlayerSanity());
+            //node.onNodeEnter.AddListener(() => DecreasePlayerSanity());
         }
         foreach (var node in sanityUpNodes)
         {
-            node.onNodeEnter.AddListener(() => IncreasePlayerSanity());
+            //node.onNodeEnter.AddListener(() => IncreasePlayerSanity());
         }
     }
 

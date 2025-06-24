@@ -2,155 +2,155 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
-    [Header("UI References")]
-    public GameObject DialogueParent;
-    public TextMeshProUGUI DialogTitleText;
-    public TextMeshProUGUI DialogBodyText;
-    public GameObject responseButtonPrefab;
-    public Transform responseButtonContainer;
-
-    private DialogueNode currentNode;
-    private string currentTitle;
-    private int currentLineIndex;
+    [Header("UI")]
+    [SerializeField] private GameObject   dialogueParent;
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private TextMeshProUGUI bodyText;
+    [SerializeField] private GameObject   responseButtonPrefab;
+    [SerializeField] private Transform    responseButtonContainer;
 
     [Header("Input Actions")]
-    public InputAction interactAction;
+    [SerializeField] private InputAction  interactAction;
+
+    private DialogueNode currentNode;
+    private bool isTyping;
+    private Coroutine typingCo;
+    private bool justStartedDialogue = false;
 
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-
-        //HideDialogue();
-    }
-    
-    private void OnEnable()
-    {
-    interactAction.performed += OnInteractPerformed;
+        else { Destroy(gameObject); return; }
     }
 
-    private void OnDisable()
-    {
-    interactAction.performed -= OnInteractPerformed;
-    }
+    private void OnEnable()  => interactAction.performed += OnInteract;
+    private void OnDisable() => interactAction.performed -= OnInteract;
 
-    private void OnInteractPerformed(InputAction.CallbackContext context)
+    public void StartDialogue(DialogueNode node)
     {
-        if (IsDialogueActive() && currentNode != null)
-        {
-            ShowNextLine();
-        }
-    }
+        if (node == null) return;
 
-    public void StartDialogue(string title, DialogueNode node)
-    {
         WZPlayerManager.Instance.SetCanMove(false);
         WZPlayerManager.Instance.SetCursor(true);
 
-        foreach (Transform child in responseButtonContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        ShowDialogue();
+        ClearResponses();
+        dialogueParent.SetActive(true);
 
-        currentTitle = title;
         currentNode = node;
-        currentLineIndex = 0;
 
-        DialogTitleText.text = title;
-        currentNode.onNodeEnter?.Invoke();
+        justStartedDialogue = true;
+        StartCoroutine(ClearJustStartedFlagNextFrame());
+
+        ShowLine(node);
 
         interactAction.Enable();
-
-        ShowNextLine();
     }
 
-    private void ShowNextLine()
+    private IEnumerator ClearJustStartedFlagNextFrame()
     {
-        if (currentNode == null || currentLineIndex >= currentNode.dialogueLines.Count)
-        {
-            if (currentNode != null && currentNode.HasResponses())
-            {
-                ShowResponses();
-            }
-            else
-            {
-                HideDialogue();
-            }
-            return;
-        }
-
-        DialogBodyText.text = currentNode.dialogueLines[currentLineIndex];
-        currentLineIndex++;
-
-        if (currentLineIndex >= currentNode.dialogueLines.Count && currentNode.HasResponses())
-        {
-            ShowResponses();
-        }
-        else if (currentLineIndex > currentNode.dialogueLines.Count)
-        {
-            HideDialogue();
-        }
+        yield return null; // wait one frame
+        justStartedDialogue = false;
     }
+
+    private void ShowLine(DialogueNode node)
+    {
+        if (typingCo != null) StopCoroutine(typingCo);
+
+        titleText.text = node.speakerName;
+
+        bodyText.text = string.Empty;
+        isTyping = true;
+
+        typingCo = StartCoroutine(TypeLine(node.line, node.typingSpeed));
+    }
+
+    private IEnumerator TypeLine(string line, float speed)
+    {
+        foreach (char c in line)
+        {
+            bodyText.text += c;
+            yield return new WaitForSeconds(speed);
+        }
+        isTyping = false;
+
+        if (currentNode.responses.Count > 0)
+            ShowResponses();
+    }
+
+    private void OnInteract(InputAction.CallbackContext ctx)
+{
+    if (!IsDialogueActive() || currentNode == null || justStartedDialogue) return;
+
+    if (isTyping)
+    {
+        if (typingCo != null) StopCoroutine(typingCo);
+        bodyText.text = currentNode.line;
+        isTyping = false;
+
+        if (currentNode.responses.Count > 0)
+            ShowResponses();
+
+        return;
+    }
+
+    if (responseButtonContainer.childCount > 0) return;
+
+    if (currentNode.nextNode != null)
+    {
+        StartDialogue(currentNode.nextNode);
+    }
+    else
+    {
+        HideDialogue();
+    }
+}
+
 
     private void ShowResponses()
     {
-        foreach (Transform child in responseButtonContainer)
-        {
-            Destroy(child.gameObject);
-        }
+        ClearResponses();
 
-        foreach (DialogueResponse response in currentNode.responses)
+        foreach (DialogueResponse resp in currentNode.responses)
         {
-            GameObject buttonObj = Instantiate(responseButtonPrefab, responseButtonContainer);
-            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = response.responseText;
-
-            buttonObj.GetComponent<Button>().onClick.AddListener(() =>
-            {
-                SelectResponse(response);
-            });
+            GameObject btnObj = Instantiate(responseButtonPrefab, responseButtonContainer);
+            btnObj.GetComponentInChildren<TextMeshProUGUI>().text = resp.responseText;
+            btnObj.GetComponent<Button>().onClick.AddListener(() => SelectResponse(resp));
         }
     }
 
-    public void SelectResponse(DialogueResponse response)
+    public void SelectResponse(DialogueResponse resp)
     {
-        if (response.nextNode != null)
-        {
-            foreach (Transform child in responseButtonContainer)
-        {
-            Destroy(child.gameObject);
-        }
-            StartDialogue(currentTitle, response.nextNode);
-            
-        }
+        ClearResponses();
+        if (resp.nextNode != null)
+            StartDialogue(resp.nextNode);
         else
-        {
             HideDialogue();
-        }
+    }
+
+    private void ClearResponses()
+    {
+        foreach (Transform child in responseButtonContainer)
+            Destroy(child.gameObject);
     }
 
     public void HideDialogue()
     {
-        WZPlayerManager.Instance.SetCanMove(true);
-        WZPlayerManager.Instance.SetCursor(false);
-        DialogueParent.SetActive(false);
+        if (typingCo != null) StopCoroutine(typingCo);
+
+        dialogueParent.SetActive(false);
         interactAction.Disable();
         currentNode = null;
+
+        WZPlayerManager.Instance.SetCanMove(true);
+        WZPlayerManager.Instance.SetCursor(false);
     }
 
-    private void ShowDialogue()
-    {
-        DialogueParent.SetActive(true);
-    }
-
-    public bool IsDialogueActive()
-    {
-        return DialogueParent.activeSelf;
-    }
+    public bool IsDialogueActive() => dialogueParent.activeSelf;
 }
