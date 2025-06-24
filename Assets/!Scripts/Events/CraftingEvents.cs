@@ -69,9 +69,4 @@ public static partial class GameEvents
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;
     }
-
-    public static class WitchingZone
-    {
-        public static Action OnSanityChanged;
-    }
 }

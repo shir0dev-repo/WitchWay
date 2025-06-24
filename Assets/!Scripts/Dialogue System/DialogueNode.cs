@@ -9,6 +9,7 @@ public class DialogueNode : ScriptableObject
     public List<string> dialogueLines = new List<string>();
     public List<DialogueResponse> responses = new List<DialogueResponse>();
     public UnityEvent onNodeEnter;
+    public string CharacterName;
 
     public bool HasResponses()
     {
