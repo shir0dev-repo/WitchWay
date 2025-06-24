@@ -55,7 +55,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator ClearJustStartedFlagNextFrame()
     {
-        yield return null; // wait one frame
+        yield return null;
         justStartedDialogue = false;
     }
 
