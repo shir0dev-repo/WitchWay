@@ -31,7 +31,7 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Transform _magicCircleTransform;
 
     [Header("Cauldron")]
-    [SerializeField] private Cauldron _cauldron;
+    [SerializeField] private CauldronUI _cauldron;
     [SerializeField] private Transform _cauldronArea;
 
     private int _currentTransformIndex = 0;
@@ -226,5 +226,9 @@ public class StationManager : MonoBehaviour
             //transform.position = tableStartPos;
             CameraManager.Instance.SetPosition(tableStartPos);
         }
+    }
+    public int GetCurrentStation()
+    {
+        return _currentTransformIndex;
     }
 }

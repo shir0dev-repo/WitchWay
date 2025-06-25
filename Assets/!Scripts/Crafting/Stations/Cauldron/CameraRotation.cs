@@ -10,8 +10,8 @@ public class CameraRotation : MonoBehaviour
     {
         Prevlocation = gameObject.transform;
 
-        SwitchToMixing.ActivateMixing += ChangeLocation;
-        SwitchToMixing.DeactivateMixing += ReturnToLocation;
+        CauldronEvents.ActivateMixing += ChangeLocation;
+        CauldronEvents.DeactivateMixing += ReturnToLocation;
     }
 
     void ChangeLocation()

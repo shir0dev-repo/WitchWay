@@ -14,7 +14,7 @@ public class RotateBoard : MonoBehaviour
         pivot = orb.transform;
         transform.parent = pivot;
 
-        SwitchToMixing.ActivateMixing += FinishRotating;
+        CauldronEvents.ActivateMixing += FinishRotating;
     }
 
     void Update()

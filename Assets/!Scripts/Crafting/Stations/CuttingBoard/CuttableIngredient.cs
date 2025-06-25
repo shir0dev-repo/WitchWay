@@ -116,6 +116,10 @@ public class CuttableIngredient : MonoBehaviour
     void CompleteChopping()
     {
         EndAction?.Invoke();
+        foreach (Rigidbody o in gameObject.GetComponentsInChildren<Rigidbody>())
+        {
+            o.isKinematic = false;
+        }
 
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
         // later, this will just grab the name of the scriptable object attached to the prefab.

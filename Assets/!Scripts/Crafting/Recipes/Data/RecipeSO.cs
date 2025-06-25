@@ -7,7 +7,7 @@ public class RecipeSO : ScriptableObject
 {
     public List<RecipeEntry> Ingredients;
     public PotionData Output;
-
+    public bool IsDiscovered;
 
     /*
     STEPS:

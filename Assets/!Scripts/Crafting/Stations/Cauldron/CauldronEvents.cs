@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SwitchToMixing : MonoBehaviour
+public class CauldronEvents : MonoBehaviour
 {
     public delegate void ActivateMixingMode();
     public static ActivateMixingMode ActivateMixing;
