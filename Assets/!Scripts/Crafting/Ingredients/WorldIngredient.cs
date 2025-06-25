@@ -12,6 +12,8 @@ public class WorldIngredient : MonoBehaviour
     public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
     
     public ModifiedIngredient ModifiedState => _data;
+    public void UpdateModifiers(ModifiedIngredient mod) => _data = mod;
+
     [SerializeField] private ModifiedIngredient _data;
     [HideInInspector] public bool _isDragging = false;
 

@@ -1,14 +1,12 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class MortarStation : Singleton<MortarStation>
 {
     [SerializeField] private Transform _ingredientAnchor;
 
-    public bool HasIngredient => _hasIngredient;
-    private bool _hasIngredient = false;
-    private bool _shouldAddIngredient = false;
+    public bool HasIngredient => ingredientsInMortar.Count > 0;
     //private CrushableIngredientState _currentIngredient = null;   
     private RigidbodyConstraints _ingConstraintsCache = RigidbodyConstraints.None;
 
@@ -17,6 +15,28 @@ public class MortarStation : Singleton<MortarStation>
 
     private List<CrushableIngredientState> ingredientsInMortar = new();
     private Dictionary<Rigidbody, RigidbodyConstraints> constraints = new();
+
+    private void Start()
+    {
+        GameEvents.Crafting.OnSuccessfullyCrushedItem += SpawnCrushedItem;
+    }
+
+    private void SpawnCrushedItem(WorldIngredient ingredient)
+    {
+        Vector3 spawnPosition = ingredient.transform.position;
+        IngredientSO data = ingredient.BaseIngredient;
+        ModifiedIngredient modData = ingredient.ModifiedState;
+        GameObject pf = data.CrushedWorldPrefab;
+        if (pf != null)
+        {
+            GameObject ingGO = Instantiate(pf, spawnPosition, Quaternion.identity);
+            WorldIngredient ing = ingGO.GetComponent<WorldIngredient>();
+            ing.SetIngredient(data);
+            ing.UpdateModifiers(modData);
+        }
+
+        Destroy(ingredient.gameObject);
+    }
 
     private void Update()
     {
@@ -69,23 +89,23 @@ public class MortarStation : Singleton<MortarStation>
 
         if (other.TryGetComponent(out WorldIngredient ing) && !ing.BaseIngredient.CanBeCrushed) return;
 
-            /* if (CursorManager.Instance.AttachedObject == transform)
-                 CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
+        /* if (CursorManager.Instance.AttachedObject == transform)
+             CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
 
-             _shouldAddIngredient = true;
-             _currentIngredient = state;
-             */
+         _shouldAddIngredient = true;
+         _currentIngredient = state;
+         */
 
-            if (!ingredientsInMortar.Contains(state))
-            {
-                ingredientsInMortar.Add(state);
-            }
-            if (ingredientsInMortar.Count > 1)
-            {
-                BlowUp();
-            }
+        if (!ingredientsInMortar.Contains(state))
+        {
+            ingredientsInMortar.Add(state);
+        }
+        if (ingredientsInMortar.Count > 1)
+        {
+            BlowUp();
         }
     }
+
 
     private void OnTriggerStay(Collider other)
     {

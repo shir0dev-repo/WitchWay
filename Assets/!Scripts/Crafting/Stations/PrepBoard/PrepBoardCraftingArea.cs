@@ -7,10 +7,12 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
     [SerializeField] private Vector3 _mortarActivePosition = Vector3.zero;
 
     private MortarStation _mortar;
+    private CuttingBoard _cuttingBoard;
 
     private void Start()
     {
         _mortar = MortarStation.Instance;
+        _cuttingBoard = CuttingBoard.Instance;
     }
 
     private void Update()
@@ -28,9 +30,13 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
 
     public void EnableMortar()
     {
+        _cuttingBoard.enabled = false;
+        _cuttingBoard.GetComponent<Collider>().isTrigger = true;
+
         _mortar.transform.position = _mortarActivePosition;
         _mortar.enabled = true;
         _mortarOutline.SetActive(true);
+
     }
 
     public void DisableMortar()
@@ -38,6 +44,9 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
         _mortarOutline.SetActive(false);
         _mortar.transform.position = _mortarOutline.transform.position;
         _mortar.enabled = false;
+
+        _cuttingBoard.enabled = true;
+        _cuttingBoard.GetComponent<Collider>().isTrigger = false;
     }
 
     private void OnDrawGizmosSelected()
