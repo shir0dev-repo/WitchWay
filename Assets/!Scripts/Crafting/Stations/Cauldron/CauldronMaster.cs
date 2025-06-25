@@ -6,7 +6,8 @@ public class CauldronMaster : MonoBehaviour
     public IngredientsInPot InsidePot { get; private set; }
     public CauldronEvents CauldronEvents { get; private set; }
 
-    bool isCurrentlyMixing = false;
+    public bool CurrentlyMixing { get; private set; } = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -23,21 +24,28 @@ public class CauldronMaster : MonoBehaviour
     {
         if (StationManager.Instance.GetCurrentStation() == 3)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && !isCurrentlyMixing)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                CauldronEvents.ActivateMixing?.Invoke();
-                isCurrentlyMixing = true;
-                Debug.Log("start mixing!");
+                ToggleMixing(!CurrentlyMixing);
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && isCurrentlyMixing)
-            {
-                CauldronEvents.DeactivateMixing?.Invoke();
-                GameEvents.Crafting.OnCauldronMixStepCompleted?.Invoke();
-                isCurrentlyMixing = false;
-                Debug.Log("deactivating mixing.");
-            }
-        } 
+        }
         // press the spacebar to start/stop mixing WHEN ITS ON THE CORRECT STATION 
-        
+    }
+
+    public void ToggleMixing(bool toggle)
+    {
+        if (CurrentlyMixing == toggle) return;
+
+        CurrentlyMixing = toggle;
+        if (CurrentlyMixing)
+        {
+            CauldronEvents.ActivateMixing?.Invoke();
+            Debug.Log("start mixing!");
+        }
+        else
+        {
+            CauldronEvents.DeactivateMixing?.Invoke();
+            Debug.Log("deactivating mixing.");
+        }
     }
 }

@@ -29,7 +29,7 @@ public class CrushableIngredientState : MonoBehaviour
 
     private bool CheckCrushability()
     {
-        if (TryGetComponent(out WorldIngredient ing))
+        if (TryGetComponent(out WorldIngredient ing) && ing.BaseIngredient != null)
         {
             return ing.BaseIngredient.CanBeCrushed;
         }

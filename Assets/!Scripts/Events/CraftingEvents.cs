@@ -58,8 +58,8 @@ public static partial class GameEvents
         public static Action<WorldIngredient> OnItemPlacedInCauldron;
         public static Action OnCauldronMixStepCompleted;
 
-        public static Action<Potion> OnSuccessfullyMixedPotion;
-        public static Action<Potion> OnFailedToMixPotion;
+        public static Action<PotionData> OnSuccessfullyMixedPotion;
+        public static Action<RecipeSO> OnFailedToMixPotion;
 
         // Bottler events
         // TODO: Add Bottle class as parameter

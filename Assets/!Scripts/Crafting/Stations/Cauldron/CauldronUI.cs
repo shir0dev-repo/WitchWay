@@ -9,13 +9,16 @@ public class CauldronUI : MonoBehaviour
     [SerializeField] private Transform _centerPoint;
     [SerializeField] private TextMeshProUGUI _stdDevUGUI;
 
-     RecipeSO recipe;
+    RecipeSO recipe;
 
     [Header("Deviation")]
     [SerializeField, Range(5, 100)] private float _maxDeviation = 50;
     [SerializeField, Range(0, 1)] private float _deviationOKThreshold = 0.5f;
     [SerializeField, Range(1, 5)] private float _deviationHoldTime = 3.0f;
     [SerializeField, Range(5, 50)] private int _pointCount = 50;
+
+    [Header("Mixing")]
+    [SerializeField] private float _totalMixingDuration = 15.0f;
 
     private bool _isStirringCW = true;
     float TimeSpentStirring = 6f;
@@ -27,6 +30,8 @@ public class CauldronUI : MonoBehaviour
     private float _holdTimer = 0.0f;
 
     float switchStirDirectionTimer = 10.0f;
+
+    private float _progress = 0.0f;
 
     List<WorldIngredient> ingredients;
     public void Enable(int stationID)
@@ -47,13 +52,12 @@ public class CauldronUI : MonoBehaviour
         {
             if (recipe.IsDiscovered)
             {
-                Debug.Log("win epic!" + '\n' + "the outputted potion is: " + recipe.Output.ToString()); 
+                Debug.Log("win epic!" + '\n' + "the outputted potion is: " + recipe.Output.ToString());
             }
             else
             {
-                recipe.Output = RecipeBook.Instance.MysteriousPotion;
-                Debug.Log("you haven't discovered this recipe yet!" + '\n' + "the outputted potion is: " + recipe.Output.ToString());
-                // change this so it doesn't swap out the output in the scriptable object
+                PotionData mysterious = RecipeBook.Instance.MysteriousPotion;
+                Debug.Log("you haven't discovered this recipe yet!" + '\n' + "the outputted potion is: " + mysterious.ToString());
             }
 
             CauldronMaster.Instance.InsidePot.UseIngredientsInValidRecipe();
@@ -78,6 +82,64 @@ public class CauldronUI : MonoBehaviour
 
     private void Update()
     {
+        UpdateCursorPoints();
+
+        if (Input.GetMouseButton(0))
+        {
+            // add cursor position to point list
+            TryAddPoint();
+
+            float deviation = CalculateCircleAccuracy(out float totalAngle);
+            bool withinDev = IsWithinDeviationThreshold(deviation);
+            bool correctDirection = IsStirringCorrectDirection(totalAngle, _isStirringCW);
+
+            if (!correctDirection)
+            {
+                StirringInWrongDirection();
+                return;
+            }
+
+            if (!withinDev)
+            {
+                _holdTimer = 0.0f;
+                return;
+            }
+
+            // compare deviation to threshold
+
+            _holdTimer += Time.deltaTime;
+            if (_holdTimer >= _deviationHoldTime)
+            {
+                ChangeStirringDirection();
+            }
+
+
+            _progress += Time.deltaTime;
+            if (_progress >= _totalMixingDuration)
+            {
+                Finish();
+                return;
+            }
+
+            switchStirDirectionTimer -= Time.deltaTime;
+            if (switchStirDirectionTimer <= 0)
+            {
+                ChangeStirringDirection();
+                switchStirDirectionTimer = 10.0f;
+                // simple timer function for switching directions
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ChangeStirringDirection();
+            // simple testing function, only works when the mouse is held down
+        }
+    }
+
+    /// <summary>Updates the cursor position.</summary>
+    private void UpdateCursorPoints()
+    {
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
@@ -89,62 +151,36 @@ public class CauldronUI : MonoBehaviour
             _cursorPoints.Clear();
             _cursorPoints.Add(_cursorPos);
         }
+    }
 
-        if (Input.GetMouseButton(0))
+    /// <summary>Adds a point to <see cref="CauldronUI._cursorPoints"/> if timer is ready.</summary>
+    private void TryAddPoint()
+    {
+        _addTimer += Time.deltaTime;
+        if (_addTimer >= _addInterval)
         {
-            _addTimer += Time.deltaTime;
-            if (_addTimer >= _addInterval)
-            {
-                _addTimer -= _addInterval;
-                _cursorPoints.Add(_cursorPos);
-            }
-
-            if (_cursorPoints.Count > _pointCount)
-            {
-                _cursorPoints.RemoveAt(0);
-            }
-
-            float deviation = CalculateCircleAccuracy();
-            if (_cursorPoints.Count >= _pointCount / 2 && deviation >= _deviationOKThreshold)
-            {
-                _holdTimer += Time.deltaTime;
-                if (_holdTimer >= _deviationHoldTime)
-                {
-                    _isStirringCW = !_isStirringCW;
-                }
-            }
-            else
-            {
-                _holdTimer = 0.0f;
-            }
-
-            if (!IsStirringCorrectDirection(deviation, _isStirringCW)) 
-            {
-                StirringInWrongDirection();
-            }
+            _addTimer -= _addInterval;
+            _cursorPoints.Add(_cursorPos);
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (_cursorPoints.Count > _pointCount)
         {
-            ChangeStirringDirection();
-            // simple testing function, only works when the mouse is held down
-        }
-
-        switchStirDirectionTimer -= Time.deltaTime;
-        if (switchStirDirectionTimer <= 0)
-        {
-            ChangeStirringDirection();
-            switchStirDirectionTimer = 10.0f;
-            // simple timer function for switching directions
+            _cursorPoints.RemoveAt(0);
         }
     }
 
-    private float CalculateCircleAccuracy()
+    /// <summary>Checks if current deviation is within threshold.</summary>
+    private bool IsWithinDeviationThreshold(float deviation)
     {
-        Vector3 center = Camera.main.WorldToScreenPoint(_centerPoint.position);
+        return _cursorPoints.Count >= _pointCount / 2 && deviation >= _deviationOKThreshold;
+    }
+
+    private float CalculateCircleAccuracy(out float deltaAngle)
+    {
+        Vector3 center = CalculateCenter(_cursorPoints);
         List<float> radii = new();
         float sum = 0;
-        float deltaAngle = 0.0f;
+        deltaAngle = 0.0f;
         float lastAngle = 0.0f;
 
         foreach (Vector3 p in _cursorPoints)
@@ -157,15 +193,15 @@ public class CauldronUI : MonoBehaviour
 
             float angle = Mathf.Atan2(offset.y, offset.x);
             float deltaD = Mathf.DeltaAngle(lastAngle * Mathf.Rad2Deg, angle * Mathf.Rad2Deg);
-            
+
             deltaAngle += deltaD;
             lastAngle = angle;
         }
 
         float mean = sum / radii.Count;
-        
+
         float std = StandardDeviation(radii, mean, deltaAngle, _maxDeviation, _isStirringCW);
-        _stdDevUGUI.text = 
+        _stdDevUGUI.text =
             $"Deviation: {std:F2} " +
             "\nTarget: " + (_isStirringCW ? "CW" : "CCW") +
             "\nCurrent: " + (IsStirringCW(deltaAngle) ? "CW" : "CCW");
@@ -177,11 +213,26 @@ public class CauldronUI : MonoBehaviour
         return totalAngle < 0.0f;
     }
 
+    /// <summary>Checks if stir direction is the same as target direction.</summary>
     private static bool IsStirringCorrectDirection(float totalAngle, bool isTargetCW)
     {
-        return (isTargetCW) ? IsStirringCW(totalAngle) : !IsStirringCW(totalAngle);
+        return isTargetCW ? IsStirringCW(totalAngle) : !IsStirringCW(totalAngle);
     }
 
+    /// <summary>Calculates the average of a list of points.</summary>
+    private static Vector3 CalculateCenter(List<Vector3> points)
+    {
+        Vector3 center = Vector3.zero;
+        float invCount = 1.0f / points.Count;
+        foreach (Vector3 p in points)
+        {
+            center += p * invCount;
+        }
+
+        return center;
+    }
+
+    /// <summary>Calculates the standard deviation of a list of points.</summary>
     private static float StandardDeviation(List<float> radii, float mean, float totalAngle, float maxDeviation, bool isTargetCW)
     {
         float sumSqrDiffs = 0.0f;
@@ -204,7 +255,7 @@ public class CauldronUI : MonoBehaviour
 
         Vector3[] points = _cursorPoints.ToArray();
         Camera c = Camera.main;
-        for(int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Length; i++)
         {
             points[i].z = 10;
             points[i] = c.ScreenToWorldPoint(points[i]);
@@ -224,7 +275,9 @@ public class CauldronUI : MonoBehaviour
     public void ChangeStirringDirection()
     {
         _isStirringCW = !_isStirringCW;
+        GameEvents.Crafting.OnCauldronMixStepCompleted?.Invoke();
     }
+
     void StirringInWrongDirection()
     {
         TimeSpentStirring -= Time.deltaTime;

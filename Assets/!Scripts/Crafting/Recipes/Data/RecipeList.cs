@@ -25,6 +25,7 @@ public class RecipeList : MonoBehaviour
 
         return list;
     }
+
     public List<RecipeSO> FilterResultsByMultipleIngredients(List<WorldIngredient> worldIngredients)
     {
         List <RecipeSO> list = new List <RecipeSO>();
@@ -37,23 +38,22 @@ public class RecipeList : MonoBehaviour
 
         var ingredientHash = new HashSet<IngredientSO>(ingredients.Select(i => i));
         // create a hashset with all the requested ingredients
-        IEnumerable<RecipeSO> result = RecipeSOList.Where(recipeSO => recipeSO.Ingredients.Any
-            (entry => ingredientHash.Any(filter => entry.TargetIngredient.Equals(filter))));  
+        IEnumerable<RecipeSO> result = RecipeSOList
+            .Where(recipeSO => recipeSO.Ingredients
+                .Any(entry => ingredientHash.Any(filter => entry.TargetIngredient.Equals(filter))));
         // IT SEARCHES LIKE THIS: recipeSOlist -> gets list of recipeEntry -> grabs the ingredientSO in each recipeEntry
         // (cont.) -> compares the ingredients to the ingredientHash -> adds recipeSO to the IEnum if all ingredients are present.
         // iterates this process over the entirety of the recipeSOList so it kinda sucks but it works...
-
-        foreach (RecipeSO s in result)
-        {
-            list.Add(s);
-        }
-
+        list.AddRange(result);
+        
         return list;
     }
+
     public List<RecipeSO> GetAllRecipes()
     {
          return RecipeSOList;
-    } 
+    }
+
     List<IngredientSO> GetAllIngredients(RecipeSO chosenRecipe)
     {
         List<IngredientSO> list = new List <IngredientSO>();
