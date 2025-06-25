@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246348228681103858}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.58294755, y: -0.13390009, z: 0.5324024, w: 0.59899145}
-  m_LocalPosition: {x: 0.017980874, y: 0.026470771, z: -0.011883286}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_LocalRotation: {x: -0.6853184, y: -0.2617245, z: 0.3919411, w: 0.55517673}
+  m_LocalPosition: {x: 0.575, y: 0.345, z: 0.15}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6618134053383821211}
-  m_LocalEulerAnglesHint: {x: -33.765, y: -69.989, z: 107.253}
+  m_LocalEulerAnglesHint: {x: -33.765, y: -95.268, z: 107.253}
 --- !u!33 &6117327695797925031
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6618134053383821211}
@@ -218,7 +218,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
+  _data:
+    BaseIngredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
+    ModifierList:
+      OperationsPerformed: 
+    HasBeenCut: 0
+    HasBeenCrushed: 0
+    HasBeenFrozen: 0
+    HasBeenHeated: 0
+    CurrentSpell: 0
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
