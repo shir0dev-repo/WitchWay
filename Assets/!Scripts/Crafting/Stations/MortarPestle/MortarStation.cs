@@ -1,15 +1,35 @@
+using System;
 using UnityEngine;
 
-public class MortarStation : MonoBehaviour
+public class MortarStation : Singleton<MortarStation>
 {
     [SerializeField] private Transform _ingredientAnchor;
 
-    public bool HasIngredient => _hasIngredient;
-    private bool _hasIngredient = false;
+    public bool HasIngredient => _currentIngredient != null;
     private bool _shouldAddIngredient = false;
     private CrushableIngredientState _currentIngredient = null;
     private RigidbodyConstraints _ingConstraintsCache = RigidbodyConstraints.None;
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        GameEvents.Crafting.OnSuccessfullyCrushedItem += SpawnCrushedItem;
+        enabled = false;
+    }
+
+    private void SpawnCrushedItem(WorldIngredient ingredient)
+    {
+        if (_currentIngredient != null && _currentIngredient.GetComponent<WorldIngredient>() == ingredient)
+        {
+            GameObject crushed = ingredient.BaseIngredient.CrushedWorldPrefab;
+            Vector3 pos = ingredient.transform.position;
+
+            Destroy(_currentIngredient.gameObject);
+
+            Instantiate(crushed, pos, Quaternion.identity);
+        }
+    }
+
     private void Update()
     {
         if (_shouldAddIngredient)
@@ -34,37 +54,34 @@ public class MortarStation : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) // trigger so it doesn't interfere with the crushing
     {
-        if (other.TryGetComponent(out CrushableIngredientState state))
-        {
-            if (other.TryGetComponent(out WorldIngredient ing) && !ing.ingredient.CanBeCrushed) return;
+        if (this.enabled == false) return;
+        if (!other.TryGetComponent(out CrushableIngredientState state)) return;
 
-            if (CursorManager.Instance.AttachedObject == transform)
-                CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
+        if (other.TryGetComponent(out WorldIngredient ing) && !ing.BaseIngredient.CanBeCrushed) return;
 
-            _shouldAddIngredient = true;
-            _currentIngredient = state;
-        }
+        if (CursorManager.Instance.AttachedObject == transform)
+            CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
+
+        _shouldAddIngredient = true;
+        _currentIngredient = state;
     }
 
     private void OnTriggerStay(Collider other)
     {
         //if (_currentIngredient == null || other.gameObject != _currentIngredient.gameObject) return;
-        
+
         if (Input.GetMouseButtonUp(0))
         {
             if (!other.TryGetComponent(out CrushableIngredientState state)) return;
-            _hasIngredient = true;
             state.SetCrushable(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        
         Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
         if (other.TryGetComponent(out CrushableIngredientState state))
         {
-            _hasIngredient = false;
             if (other.TryGetComponent(out WorldIngredient ing))
                 GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
             if (other.TryGetComponent(out Rigidbody rb))
@@ -73,8 +90,8 @@ public class MortarStation : MonoBehaviour
                 _ingConstraintsCache = RigidbodyConstraints.None;
             }
 
-            Debug.Log("mrtor");
             state.SetCrushable(false);
+            _currentIngredient = null;
         }
     }
 }

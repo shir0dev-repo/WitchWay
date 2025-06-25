@@ -1,10 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class WorldIngredient : MonoBehaviour
 {
-    public IngredientSO ingredient; //added this so can ref what ingredient it is
+    public void SetIngredient(IngredientSO data)
+    {
+        _data.BaseIngredient = data;
+    }
 
+    public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
+    
+    public ModifiedIngredient ModifiedState => _data;
+    [SerializeField] private ModifiedIngredient _data;
     [HideInInspector] public bool _isDragging = false;
 
     private Vector3 _mousePosWS = Vector3.zero;
@@ -21,7 +29,6 @@ public class WorldIngredient : MonoBehaviour
     private float currentDepth;
     private bool isStationValid = true;
     private bool inDestroyArea = false;
-    private bool _anchoredToStation = false;
 
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
@@ -150,7 +157,8 @@ public class WorldIngredient : MonoBehaviour
         }
         else if (CursorManager.Instance != null)
         {
-            CursorManager.Instance.ClearCursor();
+            if (CursorManager.Instance.AttachedObject == transform)
+                CursorManager.Instance.ClearCursor();
         }
     }
 
@@ -158,16 +166,15 @@ public class WorldIngredient : MonoBehaviour
     {
         if (wIngredient != this) return;
 
-        if (ingredient == null)
+        if (BaseIngredient == null)
         {
             StartCoroutine(DeferredCheck(station));
             return;
         }
 
-        isStationValid = ingredient.CanBeUsedAtStation(station);
+        isStationValid = BaseIngredient.CanBeUsedAtStation(station);
         if (isStationValid)
         {
-            _anchoredToStation = true;
             transform.position = stationAnchor.position;
         }
     }
@@ -175,7 +182,7 @@ public class WorldIngredient : MonoBehaviour
     private IEnumerator DeferredCheck(StationType station)
     {
         yield return null;
-        if (ingredient != null)
-            isStationValid = ingredient.CanBeUsedAtStation(station);
+        if (BaseIngredient != null)
+            isStationValid = BaseIngredient.CanBeUsedAtStation(station);
     }
 }

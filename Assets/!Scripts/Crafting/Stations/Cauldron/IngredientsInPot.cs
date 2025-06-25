@@ -29,7 +29,7 @@ public class IngredientsInPot : MonoBehaviour
         if (allIngredientsToAdd == thingsInPot)
         {
             Debug.Log("everything is in the pot!");
-            SwitchToMixing.mixingMode?.Invoke();
+            SwitchToMixing.ActivateMixing?.Invoke();
         }
     }
 }

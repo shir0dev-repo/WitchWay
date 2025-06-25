@@ -277,7 +277,7 @@ public class Inventory : MonoBehaviour
         WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
         if (worldIngredient != null)
         {
-            AddNewItem(worldIngredient.ingredient);
+            AddNewItem(worldIngredient.BaseIngredient);
         }
     }
 }

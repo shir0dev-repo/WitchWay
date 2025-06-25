@@ -31,7 +31,7 @@ public class CrushableIngredientState : MonoBehaviour
     {
         if (TryGetComponent(out WorldIngredient ing))
         {
-            return ing.ingredient.CanBeCrushed;
+            return ing.BaseIngredient.CanBeCrushed;
         }
 
         return false;
@@ -78,6 +78,8 @@ public class CrushableIngredientState : MonoBehaviour
         else
         {
             CurrState = CrushState.Dust;
+            GetComponent<WorldIngredient>().ModifiedState.Crush();
+            GameEvents.Crafting.OnSuccessfullyCrushedItem?.Invoke(GetComponent<WorldIngredient>());
         }
 
         Debug.Log("Ingredient is currently: " + CurrState.ToString() + "\n"

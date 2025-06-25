@@ -63,13 +63,14 @@ Shader "Toon/Cel-Shading"
             struct v2f
             {
                 float4 vertex : SV_POSITION;
+                UNITY_FOG_COORDS(6)
+                SHADOW_COORDS(7)
                 float3 worldPos : TEXCOORD0;
                 half3 tspace0 : TEXCOORD1;
                 half3 tspace1 : TEXCOORD2;
                 half3 tspace2 : TEXCOORD3;
                 float2 uv : TEXCOORD4;
-                UNITY_FOG_COORDS(1)
-                SHADOW_COORDS(2)
+                
                 float3 worldNormal : NORMAL;
                 float3 viewDir : TEXCOORD5;
             };

@@ -241,7 +241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: cef1af563efd02b41b3d0e18249d897f, type: 2}
+  _data:
+    BaseIngredient: {fileID: 11400000, guid: 7806abe1708df514abf315599fb94516, type: 2}
+    HasBeenCut: 0
+    HasBeenCrushed: 0
+    HasBeenFrozen: 0
+    HasBeenHeated: 0
+    CurrentSpell: 0
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
@@ -504,6 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 876f3567d906c224ba08f0261576d6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passColliderData: 1
 --- !u!65 &605252081
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1479,7 +1486,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: 9da33b95022c80a47b63fa23a343d032, type: 2}
+  _data:
+    BaseIngredient: {fileID: 11400000, guid: 236bd21787528b148b73f5383683623b, type: 2}
+    HasBeenCut: 0
+    HasBeenCrushed: 0
+    HasBeenFrozen: 0
+    HasBeenHeated: 0
+    CurrentSpell: 0
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
@@ -1876,7 +1889,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
+  _data:
+    BaseIngredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
+    HasBeenCut: 0
+    HasBeenCrushed: 0
+    HasBeenFrozen: 0
+    HasBeenHeated: 0
+    CurrentSpell: 0
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
