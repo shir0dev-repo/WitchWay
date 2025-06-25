@@ -1,38 +1,26 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MortarStation : Singleton<MortarStation>
 {
     [SerializeField] private Transform _ingredientAnchor;
 
-    public bool HasIngredient => _currentIngredient != null;
+    public bool HasIngredient => _hasIngredient;
+    private bool _hasIngredient = false;
     private bool _shouldAddIngredient = false;
-    private CrushableIngredientState _currentIngredient = null;
+    //private CrushableIngredientState _currentIngredient = null;   
     private RigidbodyConstraints _ingConstraintsCache = RigidbodyConstraints.None;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        GameEvents.Crafting.OnSuccessfullyCrushedItem += SpawnCrushedItem;
-        enabled = false;
-    }
+    // Fail state stuff
+    [SerializeField] private GameObject explosionPrefab;    // Im sure james will want to make a fun effect to play
 
-    private void SpawnCrushedItem(WorldIngredient ingredient)
-    {
-        if (_currentIngredient != null && _currentIngredient.GetComponent<WorldIngredient>() == ingredient)
-        {
-            GameObject crushed = ingredient.BaseIngredient.CrushedWorldPrefab;
-            Vector3 pos = ingredient.transform.position;
-
-            Destroy(_currentIngredient.gameObject);
-
-            Instantiate(crushed, pos, Quaternion.identity);
-        }
-    }
+    private List<CrushableIngredientState> ingredientsInMortar = new();
+    private Dictionary<Rigidbody, RigidbodyConstraints> constraints = new();
 
     private void Update()
     {
-        if (_shouldAddIngredient)
+        /*if (_shouldAddIngredient)
         {
             if (_currentIngredient.TryGetComponent(out WorldIngredient ing))
             {
@@ -49,6 +37,28 @@ public class MortarStation : Singleton<MortarStation>
 
             _currentIngredient.SetCrushable(true);
             _shouldAddIngredient = false;
+        }*/
+
+        for (int i = 0; i < ingredientsInMortar.Count; i++)
+        {
+            var ingredient = ingredientsInMortar[i];
+
+            if (!ingredient.canBeCrushed)
+            {
+                if (ingredient.TryGetComponent(out WorldIngredient ing))
+                {
+                    ing.EndDrag();
+                    GameEvents.Crafting.OnItemPlacedInMortar?.Invoke(ing);
+                    GameEvents.Crafting.OnItemPlacedInStation?.Invoke(ing, StationType.Mortar, _ingredientAnchor);
+                }
+                if (ingredient.TryGetComponent(out Rigidbody rgbd))
+                {
+                    constraints[rgbd] = rgbd.constraints;
+                    rgbd.constraints = RigidbodyConstraints.FreezeAll;
+                    rgbd.MovePosition(_ingredientAnchor.position);
+                }
+                ingredient.SetCrushable(true);
+            }
         }
     }
 
@@ -59,11 +69,22 @@ public class MortarStation : Singleton<MortarStation>
 
         if (other.TryGetComponent(out WorldIngredient ing) && !ing.BaseIngredient.CanBeCrushed) return;
 
-        if (CursorManager.Instance.AttachedObject == transform)
-            CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
+            /* if (CursorManager.Instance.AttachedObject == transform)
+                 CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
 
-        _shouldAddIngredient = true;
-        _currentIngredient = state;
+             _shouldAddIngredient = true;
+             _currentIngredient = state;
+             */
+
+            if (!ingredientsInMortar.Contains(state))
+            {
+                ingredientsInMortar.Add(state);
+            }
+            if (ingredientsInMortar.Count > 1)
+            {
+                BlowUp();
+            }
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -79,20 +100,72 @@ public class MortarStation : Singleton<MortarStation>
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
+
+        /* Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
+         if (other.TryGetComponent(out CrushableIngredientState state))
+         {
+             _hasIngredient = false;
+             if (other.TryGetComponent(out WorldIngredient ing))
+                 GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
+             if (other.TryGetComponent(out Rigidbody rb))
+             {
+                 rb.constraints = _ingConstraintsCache;
+                 _ingConstraintsCache = RigidbodyConstraints.None;
+             }
+
+             Debug.Log("mrtor");     // lol Mr Tor
+             state.SetCrushable(false);
+         }*/
+
         if (other.TryGetComponent(out CrushableIngredientState state))
         {
-            if (other.TryGetComponent(out WorldIngredient ing))
-                GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
-            if (other.TryGetComponent(out Rigidbody rb))
-            {
-                rb.constraints = _ingConstraintsCache;
-                _ingConstraintsCache = RigidbodyConstraints.None;
-            }
+            ingredientsInMortar.Remove(state);
 
+            if (other.TryGetComponent(out WorldIngredient ing))
+            {
+                GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
+                if (state.CurrState != CrushState.Powder && state.CurrState != CrushState.Dust)
+                {
+                    Debug.Log("Removed too Early!!!");
+                    GameEvents.Crafting.OnFailedToCrushItem?.Invoke(ing);
+                }
+            }
+            if (other.TryGetComponent(out Rigidbody rgbd))
+            {
+                if (constraints.TryGetValue(rgbd, out var cachedConstraints))
+                {
+                    rgbd.constraints = cachedConstraints;
+                    constraints.Remove(rgbd);
+                }
+            }
             state.SetCrushable(false);
-            _currentIngredient = null;
+
         }
+    }
+
+    private void BlowUp()
+    {
+        Debug.Log("Too many ingredients, KABOOM!");
+
+        if (explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+
+        }
+        foreach (var ingredient in ingredientsInMortar)
+        {
+            if (ingredient.TryGetComponent(out WorldIngredient ing))
+            {
+                GameEvents.Crafting.OnFailedToCrushItem?.Invoke(ing);
+
+                if (CursorManager.Instance.AttachedObject == ingredient.transform)
+                {
+                    CursorManager.Instance.ClearCursor();
+                }
+            }
+            Destroy(ingredient.gameObject, .5f);
+        }
+        ingredientsInMortar.Clear();
     }
 }
 
