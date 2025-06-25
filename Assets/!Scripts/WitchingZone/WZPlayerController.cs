@@ -52,6 +52,8 @@ public class WZPlayerController : MonoBehaviour
     private Vector3 originalScale;
     private bool wasGrounded = false;
 
+    private bool canMove = true;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -213,6 +215,25 @@ public class WZPlayerController : MonoBehaviour
     private void LoadScene(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex); //add a loading anim and load async
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        this.canMove = canMove;
+        if (canMove)
+        {
+            moveAction.Enable();
+            lookAction.Enable();
+            jumpAction.Enable();
+            crouchAction.Enable();
+        }
+        else
+        {
+            moveAction.Disable();
+            lookAction.Disable();
+            jumpAction.Disable();
+            crouchAction.Disable();
+        }
     }
 
     //debugging
