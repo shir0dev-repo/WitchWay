@@ -3,36 +3,38 @@ using System.Collections.Generic;
 
 public class DialogueFunctions : MonoBehaviour
 {
-    [Header("Nodes that decrease sanity when entered")]
-    public List<DialogueNode> sanityDownNodes = new List<DialogueNode>();
-    [Header("Nodes that increase sanity when entered")]
-    public List<DialogueNode> sanityUpNodes = new List<DialogueNode>();
+    [Header("Nodes that change sanity when entered")]
+    [SerializeField] private List<SanityChangeEntry> sanityChangeEntries = new List<SanityChangeEntry>();
+
+    [System.Serializable]
+    public class SanityChangeEntry
+    {
+        public DialogueNode node;
+        public int sanityChange;
+    }
+
+    private Dictionary<DialogueNode, int> changeSanityNodes = new Dictionary<DialogueNode, int>();
 
     void Awake()
     {
-        foreach (var node in sanityDownNodes)
+        foreach (var entry in sanityChangeEntries)
         {
-            //node.onNodeEnter.AddListener(() => DecreasePlayerSanity());
-        }
-        foreach (var node in sanityUpNodes)
-        {
-            //node.onNodeEnter.AddListener(() => IncreasePlayerSanity());
-        }
-    }
-
-    public static void DecreasePlayerSanity()
-    {
-        if (WZPlayerManager.Instance != null)
-        {
-            WZPlayerManager.Instance.DecreaseSanity(1);
+            if (entry.node != null && !changeSanityNodes.ContainsKey(entry.node))
+            {
+                changeSanityNodes.Add(entry.node, entry.sanityChange);
+                entry.node.onNodeEnter.AddListener(() => ChangePlayerSanity(entry.sanityChange));
+            }
         }
     }
 
-    public static void IncreasePlayerSanity()
+    public static void ChangePlayerSanity(int change)
     {
         if (WZPlayerManager.Instance != null)
         {
-            WZPlayerManager.Instance.IncreaseSanity(1);
+            if (change > 0)
+                WZPlayerManager.Instance.IncreaseSanity(change);
+            else if (change < 0)
+                WZPlayerManager.Instance.DecreaseSanity(change);
         }
     }
 }

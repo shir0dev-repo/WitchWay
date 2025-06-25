@@ -29,13 +29,13 @@ public class WZPlayerManager : MonoBehaviour
     public void IncreaseSanity(int amount)
     {
         if (playerSanity != null)
-            playerSanity.ChangeSanity(Mathf.Abs(amount));
+            playerSanity.IncreaseSanity(Mathf.Abs(amount));
     }
 
     public void DecreaseSanity(int amount)
     {
         if (playerSanity != null)
-            playerSanity.ChangeSanity(-Mathf.Abs(amount));
+            playerSanity.DecreaseSanity(Mathf.Abs(amount));
     }
 
     public void SetCursor(bool visible)

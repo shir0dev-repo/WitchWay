@@ -68,6 +68,8 @@ public class DialogueManager : MonoBehaviour
         bodyText.text = string.Empty;
         isTyping = true;
 
+        node.onNodeEnter?.Invoke();
+
         typingCo = StartCoroutine(TypeLine(node.line, node.typingSpeed));
     }
 

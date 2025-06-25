@@ -14,5 +14,7 @@ public class DialogueNode : ScriptableObject
     public string nextNodeID;
     public DialogueNode nextNode;
     public List<DialogueResponse> responses = new();
+
+    public UnityEvent onNodeEnter;
 }
 
