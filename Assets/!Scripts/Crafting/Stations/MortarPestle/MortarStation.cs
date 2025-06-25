@@ -126,7 +126,7 @@ public class MortarStation : MonoBehaviour
                 if (state.CurrState != CrushState.Powder && state.CurrState != CrushState.Dust)
                 {
                     Debug.Log("Removed too Early!!!");
-                    GameEvents.Crafting.OnRecipeFailed?.Invoke(ing);
+                    GameEvents.Crafting.OnFailedToCrushItem?.Invoke(ing);
                 }
             }
             if (other.TryGetComponent(out Rigidbody rgbd))
@@ -155,7 +155,7 @@ public class MortarStation : MonoBehaviour
         {
             if (ingredient.TryGetComponent(out WorldIngredient ing))
             {
-                GameEvents.Crafting.OnRecipeFailed?.Invoke(ing);
+                GameEvents.Crafting.OnFailedToCrushItem?.Invoke(ing);
 
                 if (CursorManager.Instance.AttachedObject == ingredient.transform)
                 {

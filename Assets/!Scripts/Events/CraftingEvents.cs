@@ -34,7 +34,6 @@ public static partial class GameEvents
         public static Action<WorldIngredient> OnFailedToCrushItem;
 
         public static Action<WorldIngredient, float> OnItemDurabilityChanged;
-        public static Action<WorldIngredient> OnRecipeFailed;
 
         // Temperature Pot events
         public static Action<WorldIngredient> OnItemPlacedInTemperaturePot;
