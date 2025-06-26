@@ -8,5 +8,6 @@ public static partial class GameEvents
         public static Action OnSanityChanged;
         public static Action OnSanityIncreased;
         public static Action OnSanityDecreased;
+        public static Action OnDoorUnlocked;
     }
 }
