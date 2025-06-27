@@ -160,6 +160,21 @@ public class WZPlayerInteract : MonoBehaviour
     //interacted with an ingrediant (this adds to ALL ingrediants, including ones you have previously collected. if this isnt desired i can change it)
     private void IngrediantInteracted(WZWorldIngredient ingredient)
     {
+        // Save Logic, blame Sara
+        var saveable = ingredient.GetComponent<SaveableItem>();
+        if (saveable != null && !string.IsNullOrEmpty(saveable.itemID))
+        {
+            switch (saveable.itemType)
+            {
+                case SaveItemType.Ingredient:
+                    SaveManager.Instance.CollectIngredient(saveable.itemID);
+                    break;
+                case SaveItemType.Bottle:
+                    SaveManager.Instance.CollectBottle(saveable.itemID);
+                    break;
+            }
+        }
+
         //add ingrediant to inventory
         Inventory inventory = GetComponent<Inventory>();
         inventory.AddNewItem(ingredient.ingredient);
@@ -294,7 +309,7 @@ public class WZPlayerInteract : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * pickupDistance, Color.red);
 #endif
     }
-    
+
     //check if the hit ingrediant is a correct type
     private GameObject CheckForInteractable(params string[] tagsToCheck)
     {
