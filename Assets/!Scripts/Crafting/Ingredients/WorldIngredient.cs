@@ -28,7 +28,7 @@ public class WorldIngredient : MonoBehaviour
     private static Camera _cam = null;
 
     private Rigidbody rb;
-    private float currentDepth;
+    [HideInInspector] public float currentDepth;
     private bool isStationValid = true;
     private bool inDestroyArea = false;
 

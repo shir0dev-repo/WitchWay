@@ -768,6 +768,10 @@ PrefabInstance:
       value: Basket
       objectReference: {fileID: 0}
     - target: {fileID: 2960325018241899292, guid: c91f56f78e0355c40918d65b50544fba, type: 3}
+      propertyPath: zGrabPos
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960325018241899292, guid: c91f56f78e0355c40918d65b50544fba, type: 3}
       propertyPath: storedIngredient
       value: 
       objectReference: {fileID: 11400000, guid: 236bd21787528b148b73f5383683623b, type: 2}
@@ -1412,6 +1416,10 @@ PrefabInstance:
     - target: {fileID: 637401032505719803, guid: c91f56f78e0355c40918d65b50544fba, type: 3}
       propertyPath: m_Name
       value: Basket
+      objectReference: {fileID: 0}
+    - target: {fileID: 2960325018241899292, guid: c91f56f78e0355c40918d65b50544fba, type: 3}
+      propertyPath: zGrabPos
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 4899486901067531174, guid: c91f56f78e0355c40918d65b50544fba, type: 3}
       propertyPath: m_LocalPosition.x
