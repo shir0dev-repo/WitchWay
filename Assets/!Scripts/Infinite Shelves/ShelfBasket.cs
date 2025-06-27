@@ -26,7 +26,6 @@ public class ShelfBasket : MonoBehaviour
 
     [Header("Visuals")]
     [SerializeField] private Transform displayPoint;
-    [SerializeField] private Vector3 displayScale;
     [SerializeField] private Vector3 displayRotation;
 
     [Header("Mouse Detection")]
@@ -87,7 +86,6 @@ public class ShelfBasket : MonoBehaviour
         {
             displayObject = Instantiate(storedIngredient.WorldPrefab, displayPoint.position, Quaternion.identity);
             displayObject.transform.SetParent(displayPoint);
-            displayObject.transform.localScale = displayScale;
             displayObject.transform.eulerAngles = displayRotation;
             if (displayObject.GetComponent<WorldIngredient>()) displayObject.GetComponent<WorldIngredient>().enabled = false;
             if (displayObject.GetComponent<Rigidbody>()) displayObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -99,7 +97,6 @@ public class ShelfBasket : MonoBehaviour
             GameObject tempObj = new GameObject(storedIngredient.name, components);
             displayObject = Instantiate(tempObj, displayPoint.position, Quaternion.identity);
             displayObject.transform.SetParent(displayPoint);
-            displayObject.transform.localScale = displayScale;
             displayObject.transform.eulerAngles = displayRotation;
             Destroy(tempObj);
 

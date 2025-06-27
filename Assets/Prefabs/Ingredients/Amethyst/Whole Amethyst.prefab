@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 281042314430162673}
   - component: {fileID: 7905994024490484439}
+  - component: {fileID: 9129782153895253773}
+  - component: {fileID: 6715091523137861953}
   m_Layer: 0
   m_Name: Whole Amethyst
   m_TagString: Ingredient
@@ -59,6 +61,54 @@ MonoBehaviour:
   baseDepthDeviation: 0
   currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
+--- !u!65 &9129782153895253773
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3114237181974206438}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.4885311, y: 2.2850509, z: 1.0796518}
+  m_Center: {x: -0.037171125, y: 1.1363666, z: 0.0026550293}
+--- !u!54 &6715091523137861953
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3114237181974206438}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &7107868021258886683
 GameObject:
   m_ObjectHideFlags: 0
