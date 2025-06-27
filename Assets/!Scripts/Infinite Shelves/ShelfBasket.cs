@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /*
@@ -9,14 +10,51 @@ public class ShelfBasket : MonoBehaviour
 {
     [SerializeField] private IngredientSO storedIngredient;
 
+    [Header("Visuals")]
+    [SerializeField] private Transform displayPoint;
+    [SerializeField] private Vector3 displayScale;
+
     [Header("Mouse Detection")]
     [SerializeField] private Collider2D detectCollider;
 
     private bool inBounds = false;
 
+    private GameObject displayObject;
+
+    void Start()
+    {
+        SetupDisplayItem();
+    }
+
     void Update()
     {
         CheckMouseInBounds();
+    }
+
+    private void SetupDisplayItem()
+    {
+        if (storedIngredient.WorldPrefab != null)
+        {
+            displayObject = Instantiate(storedIngredient.WorldPrefab, displayPoint.position, Quaternion.identity);
+            displayObject.transform.SetParent(displayPoint);
+            displayObject.transform.localScale = displayScale;
+            displayObject.GetComponent<WorldIngredient>().enabled = false;
+        }
+        //fallback for no set visual
+        else
+        {
+            Type[] components = { typeof(MeshFilter), typeof(MeshRenderer) };
+            GameObject tempObj = new GameObject(storedIngredient.name, components);
+            displayObject = Instantiate(tempObj, displayPoint.position, Quaternion.identity);
+            displayObject.transform.SetParent(displayPoint);
+            displayObject.transform.localScale = displayScale;
+            Destroy(tempObj);
+
+            GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Mesh defaultMesh = temp.GetComponent<MeshFilter>().mesh;
+            displayObject.GetComponent<MeshFilter>().mesh = defaultMesh;
+            Destroy(temp);
+        }
     }
 
     private void CheckMouseInBounds()
