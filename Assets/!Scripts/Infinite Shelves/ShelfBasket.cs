@@ -8,6 +8,21 @@ change display if locked or unlocked
 public class ShelfBasket : MonoBehaviour
 {
     [SerializeField] private IngredientSO storedIngredient;
+    [SerializeField] private bool _isUnlocked = false; //intended as temp until proper unlocks system
+
+    //monitor the bool during runtime
+    public bool IsUnlocked
+    {
+        get => _isUnlocked;
+        set
+        {
+            if (_isUnlocked != value)
+            {
+                _isUnlocked = value;
+                SetupUnlockVisual();
+            }
+        }
+    }
 
     [Header("Visuals")]
     [SerializeField] private Transform displayPoint;
@@ -22,6 +37,7 @@ public class ShelfBasket : MonoBehaviour
     private bool draggingIngred = false;
 
     private GameObject displayObject;
+    private Material displayObjDefaultMat;
     private GameObject grabbedObject;
 
     void Start()
@@ -29,12 +45,20 @@ public class ShelfBasket : MonoBehaviour
         SetupDisplayItem();
     }
 
+#if UNITY_EDITOR
+    //when editing inspetor value
+    private void OnValidate()
+    {
+        if (displayObject != null) SetupUnlockVisual();
+    }
+#endif
+
     void Update()
     {
         CheckMouseInBounds();
         Debug.DrawLine(GetMousePos(), Vector3.forward * 100, Color.red);
 
-        if (inBounds)
+        if (inBounds && IsUnlocked)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -81,8 +105,51 @@ public class ShelfBasket : MonoBehaviour
 
             GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
             Mesh defaultMesh = temp.GetComponent<MeshFilter>().mesh;
+            Material defaultMat = temp.GetComponent<MeshRenderer>().material;
             displayObject.GetComponent<MeshFilter>().mesh = defaultMesh;
+            displayObject.GetComponent<MeshRenderer>().material = defaultMat;
+            displayObjDefaultMat = defaultMat;
             Destroy(temp);
+        }
+
+        SetupUnlockVisual();
+    }
+
+    private void SetupUnlockVisual()
+    {
+        if (!IsUnlocked)
+        {
+            //could move these into function
+            if (displayObject.GetComponent<MeshRenderer>())
+            {
+                displayObjDefaultMat = displayObject.GetComponent<MeshRenderer>().material;
+                displayObject.GetComponent<MeshRenderer>().material = null; //idk just temp
+            }
+            else if (displayObject.GetComponentInChildren<MeshRenderer>())
+            {
+                displayObjDefaultMat = displayObject.GetComponentInChildren<MeshRenderer>().material;
+                displayObject.GetComponentInChildren<MeshRenderer>().material = null;
+            }
+            else
+            {
+                Debug.LogWarning("Somehow no material found");
+            }
+        }
+        else
+        {
+            print("unlocked");
+            if (displayObject.GetComponent<MeshRenderer>())
+            {
+                displayObject.GetComponent<MeshRenderer>().material = displayObjDefaultMat; //idk just temp
+            }
+            else if (displayObject.GetComponentInChildren<MeshRenderer>())
+            {
+                displayObject.GetComponentInChildren<MeshRenderer>().material = displayObjDefaultMat;
+            }
+            else
+            {
+                Debug.LogWarning("Somehow no material found");
+            }
         }
     }
 
@@ -115,7 +182,7 @@ public class ShelfBasket : MonoBehaviour
             {
                 grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
                 grabbedObject.GetComponent<Rigidbody>().useGravity = false;
-            }    
+            }
         }
         else
         {
@@ -132,6 +199,7 @@ public class ShelfBasket : MonoBehaviour
         else
         {
             //world ingredient script should just drop it into a collider so that it gets brung to stations
+            //currently all inventory is one so once all flow need to designate between whats stored and what brung to stations
         }
     }
 
