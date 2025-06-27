@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3114237181974206438
+--- !u!1 &17548535806173022
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 281042314430162673}
-  - component: {fileID: 7905994024490484439}
+  - component: {fileID: 5961310113525763237}
+  - component: {fileID: 6864845163082372996}
+  - component: {fileID: 6562029651447737028}
+  - component: {fileID: 1906640171577395678}
   m_Layer: 0
-  m_Name: Whole Amethyst
-  m_TagString: Ingredient
+  m_Name: Crushed Oakroot
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &281042314430162673
+--- !u!4 &5961310113525763237
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3114237181974206438}
+  m_GameObject: {fileID: 17548535806173022}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6132567112639128624}
+  - {fileID: 2696846445692157729}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7905994024490484439
+--- !u!114 &6864845163082372996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3114237181974206438}
+  m_GameObject: {fileID: 17548535806173022}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7355440e0df9e0248a3365fb7295e2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _data:
-    BaseIngredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
+    BaseIngredient: {fileID: 11400000, guid: cef1af563efd02b41b3d0e18249d897f, type: 2}
     ModifierList:
       OperationsPerformed: 
     HasBeenCut: 0
@@ -57,8 +59,57 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
---- !u!1 &7107868021258886683
+--- !u!65 &6562029651447737028
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17548535806173022}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0336914, y: 0.5013663, z: 1.1653428}
+  m_Center: {x: 0.10444355, y: 0.26953176, z: -0.007006079}
+--- !u!54 &1906640171577395678
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17548535806173022}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!1 &3615071933492387121
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,46 +117,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6132567112639128624}
-  - component: {fileID: 6177822638357076511}
-  - component: {fileID: 5421739004244158229}
+  - component: {fileID: 2696846445692157729}
+  - component: {fileID: 2379224090492979056}
+  - component: {fileID: 3404208769465640807}
   m_Layer: 0
-  m_Name: SM_WholeAmethyst
+  m_Name: OakRoot_Mushed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6132567112639128624
+--- !u!4 &2696846445692157729
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7107868021258886683}
+  m_GameObject: {fileID: 3615071933492387121}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalRotation: {x: -0.43045938, y: 0.56098557, z: 0.56098557, w: 0.43045938}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 281042314430162673}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6177822638357076511
+  m_Father: {fileID: 5961310113525763237}
+  m_LocalEulerAnglesHint: {x: -90, y: 105, z: 0}
+--- !u!33 &2379224090492979056
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7107868021258886683}
-  m_Mesh: {fileID: -3222043798013706181, guid: dfb4f7bdc213ed548832d2facbdc8a9c, type: 3}
---- !u!23 &5421739004244158229
+  m_GameObject: {fileID: 3615071933492387121}
+  m_Mesh: {fileID: -9011670033257313642, guid: 7bca161f564ba164189f3c27cc212458, type: 3}
+--- !u!23 &3404208769465640807
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7107868021258886683}
+  m_GameObject: {fileID: 3615071933492387121}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -122,7 +173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 033c80cece27f994fbc4239225e43250, type: 2}
+  - {fileID: 2100000, guid: 9af7498041c46b94285eccf1f1e9a9fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

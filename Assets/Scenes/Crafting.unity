@@ -743,6 +743,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &365418377
 Rigidbody:
@@ -1081,6 +1082,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &592406765
 Rigidbody:
@@ -1692,6 +1694,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &1042100504
 Rigidbody:
@@ -1870,6 +1873,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &1053910882
 Rigidbody:
@@ -2241,6 +2245,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &1320362557
 Rigidbody:
@@ -2491,6 +2496,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &1406315734
 Rigidbody:
@@ -2721,6 +2727,7 @@ MonoBehaviour:
   _isDragging: 0
   baseDepth: 0
   baseDepthDeviation: 0
+  currentDepth: 0
   startPos: {x: 0, y: 0, z: 0}
 --- !u!54 &1761270451
 Rigidbody:
@@ -3279,15 +3286,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1584749546734334877, guid: 9a1f7e4f49563664489db43ddb0ab6af, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1584749546734334877, guid: 9a1f7e4f49563664489db43ddb0ab6af, type: 3}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1584749546734334877, guid: 9a1f7e4f49563664489db43ddb0ab6af, type: 3}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1584749546734334877, guid: 9a1f7e4f49563664489db43ddb0ab6af, type: 3}
       propertyPath: m_LocalPosition.x

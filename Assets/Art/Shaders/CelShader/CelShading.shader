@@ -32,7 +32,7 @@ Shader "Toon/Cel-Shading"
         Tags { 
             "RenderPipeline" = "UniversalRenderPipeline" 
             "RenderType"="Opaque" 
-            "Queue" = "Transparent"
+            //"Queue" = "Transparent"
             "DisableBatching" = "True"
         }
         
@@ -62,17 +62,17 @@ Shader "Toon/Cel-Shading"
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
-                UNITY_FOG_COORDS(6)
-                SHADOW_COORDS(7)
-                float3 worldPos : TEXCOORD0;
-                half3 tspace0 : TEXCOORD1;
-                half3 tspace1 : TEXCOORD2;
-                half3 tspace2 : TEXCOORD3;
-                float2 uv : TEXCOORD4;
+                float4 vertex       : SV_POSITION;
                 
-                float3 worldNormal : NORMAL;
-                float3 viewDir : TEXCOORD5;
+                half3 tspace0       : TEXCOORD0;
+                half3 tspace1       : TEXCOORD1;
+                half3 tspace2       : TEXCOORD2;
+                float2 uv           : TEXCOORD3;
+                float3 viewDir      : TEXCOORD4;
+                UNITY_FOG_COORDS(5)
+                SHADOW_COORDS(6)
+                
+                float3 worldNormal  : NORMAL;
             };
 
             sampler2D _MainTex;
