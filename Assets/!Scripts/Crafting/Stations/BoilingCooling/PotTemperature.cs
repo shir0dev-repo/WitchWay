@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PotTemperature : MonoBehaviour
 {
@@ -13,12 +14,15 @@ public class PotTemperature : MonoBehaviour
 
     public static event Action TriggerBurning;
 
-    [SerializeField] Slider_WithPointer TempSlider; 
+    [SerializeField] Slider_WithPointer TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
     public float TargetTemperature;
     public float Temperature = 0;
     public float Progress = 0;
+
+    private WorldIngredient _targetIngredient;
+
     public bool isChangingTemp { get; set; }
     public bool amCurrentlyBurning {  get; set; }
 
@@ -33,8 +37,15 @@ public class PotTemperature : MonoBehaviour
         }
         
         Instance = this;
-        FailState = GetComponentInChildren<FailState_BurnCool>();
-    } 
+        FailState = GetComponent<FailState_BurnCool>();
+    }
+
+    private void Start()
+    {
+        TargetTemperature = Random.Range(-50, 50);
+        TempSlider.SetPointerLocation(TargetTemperature);
+    }
+
     private void OnEnable()
     {
         StartCooking += StartStart;
@@ -66,14 +77,38 @@ public class PotTemperature : MonoBehaviour
         {
             FillValueSlider.SetValue(Progress);
         }
+
+        if (Progress >= 100)
+        {
+            FinishCooking?.Invoke();
+            if (_targetIngredient != null)
+            {
+                if (TargetTemperature >= 0)
+                    _targetIngredient.ModifiedState.Heat();
+                else
+                    _targetIngredient.ModifiedState.Freeze();
+
+                _targetIngredient = null;
+            }
+
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
         {
+            if (ingredient.TryGetComponent(out WorldIngredient ing))
+                _targetIngredient = ing;
             StartCooking?.Invoke();
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out WorldIngredient ing) && ing == _targetIngredient)
+            _targetIngredient = null;
+    }
+
     void StartStart()
     {
         ToggleSliders(true);
