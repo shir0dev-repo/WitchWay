@@ -118,15 +118,17 @@ public class ShelfBasket : MonoBehaviour
         if (!IsUnlocked)
         {
             //could move these into function
-            if (displayObject.GetComponent<MeshRenderer>())
+            if (displayObject.TryGetComponent(out MeshRenderer mr))
             {
-                displayObjDefaultMat = displayObject.GetComponent<MeshRenderer>().material;
-                displayObject.GetComponent<MeshRenderer>().material = null; //idk just temp
+                displayObjDefaultMat = mr.material;
+                mr.material = null; //idk just temp
+                mr.gameObject.layer = LayerMask.NameToLayer("Outline");
             }
-            else if (displayObject.GetComponentInChildren<MeshRenderer>())
+            else if ((mr = displayObject.GetComponentInChildren<MeshRenderer>()))
             {
-                displayObjDefaultMat = displayObject.GetComponentInChildren<MeshRenderer>().material;
-                displayObject.GetComponentInChildren<MeshRenderer>().material = lockedMaterial;
+                displayObjDefaultMat = mr.material;
+                mr.material = lockedMaterial;
+                mr.gameObject.layer = LayerMask.NameToLayer("Outline");
             }
             else
             {
@@ -136,13 +138,15 @@ public class ShelfBasket : MonoBehaviour
         else
         {
             print("unlocked");
-            if (displayObject.GetComponent<MeshRenderer>())
+            if (displayObject.TryGetComponent(out MeshRenderer mr))
             {
-                displayObject.GetComponent<MeshRenderer>().material = displayObjDefaultMat; //idk just temp
+                mr.material = displayObjDefaultMat; //idk just temp
+                mr.gameObject.layer = LayerMask.NameToLayer("Default");
             }
-            else if (displayObject.GetComponentInChildren<MeshRenderer>())
+            else if (mr = displayObject.GetComponentInChildren<MeshRenderer>())
             {
-                displayObject.GetComponentInChildren<MeshRenderer>().material = displayObjDefaultMat;
+                mr.material = displayObjDefaultMat;
+                mr.gameObject.layer = LayerMask.NameToLayer("Default");
             }
             else
             {

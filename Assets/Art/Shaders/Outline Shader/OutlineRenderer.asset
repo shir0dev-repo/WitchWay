@@ -70,9 +70,9 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: Outline Pass
-    Event: 500
+    Event: 400
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 128
@@ -167,9 +167,9 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: RenderObjects
-    Event: 550
+    Event: 450
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 128
