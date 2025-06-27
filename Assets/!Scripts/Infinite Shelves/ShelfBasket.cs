@@ -13,6 +13,7 @@ public class ShelfBasket : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Transform displayPoint;
     [SerializeField] private Vector3 displayScale;
+    [SerializeField] private Vector3 displayRotation;
 
     [Header("Mouse Detection")]
     [SerializeField] private Collider2D detectCollider;
@@ -38,7 +39,9 @@ public class ShelfBasket : MonoBehaviour
             displayObject = Instantiate(storedIngredient.WorldPrefab, displayPoint.position, Quaternion.identity);
             displayObject.transform.SetParent(displayPoint);
             displayObject.transform.localScale = displayScale;
-            displayObject.GetComponent<WorldIngredient>().enabled = false;
+            displayObject.transform.eulerAngles = displayRotation;
+            if (displayObject.GetComponent<WorldIngredient>()) displayObject.GetComponent<WorldIngredient>().enabled = false;
+            if (displayObject.GetComponent<Rigidbody>()) displayObject.GetComponent<Rigidbody>().isKinematic = true;
         }
         //fallback for no set visual
         else
@@ -48,6 +51,7 @@ public class ShelfBasket : MonoBehaviour
             displayObject = Instantiate(tempObj, displayPoint.position, Quaternion.identity);
             displayObject.transform.SetParent(displayPoint);
             displayObject.transform.localScale = displayScale;
+            displayObject.transform.eulerAngles = displayRotation;
             Destroy(tempObj);
 
             GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
