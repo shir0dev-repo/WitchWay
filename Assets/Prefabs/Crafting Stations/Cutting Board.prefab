@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8149003039099122356}
   - component: {fileID: 3222023239237376456}
-  - component: {fileID: 7028465784432623539}
   - component: {fileID: 6002527063681734263}
   - component: {fileID: 96723901152147364}
   m_Layer: 7
@@ -49,22 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanCut: 0
---- !u!114 &7028465784432623539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7250344029148157905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22127b591c586dc439ecf474f97bc4aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ListOfPreCutPrefabs:
-  - {fileID: 2523567373597635727, guid: d56851eb9df6cc0419a452aeb0d87fc1, type: 3}
-  ListOfCutPrefabs:
-  - {fileID: 966511860492016666, guid: e02a9ca6d6e0afa43bf17a00cb7856f7, type: 3}
 --- !u!54 &6002527063681734263
 Rigidbody:
   m_ObjectHideFlags: 0

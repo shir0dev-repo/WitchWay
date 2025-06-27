@@ -27,6 +27,7 @@ public class ShelfBasket : MonoBehaviour
     [Header("Visuals")]
     [SerializeField] private Transform displayPoint;
     [SerializeField] private Vector3 displayRotation;
+    [SerializeField] private Material lockedMaterial;
 
     [Header("Mouse Detection")]
     [SerializeField] private Collider2D detectCollider;
@@ -125,7 +126,7 @@ public class ShelfBasket : MonoBehaviour
             else if (displayObject.GetComponentInChildren<MeshRenderer>())
             {
                 displayObjDefaultMat = displayObject.GetComponentInChildren<MeshRenderer>().material;
-                displayObject.GetComponentInChildren<MeshRenderer>().material = null;
+                displayObject.GetComponentInChildren<MeshRenderer>().material = lockedMaterial;
             }
             else
             {
