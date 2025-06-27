@@ -148,6 +148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6046997497915891786}
   - component: {fileID: 1129877041550210090}
+  - component: {fileID: 7523937563123247959}
   - component: {fileID: 6637176181465134827}
   m_Layer: 5
   m_Name: MagicCircle
@@ -184,6 +185,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6532802102988329193}
   m_CullTransparentMesh: 1
+--- !u!114 &7523937563123247959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532802102988329193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfd4f9a4d3647c4daa736259d7b95b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _painter: {fileID: 6637176181465134827}
+  _symbols:
+  - GestureName: abjuration
+    Symbol: 1
+    AccuracyThreshold: 0.9
+  - GestureName: necromancy
+    Symbol: 2
+    AccuracyThreshold: 0.9
+  - GestureName: enchantment
+    Symbol: 4
+    AccuracyThreshold: 0.9
+  - GestureName: divination
+    Symbol: 8
+    AccuracyThreshold: 0.9
+  - GestureName: evocation
+    Symbol: 16
+    AccuracyThreshold: 0.9
 --- !u!114 &6637176181465134827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,5 +227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gestureLRPrefab: {fileID: 400000, guid: 971129baafd304455a111daa5207b8a1, type: 3}
+  _UICanvas: {fileID: 0}
   _useDebug: 1
   _message: {fileID: 6968456124181727494}

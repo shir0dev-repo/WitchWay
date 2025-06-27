@@ -10,8 +10,10 @@ public class SymbolPainter : MonoBehaviour
     private const string _SAVE_PATH = "Symbols/";
 
     [SerializeField] private Transform _gestureLRPrefab;
+    [SerializeField] private Canvas _UICanvas;
 
-    public static Action<AlchemicalSymbol> OnSymbolPainted;
+    public static Action<string, float> OnGestureCompleted;
+    public static Action OnLineDrawn;
 
     [Header("Debug")]
     [SerializeField] private bool _useDebug = true;
@@ -24,14 +26,12 @@ public class SymbolPainter : MonoBehaviour
     private int _vertexCount = 0;
 
     private Vector3 _virtualKeyPosition = Vector3.zero;
-    private Rect _drawArea;
 
     private readonly List<LineRenderer> _gestureLineRenderers = new();
-    private LineRenderer _currentGestureRenderer;
+    public LineRenderer CurrentGestureRenderer { get; private set; }
 
     private void Start()
     {
-        _drawArea = new Rect(0, 0, Screen.width, Screen.height);
         InitGestures();
     }
 
@@ -42,6 +42,23 @@ public class SymbolPainter : MonoBehaviour
         this.enabled = active;
     }
 
+    public void Clear()
+    {
+        strokeID = -1;
+        _vertexCount = 0;
+
+        _message.text = "";
+        CurrentGestureRenderer = null;
+
+        foreach (var g in _gestureLineRenderers)
+        {
+            Destroy(g.gameObject);
+        }
+
+        _gestureLineRenderers.Clear();
+        _points.Clear();
+    }
+
     private void Update()
     {
         if (Input.GetMouseButton(0))
@@ -49,46 +66,72 @@ public class SymbolPainter : MonoBehaviour
             _virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
         }
 
-        if (_drawArea.Contains(_virtualKeyPosition))
+        if (Input.GetMouseButtonUp(0))
+        {
+            OnLineDrawn?.Invoke();
+        }
+
+        if (_UICanvas.pixelRect.Contains(_virtualKeyPosition))
         {
             if (Input.GetMouseButtonDown(0))
             {
                 ++strokeID;
 
                 Transform tmpGesture = Instantiate(_gestureLRPrefab, transform.position, transform.rotation).transform;
-                _currentGestureRenderer = tmpGesture.GetComponent<LineRenderer>();
-                _gestureLineRenderers.Add(_currentGestureRenderer);
+                CurrentGestureRenderer = tmpGesture.GetComponent<LineRenderer>();
+                _gestureLineRenderers.Add(CurrentGestureRenderer);
                 _vertexCount = 0;
             }
 
             if (Input.GetMouseButton(0))
             {
+                if (CurrentGestureRenderer == null) return;
+
                 _points.Add(new Point(_virtualKeyPosition.x, -_virtualKeyPosition.y, strokeID));
 
-                _currentGestureRenderer.positionCount = ++_vertexCount;
-                _currentGestureRenderer.SetPosition(_vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
+                CurrentGestureRenderer.positionCount = ++_vertexCount;
+                CurrentGestureRenderer.SetPosition(_vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(_virtualKeyPosition.x, _virtualKeyPosition.y, 10)));
             }
         }
+    }
 
-        if (Input.GetMouseButtonDown(1))
+    public void ValidateGesture()
+    {
+        if (_points.Count <= 0) return;
+        bool valid = RecognizeSymbol(out string gName, out float gScore);
+
+        foreach (LineRenderer lr in _gestureLineRenderers)
         {
-            bool valid = Recognize(AlchemicalSymbol.Necromancy);
-            foreach (LineRenderer lr in _gestureLineRenderers)
+            if (lr == CurrentGestureRenderer)
             {
-                if (lr == _currentGestureRenderer)
-                {
-                    _currentGestureRenderer = null;
-                }
-
-                Destroy(lr.gameObject);
+                CurrentGestureRenderer = null;
             }
 
-            _gestureLineRenderers.Clear();
-            _points.Clear();
-            if (valid)
-            {
-                OnSymbolPainted?.Invoke(AlchemicalSymbol.Necromancy);
-            }
+            Destroy(lr.gameObject);
+        }
+
+        _gestureLineRenderers.Clear();
+        _points.Clear();
+        if (valid)
+        {
+            OnGestureCompleted?.Invoke(gName, gScore);
+        }
+    }
+
+    public void RemoveLastLine()
+    {
+        strokeID--;
+        int pCount = CurrentGestureRenderer.positionCount;
+        _points.RemoveRange(_points.Count - pCount, pCount);
+        int gIndex = _gestureLineRenderers.IndexOf(CurrentGestureRenderer);
+        _gestureLineRenderers.Remove(CurrentGestureRenderer);
+        if (gIndex -1 >= 0)
+        {
+            CurrentGestureRenderer = _gestureLineRenderers[gIndex - 1];
+        }
+        else
+        {
+            CurrentGestureRenderer = null;
         }
     }
 
@@ -111,24 +154,17 @@ public class SymbolPainter : MonoBehaviour
         }
     }
 
-    public bool Recognize(AlchemicalSymbol targetSymbol)
+    public bool RecognizeSymbol(out string gestureName, out float score)
     {
         Gesture candidate = new Gesture(_points.ToArray());
         Result gestureResult = PointCloudRecognizer.Classify(candidate, _trainingSet.ToArray());
 
         _message.text = gestureResult.GestureClass + " " + $"{gestureResult.Score:F2}";
-        AlchemicalSymbol drawnSymbol = GetSymbolFromName(gestureResult.GestureClass);
         strokeID = 0;
-        return !gestureResult.GestureClass.Equals("null") && gestureResult.Score > 0.75f && drawnSymbol == targetSymbol;
-    }
 
-    private AlchemicalSymbol GetSymbolFromName(string name)
-    {
-        return (name) switch
-        {
-            "necromancy" => AlchemicalSymbol.Necromancy,
-            _ => AlchemicalSymbol.Evocation
-        };
+        gestureName = gestureResult.GestureClass;
+        score = gestureResult.Score;
+        return !gestureResult.GestureClass.Equals("null");
     }
 
     internal void ToggleMessage(bool toggle)

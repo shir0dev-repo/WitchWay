@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_Q3_04
+  m_EditorClassIdentifier: 
+  nodeID: WW_Q3_04
+  speakerName: Scarecrow
+  line: Maybe...
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: '*Says under breath* Shut up...'
+    nextNode: {fileID: 11400000, guid: 380c4ddb721bd034f81fb1c44dd09726, type: 2}
+  - responseText: '*Push scarecrow away before the customer notices them*'
+    nextNode: {fileID: 11400000, guid: 851c0bb142c3f994b8a907e59336675c, type: 2}
+  - responseText: '*Give up. Why should you have to hide anything anyway?*'
+    nextNode: {fileID: 11400000, guid: 4588777c48b3dc44ca358169017e72a4, type: 2}

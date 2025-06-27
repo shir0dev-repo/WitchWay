@@ -17,6 +17,10 @@ public class CameraManager : MonoBehaviour
     private Vector3 _lastPosition = Vector3.zero;
     private Vector3 _velocity = Vector3.zero;
 
+    [SerializeField] private ParallaxLayer[] parallaxLayers;
+    private Vector3 _previousStationPos;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -24,6 +28,7 @@ public class CameraManager : MonoBehaviour
 
         _targetPosition = _stationParent.position;
         _lastPosition = _stationParent.position;
+        _previousStationPos = _stationParent.position;
     }
 
     private void LateUpdate()
@@ -31,7 +36,7 @@ public class CameraManager : MonoBehaviour
         if (!IsMoving) return;
 
         _stationParent.position = Vector3.SmoothDamp(_stationParent.position, _targetPosition, ref _velocity, _speed * Time.deltaTime);
-        
+
         float lerp = Mathf.InverseLerp(_lastPosition.x, _targetPosition.x, _stationParent.position.x);
         float weight = Mathf.Sin(Mathf.PI * lerp);
         _blurVolume.weight = weight;
@@ -41,6 +46,15 @@ public class CameraManager : MonoBehaviour
             _blurVolume.weight = 0.0f;
             IsMoving = false;
         }
+
+        Vector3 delta = _stationParent.position - _previousStationPos;
+
+        foreach (ParallaxLayer layer in parallaxLayers)
+        {
+            layer.Move(delta);
+        }
+
+        _previousStationPos = _stationParent.position;
     }
 
     public void MoveToPosition(Vector3 position)
@@ -48,5 +62,19 @@ public class CameraManager : MonoBehaviour
         _lastPosition = _targetPosition;
         _targetPosition = position;
         IsMoving = true;
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        _stationParent.position = position;
+
+        Vector3 delta = _stationParent.position - _previousStationPos;
+
+        foreach (ParallaxLayer layer in parallaxLayers)
+        {
+            layer.Move(delta);
+        }
+
+        _previousStationPos = _stationParent.position;
     }
 }

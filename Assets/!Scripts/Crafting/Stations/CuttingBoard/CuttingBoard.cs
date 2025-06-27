@@ -1,48 +1,69 @@
 using System;
 using UnityEngine;
 
-public class CuttingBoard : MonoBehaviour
+public class CuttingBoard : Singleton<CuttingBoard>
 {
-    public static CuttingBoard Instance { get; private set; }
-    public CuttableIngredientList list {  get; private set; }
-
     public bool CanCut = false;
     public Action OnCutComplete;
-    private void Awake()
+
+    private void OnEnable()
     {
-        if (Instance == null)
-            Instance = this;
-        else 
-            Destroy(gameObject);
+        GameEvents.Crafting.OnToolSelected += Enable;
+        GameEvents.Crafting.OnToolDeselected += Disable;
     }
-    void Start()
+
+    private void OnDisable()
     {
-        list = GetComponentInChildren<CuttableIngredientList>();
-        // the ingredient list is part of the cutting board object!
+        GameEvents.Crafting.OnToolSelected -= Enable;
+        GameEvents.Crafting.OnToolDeselected -= Disable;
     }
-    
-    public void ChangeCuttingAbility() 
+
+    private void Enable(ToolType type)
+    {
+        if (type == ToolType.Knife)
+            CanCut = true;
+    }
+
+    private void Disable(ToolType type)
+    {
+        if (type == ToolType.Knife)
+            CanCut = false;
+    }
+    public void ChangeCuttingAbility()
     { // changed this into function so it can be called in other scripts
         CanCut = !CanCut;
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ingredient")
+        try
         {
-            string name = collision.gameObject.name;
-            if (list.GetPrefab(name.ToLower()) != null)
+            if (collision.gameObject.tag == "Ingredient")
             {
-                GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
-                p.transform.position = new Vector3(0, 1, 0);
-                p.transform.parent = transform;
-                p.name = name;
-                // to make sure this works, the ingredient dropped has to have the
-                // same name as the prefab it's referring too!
+                string name = collision.gameObject.name;
+                IngredientSO z = collision.gameObject.GetComponent<WorldIngredient>().BaseIngredient;
+                if (z.CanBeCut == false) return;
+                GameObject cutPF = z.CutWorldPrefab;
+                if (cutPF != null)
+                {
+                    GameObject p = Instantiate(cutPF);
+                    p.transform.position = new Vector3(0, 1, 0);
+                    p.transform.parent = transform;
+                    p.name = name;
 
-                //later, this will just ask for the name of the scriptable object
-                Destroy(collision.gameObject);
+                    CuttableIngredient ig = p.GetComponent<CuttableIngredient>();
+                    // to make sure this works, the ingredient dropped has to have the
+                    // same name as the prefab it's referring too!
+
+                    //later, this will just ask for the name of the scriptable object
+                    Destroy(collision.gameObject);
+                    if (CursorManager.Instance != null)
+                        CursorManager.Instance.ClearCursor(false);
+                }
             }
-            else { return; } // if there's an exception, the thing will return.
+        }
+        catch
+        {
+            Debug.Break();
         }
     }
 }

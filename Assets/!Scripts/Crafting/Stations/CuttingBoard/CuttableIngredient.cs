@@ -6,53 +6,63 @@ using UnityEngine;
 
 public class CuttableIngredient : MonoBehaviour
 {
-    [SerializeField] private TrailRenderer _cursorTrail;
-
+    
     [SerializeField] Transform[] _cutPoints;
-    int _cutCount = 0;
-
-    CuttingBoard _board = null;
+    [SerializeField] private int _dstThreshold = 50;
 
     List<Vector3> _cursorPoints = new List<Vector3>();
     Vector3 _cursorPos = Vector3.zero;
-    
-    private bool _isCutting = false;
-    [SerializeField] private int _dstThreshold = 50;
+    CuttingBoard _board;
+
+    private WorldIngredient _ingredient;
+
+    int _cutCount = 0;
+    float ingredientDurability = 100f;
     private float _cutInterval = 0.25f, _cutTimer = 0.25f;
+
+    private bool _isCutting = false;
+
+    Camera _mainCamera;
+
+    static event Action EndAction;
 
     private void Start()
     {
         _board = CuttingBoard.Instance;
+        _mainCamera = Camera.main;
+        _ingredient = GetComponent<WorldIngredient>();
+
+        EndAction = _ingredient.ModifiedState.Cut;
     }
 
     private void Update()
     {
-        if (!_board.CanCut) return;
+        if (!_board.CanCut)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                CompleteChopping();
+            }
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
             _cursorPoints.Clear();
             _isCutting = true;
             _cutTimer = 0;
-
-            _cursorTrail.enabled = false;
-            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, 10));
-            _cursorTrail.Clear();
-            _cursorTrail.enabled = true;
         }
 
         if (Input.GetMouseButton(0))
         {
             _cursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
-            _cursorTrail.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(_cursorPos.x, _cursorPos.y, 10));
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             _isCutting = false;
             _cutTimer = _cutInterval;
-            CompareCuts();
-            
+            CompareCuts();  
         }
 
         if (!_isCutting) return;
@@ -71,13 +81,12 @@ public class CuttableIngredient : MonoBehaviour
     private void CompareCuts()
     {
         bool success = false;
-        int count = _cursorPoints.Count;
 
-        if (count < 2) return;
+        if (_cursorPoints.Count < 2) return;
 
         foreach (Transform t in _cutPoints)
         {
-            float xPosition = Camera.main.WorldToScreenPoint(t.position).x;
+            float xPosition = _mainCamera.WorldToScreenPoint(t.position).x;
 
             if (_cursorPoints.Any(p => Mathf.Abs(p.x - xPosition) > _dstThreshold))
                 continue;
@@ -85,7 +94,6 @@ public class CuttableIngredient : MonoBehaviour
             else
             {
                 success = true;
-                RemoveCutPoint(t);
                 break;
             }
         }
@@ -93,31 +101,55 @@ public class CuttableIngredient : MonoBehaviour
         if (success)
         {
             Debug.Log("Yay!");
-            UpdateChoppingProgress();
+            UpdateChoppingProgress(true);
             // on a successful cut, add to the count
         }
+        else { UpdateChoppingProgress(false); }
     }
-    void RemoveCutPoint(Transform t)
+    void UpdateChoppingProgress(bool result)
     {
-        t.gameObject.SetActive(false);
-        // removes the cut point so the player cannot cut the same spot twice
-    }
-    void UpdateChoppingProgress()
-    {
-        _cutCount++; 
+        _cutCount++;
+        ingredientDurability = Mathf.Clamp(ingredientDurability - 10f, 0f, 100f);
 
-        if(_cutCount == _cutPoints.Count()) { CompleteChopping(); }
-        // when all of the sections are cut, complete the minigame
-        else { return; }
+        CheckIngredientStatus();
     }
     void CompleteChopping()
     {
-        Debug.Log("All portions are chopped. Yay!");
+        EndAction?.Invoke();
+        foreach (Rigidbody o in gameObject.GetComponentsInChildren<Rigidbody>())
+        {
+            o.isKinematic = false;
+        }
 
-        GameObject ob = Instantiate(CuttingBoard.Instance.list.GetChoppedPrefab(gameObject.name.ToLower() + "-cut"));
-        ob.transform.parent = transform.parent;
+        Debug.Log("player is done cutting!" + '\n' + RateChopping());
         // later, this will just grab the name of the scriptable object attached to the prefab.
+    }
+    string RateChopping()
+    {
+        if (_cutCount == 0) return "no cuts were made.";
+        if (_cutCount > _cutPoints.Count()) return "you cut it too much!";
+        if (_cutCount == _cutPoints.Count()) return "you cut it perfectly!";
 
+        return "you cut it too little.";
+    }
+    void CheckIngredientStatus()
+    {
+        if (ingredientDurability < 10)
+        {
+            if (_ingredient.BaseIngredient.CanBeCrushed)
+            {
+                Debug.Log("the ingredient has been turned into a powder btw...");
+                EndAction = _ingredient.ModifiedState.Crush;
+            }
+            else
+            {
+                Debug.Log("the ingredient has been rendered unuseable...");
+                EndAction = DeleteIngredient;
+            }
+        }
+    }
+    void DeleteIngredient()
+    {
         Destroy(gameObject);
     }
 }

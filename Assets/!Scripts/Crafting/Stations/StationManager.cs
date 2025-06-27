@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class StationManager : MonoBehaviour
 {
@@ -21,7 +23,7 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Transform _cuttingBoardTransform;
 
     [Header("Mortar & Pestle")]
-    [SerializeField] private Pestle _pestle;
+    [SerializeField] private PestleTool _pestle;
     [SerializeField] private Transform _mortarPestleTransform;
 
     [Header("Magic Circle")]
@@ -29,7 +31,7 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Transform _magicCircleTransform;
 
     [Header("Cauldron")]
-    [SerializeField] private Cauldron _cauldron;
+    [SerializeField] private CauldronUI _cauldron;
     [SerializeField] private Transform _cauldronArea;
 
     private int _currentTransformIndex = 0;
@@ -47,9 +49,9 @@ public class StationManager : MonoBehaviour
     private Vector2 dragStartPos, dragEndPos, tableStartPos;
     private bool isDragging = false, clickedOnTable = false, canDrag = true;
 
-    public void ToggleDrag(int stationID)
+    public void ToggleDrag(bool toggle)
     {
-        canDrag = stationID != 2;
+        canDrag = toggle;
     }
 
     private void Awake()
@@ -106,7 +108,8 @@ public class StationManager : MonoBehaviour
 
         CameraManager.Instance.MoveToPosition(targetPos);
         _currentTransformIndex = targetStation;
-        OnStationChanged.Invoke(targetStation);
+        GameEvents.Crafting.OnStationChanged?.Invoke(targetStation);
+        OnStationChanged.Invoke(targetStation); // DEPRECATED
     }
 
     private void MoveToStation(InputAction.CallbackContext context)
@@ -122,16 +125,41 @@ public class StationManager : MonoBehaviour
         else if (input > 0)
             GoNextStation();
     }
+    [SerializeField] private GraphicRaycaster graphicRaycaster;
+    [SerializeField] private EventSystem eventSystem;
 
     // Dragging logic
     private bool ClickedOnTable()
     {
-        if (canDrag == false || EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-        return false;
+        if (!canDrag)
+            return false;
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+
+            List<RaycastResult> uiHits = new List<RaycastResult>();
+            GraphicRaycaster raycaster = FindFirstObjectByType<GraphicRaycaster>();
+            raycaster.Raycast(pointerData, uiHits);
+
+            foreach (RaycastResult result in uiHits)
+            {
+                // Only block if the UI element is NOT tagged to be ignored
+                if (!result.gameObject.CompareTag("IgnoreUIDrag"))
+                {
+                    Debug.Log($"Blocked by UI element: {result.gameObject.name}");
+                    return false;
+                }
+            }
+        }
+
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
     }
+
 
     //this block of code is for not changing stations until the mouse is let go
     private void Update()
@@ -158,7 +186,8 @@ public class StationManager : MonoBehaviour
             // a minimum offset to prevent small movements
             if (Mathf.Abs(deltaX) > stationDragThresholdVisual)
             {
-                tableTransform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
+                //transform.position = new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z);
+                CameraManager.Instance.SetPosition(new Vector3(tableStartPos.x + (deltaX * 0.01f), tableTransform.position.y, tableTransform.position.z));
             }
 
         }
@@ -194,7 +223,12 @@ public class StationManager : MonoBehaviour
         }
         else
         {
-            tableTransform.position = tableStartPos;
+            //transform.position = tableStartPos;
+            CameraManager.Instance.SetPosition(tableStartPos);
         }
+    }
+    public int GetCurrentStation()
+    {
+        return _currentTransformIndex;
     }
 }
