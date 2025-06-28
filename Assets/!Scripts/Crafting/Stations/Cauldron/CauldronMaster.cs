@@ -20,17 +20,6 @@ public class CauldronMaster : MonoBehaviour
         InsidePot = GetComponentInChildren<IngredientsInPot>();
         CauldronEvents = GetComponentInChildren<CauldronEvents>();
     }
-    private void Update()
-    {
-        if (StationManager.Instance.GetCurrentStation() == 3)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ToggleMixing(!CurrentlyMixing);
-            }
-        }
-        // press the spacebar to start/stop mixing WHEN ITS ON THE CORRECT STATION 
-    }
 
     public void ToggleMixing(bool toggle)
     {
