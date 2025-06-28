@@ -278,6 +278,7 @@ public class Inventory : MonoBehaviour
         if (worldIngredient != null)
         {
             AddNewItem(worldIngredient.BaseIngredient);
+            Destroy(collision.gameObject);
         }
     }
 }

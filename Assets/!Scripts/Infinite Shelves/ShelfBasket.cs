@@ -124,9 +124,8 @@ public class ShelfBasket : MonoBehaviour
                 mr.material = null; //idk just temp
                 mr.gameObject.layer = LayerMask.NameToLayer("Outline");
             }
-            else if ((mr = displayObject.GetComponentInChildren<MeshRenderer>()))
+            else if (mr = displayObject.GetComponentInChildren<MeshRenderer>())
             {
-                print(storedIngredient.name);
                 displayObjDefaultMat = mr.material;
                 mr.material = lockedMaterial;
                 mr.gameObject.layer = LayerMask.NameToLayer("Outline");
