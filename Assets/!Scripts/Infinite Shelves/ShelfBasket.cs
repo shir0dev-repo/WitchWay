@@ -126,6 +126,7 @@ public class ShelfBasket : MonoBehaviour
             }
             else if ((mr = displayObject.GetComponentInChildren<MeshRenderer>()))
             {
+                print(storedIngredient.name);
                 displayObjDefaultMat = mr.material;
                 mr.material = lockedMaterial;
                 mr.gameObject.layer = LayerMask.NameToLayer("Outline");
@@ -137,14 +138,15 @@ public class ShelfBasket : MonoBehaviour
         }
         else
         {
-            print("unlocked");
             if (displayObject.TryGetComponent(out MeshRenderer mr))
             {
+                displayObjDefaultMat ??= mr.material;
                 mr.material = displayObjDefaultMat; //idk just temp
                 mr.gameObject.layer = LayerMask.NameToLayer("Default");
             }
             else if (mr = displayObject.GetComponentInChildren<MeshRenderer>())
             {
+                displayObjDefaultMat ??= mr.material;
                 mr.material = displayObjDefaultMat;
                 mr.gameObject.layer = LayerMask.NameToLayer("Default");
             }
