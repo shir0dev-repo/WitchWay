@@ -80,9 +80,9 @@ public class PotTemperature : MonoBehaviour
 
         if (Progress >= 100)
         {
-            FinishCooking?.Invoke();
             if (_targetIngredient != null)
             {
+                FinishCooking?.Invoke();
                 if (TargetTemperature >= 0)
                     _targetIngredient.ModifiedState.Heat();
                 else
