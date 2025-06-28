@@ -27,6 +27,7 @@ public class MortarStation : Singleton<MortarStation>
         IngredientSO data = ingredient.BaseIngredient;
         ModifiedIngredient modData = ingredient.ModifiedState;
         GameObject pf = data.CrushedWorldPrefab;
+        ingredientsInMortar.Clear();
         if (pf != null)
         {
             GameObject ingGO = Instantiate(pf, spawnPosition, Quaternion.identity);

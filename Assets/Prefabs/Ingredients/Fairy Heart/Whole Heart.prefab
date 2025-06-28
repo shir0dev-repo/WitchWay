@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 442337579768058776}
   - component: {fileID: 779720495510467480}
   - component: {fileID: 1704856186847462427}
+  - component: {fileID: -543508762888880279}
   m_Layer: 0
   m_Name: Whole Heart
   m_TagString: Untagged
@@ -195,3 +196,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-543508762888880279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6693240687505344851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6b759aba4db8944b25d82d6a3a2ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrState: 0
+  _maxDurability: 100
+  canBeCrushed: 0
