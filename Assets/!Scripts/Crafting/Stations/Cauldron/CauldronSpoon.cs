@@ -3,6 +3,9 @@ using UnityEngine;
 public class CauldronSpoon : ToolBase
 {
     CauldronMaster cauldron;
+
+    [SerializeField] Vector3 stirRotationEulers;
+    [SerializeField] Vector3 restRotationEulers;
     void Start()
     {
         cauldron = CauldronMaster.Instance;
@@ -13,9 +16,12 @@ public class CauldronSpoon : ToolBase
         {
             cauldron.ToggleMixing(!cauldron.CurrentlyMixing);
         }
+
+        gameObject.transform.rotation = Quaternion.Euler(stirRotationEulers);
     }
     protected override void OnToolDeselected()
     {
         cauldron.ToggleMixing(!cauldron.CurrentlyMixing);
+        gameObject.transform.rotation = Quaternion.Euler(restRotationEulers);
     }
 }

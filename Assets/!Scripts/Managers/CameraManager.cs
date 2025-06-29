@@ -11,6 +11,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float _speed = 4.0f;
     [SerializeField] private Transform _stationParent;
 
+    public float defaultFOV = 60;
+    float zoomSpeed = 2f;
     public Vector3 GetTargetPosition() => _targetPosition;
     private Vector3 _targetPosition = Vector3.zero;
 
@@ -76,5 +78,14 @@ public class CameraManager : MonoBehaviour
         }
 
         _previousStationPos = _stationParent.position;
+    }
+
+    public void ZoomIn(float target) // remember! 60 is the default FOV!
+    {
+        Camera.main.fieldOfView = target;
+    }
+    public void ResetZoom()
+    {
+        Camera.main.fieldOfView = defaultFOV;
     }
 }

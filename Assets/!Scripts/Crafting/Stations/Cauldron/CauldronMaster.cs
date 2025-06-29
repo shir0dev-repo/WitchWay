@@ -20,7 +20,11 @@ public class CauldronMaster : MonoBehaviour
         InsidePot = GetComponentInChildren<IngredientsInPot>();
         CauldronEvents = GetComponentInChildren<CauldronEvents>();
     }
-
+    private void Start()
+    {
+        CauldronEvents.ActivateMixing += ZoomIntoCauldron;
+        CauldronEvents.DeactivateMixing += CameraManager.Instance.ResetZoom;
+    }
     public void ToggleMixing(bool toggle)
     {
         if (CurrentlyMixing == toggle) return;
@@ -36,5 +40,9 @@ public class CauldronMaster : MonoBehaviour
             CauldronEvents.DeactivateMixing?.Invoke();
             Debug.Log("deactivating mixing.");
         }
+    }
+    void ZoomIntoCauldron()
+    {
+        CameraManager.Instance.ZoomIn(40);
     }
 }
