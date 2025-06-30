@@ -61,7 +61,7 @@ public class WorldIngredient : MonoBehaviour
         if (_isDragging)
         {
             HandleScroll();
-            UpdateDragging();
+            //UpdateDragging();
         }
     }
 
@@ -69,7 +69,7 @@ public class WorldIngredient : MonoBehaviour
     {
         if (!_isDragging && Input.GetMouseButtonDown(0))
         {
-            CastRay();
+            TryBeginDrag();
         }
         else if (_isDragging && Input.GetMouseButtonUp(0))
         {
@@ -89,7 +89,7 @@ public class WorldIngredient : MonoBehaviour
         }
     }
 
-    private void CastRay()
+    private void TryBeginDrag()
     {
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore))
@@ -104,64 +104,24 @@ public class WorldIngredient : MonoBehaviour
 
     private void BeginDrag()
     {
+        if (CursorManager.Instance == null) return;
+        
         _isDragging = true;
         rb.useGravity = false;
         rb.linearVelocity = Vector3.zero;
-        if (CursorManager.Instance != null)
-            CursorManager.Instance.AttachToCursor(transform, transform);
-    }
-
-    private void UpdateDragging()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
-        mousePos.z = oProjC.magnitude;
-
-        Vector3 worldPos = _cam.ScreenToWorldPoint(mousePos);
-
-        if (StationsInventory.Instance != null)
-        {
-            currentDepth = baseDepth;
-            CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
-
-            if (craftingRects != null)
-            {
-                for (int i = 0; i < craftingRects.Length; i++)
-                {
-                    CraftingRectArea craftingRectArea = craftingRects[i];
-                    RectTransform rect = craftingRectArea.screenRect;
-
-                    Vector2 localMousePosition = rect.InverseTransformPoint(mousePos);
-                    if (rect.rect.Contains(localMousePosition))
-                    {
-                        currentDepth = craftingRectArea.depthValue;
-                        inDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
-
-                        break;
-                    }
-                }
-            }
-        }
         
-        _mousePosWS = new Vector3(worldPos.x, worldPos.y, currentDepth);
-        transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
+        CursorManager.Instance.AttachToCursor(transform, transform);
+        
     }
 
     public void EndDrag()
     {
+        if (CursorManager.Instance == null) return;
+        else if (CursorManager.Instance.AttachedObject != transform) return;
+
         _isDragging = false;
         rb.useGravity = true;
-
-        if (inDestroyArea)
-        {
-            FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
-            Destroy(gameObject);
-        }
-        else if (CursorManager.Instance != null)
-        {
-            if (CursorManager.Instance.AttachedObject == transform)
-                CursorManager.Instance.ClearCursor();
-        }
+        CursorManager.Instance.ClearCursor();
     }
 
     private void CheckValid(WorldIngredient wIngredient, StationType station, Transform stationAnchor)
@@ -177,7 +137,7 @@ public class WorldIngredient : MonoBehaviour
         isStationValid = BaseIngredient.CanBeUsedAtStation(station);
         if (isStationValid)
         {
-            transform.position = stationAnchor.position;
+            //transform.position = stationAnchor.position;
         }
     }
 

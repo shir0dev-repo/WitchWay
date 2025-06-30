@@ -9,6 +9,10 @@ public class CursorManager : Singleton<CursorManager>
 
     public Transform AttachedObject => _attachedObject;
     private Transform _attachedObject = null;
+    
+    private float _targetZPosition = 0.0f;
+    private bool _attachedObjectInDestroyArea = false;
+
     public bool HasObjectFollowingCursor => _isObjectAttached;
     private bool _isObjectAttached = false;
     public void ToggleVisibility(bool visible)
@@ -29,7 +33,34 @@ public class CursorManager : Singleton<CursorManager>
     {
         if (_isObjectAttached)
         {
+            TryGetZTarget();
             SnapCurrentObjectToCursor();
+        }
+    }
+
+    private void TryGetZTarget()
+    {
+        _targetZPosition = 0.0f;
+
+        if (!_attachedObject.TryGetComponent(out WorldIngredient ing)) return;
+        if (StationsInventory.Instance == null) return;
+
+        CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
+
+        if (craftingRects == null) return;
+
+        for (int i = 0; i < craftingRects.Length; i++)
+        {
+            CraftingRectArea craftingRectArea = craftingRects[i];
+            RectTransform rect = craftingRectArea.screenRect;
+
+            Vector2 localMousePosition = rect.InverseTransformPoint(Input.mousePosition);
+            if (rect.rect.Contains(localMousePosition))
+            {
+                _targetZPosition = craftingRectArea.depthValue;
+                _attachedObjectInDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
+                break;
+            }
         }
     }
 
@@ -39,8 +70,7 @@ public class CursorManager : Singleton<CursorManager>
         Vector3 oProjC = Vector3.Project(_attachedObject.position - _mainCam.transform.position, _mainCam.transform.forward);
         mousePos.z = oProjC.magnitude;// Mathf.Abs(_attachedObject.position.z - Camera.main.transform.position.z); //get how far the object is from the camera on z axis
         Vector3 worldMousePos = _mainCam.ScreenToWorldPoint(mousePos);
-
-        _attachedObject.position = new Vector3(worldMousePos.x, worldMousePos.y, _attachedObject.position.z); //set new position (keeping the object's z axis)
+        _attachedObject.position = new Vector3(worldMousePos.x, worldMousePos.y, _targetZPosition); //set new position (keeping the object's z axis)
     }
 
     public void AttachToCursor(Transform obj, Transform returnPivot)
@@ -56,6 +86,10 @@ public class CursorManager : Singleton<CursorManager>
             Vector3 p = _attachedObject.position;
             _attachedObject.position = new(p.x, p.y, 0);
         }
+        else if (_attachedObject.TryGetComponent(out WorldIngredient _) && _attachedObject.TryGetComponent(out Collider col))
+        {
+            col.isTrigger = true;
+        }
     }
 
     public void AssignReturnPivot(Transform newPivot)
@@ -67,9 +101,23 @@ public class CursorManager : Singleton<CursorManager>
 
     public void ClearCursor(bool returnToRestPosition = true)
     {
-        //Debug.Log($"Detached {_attachedObject.name} from cursor.");
+        if (_attachedObject == null) return;
+
         if (returnToRestPosition)
             _attachedObject.position = _restPivot.position;
+        
+        if (_attachedObject.TryGetComponent(out WorldIngredient ing))
+        {
+            if (_attachedObjectInDestroyArea)
+            {
+                GameEvents.Crafting.OnItemPlacedInTrash?.Invoke(ing);
+                Destroy(_attachedObject.gameObject);
+            }
+            else if (_attachedObject.TryGetComponent(out Collider col))
+            {
+                col.isTrigger = false;
+            }
+        }
 
         _restPivot = null;
         _attachedObject = null;
