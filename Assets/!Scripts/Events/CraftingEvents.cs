@@ -64,7 +64,10 @@ public static partial class GameEvents
         // Bottler events
         // TODO: Add Bottle class as parameter
         public static Action OnBottleSelected;
+        public static Action<Vector3> OnBottlePlacedInBottler;
         public static Action OnBottlingStationSelected;
+        public static Action<float> OnBottleFillChanged;
+        public static Action<PotionData> OnBottleFilled;
 
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;

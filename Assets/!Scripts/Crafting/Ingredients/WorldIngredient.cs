@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class WorldIngredient : MonoBehaviour
+public class WorldIngredient : MonoBehaviour, IFollowCursor
 {
     public void SetIngredient(IngredientSO data)
     {
@@ -69,7 +69,7 @@ public class WorldIngredient : MonoBehaviour
     {
         if (!_isDragging && Input.GetMouseButtonDown(0))
         {
-            TryBeginDrag();
+            BeginDrag();
         }
         else if (_isDragging && Input.GetMouseButtonUp(0))
         {
@@ -89,7 +89,7 @@ public class WorldIngredient : MonoBehaviour
         }
     }
 
-    private void TryBeginDrag()
+    public void BeginDrag()
     {
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore))
@@ -97,21 +97,16 @@ public class WorldIngredient : MonoBehaviour
             if (hit.collider.gameObject == gameObject)
             {
                 startPos = hit.collider.transform.position;
-                BeginDrag();
+
+                if (CursorManager.Instance == null) return;
+
+                _isDragging = true;
+                rb.useGravity = false;
+                rb.linearVelocity = Vector3.zero;
+
+                CursorManager.Instance.AttachToCursor(transform, transform);
             }
         }
-    }
-
-    private void BeginDrag()
-    {
-        if (CursorManager.Instance == null) return;
-        
-        _isDragging = true;
-        rb.useGravity = false;
-        rb.linearVelocity = Vector3.zero;
-        
-        CursorManager.Instance.AttachToCursor(transform, transform);
-        
     }
 
     public void EndDrag()

@@ -7,6 +7,8 @@ public class CursorManager : Singleton<CursorManager>
 
     private Transform _restPivot = null;
 
+    private Transform _grabPoint = null;
+
     public Transform AttachedObject => _attachedObject;
     private Transform _attachedObject = null;
     
@@ -15,6 +17,7 @@ public class CursorManager : Singleton<CursorManager>
 
     public bool HasObjectFollowingCursor => _isObjectAttached;
     private bool _isObjectAttached = false;
+
     public void ToggleVisibility(bool visible)
     {
         if (_useDebug) return;
@@ -27,6 +30,22 @@ public class CursorManager : Singleton<CursorManager>
         base.Awake();
         if (_mainCam == null)
             _mainCam = Camera.main;
+    }
+
+    private void Update()
+    {
+        if (!_isObjectAttached && Input.GetMouseButtonDown(0))
+        {
+            if (CastScreenRay(Input.mousePosition, out RaycastHit hit, ~0) && hit.transform.TryGetComponent(out IFollowCursor followCursor))
+            {
+                followCursor.BeginDrag();
+            }
+        }
+
+        if (_isObjectAttached && Input.GetMouseButtonUp(0))
+        {
+            _attachedObject.GetComponent<IFollowCursor>().EndDrag();
+        }
     }
 
     private void FixedUpdate()
@@ -66,11 +85,29 @@ public class CursorManager : Singleton<CursorManager>
 
     private void SnapCurrentObjectToCursor()
     {
-        Vector3 mousePos = Input.mousePosition; //get the position of the mouse
+        //get the position of the mouse
+        Vector3 mousePos = Input.mousePosition;
+
         Vector3 oProjC = Vector3.Project(_attachedObject.position - _mainCam.transform.position, _mainCam.transform.forward);
-        mousePos.z = oProjC.magnitude;// Mathf.Abs(_attachedObject.position.z - Camera.main.transform.position.z); //get how far the object is from the camera on z axis
+
+        // /get how far the object is from the camera on z axis
+        // Mathf.Abs(_attachedObject.position.z - Camera.main.transform.position.z); /
+
+        mousePos.z = oProjC.magnitude;
+        
         Vector3 worldMousePos = _mainCam.ScreenToWorldPoint(mousePos);
-        _attachedObject.position = new Vector3(worldMousePos.x, worldMousePos.y, _targetZPosition); //set new position (keeping the object's z axis)
+
+        worldMousePos.z = _targetZPosition;
+
+        //set new position (keeping the object's z axis)
+        _attachedObject.position = worldMousePos;
+        Debug.DrawLine(_mainCam.transform.position, worldMousePos, Color.red);
+    }
+
+    public void AttachToCursor(Transform obj, Transform returnPivot, Transform grabPoint)
+    {
+        AssignCursorOffset(grabPoint);
+        AttachToCursor(obj, returnPivot);
     }
 
     public void AttachToCursor(Transform obj, Transform returnPivot)
@@ -99,11 +136,15 @@ public class CursorManager : Singleton<CursorManager>
         _restPivot = newPivot;
     }
 
+    public void AssignCursorOffset(Transform grabPoint) => _grabPoint = grabPoint;
+
     public void ClearCursor(bool returnToRestPosition = true)
     {
         if (_attachedObject == null) return;
 
-        if (returnToRestPosition)
+        _grabPoint = null;
+
+        if (returnToRestPosition && _restPivot != null)
             _attachedObject.position = _restPivot.position;
         
         if (_attachedObject.TryGetComponent(out WorldIngredient ing))
@@ -112,10 +153,6 @@ public class CursorManager : Singleton<CursorManager>
             {
                 GameEvents.Crafting.OnItemPlacedInTrash?.Invoke(ing);
                 Destroy(_attachedObject.gameObject);
-            }
-            else if (_attachedObject.TryGetComponent(out Collider col))
-            {
-                col.isTrigger = false;
             }
         }
 
