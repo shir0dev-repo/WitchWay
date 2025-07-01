@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6482544110993744393}
   - component: {fileID: 7422568762210453803}
   - component: {fileID: 7519697954681096255}
+  - component: {fileID: 130919982565242688}
   m_Layer: 0
   m_Name: Cauldron
   m_TagString: Untagged
@@ -93,6 +94,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fa3c443fd7d7c54cab97f20b8940d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &130919982565242688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3191679792733823736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6530072d4c9f1d546af05020f6ff330d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4587010251094005659

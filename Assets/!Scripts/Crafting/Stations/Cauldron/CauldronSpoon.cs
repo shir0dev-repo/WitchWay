@@ -14,14 +14,14 @@ public class CauldronSpoon : ToolBase
     {
         if (StationManager.Instance.GetCurrentStation() == 3)
         {
-            cauldron.ToggleMixing(!cauldron.CurrentlyMixing);
+            cauldron.ToggleMixing(true);
         }
 
         gameObject.transform.rotation = Quaternion.Euler(stirRotationEulers);
     }
     protected override void OnToolDeselected()
     {
-        cauldron.ToggleMixing(!cauldron.CurrentlyMixing);
+        cauldron.ToggleMixing(false);
         gameObject.transform.rotation = Quaternion.Euler(restRotationEulers);
     }
 }

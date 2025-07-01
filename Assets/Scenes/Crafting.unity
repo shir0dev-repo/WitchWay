@@ -3620,6 +3620,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1065719043}
     m_Modifications:
+    - target: {fileID: 130919982565242688, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
+      propertyPath: maxDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3191679792733823736, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
       propertyPath: m_Name
       value: Cauldron
@@ -4612,6 +4616,10 @@ PrefabInstance:
       propertyPath: _centerPoint
       value: 
       objectReference: {fileID: 647644017}
+    - target: {fileID: 8183687334440164548, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: _deviationOKThreshold
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8183687334440164548, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: ingredients.Array.size
       value: 2
