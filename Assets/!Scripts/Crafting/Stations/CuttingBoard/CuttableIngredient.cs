@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CuttableIngredient : MonoBehaviour
 {
-    
-    [SerializeField] Transform[] _cutPoints;
     [SerializeField] private int _dstThreshold = 50;
+
+    [Space]
+    [SerializeField] Transform[] _cutPoints;
+
+    [Header("Segments")]
+    [SerializeField] private List<IngredientSegment> _segments = new();
+    [SerializeField] private float _grabVelocity = 2.5f;
+    [SerializeField] private float _maxGrabVelocity = 1.5f;
 
     List<Vector3> _cursorPoints = new List<Vector3>();
     Vector3 _cursorPos = Vector3.zero;
@@ -32,8 +37,25 @@ public class CuttableIngredient : MonoBehaviour
         _mainCamera = Camera.main;
         _ingredient = GetComponent<WorldIngredient>();
 
+        foreach (IngredientSegment segment in _segments)
+        {
+            segment.GrabVelocity = _grabVelocity;
+            segment.MaxGrabVelocity = _maxGrabVelocity;
+        }
+
         EndAction = _ingredient.ModifiedState.Cut;
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        foreach (IngredientSegment segment in _segments)
+        {
+            segment.GrabVelocity = _grabVelocity;
+            segment.MaxGrabVelocity = _maxGrabVelocity;
+        }
+    }
+#endif
 
     private void Update()
     {
@@ -62,7 +84,7 @@ public class CuttableIngredient : MonoBehaviour
         {
             _isCutting = false;
             _cutTimer = _cutInterval;
-            CompareCuts();  
+            CompareCuts();
         }
 
         if (!_isCutting) return;
@@ -83,6 +105,7 @@ public class CuttableIngredient : MonoBehaviour
         bool success = false;
 
         if (_cursorPoints.Count < 2) return;
+        Transform targetCutPoint = null;
 
         foreach (Transform t in _cutPoints)
         {
@@ -90,23 +113,89 @@ public class CuttableIngredient : MonoBehaviour
 
             if (_cursorPoints.Any(p => Mathf.Abs(p.x - xPosition) > _dstThreshold))
                 continue;
-            
+
             else
             {
                 success = true;
+                targetCutPoint = t;
                 break;
             }
         }
 
-        if (success)
+        if (success && targetCutPoint != null)
         {
             Debug.Log("Yay!");
-            UpdateChoppingProgress(true);
+            GameEvents.Crafting.OnCutItem?.Invoke(_ingredient, targetCutPoint);
+            TryDetachSegment(targetCutPoint);
             // on a successful cut, add to the count
         }
-        else { UpdateChoppingProgress(false); }
+
+        UpdateChoppingProgress();
     }
-    void UpdateChoppingProgress(bool result)
+
+    private void TryDetachSegment(Transform targetCutPoint)
+    {
+        // see if segment on either side is end piece
+        // detach end piece
+
+        var closestPair = GetClosestPairToCutPoint(targetCutPoint.position);
+
+        if (!closestPair.left.HasBeenDetached)
+        {
+            var leftSegments = _segments.Where(seg => seg.Center.x < closestPair.left.Center.x);
+            if (!leftSegments.Any())
+            {
+                closestPair.left.Detach();
+            }
+            else
+            {
+                foreach (var segment in leftSegments)
+                {
+                    if (segment.HasBeenDetached)
+                    {
+                        closestPair.left.Detach();
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!closestPair.right.HasBeenDetached)
+        {
+            var rightSegments = _segments.Where(seg => seg.Center.x > closestPair.right.Center.x);
+            if (!rightSegments.Any())
+            {
+                closestPair.right.Detach();
+            }
+            else
+            {
+                foreach (var segment in rightSegments)
+                {
+                    if (segment.HasBeenDetached)
+                    {
+                        closestPair.right.Detach();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private (IngredientSegment left, IngredientSegment right) GetClosestPairToCutPoint(Vector3 cutPoint)
+    {
+        // sort by distance to cut point
+        // order from left-right
+        // take the first 2 pieces (left and right piece of cutpoint)
+        IngredientSegment[] closestPair =
+            _segments.OrderBy(seg => Vector3.Distance(cutPoint, seg.Center))
+                //.ThenBy(seg => seg.Center.x)
+                .Take(2)
+                .ToArray();
+
+        return (closestPair[0], closestPair[1]);
+    }
+
+    void UpdateChoppingProgress()
     {
         _cutCount++;
         ingredientDurability = Mathf.Clamp(ingredientDurability - 10f, 0f, 100f);

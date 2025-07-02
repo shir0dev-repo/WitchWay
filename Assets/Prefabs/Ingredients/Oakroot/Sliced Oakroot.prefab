@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4308253978575831211}
   - component: {fileID: 7994313484620868287}
   - component: {fileID: 1467322194504098711}
+  - component: {fileID: 5164163028897235794}
   m_Layer: 0
   m_Name: OakRoot_slice01
   m_TagString: Untagged
@@ -136,6 +137,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5164163028897235794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541187589526884340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2218b948b2b148ad49a877a27bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2368427063411764767
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +162,7 @@ GameObject:
   - component: {fileID: 1911364365034389244}
   - component: {fileID: 4608406504665434077}
   - component: {fileID: 4272735431931165045}
+  - component: {fileID: 1692821414338588690}
   m_Layer: 0
   m_Name: OakRoot_slice02
   m_TagString: Untagged
@@ -272,6 +286,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1692821414338588690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2368427063411764767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2218b948b2b148ad49a877a27bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5485628479046149676
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +372,7 @@ GameObject:
   - component: {fileID: 4280424968210895798}
   - component: {fileID: 5887260155714720688}
   - component: {fileID: 3790371388187704750}
+  - component: {fileID: 7835982714702804117}
   m_Layer: 0
   m_Name: OakRoot_slice03
   m_TagString: Untagged
@@ -469,3 +496,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7835982714702804117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6832833834406077308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2218b948b2b148ad49a877a27bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

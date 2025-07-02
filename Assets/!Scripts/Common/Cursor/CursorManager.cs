@@ -7,9 +7,10 @@ public class CursorManager : Singleton<CursorManager>
 
     private Transform _restPivot = null;
 
-    private Transform _grabPoint = null;
+    private Vector3 _grabOffset = Vector3.zero;
 
     public Transform AttachedObject => _attachedObject;
+    private IFollowCursor _currentFollowCursor = null;
     private Transform _attachedObject = null;
     
     private float _targetZPosition = 0.0f;
@@ -36,15 +37,21 @@ public class CursorManager : Singleton<CursorManager>
     {
         if (!_isObjectAttached && Input.GetMouseButtonDown(0))
         {
-            if (CastScreenRay(Input.mousePosition, out RaycastHit hit, ~0) && hit.transform.TryGetComponent(out IFollowCursor followCursor))
+            int layer = ~(1 << LayerMask.NameToLayer("Ignore Raycast"));
+            if (CastScreenRay(Input.mousePosition, out RaycastHit hit, layer) && hit.transform.TryGetComponent(out _currentFollowCursor))
             {
-                followCursor.BeginDrag();
+                _currentFollowCursor.BeginDrag();
             }
         }
 
         if (_isObjectAttached && Input.GetMouseButtonUp(0))
         {
-            _attachedObject.GetComponent<IFollowCursor>().EndDrag();
+            _currentFollowCursor?.EndDrag();
+        }
+
+        if (_currentFollowCursor != null)
+        {
+            _currentFollowCursor.UpdateDrag();
         }
     }
 
@@ -83,10 +90,36 @@ public class CursorManager : Singleton<CursorManager>
         }
     }
 
+    public Vector3 GetMouseWorldPos()
+    {
+        if (_attachedObject == null) return Vector3.zero;
+
+        Vector3 mousePos = Input.mousePosition;
+        float depth = Vector3.Dot(_attachedObject.position - _mainCam.transform.position, _mainCam.transform.forward);
+
+        mousePos.z = depth;
+        Vector3 w = _mainCam.ScreenToWorldPoint(mousePos);
+        w.z = _targetZPosition;
+
+        return w;
+    }
+
+    public Vector3 GetMouseWorldPos(Transform relativeDepth)
+    {
+        Vector3 mousePos = Input.mousePosition;
+        float depth = Vector3.Dot(relativeDepth.position - _mainCam.transform.position, _mainCam.transform.forward);
+
+        mousePos.z = depth;
+        Vector3 w = _mainCam.ScreenToWorldPoint(mousePos);
+        w.z = _targetZPosition;
+
+        return w;
+    }
+
     private void SnapCurrentObjectToCursor()
     {
         //get the position of the mouse
-        Vector3 mousePos = Input.mousePosition;
+        /*Vector3 mousePos = Input.mousePosition;
 
         Vector3 oProjC = Vector3.Project(_attachedObject.position - _mainCam.transform.position, _mainCam.transform.forward);
 
@@ -94,23 +127,21 @@ public class CursorManager : Singleton<CursorManager>
         // Mathf.Abs(_attachedObject.position.z - Camera.main.transform.position.z); /
 
         mousePos.z = oProjC.magnitude;
-        
-        Vector3 worldMousePos = _mainCam.ScreenToWorldPoint(mousePos);
-
-        worldMousePos.z = _targetZPosition;
+*/
+        Vector3 worldMousePos = GetMouseWorldPos();
 
         //set new position (keeping the object's z axis)
         _attachedObject.position = worldMousePos;
         Debug.DrawLine(_mainCam.transform.position, worldMousePos, Color.red);
     }
 
-    public void AttachToCursor(Transform obj, Transform returnPivot, Transform grabPoint)
+    public void AttachToCursor(Transform obj, Transform returnPivot, Vector3 grabOffset)
     {
-        AssignCursorOffset(grabPoint);
+        AssignCursorOffset(grabOffset);
         AttachToCursor(obj, returnPivot);
     }
 
-    public void AttachToCursor(Transform obj, Transform returnPivot)
+    public void AttachToCursor(Transform obj, Transform returnPivot, bool useOffset = true)
     {
         Debug.Log($"Attached {obj.name} to cursor!");
         _restPivot = returnPivot;
@@ -136,13 +167,14 @@ public class CursorManager : Singleton<CursorManager>
         _restPivot = newPivot;
     }
 
-    public void AssignCursorOffset(Transform grabPoint) => _grabPoint = grabPoint;
+    public void AssignCursorOffset(Vector3 offset) => _grabOffset = offset;
 
     public void ClearCursor(bool returnToRestPosition = true)
     {
         if (_attachedObject == null) return;
 
-        _grabPoint = null;
+        _grabOffset = Vector3.zero;
+        _currentFollowCursor = null;
 
         if (returnToRestPosition && _restPivot != null)
             _attachedObject.position = _restPivot.position;

@@ -31,7 +31,7 @@ namespace Shir0dev.LiquidFX
             _renderer.sharedMaterials[0].SetFloat("_Cutoff", percent);
         }
 
-        private void Start()
+        private void Awake()
         {
             _renderer = GetComponent<Renderer>();
             _positionLastFrame = transform.position;

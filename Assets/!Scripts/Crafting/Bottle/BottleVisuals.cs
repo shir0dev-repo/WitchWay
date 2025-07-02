@@ -11,14 +11,12 @@ public class BottleVisuals : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.Crafting.OnBottlePlacedInBottler += SetBottlePosition;
         GameEvents.Crafting.OnBottleFilled += FinishPotion;
         GameEvents.Crafting.OnBottleFillChanged += _potionFX.SetFillAmount;
     }
 
     private void OnDisable()
     {
-        GameEvents.Crafting.OnBottlePlacedInBottler -= SetBottlePosition;
         GameEvents.Crafting.OnBottleFilled -= FinishPotion;
         GameEvents.Crafting.OnBottleFillChanged -= _potionFX.SetFillAmount;
     }
@@ -29,9 +27,9 @@ public class BottleVisuals : MonoBehaviour
         _potionFX.SetFillAmount(0);
     }
 
-    private void SetBottlePosition(Vector3 bottlerPivot)
+    public void SetBottlePosition(Vector3 bottlerPivot)
     {
-        transform.position = bottlerPivot - _bottleHolderPivot.localPosition;
+        transform.position = bottlerPivot;
     }
 
     private void FinishPotion(PotionData data)
