@@ -8,6 +8,7 @@ public class RecipeManager : MonoBehaviour
     [SerializeField] private List<SortingObjects> recipeObjs;
     [SerializeField] private Image recipeImg;   // Uh I wasnt sure if this would be an image or text, should be easy to just swap it
     private int count = 0;
+    [SerializeField] private string recipeID;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,6 +39,10 @@ public class RecipeManager : MonoBehaviour
             StartCoroutine(FadeIn(imgGroup));
         }
         // yield return null;
+        if (!string.IsNullOrEmpty(recipeID))
+        {
+            SaveManager.Instance.LearnRecipe(recipeID);
+        }
     }
     private IEnumerator FadeOut(CanvasGroup group)
     {

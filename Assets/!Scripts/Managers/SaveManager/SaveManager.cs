@@ -28,7 +28,7 @@ public class SaveManager : MonoBehaviour
         if (!saveData.collectedIngredients.Contains(id))
         {
             saveData.collectedIngredients.Add(id);
-            SaveGame();
+            // SaveGame();
         }
     }
     public void CollectBottle(string id)
@@ -36,7 +36,7 @@ public class SaveManager : MonoBehaviour
         if (!saveData.collectedBottles.Contains(id))
         {
             saveData.collectedBottles.Add(id);
-            SaveGame();
+            //  SaveGame();
         }
     }
     public void LearnRecipe(string id)
@@ -44,7 +44,7 @@ public class SaveManager : MonoBehaviour
         if (!saveData.learnedRecipes.Contains(id))
         {
             saveData.learnedRecipes.Add(id);
-            SaveGame();
+            // SaveGame();
         }
     }
 
