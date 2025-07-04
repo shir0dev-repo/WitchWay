@@ -6,8 +6,6 @@ public class MortarStation : Singleton<MortarStation>
     [SerializeField] private Transform _ingredientAnchor;
 
     public bool HasIngredient => ingredientsInMortar.Count > 0;
-    //private CrushableIngredientState _currentIngredient = null;   
-    private RigidbodyConstraints _ingConstraintsCache = RigidbodyConstraints.None;
 
     // Fail state stuff
     [SerializeField] private GameObject explosionPrefab;    // Im sure james will want to make a fun effect to play
@@ -49,25 +47,6 @@ public class MortarStation : Singleton<MortarStation>
 
     private void Update()
     {
-        /*if (_shouldAddIngredient)
-        {
-            if (_currentIngredient.TryGetComponent(out WorldIngredient ing))
-            {
-                ing.EndDrag();
-                GameEvents.Crafting.OnItemPlacedInMortar?.Invoke(ing);
-                GameEvents.Crafting.OnItemPlacedInStation?.Invoke(ing, StationType.Mortar, _ingredientAnchor);
-            }
-            if (_currentIngredient.TryGetComponent(out Rigidbody rb))
-            {
-                _ingConstraintsCache = rb.constraints;
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-                rb.MovePosition(_ingredientAnchor.position);
-            }
-
-            _currentIngredient.SetCrushable(true);
-            _shouldAddIngredient = false;
-        }*/
-
         for (int i = 0; i < ingredientsInMortar.Count; i++)
         {
             var ingredient = ingredientsInMortar[i];
@@ -126,6 +105,8 @@ public class MortarStation : Singleton<MortarStation>
         {
             if (!other.TryGetComponent(out CrushableIngredientState state)) return;
             state.SetCrushable(true);
+
+            Debug.Log("hwello!");
         }
     }
 
