@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CuttingBoard : Singleton<CuttingBoard>
 {
+    public bool HasIngredient => _currentIngredient != null;
+    private CuttableIngredient _currentIngredient = null;
     public bool CanCut = false;
     public Action OnCutComplete;
 
@@ -35,35 +37,50 @@ public class CuttingBoard : Singleton<CuttingBoard>
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (_currentIngredient != null) return;
+
         try
         {
-            if (collision.gameObject.tag == "Ingredient")
+            if (!collision.gameObject.TryGetComponent(out WorldIngredient w)) return;
+
+            IngredientSO ingredient = w.BaseIngredient;
+            if (ingredient.CanBeCut == false) return;
+            GameObject cutPF = ingredient.CutWorldPrefab;
+
+            if (cutPF != null)
             {
-                string name = collision.gameObject.name;
-                IngredientSO z = collision.gameObject.GetComponent<WorldIngredient>().BaseIngredient;
-                if (z.CanBeCut == false) return;
-                GameObject cutPF = z.CutWorldPrefab;
-                if (cutPF != null)
-                {
-                    GameObject p = Instantiate(cutPF);
-                    p.transform.position = new Vector3(0, 1, 0);
-                    p.transform.parent = transform;
-                    p.name = name;
+                GameObject p = Instantiate(cutPF, new(0, 1, 0), Quaternion.identity);
+                p.transform.SetParent(transform);
+                ModifiedIngredient mod = w.ModifiedState;
 
-                    CuttableIngredient ig = p.GetComponent<CuttableIngredient>();
-                    // to make sure this works, the ingredient dropped has to have the
-                    // same name as the prefab it's referring too!
+                if (!(w = p.GetComponent<WorldIngredient>())) return;
 
-                    //later, this will just ask for the name of the scriptable object
-                    Destroy(collision.gameObject);
-                    if (CursorManager.Instance != null)
-                        CursorManager.Instance.ClearCursor(false);
-                }
+                _currentIngredient = p.GetComponent<CuttableIngredient>();
+                w.UpdateModifiers(mod);
+
+                //later, this will just ask for the name of the scriptable object
+                if (CursorManager.Instance != null)
+                    CursorManager.Instance.ClearCursor(false);
+
+                Destroy(collision.gameObject);
             }
         }
         catch
         {
             Debug.Break();
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (_currentIngredient == null) return;
+
+        if (!collision.gameObject.CompareTag("Ingredient")) return;
+
+        if (collision.gameObject.TryGetComponent(out CuttableIngredient ing) && ing == _currentIngredient)
+        {
+            _currentIngredient = null;
+        }
+
     }
 }

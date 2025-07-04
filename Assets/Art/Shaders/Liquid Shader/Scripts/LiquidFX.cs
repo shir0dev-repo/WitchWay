@@ -28,10 +28,10 @@ namespace Shir0dev.LiquidFX
         {
             percent = Mathf.Clamp01(percent);
             _FillAmount = percent;
-
+            _renderer.sharedMaterials[0].SetFloat("_Cutoff", percent);
         }
 
-        private void Start()
+        private void Awake()
         {
             _renderer = GetComponent<Renderer>();
             _positionLastFrame = transform.position;

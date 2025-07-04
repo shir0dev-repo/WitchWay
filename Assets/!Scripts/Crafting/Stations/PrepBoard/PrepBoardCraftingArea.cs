@@ -26,6 +26,17 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
                     DisableMortar();
             }
         }
+
+        if (_mortar.enabled)
+        {
+            if (ToolSelector.Instance != null && ToolSelector.Instance.CurrentlySelected == null)
+            {
+                if (Input.GetMouseButtonDown(1) && CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit, _mortarMask))
+                {
+                    if (hit.transform == _mortar.transform) DisableMortar();
+                }
+            }
+        }
     }
 
     public void EnableMortar()

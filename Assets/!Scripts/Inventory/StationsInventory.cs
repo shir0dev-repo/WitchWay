@@ -78,6 +78,7 @@ public class StationsInventory : MonoBehaviour
         //setup triggers
         basketsTrigger.onTriggerEnter += AddItemTrigger;
         basketsTrigger.onTriggerExit += RemoveItemTrigger;
+        GameEvents.Crafting.OnItemPlacedInTrash += PermanentRemove;
     }
 
     void Update()

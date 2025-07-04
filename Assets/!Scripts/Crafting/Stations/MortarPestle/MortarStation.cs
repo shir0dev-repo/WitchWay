@@ -28,9 +28,11 @@ public class MortarStation : Singleton<MortarStation>
         if (pf != null)
         {
             GameObject ingGO = Instantiate(pf, spawnPosition, Quaternion.identity);
+            ingGO.transform.SetParent(PrepBoardCraftingArea.Instance.transform);
             WorldIngredient ing = ingGO.GetComponent<WorldIngredient>();
             ing.SetIngredient(data);
             ing.UpdateModifiers(modData);
+        }
 
 
             if (pf.TryGetComponent(out Rigidbody rgbd))
@@ -58,7 +60,7 @@ public class MortarStation : Singleton<MortarStation>
             {
                 if (ingredient.TryGetComponent(out WorldIngredient ing))
                 {
-                    ing.EndDrag();
+                    //ing.EndDrag();
                     GameEvents.Crafting.OnItemPlacedInMortar?.Invoke(ing);
                     GameEvents.Crafting.OnItemPlacedInStation?.Invoke(ing, StationType.Mortar, _ingredientAnchor);
                 }
@@ -68,6 +70,7 @@ public class MortarStation : Singleton<MortarStation>
                     rgbd.constraints = RigidbodyConstraints.FreezeAll;
                     rgbd.MovePosition(_ingredientAnchor.position);
                 }
+
                 ingredient.SetCrushable(true);
             }
         }
@@ -78,14 +81,14 @@ public class MortarStation : Singleton<MortarStation>
         if (this.enabled == false) return;
         if (!other.TryGetComponent(out CrushableIngredientState state)) return;
 
-        if (other.TryGetComponent(out WorldIngredient ing) && !ing.BaseIngredient.CanBeCrushed) return;
+        if (!other.TryGetComponent(out WorldIngredient ing) || !ing.BaseIngredient.CanBeCrushed) return;
 
-        /* if (CursorManager.Instance.AttachedObject == transform)
-             CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
+        if (CursorManager.Instance.AttachedObject == ing.transform)
+            CursorManager.Instance.AssignReturnPivot(_ingredientAnchor);
 
-         _shouldAddIngredient = true;
-         _currentIngredient = state;
-         */
+        else if (other.TryGetComponent(out Rigidbody rgbd))
+            other.transform.position = _ingredientAnchor.position;
+            
 
         if (!ingredientsInMortar.Contains(state))
         {
@@ -111,46 +114,31 @@ public class MortarStation : Singleton<MortarStation>
 
     private void OnTriggerExit(Collider other)
     {
-
-        /* Debug.Log((int)other.GetComponent<Rigidbody>().excludeLayers);
-         if (other.TryGetComponent(out CrushableIngredientState state))
-         {
-             _hasIngredient = false;
-             if (other.TryGetComponent(out WorldIngredient ing))
-                 GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
-             if (other.TryGetComponent(out Rigidbody rb))
-             {
-                 rb.constraints = _ingConstraintsCache;
-                 _ingConstraintsCache = RigidbodyConstraints.None;
-             }
-
-             Debug.Log("mrtor");     // lol Mr Tor
-             state.SetCrushable(false);
-         }*/
-
-        if (other.TryGetComponent(out CrushableIngredientState state))
+        if (other.TryGetComponent(out Rigidbody rgbd) && constraints.TryGetValue(rgbd, out var cachedConstraints))
         {
-            ingredientsInMortar.Remove(state);
+            Debug.Log("constraints");
+            rgbd.constraints = cachedConstraints;
+            constraints.Remove(rgbd);
+        }
 
-            if (other.TryGetComponent(out WorldIngredient ing))
-            {
-                GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
-                if (state.CurrState != CrushState.Powder && state.CurrState != CrushState.Dust)
-                {
-                    Debug.Log("Removed too Early!!!");
-                    GameEvents.Crafting.OnFailedToCrushItem?.Invoke(ing);
-                }
-            }
-            if (other.TryGetComponent(out Rigidbody rgbd))
-            {
-                if (constraints.TryGetValue(rgbd, out var cachedConstraints))
-                {
-                    rgbd.constraints = cachedConstraints;
-                    constraints.Remove(rgbd);
-                }
-            }
-            state.SetCrushable(false);
+        if (!other.TryGetComponent(out CrushableIngredientState state)) return;
 
+        ingredientsInMortar.Remove(state);
+        state.SetCrushable(false);
+
+        if (!other.TryGetComponent(out WorldIngredient ing)) return;
+
+        if (CursorManager.Instance != null && CursorManager.Instance.AttachedObject == ing.transform)
+        {
+            CursorManager.Instance.AssignReturnPivot(ing.transform);
+            return;
+        }
+
+        GameEvents.Crafting.OnItemRemovedFromMortar?.Invoke(ing);
+        if (state.CurrState != CrushState.Powder || state.CurrState != CrushState.Dust)
+        {
+            Debug.Log("Removed too Early!!!");
+            GameEvents.Crafting.OnFailedToCrushItem?.Invoke(ing);
         }
     }
 

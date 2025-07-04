@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1385018206323600596}
   - component: {fileID: 873813718480047497}
   - component: {fileID: 4976866677588019910}
+  - component: {fileID: 7099236336347067288}
   m_Layer: 0
   m_Name: DragonScale_slice02
   m_TagString: Untagged
@@ -136,6 +137,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7099236336347067288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976289877575590042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2218b948b2b148ad49a877a27bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2835007729494602533
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,10 +256,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c243955f98b2cc746ae11cb10c3cd997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dstThreshold: 50
   _cutPoints:
   - {fileID: 126899828325924580}
   - {fileID: 6373201868773730977}
-  _dstThreshold: 50
+  _segments:
+  - {fileID: 6692544825487874927}
+  - {fileID: 7099236336347067288}
+  - {fileID: 9019194710537338660}
 --- !u!1 &6112830790019036435
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +277,7 @@ GameObject:
   - component: {fileID: 6137592559751565462}
   - component: {fileID: 6769513742191829936}
   - component: {fileID: 4209600329082455414}
+  - component: {fileID: 9019194710537338660}
   m_Layer: 0
   m_Name: DragonScale_slice03
   m_TagString: Untagged
@@ -383,6 +401,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9019194710537338660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112830790019036435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2218b948b2b148ad49a877a27bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7448207465927833487
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +426,7 @@ GameObject:
   - component: {fileID: 6841652915560714035}
   - component: {fileID: 1589621980816444761}
   - component: {fileID: 1159640091771164479}
+  - component: {fileID: 6692544825487874927}
   m_Layer: 0
   m_Name: DragonScale_slice01
   m_TagString: Untagged
@@ -519,6 +550,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6692544825487874927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448207465927833487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2218b948b2b148ad49a877a27bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8241949851348715428
 GameObject:
   m_ObjectHideFlags: 0

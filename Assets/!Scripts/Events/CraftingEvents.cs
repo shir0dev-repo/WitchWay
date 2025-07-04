@@ -25,7 +25,7 @@ public static partial class GameEvents
         public static Action<WorldIngredient> OnSuccessfullyCutItem;
         public static Action<WorldIngredient> OnFailedToCutItem;
 
-        public static Action<WorldIngredient> OnCutItem;
+        public static Action<WorldIngredient, Transform> OnCutItem;
 
         // Mortar and Pestle Events
         public static Action<WorldIngredient> OnItemPlacedInMortar;
@@ -69,7 +69,10 @@ public static partial class GameEvents
         // Bottler events
         // TODO: Add Bottle class as parameter
         public static Action OnBottleSelected;
+        public static Action<Bottle> OnBottlePlacedInBottler;
         public static Action OnBottlingStationSelected;
+        public static Action<float> OnBottleFillChanged;
+        public static Action<PotionData> OnBottleFilled;
 
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;
