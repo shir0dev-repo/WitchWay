@@ -40,12 +40,6 @@ public class PotTemperature : MonoBehaviour
         FailState = GetComponent<FailState_BurnCool>();
     }
 
-    private void Start()
-    {
-        TargetTemperature = Random.Range(-50, 50);
-        TempSlider.SetPointerLocation(TargetTemperature);
-    }
-
     private void OnEnable()
     {
         StartCooking += StartStart;
@@ -99,6 +93,8 @@ public class PotTemperature : MonoBehaviour
         {
             if (ingredient.TryGetComponent(out WorldIngredient ing))
                 _targetIngredient = ing;
+
+            TargetTemperature = ingredient.targetTemp;
             StartCooking?.Invoke();
         }
     }

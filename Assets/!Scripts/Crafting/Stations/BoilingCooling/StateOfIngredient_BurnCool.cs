@@ -32,6 +32,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     void Start()
     {
         pot = PotTemperature.Instance;
+        targetTemp = Random.Range(-45, 45);
     }
     void Update()
     {
