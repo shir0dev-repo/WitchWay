@@ -45,6 +45,8 @@ public class CursorManager : Singleton<CursorManager>
 
     public void AttachToCursor(Transform obj, Transform returnPivot)
     {
+        if (AttachedObject != null) return;
+
         Debug.Log($"Attached {obj.name} to cursor!");
         _restPivot = returnPivot;
         _attachedObject = obj;

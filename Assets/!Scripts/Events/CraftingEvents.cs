@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static partial class GameEvents
@@ -57,9 +58,13 @@ public static partial class GameEvents
         // Cauldron Events
         public static Action<WorldIngredient> OnItemPlacedInCauldron;
         public static Action OnCauldronMixStepCompleted;
+        public static Action OnCauldronMixSequenceCompleted;
+
+        public static Action<List<ModifiedIngredient>, bool> OnMixedPotionRequested;
 
         public static Action<PotionData> OnSuccessfullyMixedPotion;
         public static Action<RecipeSO> OnFailedToMixPotion;
+
 
         // Bottler events
         // TODO: Add Bottle class as parameter

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ToolSelector : Singleton<ToolSelector>
@@ -36,11 +35,14 @@ public class ToolSelector : Singleton<ToolSelector>
         }
     }
 
-    private void DeselectTool()
+    public void DeselectTool()
     {
-        CursorManager.Instance.ClearCursor();
-        CurrentlySelected.DeselectTool();
+        if (!CurrentlySelected) return;
 
+        if (CursorManager.Instance && CursorManager.Instance.AttachedObject == CurrentlySelected.transform)
+            CursorManager.Instance.ClearCursor();
+
+        CurrentlySelected.DeselectTool();
         CurrentlySelected = null;
 
         ToolType type = CurrentType;

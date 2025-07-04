@@ -37,25 +37,11 @@ public class CrushableIngredientState : MonoBehaviour
         return false;
     }
 
-    private void OnCollisionEnter(Collision other) // changed from trigger to prevent multiple calls while mashing
-    {
-        if (CanBeCrushed(other))
-        {
-            TakeDamage(5);
-            ChangeState();
-        }
-    }
-
-    private bool CanBeCrushed(Collision other)
-    {
-        return _isCrushableIngredient && canBeCrushed && other.gameObject.TryGetComponent<PestleTool>(out _);
-    }
-
     public bool TakeDamage(float dmg)
     {
         if (CurrentDurability <= 0) { return false; }
         CurrentDurability -= dmg;
-
+        ChangeState();
         return true;
     }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +6,6 @@ public class MortarStation : Singleton<MortarStation>
     [SerializeField] private Transform _ingredientAnchor;
 
     public bool HasIngredient => ingredientsInMortar.Count > 0;
-    //private CrushableIngredientState _currentIngredient = null;   
-    private RigidbodyConstraints _ingConstraintsCache = RigidbodyConstraints.None;
 
     // Fail state stuff
     [SerializeField] private GameObject explosionPrefab;    // Im sure james will want to make a fun effect to play
@@ -23,7 +20,7 @@ public class MortarStation : Singleton<MortarStation>
 
     private void SpawnCrushedItem(WorldIngredient ingredient)
     {
-        Vector3 spawnPosition = ingredient.transform.position;
+        Vector3 spawnPosition = _ingredientAnchor.position;
         IngredientSO data = ingredient.BaseIngredient;
         ModifiedIngredient modData = ingredient.ModifiedState;
         GameObject pf = data.CrushedWorldPrefab;
@@ -34,6 +31,18 @@ public class MortarStation : Singleton<MortarStation>
             WorldIngredient ing = ingGO.GetComponent<WorldIngredient>();
             ing.SetIngredient(data);
             ing.UpdateModifiers(modData);
+
+
+            if (pf.TryGetComponent(out Rigidbody rgbd))
+            {
+                rgbd.useGravity = false;
+                constraints[rgbd] = rgbd.constraints;
+                if (ingredient.TryGetComponent(out Rigidbody currRgbd) && constraints.TryGetValue(currRgbd, out RigidbodyConstraints constraint))
+                {
+                    rgbd.constraints = constraint;
+                    constraints.Remove(currRgbd);
+                }
+            }
         }
 
         Destroy(ingredient.gameObject);
@@ -41,25 +50,6 @@ public class MortarStation : Singleton<MortarStation>
 
     private void Update()
     {
-        /*if (_shouldAddIngredient)
-        {
-            if (_currentIngredient.TryGetComponent(out WorldIngredient ing))
-            {
-                ing.EndDrag();
-                GameEvents.Crafting.OnItemPlacedInMortar?.Invoke(ing);
-                GameEvents.Crafting.OnItemPlacedInStation?.Invoke(ing, StationType.Mortar, _ingredientAnchor);
-            }
-            if (_currentIngredient.TryGetComponent(out Rigidbody rb))
-            {
-                _ingConstraintsCache = rb.constraints;
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-                rb.MovePosition(_ingredientAnchor.position);
-            }
-
-            _currentIngredient.SetCrushable(true);
-            _shouldAddIngredient = false;
-        }*/
-
         for (int i = 0; i < ingredientsInMortar.Count; i++)
         {
             var ingredient = ingredientsInMortar[i];

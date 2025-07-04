@@ -12,16 +12,10 @@ public class CauldronSpoon : ToolBase
     }
     protected override void OnToolSelected()
     {
-        if (StationManager.Instance.GetCurrentStation() == 3)
-        {
-            cauldron.ToggleMixing(true);
-        }
-
         gameObject.transform.rotation = Quaternion.Euler(stirRotationEulers);
     }
     protected override void OnToolDeselected()
     {
-        cauldron.ToggleMixing(false);
         gameObject.transform.rotation = Quaternion.Euler(restRotationEulers);
     }
 }

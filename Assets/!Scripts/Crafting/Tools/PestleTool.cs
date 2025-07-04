@@ -23,6 +23,11 @@ public class PestleTool : ToolBase
     {
         if (other.TryGetComponent(out CrushableIngredientState ingredientState))
         {
+            Vector3 toIngredient = (ingredientState.transform.position - transform.position).normalized;
+            float iDotP = Vector3.Dot(-transform.up, toIngredient);
+            Debug.Log(iDotP);
+            if (iDotP <= 0.8f) return;
+
             if (ingredientState.TakeDamage(_crushDamage))
             {
                 if (ingredientState.TryGetComponent(out WorldIngredient ing))

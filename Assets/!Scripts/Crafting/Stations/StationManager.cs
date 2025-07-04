@@ -31,7 +31,7 @@ public class StationManager : MonoBehaviour
     [SerializeField] private Transform _magicCircleTransform;
 
     [Header("Cauldron")]
-    [SerializeField] private CauldronUI _cauldron;
+    [SerializeField] private CauldronController _cauldron;
     [SerializeField] private Transform _cauldronArea;
 
     private int _currentTransformIndex = 0;
