@@ -17,9 +17,6 @@ public class CauldronUI : MonoBehaviour
     [SerializeField, Range(1, 5)] private float _deviationHoldTime = 3.0f;
     [SerializeField, Range(5, 50)] private int _pointCount = 50;
 
-    [Header("Mixing")]
-    [SerializeField] private float _totalMixingDuration = 15.0f;
-
     private bool _isStirringCW = true;
     float TimeSpentStirring = 6f;
     private Vector3 _cursorPos = Vector3.zero;
@@ -95,9 +92,11 @@ public class CauldronUI : MonoBehaviour
 
             if (!correctDirection)
             {
-                StirringInWrongDirection();
+                StirringInWrongDirection();      
                 return;
             }
+
+            CauldronMaster.Instance.Duration.UpdateCurrentDuration();
 
             if (!withinDev)
             {
@@ -106,19 +105,10 @@ public class CauldronUI : MonoBehaviour
             }
 
             // compare deviation to threshold
-
             _holdTimer += Time.deltaTime;
             if (_holdTimer >= _deviationHoldTime)
             {
                 ChangeStirringDirection();
-            }
-
-
-            _progress += Time.deltaTime;
-            if (_progress >= _totalMixingDuration)
-            {
-                Finish();
-                return;
             }
 
             switchStirDirectionTimer -= Time.deltaTime;

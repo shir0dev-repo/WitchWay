@@ -5,6 +5,7 @@ public class CauldronMaster : MonoBehaviour
     public static CauldronMaster Instance { get; private set; }
     public IngredientsInPot InsidePot { get; private set; }
     public CauldronEvents CauldronEvents { get; private set; }
+    public CauldronMixingDuration Duration { get; private set; }
 
     public bool CurrentlyMixing { get; private set; } = false;
 
@@ -19,19 +20,14 @@ public class CauldronMaster : MonoBehaviour
         Instance = this;
         InsidePot = GetComponentInChildren<IngredientsInPot>();
         CauldronEvents = GetComponentInChildren<CauldronEvents>();
+        Duration = GetComponentInChildren<CauldronMixingDuration>();
     }
-    private void Update()
+    private void Start()
     {
-        if (StationManager.Instance.GetCurrentStation() == 3)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ToggleMixing(!CurrentlyMixing);
-            }
-        }
-        // press the spacebar to start/stop mixing WHEN ITS ON THE CORRECT STATION 
+        CauldronEvents.ActivateMixing += ZoomIntoCauldron;
+        CauldronEvents.DeactivateMixing += CameraManager.Instance.ResetZoom;
+        CauldronEvents.DeactivateMixing += CauldronMixingEnded;
     }
-
     public void ToggleMixing(bool toggle)
     {
         if (CurrentlyMixing == toggle) return;
@@ -47,5 +43,13 @@ public class CauldronMaster : MonoBehaviour
             CauldronEvents.DeactivateMixing?.Invoke();
             Debug.Log("deactivating mixing.");
         }
+    }
+    void ZoomIntoCauldron()
+    {
+        CameraManager.Instance.ZoomIn(40);
+    }
+    void CauldronMixingEnded()
+    {
+        CurrentlyMixing = false;
     }
 }
