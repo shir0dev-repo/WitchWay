@@ -25,25 +25,22 @@ public class MortarStation : Singleton<MortarStation>
         ModifiedIngredient modData = ingredient.ModifiedState;
         GameObject pf = data.CrushedWorldPrefab;
         ingredientsInMortar.Clear();
-        if (pf != null)
+        if (pf == null) return;
+
+        GameObject ingGO = Instantiate(pf, spawnPosition, Quaternion.identity);
+        ingGO.transform.SetParent(PrepBoardCraftingArea.Instance.transform);
+        WorldIngredient ing = ingGO.GetComponent<WorldIngredient>();
+        ing.SetIngredient(data);
+        ing.UpdateModifiers(modData);
+
+        if (ingGO.TryGetComponent(out Rigidbody rgbd))
         {
-            GameObject ingGO = Instantiate(pf, spawnPosition, Quaternion.identity);
-            ingGO.transform.SetParent(PrepBoardCraftingArea.Instance.transform);
-            WorldIngredient ing = ingGO.GetComponent<WorldIngredient>();
-            ing.SetIngredient(data);
-            ing.UpdateModifiers(modData);
-        }
-
-
-            if (pf.TryGetComponent(out Rigidbody rgbd))
+            rgbd.useGravity = false;
+            constraints[rgbd] = rgbd.constraints;
+            if (ingredient.TryGetComponent(out Rigidbody currRgbd) && constraints.TryGetValue(currRgbd, out RigidbodyConstraints constraint))
             {
-                rgbd.useGravity = false;
-                constraints[rgbd] = rgbd.constraints;
-                if (ingredient.TryGetComponent(out Rigidbody currRgbd) && constraints.TryGetValue(currRgbd, out RigidbodyConstraints constraint))
-                {
-                    rgbd.constraints = constraint;
-                    constraints.Remove(currRgbd);
-                }
+                rgbd.constraints = constraint;
+                constraints.Remove(currRgbd);
             }
         }
 
@@ -88,7 +85,7 @@ public class MortarStation : Singleton<MortarStation>
 
         else if (other.TryGetComponent(out Rigidbody rgbd))
             other.transform.position = _ingredientAnchor.position;
-            
+
 
         if (!ingredientsInMortar.Contains(state))
         {

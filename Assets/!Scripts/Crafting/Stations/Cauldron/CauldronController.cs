@@ -12,13 +12,14 @@ public class CauldronController : MonoBehaviour
 
     [Header("Mixing")]
     [SerializeField] private float _mixTimer = 5.0f;
+    [SerializeField] private float _directionSwitchTimer = 4.0f;
 
     [Header("Deviation")]
     public StandardDeviation Deviation = new StandardDeviation();
     [SerializeField, Range(0, 1)] private float _deviationOKThreshold = 0.5f;
     [SerializeField, Range(1, 5)] private float _deviationHoldTime = 3.0f;
     [SerializeField, Range(5, 50)] private int _maxPointCount = 25;
-
+    
     private bool _isStirringCW = true;
     float TimeSpentStirring = 6f;
     private Vector3 _cursorPos = Vector3.zero;
@@ -28,12 +29,13 @@ public class CauldronController : MonoBehaviour
     private float _addTimer = 0.0f;
     private float _holdTimer = 0.0f;
 
-    float switchStirDirectionTimer = 10.0f;
+    float switchStirDirectionTimer = 4.0f;
 
     private float _progress = 0.0f;
 
     void Start()
     {
+        switchStirDirectionTimer = _directionSwitchTimer;
         gameObject.SetActive(false);
     }
 
@@ -51,13 +53,16 @@ public class CauldronController : MonoBehaviour
             bool withinDev = IsWithinDeviationThreshold(Deviation.Deviation);
             bool correctDirection = IsStirringCorrectDirection(Deviation.Direction, _isStirringCW);
 
+            _stdDevUGUI.text =
+            $"Deviation: {Deviation.Deviation:F2} " +
+            "\nTarget: " + (_isStirringCW ? "CW" : "CCW") +
+            "\nCurrent: " + (IsStirringCW(Deviation.Direction) ? "CW" : "CCW");
+
             if (!correctDirection)
             {
                 StirringInWrongDirection();      
                 return;
             }
-
-            CauldronMaster.Instance.Duration.UpdateCurrentDuration();
 
             if (!withinDev)
             {
@@ -68,6 +73,9 @@ public class CauldronController : MonoBehaviour
             _progress += Time.deltaTime;
             if (_progress >= _mixTimer)
             {
+                _progress = 0.0f;
+                _holdTimer = 0.0f;
+                
                 GameEvents.Crafting.OnCauldronMixSequenceCompleted?.Invoke();
             }
 
@@ -82,14 +90,9 @@ public class CauldronController : MonoBehaviour
             if (switchStirDirectionTimer <= 0)
             {
                 ChangeStirringDirection();
-                switchStirDirectionTimer = 10.0f;
+                switchStirDirectionTimer = _directionSwitchTimer;
                 // simple timer function for switching directions
             }
-
-            _stdDevUGUI.text =
-            $"Deviation: {Deviation.Deviation:F2} " +
-            "\nTarget: " + (_isStirringCW ? "CW" : "CCW") +
-            "\nCurrent: " + (IsStirringCW(Deviation.Direction) ? "CW" : "CCW");
         }
 
         if (Input.GetKeyDown(KeyCode.E))

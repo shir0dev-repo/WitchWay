@@ -9,10 +9,6 @@ public class CauldronMaster : Singleton<CauldronMaster>
 
     private PotionData _targetPotion = null;
 
-    public IngredientsInPot InsidePot { get; private set; }
-    public CauldronEvents CauldronEvents { get; private set; }
-    public CauldronMixingDuration Duration { get; private set; }
-
     public bool CurrentlyMixing { get; private set; } = false;
 
     private void OnEnable()
@@ -32,10 +28,6 @@ public class CauldronMaster : Singleton<CauldronMaster>
     protected override void Awake()
     {
         base.Awake();
-
-        InsidePot = GetComponentInChildren<IngredientsInPot>();
-        CauldronEvents = GetComponentInChildren<CauldronEvents>();
-        Duration = GetComponentInChildren<CauldronMixingDuration>();
         if (_controller == null)
             _controller = FindFirstObjectByType<CauldronController>(FindObjectsInactive.Include);
     }
@@ -103,7 +95,6 @@ public class CauldronMaster : Singleton<CauldronMaster>
         else
         {
             Debug.Log("NOOOOOOOOOOOOOOOOOOO");
-            CauldronMaster.Instance.InsidePot.ReturnRejectedIngredients();
         }
 
         return result;
