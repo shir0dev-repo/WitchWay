@@ -9,13 +9,11 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     [SerializeField] float allowedDeviance = 5;
     bool canCook = false;
 
-    List<float> ListOfTemperatures = new List<float>();
-
     bool isUsable = true;
     float numTimesBurnt = 0;
     [SerializeField] const float maxTimesBurnt = 3;
 
-    private WorldIngredient _currentIngredient = null;
+    //private WorldIngredient _currentIngredient = null;
 
     private void OnEnable()
     {
@@ -57,7 +55,6 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
         CalculateRating();
 
         canCook = false;
-        ListOfTemperatures.Clear();
     }
     void CookIngredient(float currTemp)
     {
