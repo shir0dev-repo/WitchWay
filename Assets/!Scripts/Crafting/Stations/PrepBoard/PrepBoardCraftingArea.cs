@@ -19,7 +19,8 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit, _mortarMask)) {
+            if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))//, _mortarMask)) {
+            {
                 if (hit.transform == _mortar.transform && !_mortar.enabled)
                     EnableMortar();
                 else if (_mortar.enabled && !_mortar.HasIngredient && hit.transform == _mortarOutline.transform)

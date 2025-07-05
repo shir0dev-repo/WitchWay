@@ -10,7 +10,7 @@ public class WorldIngredient : MonoBehaviour
     }
 
     public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
-    
+
     public ModifiedIngredient ModifiedState => _data;
     public void UpdateModifiers(ModifiedIngredient mod) => _data = mod;
 
@@ -50,7 +50,7 @@ public class WorldIngredient : MonoBehaviour
     {
         if (_cam == null)
             _cam = Camera.main;
-        
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -91,8 +91,22 @@ public class WorldIngredient : MonoBehaviour
 
     private void CastRay()
     {
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        if (CursorManager.BlockInteraction)
+        {
+            return;
+        }
+
+        /*Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject == gameObject)
+            {
+                startPos = hit.collider.transform.position;
+                BeginDrag();
+            }
+        }*/
+
+        if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))
         {
             if (hit.collider.gameObject == gameObject)
             {
@@ -142,7 +156,7 @@ public class WorldIngredient : MonoBehaviour
                 }
             }
         }
-        
+
         _mousePosWS = new Vector3(worldPos.x, worldPos.y, currentDepth);
         transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
     }

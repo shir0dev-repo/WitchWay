@@ -18,14 +18,16 @@ public class RecipeBookToggle : MonoBehaviour
 
     public void ToggleRecipeBook()
     {
-        
+
         if (StationManager.Instance.recipeBookOpen)
         {
             StationManager.Instance.recipeBookOpen = false;
+            CursorManager.BlockInteraction = false;
         }
         else
         {
             StationManager.Instance.recipeBookOpen = true;
+            CursorManager.BlockInteraction = true;
         }
 
         StartCoroutine(RecipeBookAnimation());
@@ -56,5 +58,5 @@ public class RecipeBookToggle : MonoBehaviour
             ToggleRecipeBook();
         }
     }
-        
+
 }

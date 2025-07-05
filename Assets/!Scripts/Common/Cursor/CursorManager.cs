@@ -12,6 +12,12 @@ public class CursorManager : Singleton<CursorManager>
     private Transform _attachedObject = null;
     public bool HasObjectFollowingCursor => _isObjectAttached;
     private bool _isObjectAttached = false;
+
+    public static bool BlockInteraction = false;
+    [SerializeField] private LayerMask interactableLayers;
+    [SerializeField] private LayerMask blockedLayers;
+    public static LayerMask InteractionMasks => BlockInteraction ? Instance.blockedLayers : Instance.interactableLayers;
+
     public void ToggleVisibility(bool visible)
     {
         if (_useDebug) return;
@@ -28,7 +34,7 @@ public class CursorManager : Singleton<CursorManager>
 
     private void FixedUpdate()
     {
-        if (_isObjectAttached)
+        if (_isObjectAttached && !BlockInteraction)
         {
             SnapCurrentObjectToCursor();
         }
@@ -46,6 +52,7 @@ public class CursorManager : Singleton<CursorManager>
 
     public void AttachToCursor(Transform obj, Transform returnPivot)
     {
+
         Debug.Log($"Attached {obj.name} to cursor!");
         _restPivot = returnPivot;
         _attachedObject = obj;
@@ -79,10 +86,10 @@ public class CursorManager : Singleton<CursorManager>
         ToggleVisibility(true);
     }
 
-    public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit, LayerMask layermask)
+    public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit)//, LayerMask layermask)
     {
         Ray r = Camera.main.ScreenPointToRay(mousePos);
-        return Physics.Raycast(r, out hit, Mathf.Infinity, layermask);
+        return Physics.Raycast(r, out hit, Mathf.Infinity, InteractionMasks);// layermask);
     }
 
     // This should hopefully make the cursor visible again after leaving the witching zone

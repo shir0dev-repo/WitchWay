@@ -52,9 +52,14 @@ public class ToolSelector : Singleton<ToolSelector>
     private bool RaycastTool(out ToolBase tool)
     {
         tool = null;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1 << LayerMask.NameToLayer("UI")))
+        {
+            return hit.rigidbody != null && hit.rigidbody.TryGetComponent(out tool);
+        }*/
+
+        if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))
         {
             return hit.rigidbody != null && hit.rigidbody.TryGetComponent(out tool);
         }
