@@ -13,18 +13,6 @@ public class ModifiedIngredient
     public bool HasBeenHeated = false;
     public AlchemicalSymbol CurrentSpell = AlchemicalSymbol.None;
 
-    public ModifiedIngredient() : base() { }
-
-    public ModifiedIngredient(ModifiedIngredient other)
-    {
-        BaseIngredient = other.BaseIngredient;
-        HasBeenCut = other.HasBeenCut;
-        HasBeenCrushed = other.HasBeenCrushed;
-        HasBeenFrozen = other.HasBeenFrozen;
-        HasBeenHeated = other.HasBeenHeated;
-        CurrentSpell = other.CurrentSpell;
-    }
-
     public GameObject GetWorldRepresentation()
     {
         if (HasBeenCut) return BaseIngredient.CutWorldPrefab;
@@ -86,35 +74,51 @@ public class ModifiedIngredient
     public void Purify()
     {
         CurrentSpell = AlchemicalSymbol.None;
+        ModifierList.Purify();
     }
 
     public void Abjurate()
     {
         if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Abjuration))
+        {
             CurrentSpell = AlchemicalSymbol.Abjuration;
+            ModifierList.CacheModifier(CraftingOperation.Abjurated);
+        }
     }
 
     public void Necromance()
     {
         if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Necromancy))
+        {
             CurrentSpell = AlchemicalSymbol.Necromancy;
+            ModifierList.CacheModifier(CraftingOperation.Necromanced);
+        }
     }
 
     public void Enchant()
     {
         if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Enchantment))
+        {
             CurrentSpell = AlchemicalSymbol.Enchantment;
+            ModifierList.CacheModifier(CraftingOperation.Enchanted);
+        }
     }
 
     public void Divinate()
     {
         if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Divination))
+        {
             CurrentSpell = AlchemicalSymbol.Divination;
+            ModifierList.CacheModifier(CraftingOperation.Divinated);
+        }
     }
 
     public void Evocate()
     {
         if (BaseIngredient.AllowedCircles.HasFlag(AlchemicalSymbol.Evocation))
+        {
             CurrentSpell = AlchemicalSymbol.Evocation;
+            ModifierList.CacheModifier(CraftingOperation.Evocated);
+        }
     }
 }

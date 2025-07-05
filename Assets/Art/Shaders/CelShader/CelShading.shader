@@ -5,10 +5,10 @@ Shader "Toon/Cel-Shading"
         [Header(Main)]
         _MainTex ("Main Texture", 2D) = "white" {}
         [MainColor] _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
+        _FXColor("Effect Color", Color) = (1, 1, 1, 1)
         [NoScaleOffset][Normal] _NormalTex ("Normal", 2D) = "bump" {}
         [NoScaleOffset] _RoughnessTex ("Roughness", 2D) = "white" {}
         [NoScaleOffset] _EmissiveTex ("Emissive", 2D) = "white" {}
-        
         [Header(Emissive)]
         [HDR]_EmissiveColour ("Emissive Color", Color) = (0, 0, 0, 1)
         _EmissiveStrength ("Emissive Strength", Range(0, 100)) = 0
@@ -84,6 +84,7 @@ Shader "Toon/Cel-Shading"
             sampler2D _EmissiveTex;
             float4 _EmissiveTex_ST;
 
+            float4 _FXColor;
             float4 _Diffuse;
             float _AmbientStrength;
             

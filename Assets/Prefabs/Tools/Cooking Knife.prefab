@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2919169471544286541}
   - component: {fileID: 7115577137079933807}
   - component: {fileID: 2400201439634729546}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cooking Knife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  RestAnchor: {fileID: 0}
+  _restAnchor: {fileID: 0}
   cutRotationEulers: {x: 0, y: 180, z: 90}
   restRotationEulers: {x: 0, y: 180, z: 0}
 --- !u!54 &7115577137079933807

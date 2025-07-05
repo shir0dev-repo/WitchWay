@@ -90,7 +90,6 @@ public class MagicDisc : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ingredient")) return;
         if (!collision.gameObject.TryGetComponent(out WorldIngredient ing)) return;
         if (_currentlyHeldIngredients.Count >= 3) return;
 
@@ -100,16 +99,17 @@ public class MagicDisc : MonoBehaviour
         collision.collider.isTrigger = true;
         collision.rigidbody.useGravity = false;
         collision.rigidbody.linearVelocity = Vector3.zero;
+        collision.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         AddIngredient(ing);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Ingredient")) return;
         if (!collision.gameObject.TryGetComponent(out WorldIngredient ing)) return;
-        if (CursorManager.Instance != null && CursorManager.Instance.AttachedObject != collision.transform) return;
+        if (CursorManager.Instance == null || CursorManager.Instance.AttachedObject != collision.transform) return;
 
         collision.collider.isTrigger = false;
+        collision.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         collision.rigidbody.useGravity = true;
         RemoveIngredient(ing);
     }
