@@ -508,7 +508,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2047
 --- !u!114 &355250079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +584,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 356061720}
-  - component: {fileID: 356061721}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -607,27 +606,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &356061721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 356061718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97e5bfd0bd1e32f4ead185c88b295b9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _generatorData:
-    UseRandomSeed: 1
-    CurrentSeed: 0
-    TargetRoomCount: 22
-  _generatorUI: {fileID: 773653870}
-  _roomPlaceholder: {fileID: 8433761207797951450, guid: f5987f1a147ff4a42b755988d6d1130e, type: 3}
-  _hallwayPlaceholder: {fileID: 4655707047982197705, guid: 8e9fc948892fd024d90f2b31aa749cbe, type: 3}
-  dungeonMap:
-    _nodes: []
 --- !u!1 &442042373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1017,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1120,6 +1099,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &564737003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1437,7 +1460,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 356061721}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DungeonMaster2D, Assembly-CSharp
         m_MethodName: SetRandomSeed
         m_Mode: 0
@@ -1854,7 +1877,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 356061721}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DungeonMaster2D, Assembly-CSharp
         m_MethodName: SetCustomSeed
         m_Mode: 0
@@ -2464,7 +2487,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 356061721}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DungeonMaster2D, Assembly-CSharp
         m_MethodName: SetMaxRooms
         m_Mode: 0
@@ -2571,7 +2594,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 356061721}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DungeonMaster2D, Assembly-CSharp
         m_MethodName: GenerateMap
         m_Mode: 1

@@ -20,7 +20,7 @@ namespace DungeonMaster2D
             if (CanEarlyOutGeneration(roomCount, dungeon, 3))
             {
                 dungeon.AssignEntrances();
-                dungeon.AssignSpecialNodes(random);
+                dungeon.AssignSpecialNodes(random, specialTypes);
                 Debug.Log(GetFinalString(0, data.CurrentSeed, dungeon));
 
                 dungeon.FinishGeneration();
@@ -56,7 +56,7 @@ namespace DungeonMaster2D
                 if (roomCount >= dungeon.MinNodes && dungeon.GetDeadends().Length > 3)
                 {
                     dungeon.AssignEntrances();
-                    dungeon.AssignSpecialNodes(random);
+                    dungeon.AssignSpecialNodes(random, specialTypes);
 
                     Debug.Log(GetFinalString(currentIteration, data.CurrentSeed, dungeon));
                     dungeon.FinishGeneration();
@@ -134,14 +134,14 @@ namespace DungeonMaster2D
             }
         }
 
-        public static void AssignSpecialNodes(this Dungeon2D dungeon, Random random)
+        public static void AssignSpecialNodes(this Dungeon2D dungeon, Random random, NodeType[] specialNodes)
         {
             // ordering by distance (descending) and assigning [0] to the boss room ensures it is always the farthest room from the start
             List<Node> deadends = dungeon.GetDeadends().OrderByDescending(node => Node.Distance(dungeon.StartingNode, node)).ToList();
             deadends[0].NodeType = NodeType.Exit;
             deadends.RemoveAt(0);
 
-            List<NodeType> remainingTypes = NodeTypeUtils.GetSpecialRoomTypes().ToList();
+            List<NodeType> remainingTypes = specialNodes.ToList();
             foreach (Node node in deadends)
             {
                 if (remainingTypes.Count <= 0) break;

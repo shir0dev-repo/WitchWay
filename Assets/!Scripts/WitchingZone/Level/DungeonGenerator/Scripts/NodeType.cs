@@ -15,7 +15,6 @@ namespace DungeonMaster2D
         Scare,
         Puzzle,
         PuzzleReward,
-        Fishing,
         Exit
     }
 

@@ -269,13 +269,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8657b7179fb37640a5b70335f008d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeTypes:
-    _inputOutput:
-      _autoFindEnumFile: 1
-      _manualEnumFilePath: 
-    _addEntryName: 
-    _removeEntryType: 0
-  SpecialNodeTypes: 070000000800000004000000050000000600000009000000
+  _roomPF: {fileID: 343582525419812851, guid: 5ddb7cb840944ce45969f26a8ed2556b, type: 3}
+  _dungeon:
+    _nodes: []
+  _generatorData:
+    UseRandomSeed: 0
+    CurrentSeed: 0
+    TargetRoomCount: 25
 --- !u!4 &929943037
 Transform:
   m_ObjectHideFlags: 0
