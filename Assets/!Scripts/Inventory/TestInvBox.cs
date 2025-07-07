@@ -6,14 +6,66 @@ public class TestInvBox : MonoBehaviour
     [SerializeField] private Collider2D detectCollider;
     
     private List<BasketItems> basketItems = new List<BasketItems>();
+    private List<StationsDisplayIngredient> visuals = new List<StationsDisplayIngredient>();
 
     private bool inBounds = false;
 
     public bool clicked;
 
+    void Start()
+    {
+        SetupDisplay();
+    }
+
     void Update()
     {
         CheckMouseInBounds();
+    }
+
+    private void SetupDisplay()
+    {
+        //clear vis
+        foreach (var v in visuals)
+        {
+            if (v.visualObject != null)
+                Destroy(v.visualObject);
+        }
+        visuals.Clear();
+
+        //make vis
+        foreach (BasketItems item in basketItems)
+        {
+            for (int i = 0; i < item.itemAmount; i++)
+            {
+                visuals.Add(new StationsDisplayIngredient(item.assignedIngredient));
+            }
+        }
+
+        //display vis
+        float xMin = -1.25f, xMax = 1.25f;
+        float zMin = -0.2f, zMax = 0.2f;
+        int itemCount = visuals.Count;
+
+        for (int i = 0; i < itemCount; i++)
+        {
+            float offsetX = Random.Range(xMin, xMax);
+            float offsetZ = Random.Range(zMin, zMax);
+
+            Vector3 localOffset = new Vector3(offsetX, 0f, offsetZ);
+            Vector3 worldPos = transform.position + localOffset;
+
+            GameObject visual = new GameObject("IngredientVisual_" + i);
+            visual.transform.position = new Vector3(worldPos.x, 0.5f, worldPos.z);
+            visual.transform.parent = transform;
+            visual.transform.localScale = new Vector3(4, 4, 1);
+
+            SpriteRenderer sr = visual.AddComponent<SpriteRenderer>();
+            sr.sprite = visuals[i].ingredient.Sprite;
+
+            sr.sortingOrder = Mathf.RoundToInt(-offsetZ * 100);
+
+            visuals[i].visualObject = visual;
+        }
     }
 
     private void CheckMouseInBounds()
