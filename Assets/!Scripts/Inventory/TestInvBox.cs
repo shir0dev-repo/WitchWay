@@ -114,12 +114,33 @@ public class TestInvBox : MonoBehaviour
 
     public void OpenIngredients()
     {
-        print("open");
+        int itemsPerRow = 5;
+        float spacing = 0.5f;
+        float verticalOffset = 1.4f;
+
+        int itemCount = visuals.Count;
+
+        for (int i = 0; i < itemCount; i++)
+        {
+            int row = i / itemsPerRow;
+            int col = i % itemsPerRow;
+
+            int itemsInThisRow = Mathf.Min(itemsPerRow, itemCount - row * itemsPerRow);
+            float rowWidth = (itemsInThisRow - 1) * spacing;
+            float offsetX = -rowWidth / 2f + col * spacing;
+            float offsetY = row * spacing;
+
+            Vector3 localOffset = new Vector3(offsetX, verticalOffset + offsetY, 0f);
+            visuals[i].visualObject.transform.position = transform.position + localOffset;
+
+            SpriteRenderer sr = visuals[i].visualObject.GetComponent<SpriteRenderer>();
+            sr.sortingOrder = 100 + row;
+        }
     }
 
     public void CloseIngredients()
     {
-        print("close");
+        SetupDisplay(); //temp! destorying and recreaing lots of objects is bad practice
     }
 
     private Vector2 GetMousePos()
