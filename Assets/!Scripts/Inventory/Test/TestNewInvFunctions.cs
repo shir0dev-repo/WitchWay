@@ -18,7 +18,6 @@ public class TestNewInvFunctions : MonoBehaviour
     [SerializeField] private IngredientSO[] ingredients;
     [SerializeField] private GameObject[] boxes;
 
-    private GameObject lastClickedBox = null;
 
     void Start()
     {
