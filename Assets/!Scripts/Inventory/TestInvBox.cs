@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TestInvBox : MonoBehaviour
 {
     [SerializeField] private Collider2D detectCollider;
+    
+    private List<BasketItems> basketItems = new List<BasketItems>();
 
     private bool inBounds = false;
 
@@ -35,9 +38,26 @@ public class TestInvBox : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                //explode
+                //needs to clear the lastclciked from that other
+                CloseIngredients();
+                clicked = false;
             }
         }
+    }
+
+    public void AddItem(BasketItems item)
+    {
+        basketItems.Add(item);
+    }
+
+    private void RemoveItem()
+    {
+
+    }
+
+    public void ClearItems()
+    {
+        basketItems.Clear();
     }
 
     public void OpenIngredients()
