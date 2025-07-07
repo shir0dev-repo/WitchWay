@@ -4,7 +4,8 @@ using UnityEngine;
 public class TestInvBox : MonoBehaviour
 {
     [SerializeField] private Collider2D detectCollider;
-    
+
+    private List<TestInvBox> others;
     private List<BasketItems> basketItems = new List<BasketItems>();
     private List<StationsDisplayIngredient> visuals = new List<StationsDisplayIngredient>();
 
@@ -14,6 +15,8 @@ public class TestInvBox : MonoBehaviour
 
     void Start()
     {
+        others = new List<TestInvBox>(FindObjectsByType<TestInvBox>(FindObjectsSortMode.None));
+        others.Remove(this);
         SetupDisplay();
     }
 
@@ -70,30 +73,29 @@ public class TestInvBox : MonoBehaviour
 
     private void CheckMouseInBounds()
     {
-        if (detectCollider.bounds.Contains(GetMousePos()))
-        {
-            if (CheckBounds2D(detectCollider.bounds, GetMousePos()))
-            {
-                inBounds = true;
-            }
-        }
+        inBounds = CheckBounds2D(detectCollider.bounds, GetMousePos());
 
         if (inBounds)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                print("clicked " + gameObject.name);
+                foreach (TestInvBox box in others)
+                {
+                    if (box.clicked)
+                    {
+                        box.clicked = false;
+                        box.CloseIngredients();
+                        break;
+                    }
+                }
+
+                OpenIngredients();
                 clicked = true;
             }
         }
         else if (!inBounds && clicked)
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                //needs to clear the lastclciked from that other
-                CloseIngredients();
-                clicked = false;
-            }
+            
         }
     }
 
@@ -114,6 +116,8 @@ public class TestInvBox : MonoBehaviour
 
     public void OpenIngredients()
     {
+        print(gameObject.name + " opened");
+
         int itemsPerRow = 5;
         float spacing = 0.5f;
         float verticalOffset = 1.4f;
@@ -140,6 +144,7 @@ public class TestInvBox : MonoBehaviour
 
     public void CloseIngredients()
     {
+        print(gameObject.name + " closed");
         SetupDisplay(); //temp! destorying and recreaing lots of objects is bad practice
     }
 

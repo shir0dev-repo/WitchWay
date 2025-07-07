@@ -27,7 +27,7 @@ public class TestNewInvFunctions : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckBoxClicked();
+    
     }
 
     private void SortIntoBoxes()
@@ -79,32 +79,6 @@ public class TestNewInvFunctions : MonoBehaviour
                 //assign
                 TestInvBox boxScript = boxes[boxIndex].GetComponent<TestInvBox>();
                 boxScript.AddItem(new BasketItems(boxes[boxIndex].transform, bValue.assignedIngredient, assignAmount));
-            }
-        }
-    }
-
-    private void CheckBoxClicked()
-    {
-        foreach (GameObject box in boxes)
-        {
-            TestInvBox boxScript = box.GetComponent<TestInvBox>();
-
-            if (boxScript.clicked)
-            {
-                boxScript.clicked = false;
-
-                if (lastClickedBox != null && lastClickedBox != box)
-                {
-                    lastClickedBox.GetComponent<TestInvBox>().CloseIngredients();
-                }
-
-                if (lastClickedBox != box)
-                {
-                    boxScript.OpenIngredients();
-                    lastClickedBox = box;
-                }
-
-                break;
             }
         }
     }
