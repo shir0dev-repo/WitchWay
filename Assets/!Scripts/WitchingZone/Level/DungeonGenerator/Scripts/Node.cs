@@ -88,7 +88,7 @@ namespace DungeonMaster2D
         {
             if (!dungeon.InRange(this)) m_isRoom = false;
             else if (dungeon.Exists(this)) m_isRoom = false;
-            else if (dungeon.GetExistingNeighbours(this).GetValidNodes() > 1) m_isRoom = false;
+            else if (dungeon.GetExistingNeighbours(this).GetValidNodes().Length > 1) m_isRoom = false;
             else if (randomNum < 40) m_isRoom = false;
             else m_isRoom = true;
 

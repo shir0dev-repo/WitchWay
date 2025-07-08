@@ -8,12 +8,7 @@ namespace DungeonMaster2D
 {
   internal static class Dungeon2DUtils
   {
-    public static int GetValidNodes(this Node[] nodeCollection)
-    {
-      return nodeCollection.GetValidNodes(out _);
-    }
-
-    public static int GetValidNodes(this Node[] nodeCollection, out Node[] validNodes)
+    public static Node[] GetValidNodes(this Node[] nodeCollection)
     {
       List<Node> validList = new();
 
@@ -22,8 +17,7 @@ namespace DungeonMaster2D
         if (node != null && node.IsRoom)
           validList.Add(node);
       }
-      validNodes = validList.ToArray();
-      return validList.Count;
+      return validList.ToArray();
     }
   }
 }

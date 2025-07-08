@@ -26,14 +26,7 @@ namespace DungeonMaster2D
             get { return _nodes[40]; }
         }
 
-        public Node[] ValidNodes
-        {
-            get
-            {
-                Dungeon2DUtils.GetValidNodes(this, out Node[] validNodes);
-                return validNodes;
-            }
-        }
+        public Node[] ValidNodes => Dungeon2DUtils.GetValidNodes((Node[])this);
 
         public Dungeon2D(DungeonGeneratorData data, Node startingNode)
         {
@@ -70,7 +63,7 @@ namespace DungeonMaster2D
             }
         }
 
-        public static implicit operator Node[](Dungeon2D dungeon) => dungeon._nodes;
+        public static explicit operator Node[](Dungeon2D dungeon) => dungeon._nodes;
 
         public Dungeon2DEnumerator GetEnumerator() => new(_nodes);
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -138,7 +131,7 @@ namespace DungeonMaster2D
             {
                 if (excludeStartingRoom && node == StartingNode)
                     continue;
-                else if (GetExistingNeighbours(node).GetValidNodes() > 1)
+                else if (GetExistingNeighbours(node).GetValidNodes().Length > 1)
                     continue;
 
                 deadends.Add(node);
@@ -146,7 +139,7 @@ namespace DungeonMaster2D
 
             return deadends.ToArray();
         }
-
+        
         public override string ToString()
         {
             return $"Node total: {ValidNodes.Length} " + '\n' +
