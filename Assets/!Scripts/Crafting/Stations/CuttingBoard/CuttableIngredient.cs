@@ -105,6 +105,15 @@ public class CuttableIngredient : MonoBehaviour
         bool success = false;
 
         if (_cursorPoints.Count < 2) return;
+        if (IsCutUpright() == false)
+        {
+            Debug.Log("the cut is not upright");
+            return;
+        }
+        else
+        {
+            Debug.Log("the cut is good");
+        }
         Transform targetCutPoint = null;
 
         foreach (Transform t in _cutPoints)
@@ -236,6 +245,18 @@ public class CuttableIngredient : MonoBehaviour
                 EndAction = DeleteIngredient;
             }
         }
+    }
+    bool IsCutUpright()
+    {
+        float top, bottom;
+
+        top = _cursorPoints.First().y;
+        bottom = _cursorPoints.Last().y;
+
+        Debug.Log("Top: "+top + " " + "Bottom: "+ bottom);
+
+        if (top > bottom) { return true; }
+        else { return false; }
     }
     void DeleteIngredient()
     {
