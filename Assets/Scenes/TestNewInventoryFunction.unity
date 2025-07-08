@@ -521,7 +521,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -20
   m_TargetDisplay: 0
 --- !u!1 &348349385
 GameObject:
@@ -570,6 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectCollider: {fileID: 348349388}
+  boxItemPrefab: {fileID: 1262836351}
   clicked: 0
 --- !u!61 &348349388
 BoxCollider2D:
@@ -998,7 +999,7 @@ Transform:
   m_GameObject: {fileID: 1262836351}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: -7.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1309,6 +1310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectCollider: {fileID: 1730166528}
+  boxItemPrefab: {fileID: 1262836351}
   clicked: 0
 --- !u!61 &1730166528
 BoxCollider2D:
@@ -1403,6 +1405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectCollider: {fileID: 1733160643}
+  boxItemPrefab: {fileID: 1262836351}
   clicked: 0
 --- !u!61 &1733160643
 BoxCollider2D:

@@ -1,18 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class StationsDisplayIngredient
-{
-    public IngredientSO ingredient;
-    public GameObject visualObject;
-
-    public StationsDisplayIngredient(IngredientSO ingredient)
-    {
-        this.ingredient = ingredient;
-    }
-}
-
 public class TestNewInvFunctions : MonoBehaviour
 {
     [SerializeField] private IngredientSO[] ingredients;

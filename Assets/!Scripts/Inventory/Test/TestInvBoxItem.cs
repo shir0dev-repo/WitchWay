@@ -8,6 +8,7 @@ public class TestInvBoxItem : MonoBehaviour
     [SerializeField] private Collider2D detectCollider;
 
     private bool inBounds = false;
+    private bool isHoverable = false;
 
     void Update()
     {
@@ -19,7 +20,7 @@ public class TestInvBoxItem : MonoBehaviour
             {
 
             }
-            else
+            else if(isHoverable)
             {
                 hoverUi.SetActive(true);
             }
@@ -28,6 +29,11 @@ public class TestInvBoxItem : MonoBehaviour
         {
             hoverUi.SetActive(false);
         }
+    }
+
+    public void ToggleHoverable()
+    {
+        isHoverable = !isHoverable;
     }
     
     private Vector2 GetMousePos()

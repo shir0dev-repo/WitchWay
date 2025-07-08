@@ -4,10 +4,11 @@ using UnityEngine;
 public class TestInvBox : MonoBehaviour
 {
     [SerializeField] private Collider2D detectCollider;
+    [SerializeField] private GameObject boxItemPrefab;
 
     private List<TestInvBox> others;
     private List<BasketItems> basketItems = new List<BasketItems>();
-    private List<StationsDisplayIngredient> visuals = new List<StationsDisplayIngredient>();
+    private List<GameObject> visuals = new List<GameObject>();
 
     private bool inBounds = false;
 
@@ -28,46 +29,48 @@ public class TestInvBox : MonoBehaviour
     private void SetupDisplay()
     {
         //clear vis
-        foreach (var v in visuals)
+        foreach (GameObject obj in visuals)
         {
-            if (v.visualObject != null)
-                Destroy(v.visualObject);
+            Destroy(obj);
         }
         visuals.Clear();
-
-        //make vis
-        foreach (BasketItems item in basketItems)
-        {
-            for (int i = 0; i < item.itemAmount; i++)
-            {
-                visuals.Add(new StationsDisplayIngredient(item.assignedIngredient));
-            }
-        }
 
         //display vis
         float xMin = -1.25f, xMax = 1.25f;
         float zMin = -0.2f, zMax = 0.2f;
-        int itemCount = visuals.Count;
 
-        for (int i = 0; i < itemCount; i++)
+        int index = 0;
+        foreach (BasketItems item in basketItems)
         {
-            float offsetX = Random.Range(xMin, xMax);
-            float offsetZ = Random.Range(zMin, zMax);
+            for (int i = 0; i < item.itemAmount; i++)
+            {
+                float offsetX = Random.Range(xMin, xMax);
+                float offsetZ = Random.Range(zMin, zMax);
+                Vector3 offset = new Vector3(offsetX, 0.5f, offsetZ);
+                Vector3 spawnPos = transform.position + offset;
 
-            Vector3 localOffset = new Vector3(offsetX, 0f, offsetZ);
-            Vector3 worldPos = transform.position + localOffset;
+                GameObject visual = Instantiate(boxItemPrefab, spawnPos, Quaternion.identity, transform);
+                visual.name = "IngredientVisual_" + index++;
 
-            GameObject visual = new GameObject("IngredientVisual_" + i);
-            visual.transform.position = new Vector3(worldPos.x, 0.5f, worldPos.z);
-            visual.transform.parent = transform;
-            visual.transform.localScale = new Vector3(4, 4, 1);
+                TestInvBoxItem boxItem = visual.GetComponent<TestInvBoxItem>();
+                if (boxItem != null)
+                {
+                    boxItem.ingredient = item.assignedIngredient;
+                }
 
-            SpriteRenderer sr = visual.AddComponent<SpriteRenderer>();
-            sr.sprite = visuals[i].ingredient.Sprite;
+                SpriteRenderer sr = visual.GetComponentInChildren<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.sortingOrder = Mathf.RoundToInt(-offsetZ * 100);
+                    sr.sprite = item.assignedIngredient.Sprite;
+                    sr.transform.localScale = new Vector3(4, 4, 1);
 
-            sr.sortingOrder = Mathf.RoundToInt(-offsetZ * 100);
+                    BoxCollider2D collider = visual.GetComponent<BoxCollider2D>();
+                    collider.size = new Vector2(sr.transform.localScale.x / 6, sr.transform.localScale.y / 6);
+                }
 
-            visuals[i].visualObject = visual;
+                visuals.Add(visual);
+            }
         }
     }
 
@@ -135,10 +138,12 @@ public class TestInvBox : MonoBehaviour
             float offsetY = row * spacing;
 
             Vector3 localOffset = new Vector3(offsetX, verticalOffset + offsetY, 0f);
-            visuals[i].visualObject.transform.position = transform.position + localOffset;
+            visuals[i].transform.position = transform.position + localOffset;
 
-            SpriteRenderer sr = visuals[i].visualObject.GetComponent<SpriteRenderer>();
+            SpriteRenderer sr = visuals[i].GetComponentInChildren<SpriteRenderer>();
             sr.sortingOrder = 100 + row;
+
+            visuals[i].GetComponent<TestInvBoxItem>().ToggleHoverable();
         }
     }
 
