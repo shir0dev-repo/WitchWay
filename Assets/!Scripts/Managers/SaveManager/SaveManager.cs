@@ -44,7 +44,7 @@ public class SaveManager : MonoBehaviour
         if (!saveData.learnedRecipes.Contains(id))
         {
             saveData.learnedRecipes.Add(id);
-            // SaveGame();
+            SaveGame();
         }
     }
 

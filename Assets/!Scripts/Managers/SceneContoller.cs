@@ -17,6 +17,10 @@ public class SceneController : MonoBehaviour
     }
     public void QuitButton()
     {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveGame();
+        }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
