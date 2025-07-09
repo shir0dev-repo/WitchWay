@@ -110,7 +110,7 @@ public class TestInvBox : MonoBehaviour
 
     private void RemoveItem()
     {
-
+        
     }
 
     public void ClearItems()

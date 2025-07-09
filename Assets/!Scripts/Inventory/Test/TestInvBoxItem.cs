@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class TestInvBoxItem : MonoBehaviour
@@ -6,10 +7,16 @@ public class TestInvBoxItem : MonoBehaviour
     public GameObject attachedBox;
 
     [SerializeField] private GameObject hoverUi;
+    [SerializeField] private TMP_Text ingredientNameText;
     [SerializeField] private Collider2D detectCollider;
 
     private bool inBounds = false;
     private bool isHoverable = false;
+
+    void Start()
+    {
+        if(ingredient != null) ingredientNameText.text = ingredient.name;
+    }
 
     void Update()
     {
@@ -19,7 +26,7 @@ public class TestInvBoxItem : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-
+                SpawnWorldIngredient();
             }
             else if(isHoverable)
             {
@@ -30,6 +37,14 @@ public class TestInvBoxItem : MonoBehaviour
         {
             hoverUi.SetActive(false);
         }
+    }
+
+    private void SpawnWorldIngredient()
+    {
+        GameObject wIngred = Instantiate(ingredient.WorldPrefab, transform.position, ingredient.WorldPrefab.transform.rotation);
+        CursorManager.Instance.AttachToCursor(wIngred.transform, wIngred.transform);
+
+        Destroy(gameObject);
     }
 
     public void ToggleHoverable()
