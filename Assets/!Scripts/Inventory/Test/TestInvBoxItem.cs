@@ -48,6 +48,7 @@ public class TestInvBoxItem : MonoBehaviour
             CursorManager.Instance.AttachToCursor(wIngred, transform);
 
         attachedBox.visuals.Remove(gameObject);
+        attachedBox.RemoveItem(ingredient);
 
         attachedBox.GetComponent<TestInvBox>().OpenIngredients();
 

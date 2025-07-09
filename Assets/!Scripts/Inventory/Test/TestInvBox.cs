@@ -10,6 +10,8 @@ public class TestInvBox : MonoBehaviour
     private List<BasketItems> basketItems = new List<BasketItems>();
     public List<GameObject> visuals = new List<GameObject>();
 
+    private List<Transform> worldIngredients = new List<Transform>();
+
     private bool inBounds = false;
 
     public bool clicked;
@@ -96,6 +98,11 @@ public class TestInvBox : MonoBehaviour
                 OpenIngredients();
                 clicked = true;
             }
+
+            if (Input.GetMouseButtonUp(0) && CursorManager.Instance.AttachedObject.GetComponent<WorldIngredient>() != null)
+            {
+                //add ingreient to box
+            }
         }
         else if (!inBounds && clicked && Input.GetMouseButtonDown(0))
         {
@@ -112,9 +119,29 @@ public class TestInvBox : MonoBehaviour
         basketItems.Add(item);
     }
 
-    private void RemoveItem()
+    private void AddWorldItem(IngredientSO ingredient)
     {
+        foreach (BasketItems item in basketItems)
+        {
+            
+        }
+    }
 
+    public void RemoveItem(IngredientSO ingredient)
+    {
+        foreach (BasketItems item in basketItems)
+        {
+            if (item.assignedIngredient == ingredient)
+            {
+                if (item.itemAmount > 1) item.itemAmount -= 1;
+                else
+                {
+                    basketItems.Remove(item);
+                }
+
+                break;
+            }
+        }
     }
 
     public void ClearItems()
