@@ -24,7 +24,7 @@ public class TestNewInvFunctions : MonoBehaviour
             box.GetComponent<TestInvBox>().ClearItems();
         }
 
-        //quantify by name
+        //quantify 
         Dictionary<string, BasketItems> groupedItems = new Dictionary<string, BasketItems>();
         foreach (IngredientSO ingred in ingredients)
         {
@@ -38,34 +38,36 @@ public class TestNewInvFunctions : MonoBehaviour
             }
         }
 
-        //distribute
+        //prep data
         int[] boxCounts = new int[boxes.Length];
+        int currentBox = 0;
 
         foreach (BasketItems bValue in groupedItems.Values)
         {
             int remaining = bValue.itemAmount;
-            int boxIndex = 0;
 
             while (remaining > 0)
             {
-                //look for open box
-                while (boxIndex < boxes.Length && boxCounts[boxIndex] >= 15) boxIndex++;
-
-                if (boxIndex >= boxes.Length)
+                int tries = 0;
+                while (boxCounts[currentBox] >= 15 && tries < boxes.Length)
                 {
-                    Debug.LogWarning("to many for boxes");
+                    currentBox = (currentBox + 1) % boxes.Length;
+                    tries++;
+                }
+
+                if (tries >= boxes.Length)
+                {
+                    Debug.LogWarning("too many");
                     return;
                 }
 
-                //calculate how many to assign
-                int availableSpace = 15 - boxCounts[boxIndex];
-                int assignAmount = Mathf.Min(availableSpace, remaining);
-                boxCounts[boxIndex] += assignAmount;
-                remaining -= assignAmount;
+                TestInvBox boxScript = boxes[currentBox].GetComponent<TestInvBox>();
+                boxScript.AddItem(new BasketItems(boxes[currentBox].transform, bValue.assignedIngredient, 1));
 
-                //assign
-                TestInvBox boxScript = boxes[boxIndex].GetComponent<TestInvBox>();
-                boxScript.AddItem(new BasketItems(boxes[boxIndex].transform, bValue.assignedIngredient, assignAmount));
+                boxCounts[currentBox]++;
+                remaining--;
+
+                currentBox = (currentBox + 1) % boxes.Length;
             }
         }
     }

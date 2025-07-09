@@ -56,6 +56,7 @@ public class TestInvBox : MonoBehaviour
                 if (boxItem != null)
                 {
                     boxItem.ingredient = item.assignedIngredient;
+                    boxItem.attachedBox = gameObject;
                 }
 
                 SpriteRenderer sr = visual.GetComponentInChildren<SpriteRenderer>();

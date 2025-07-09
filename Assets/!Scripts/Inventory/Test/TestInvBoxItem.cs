@@ -3,6 +3,7 @@ using UnityEngine;
 public class TestInvBoxItem : MonoBehaviour
 {
     public IngredientSO ingredient;
+    public GameObject attachedBox;
 
     [SerializeField] private GameObject hoverUi;
     [SerializeField] private Collider2D detectCollider;
