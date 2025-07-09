@@ -8,7 +8,7 @@ public class TestInvBox : MonoBehaviour
 
     private List<TestInvBox> others;
     private List<BasketItems> basketItems = new List<BasketItems>();
-    private List<GameObject> visuals = new List<GameObject>();
+    public List<GameObject> visuals = new List<GameObject>();
 
     private bool inBounds = false;
 
@@ -97,9 +97,13 @@ public class TestInvBox : MonoBehaviour
                 clicked = true;
             }
         }
-        else if (!inBounds && clicked)
+        else if (!inBounds && clicked && Input.GetMouseButtonDown(0))
         {
-            
+            if (CheckIngredientDisplayBounds() == false)
+            {
+                clicked = false;
+                CloseIngredients();
+            }
         }
     }
 
@@ -110,7 +114,7 @@ public class TestInvBox : MonoBehaviour
 
     private void RemoveItem()
     {
-        
+
     }
 
     public void ClearItems()
@@ -152,6 +156,18 @@ public class TestInvBox : MonoBehaviour
     {
         print(gameObject.name + " closed");
         SetupDisplay(); //temp! destorying and recreaing lots of objects is bad practice
+    }
+
+    private bool CheckIngredientDisplayBounds()
+    {
+        foreach (GameObject boxItem in visuals)
+        {
+            if (boxItem.GetComponent<TestInvBoxItem>().inBounds == true)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Vector2 GetMousePos()

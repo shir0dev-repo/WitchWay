@@ -10,7 +10,7 @@ public class TestInvBoxItem : MonoBehaviour
     [SerializeField] private TMP_Text ingredientNameText;
     [SerializeField] private Collider2D detectCollider;
 
-    private bool inBounds = false;
+    public bool inBounds = false;
     private bool isHoverable = false;
 
     void Start()
@@ -41,8 +41,10 @@ public class TestInvBoxItem : MonoBehaviour
 
     private void SpawnWorldIngredient()
     {
-        GameObject wIngred = Instantiate(ingredient.WorldPrefab, transform.position, ingredient.WorldPrefab.transform.rotation);
+        GameObject wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity);
         CursorManager.Instance.AttachToCursor(wIngred.transform, wIngred.transform);
+
+        attachedBox.GetComponent<TestInvBox>().visuals.Remove(gameObject);
 
         Destroy(gameObject);
     }
