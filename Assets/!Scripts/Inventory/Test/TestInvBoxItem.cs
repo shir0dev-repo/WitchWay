@@ -49,6 +49,8 @@ public class TestInvBoxItem : MonoBehaviour
 
         attachedBox.visuals.Remove(gameObject);
 
+        attachedBox.GetComponent<TestInvBox>().OpenIngredients();
+
         Destroy(gameObject);
     }
 
