@@ -122,7 +122,7 @@ public class TestInvBox : MonoBehaviour
         print(gameObject.name + " opened");
 
         int itemsPerRow = 5;
-        float spacing = 0.5f;
+        float spacing = 0.8f;
         float verticalOffset = 1.4f;
 
         int itemCount = visuals.Count;
