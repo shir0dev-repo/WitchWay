@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -12,10 +13,11 @@ public class TestInvBoxItem : MonoBehaviour
 
     public bool inBounds = false;
     private bool isHoverable = false;
+    private bool canSpawn = false;
 
     void Start()
     {
-        if(ingredient != null) ingredientNameText.text = ingredient.name;
+        if (ingredient != null) ingredientNameText.text = ingredient.name;
     }
 
     void Update()
@@ -24,11 +26,11 @@ public class TestInvBoxItem : MonoBehaviour
 
         if (inBounds)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canSpawn)
             {
                 SpawnWorldIngredient();
             }
-            else if(isHoverable)
+            else if (isHoverable)
             {
                 hoverUi.SetActive(true);
             }
@@ -53,8 +55,10 @@ public class TestInvBoxItem : MonoBehaviour
     public void ToggleHoverable()
     {
         isHoverable = !isHoverable;
+
+        StartCoroutine(WaitToSpawnable());
     }
-    
+
     private Vector2 GetMousePos()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -71,5 +75,12 @@ public class TestInvBoxItem : MonoBehaviour
         }
 
         return false;
+    }
+
+    private IEnumerator WaitToSpawnable()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        canSpawn = true;
     }
 }
