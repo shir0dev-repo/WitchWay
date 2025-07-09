@@ -4,7 +4,7 @@ using UnityEngine;
 public class TestInvBoxItem : MonoBehaviour
 {
     public IngredientSO ingredient;
-    public GameObject attachedBox;
+    public TestInvBox attachedBox;
 
     [SerializeField] private GameObject hoverUi;
     [SerializeField] private TMP_Text ingredientNameText;
@@ -41,10 +41,11 @@ public class TestInvBoxItem : MonoBehaviour
 
     private void SpawnWorldIngredient()
     {
-        GameObject wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity);
-        CursorManager.Instance.AttachToCursor(wIngred.transform, wIngred.transform);
+        WorldIngredient wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity).GetComponent<WorldIngredient>();
+        if (CursorManager.Instance != null)
+            CursorManager.Instance.AttachToCursor(wIngred, transform);
 
-        attachedBox.GetComponent<TestInvBox>().visuals.Remove(gameObject);
+        attachedBox.visuals.Remove(gameObject);
 
         Destroy(gameObject);
     }

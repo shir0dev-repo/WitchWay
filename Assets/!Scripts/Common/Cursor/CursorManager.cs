@@ -135,6 +135,13 @@ public class CursorManager : Singleton<CursorManager>
         Debug.DrawLine(_mainCam.transform.position, worldMousePos, Color.red);
     }
 
+    public void AttachToCursor<T>(T followCursorObj, Transform returnPivot) where T : MonoBehaviour, IFollowCursor
+    {
+        _currentFollowCursor = followCursorObj;
+        _currentFollowCursor.BeginDrag();
+        AttachToCursor(followCursorObj.transform, returnPivot);
+    }
+
     public void AttachToCursor(Transform obj, Transform returnPivot, Vector3 grabOffset)
     {
         AssignCursorOffset(grabOffset);
