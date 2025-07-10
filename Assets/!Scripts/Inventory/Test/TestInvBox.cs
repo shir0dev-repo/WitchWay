@@ -13,8 +13,9 @@ public class TestInvBox : MonoBehaviour
     private List<Transform> worldIngredients = new List<Transform>();
 
     private bool inBounds = false;
-
     public bool clicked;
+
+    private WorldIngredient cursorAttachedObject;
 
     void Start()
     {
@@ -99,9 +100,12 @@ public class TestInvBox : MonoBehaviour
                 clicked = true;
             }
 
-            if (Input.GetMouseButtonUp(0) && CursorManager.Instance.AttachedObject.GetComponent<WorldIngredient>() != null)
+            WorldIngredient ingredient;
+            if (Input.GetMouseButtonUp(0) && CheckObjectsInBounds(out ingredient))
             {
-                //add ingreient to box
+                AddWorldItem(ingredient.BaseIngredient);
+                Destroy(ingredient.transform.gameObject);
+                OpenIngredients();
             }
         }
         else if (!inBounds && clicked && Input.GetMouseButtonDown(0))
@@ -121,10 +125,7 @@ public class TestInvBox : MonoBehaviour
 
     private void AddWorldItem(IngredientSO ingredient)
     {
-        foreach (BasketItems item in basketItems)
-        {
-            
-        }
+        basketItems.Add(new BasketItems(transform, ingredient, 1));
     }
 
     public void RemoveItem(IngredientSO ingredient)
@@ -194,6 +195,21 @@ public class TestInvBox : MonoBehaviour
                 return true;
             }
         }
+        return false;
+    }
+
+    private bool CheckObjectsInBounds(out WorldIngredient ingredient)
+    {
+        ingredient = null;
+        foreach (WorldIngredient ingred in FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None))
+        {
+            if (CheckBounds2D(detectCollider.bounds, ingred.transform.position))
+            {
+                ingredient = ingred;
+                return true;
+            }
+        }
+
         return false;
     }
 
