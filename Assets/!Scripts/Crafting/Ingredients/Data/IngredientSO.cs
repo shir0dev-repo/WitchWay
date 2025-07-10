@@ -10,6 +10,9 @@ public class IngredientSO : SODatabase.DatabaseObject
 
     [Header("Representation")]
     public Sprite Sprite;
+    public Sprite CutSprite;
+    public Sprite CrushedSprite;
+
     public GameObject WorldPrefab;
     public GameObject CutWorldPrefab;
     public GameObject CrushedWorldPrefab;
