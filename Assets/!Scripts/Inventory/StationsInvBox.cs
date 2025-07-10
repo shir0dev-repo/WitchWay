@@ -1,22 +1,33 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestInvBox : MonoBehaviour
+public class StationsInvBox : MonoBehaviour
 {
+    [Header("Detection")]
     [SerializeField] private Collider2D detectCollider;
+
+    [Header("Prefabs")]
     [SerializeField] private GameObject boxItemPrefab;
 
-    private List<TestInvBox> others;
+    [Header("Display Settings")]
+    [SerializeField] private float xMin = -1.25f;
+    [SerializeField] private float xMax = 1.25f;
+    [SerializeField] private float zMin = -0.2f;
+    [SerializeField] private float zMax = 0.2f;
+
+    private List<StationsInvBox> otherBoxes;
     private List<BasketItems> basketItems = new List<BasketItems>();
-    public List<GameObject> visuals = new List<GameObject>();
+    private List<GameObject> visuals = new List<GameObject>();
 
     private bool inBounds = false;
-    public bool clicked;
+    private bool clicked = false;
 
     void Start()
     {
-        others = new List<TestInvBox>(FindObjectsByType<TestInvBox>(FindObjectsSortMode.None));
-        others.Remove(this);
+        otherBoxes = new List<StationsInvBox>(FindObjectsByType<StationsInvBox>(FindObjectsSortMode.None));
+        otherBoxes.Remove(this);
+
         SetupDisplay();
     }
 
@@ -25,7 +36,7 @@ public class TestInvBox : MonoBehaviour
         CheckMouseInBounds();
     }
 
-    private void SetupDisplay()
+    public void SetupDisplay()
     {
         //clear vis
         foreach (GameObject obj in visuals)
@@ -35,9 +46,6 @@ public class TestInvBox : MonoBehaviour
         visuals.Clear();
 
         //display vis
-        float xMin = -1.25f, xMax = 1.25f;
-        float zMin = -0.2f, zMax = 0.2f;
-
         int index = 0;
         foreach (BasketItems item in basketItems)
         {
@@ -51,11 +59,11 @@ public class TestInvBox : MonoBehaviour
                 GameObject visual = Instantiate(boxItemPrefab, spawnPos, Quaternion.identity, transform);
                 visual.name = "IngredientVisual_" + index++;
 
-                TestInvBoxItem boxItem = visual.GetComponent<TestInvBoxItem>();
+                StationsInvBoxItem boxItem = visual.GetComponent<StationsInvBoxItem>();
                 if (boxItem != null)
                 {
-                    boxItem.ingredient = item.assignedIngredient;
-                    boxItem.attachedBox = this;
+                    boxItem.SetIngredient(item.assignedIngredient);
+                    boxItem.SetAttchedBox(this);
                 }
 
                 SpriteRenderer sr = visual.GetComponentInChildren<SpriteRenderer>();
@@ -82,7 +90,7 @@ public class TestInvBox : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                foreach (TestInvBox box in others)
+                foreach (StationsInvBox box in otherBoxes)
                 {
                     if (box.clicked)
                     {
@@ -101,7 +109,7 @@ public class TestInvBox : MonoBehaviour
             {
                 AddWorldItem(ingredient.BaseIngredient);
                 Destroy(ingredient.transform.gameObject);
-                OpenIngredients();
+                SetupDisplay();
             }
         }
         else if (!inBounds && clicked && Input.GetMouseButtonDown(0))
@@ -119,7 +127,7 @@ public class TestInvBox : MonoBehaviour
         basketItems.Add(item);
     }
 
-    private void AddWorldItem(IngredientSO ingredient)
+    public void AddWorldItem(IngredientSO ingredient)
     {
         basketItems.Add(new BasketItems(transform, ingredient, 1));
     }
@@ -172,7 +180,7 @@ public class TestInvBox : MonoBehaviour
             SpriteRenderer sr = visuals[i].GetComponentInChildren<SpriteRenderer>();
             sr.sortingOrder = 100 + row;
 
-            visuals[i].GetComponent<TestInvBoxItem>().ToggleHoverable();
+            visuals[i].GetComponent<StationsInvBoxItem>().ToggleHoverable();
         }
     }
 
@@ -186,7 +194,7 @@ public class TestInvBox : MonoBehaviour
     {
         foreach (GameObject boxItem in visuals)
         {
-            if (boxItem.GetComponent<TestInvBoxItem>().inBounds == true)
+            if (boxItem.GetComponent<StationsInvBoxItem>().GetInBounds() == true)
             {
                 return true;
             }
@@ -199,7 +207,7 @@ public class TestInvBox : MonoBehaviour
         ingredient = null;
         foreach (WorldIngredient ingred in FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None))
         {
-            if (CheckBounds2D(detectCollider.bounds, ingred.transform.position))
+            if (CheckBounds2D(detectCollider.bounds, ingred.transform.position) && ingred.transform.position.z == transform.position.z)
             {
                 ingredient = ingred;
                 return true;
@@ -209,11 +217,24 @@ public class TestInvBox : MonoBehaviour
         return false;
     }
 
+    public List<GameObject> GetVisuals()
+    {
+        return visuals;
+    }
+
+    //helpers
     private Vector2 GetMousePos()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = Mathf.Abs(Camera.main.transform.position.z);
-        return Camera.main.ScreenToWorldPoint(mousePos);
+        Plane plane = new Plane(Vector3.forward, new Vector3(0, 0, transform.position.z));
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (plane.Raycast(ray, out float distance))
+        {
+            Vector3 worldPoint = ray.GetPoint(distance);
+            return new Vector2(worldPoint.x, worldPoint.y);
+        }
+
+        return Vector2.zero;
     }
 
     private bool CheckBounds2D(Bounds bounds, Vector2 position)
