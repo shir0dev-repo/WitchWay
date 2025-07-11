@@ -63,7 +63,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     {
         if (CursorManager.Instance == null) return;
 
-        CursorManager.Instance.AttachToCursor(transform, transform);
+        _parentIngredient.NoColliderBeginDrag(transform);
 
         var siblings = GrabSimilar(_parentIngredient.transform);
         
@@ -76,7 +76,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void UpdateDrag()
     {
         if (CursorManager.Instance == null) return;
-        else if (CursorManager.Instance.AttachedObject != transform) return;
+        //else if (CursorManager.Instance.AttachedObject != _parentIngredient.transform) return;
 
         var siblings = GrabSimilar(_parentIngredient.transform);
         foreach (IngredientSegment child in siblings)
@@ -96,6 +96,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     {
         if (CursorManager.Instance == null) return;
 
+        _parentIngredient._isDragging = false;
         CursorManager.Instance.ClearCursor(false);
         var siblings = GrabSimilar(_parentIngredient.transform);
 
