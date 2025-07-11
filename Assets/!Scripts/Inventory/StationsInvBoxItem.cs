@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StationsInvBoxItem : MonoBehaviour
 {
-    [SerializeField] private IngredientSO ingredient;
+    [SerializeField] private ModifiedIngredient ingredient;
     [SerializeField] private StationsInvBox attachedBox;
 
     [SerializeField] private GameObject hoverUi;
@@ -17,7 +17,7 @@ public class StationsInvBoxItem : MonoBehaviour
 
     void Start()
     {
-        if (ingredient != null) ingredientNameText.text = ingredient.name;
+        if (ingredient != null) ingredientNameText.text = ingredient.BaseIngredient.name;
     }
 
     void Update()
@@ -41,7 +41,7 @@ public class StationsInvBoxItem : MonoBehaviour
         }
     }
 
-    public void SetIngredient(IngredientSO ingred)
+    public void SetIngredient(ModifiedIngredient ingred)
     {
         ingredient = ingred;
     }
@@ -58,9 +58,12 @@ public class StationsInvBoxItem : MonoBehaviour
 
     private void SpawnWorldIngredient()
     {
-        WorldIngredient wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity).GetComponent<WorldIngredient>();
+        GameObject ing = Instantiate(ingredient.GetWorldRepresentation());
+        WorldIngredient wIng = ing.GetComponent<WorldIngredient>();
+        wIng.UpdateModifiers(ingredient);
+        //WorldIngredient wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity).GetComponent<WorldIngredient>();
         if (CursorManager.Instance != null)
-            CursorManager.Instance.AttachToCursor(wIngred, transform);
+            CursorManager.Instance.AttachToCursor(wIng, transform);
 
         attachedBox.GetVisuals().Remove(gameObject);
         attachedBox.RemoveItem(ingredient);

@@ -70,7 +70,7 @@ public class StationsInvBox : MonoBehaviour
                 if (sr != null)
                 {
                     sr.sortingOrder = Mathf.RoundToInt(-offsetZ * 100);
-                    sr.sprite = item.assignedIngredient.Sprite;
+                    sr.sprite = item.assignedIngredient.BaseIngredient.Sprite;
                     sr.transform.localScale = new Vector3(4, 4, 1);
 
                     BoxCollider2D collider = visual.GetComponent<BoxCollider2D>();
@@ -107,7 +107,7 @@ public class StationsInvBox : MonoBehaviour
             WorldIngredient ingredient;
             if (Input.GetMouseButtonUp(0) && CheckObjectsInBounds(out ingredient))
             {
-                AddWorldItem(ingredient.BaseIngredient);
+                AddWorldItem(ingredient.ModifiedState);
                 Destroy(ingredient.transform.gameObject);
                 SetupDisplay();
             }
@@ -127,12 +127,12 @@ public class StationsInvBox : MonoBehaviour
         basketItems.Add(item);
     }
 
-    public void AddWorldItem(IngredientSO ingredient)
+    public void AddWorldItem(ModifiedIngredient ingredient)
     {
         basketItems.Add(new BasketItems(transform, ingredient, 1));
     }
 
-    public void RemoveItem(IngredientSO ingredient)
+    public void RemoveItem(ModifiedIngredient ingredient)
     {
         foreach (BasketItems item in basketItems)
         {

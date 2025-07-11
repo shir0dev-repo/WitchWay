@@ -6,10 +6,10 @@ using UnityEngine;
 public class BasketItems
 {
     public Transform basket;
-    public IngredientSO assignedIngredient;
+    public ModifiedIngredient assignedIngredient;
     public int itemAmount;
 
-    public BasketItems(Transform basket, IngredientSO assignedIngredient, int itemAmount)
+    public BasketItems(Transform basket, ModifiedIngredient assignedIngredient, int itemAmount)
     {
         this.basket = basket;
         this.assignedIngredient = assignedIngredient;
@@ -109,7 +109,9 @@ public class StationsInventory : MonoBehaviour
             }
             else
             {
-                groupedItems[ingred.name] = new BasketItems(null, ingred, 1);
+                ModifiedIngredient newMIngred = new ModifiedIngredient();
+                newMIngred.BaseIngredient = ingred;
+                groupedItems[ingred.name] = new BasketItems(null, newMIngred, 1);
             }
         }
 
