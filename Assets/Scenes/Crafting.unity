@@ -243,6 +243,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 350980750}
+    - target: {fileID: 1725611120486725874, guid: 2b7b22b4fbd4a5a4f8f8c97e593e0f99, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5907768880135370402, guid: 2b7b22b4fbd4a5a4f8f8c97e593e0f99, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1293,6 +1297,10 @@ MonoBehaviour:
   zMin: -0.2
   zMax: 0.2
   spriteScale: {x: 0, y: 0}
+  spriteHeightPos: 1
+  itemsPerRow: 5
+  itemSpacing: 0.8
+  itemVerticalOffset: 1.4
 --- !u!61 &634493118
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1530,6 +1538,10 @@ MonoBehaviour:
   zMin: -0.2
   zMax: 0.2
   spriteScale: {x: 0, y: 0}
+  spriteHeightPos: 1
+  itemsPerRow: 5
+  itemSpacing: 0.8
+  itemVerticalOffset: 1.4
 --- !u!4 &786341041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1410253870532173847, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
@@ -3712,6 +3724,10 @@ MonoBehaviour:
   zMin: -0.2
   zMax: 0.2
   spriteScale: {x: 2, y: 2}
+  spriteHeightPos: 1
+  itemsPerRow: 5
+  itemSpacing: 0.8
+  itemVerticalOffset: 1.4
 --- !u!61 &1997285298
 BoxCollider2D:
   m_ObjectHideFlags: 0
