@@ -136,7 +136,7 @@ public class StationsInventory : MonoBehaviour
                     return;
                 }
 
-                TestInvBox boxScript = boxes[currentBox].GetComponent<TestInvBox>();
+                StationsInvBox boxScript = boxes[currentBox].GetComponent<StationsInvBox>();
                 boxScript.AddItem(new BasketItems(boxes[currentBox].transform, bValue.assignedIngredient, 1));
 
                 boxCounts[currentBox]++;

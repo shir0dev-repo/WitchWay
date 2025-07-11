@@ -10,7 +10,7 @@ public class CursorManager : Singleton<CursorManager>
     private Vector3 _grabOffset = Vector3.zero;
 
     public Transform AttachedObject => _attachedObject;
-    private IFollowCursor _currentFollowCursor = null;
+    [SerializeField] private IFollowCursor _currentFollowCursor = null;
     private Transform _attachedObject = null;
     
     private float _targetZPosition = 0.0f;
@@ -52,6 +52,7 @@ public class CursorManager : Singleton<CursorManager>
         if (_currentFollowCursor != null)
         {
             _currentFollowCursor.UpdateDrag();
+            Debug.Log((_currentFollowCursor as MonoBehaviour).gameObject.name);
         }
     }
 

@@ -80,13 +80,29 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
         }
     }
 
+    public void UpdateDrag()
+    {
+        if (TryGetComponent(out CuttableIngredient cuttable))
+            foreach (var segment in cuttable.Segments)
+                segment.UpdateDrag();
+    }
+
     public void EndDrag()
     {
         if (CursorManager.Instance == null) return;
         else if (CursorManager.Instance.AttachedObject != transform) return;
 
         _isDragging = false;
-        Rigidbody.useGravity = true;
+
+        if (TryGetComponent(out CuttableIngredient cuttable))
+        {
+            foreach (var segment in cuttable.Segments)
+            {
+                segment.Ungrab();
+            }
+        }
+
+        if (Rigidbody != null) Rigidbody.useGravity = true;
 
         foreach (Collider c in Colliders)
         {

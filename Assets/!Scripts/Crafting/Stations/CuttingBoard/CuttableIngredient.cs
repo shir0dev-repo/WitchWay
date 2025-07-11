@@ -12,6 +12,7 @@ public class CuttableIngredient : MonoBehaviour
     [SerializeField] Transform[] _cutPoints;
 
     [Header("Segments")]
+    public List<IngredientSegment> Segments => _segments;
     [SerializeField] private List<IngredientSegment> _segments = new();
     [SerializeField] private float _grabVelocity = 2.5f;
     [SerializeField] private float _maxGrabVelocity = 1.5f;
