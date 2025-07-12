@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CuttableIngredient : MonoBehaviour
@@ -11,6 +12,7 @@ public class CuttableIngredient : MonoBehaviour
     [SerializeField] Transform[] _cutPoints;
 
     [Header("Segments")]
+    public List<IngredientSegment> Segments => _segments;
     [SerializeField] private List<IngredientSegment> _segments = new();
     [SerializeField] private float _grabVelocity = 2.5f;
     [SerializeField] private float _maxGrabVelocity = 1.5f;
@@ -37,6 +39,8 @@ public class CuttableIngredient : MonoBehaviour
         _mainCamera = Camera.main;
         _ingredient = GetComponent<WorldIngredient>();
 
+        GameEvents.Crafting.OnToolDeselected += CompleteChopping;
+
         foreach (IngredientSegment segment in _segments)
         {
             segment.GrabVelocity = _grabVelocity;
@@ -59,15 +63,6 @@ public class CuttableIngredient : MonoBehaviour
 
     private void Update()
     {
-        if (!_board.CanCut)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                CompleteChopping();
-            }
-            return;
-        }
-
         if (Input.GetMouseButtonDown(0))
         {
             _cursorPoints.Clear();
@@ -105,6 +100,8 @@ public class CuttableIngredient : MonoBehaviour
         bool success = false;
 
         if (_cursorPoints.Count < 2) return;
+        if (IsCutUpright() == false) return;
+        
         Transform targetCutPoint = null;
 
         foreach (Transform t in _cutPoints)
@@ -202,22 +199,18 @@ public class CuttableIngredient : MonoBehaviour
 
         CheckIngredientStatus();
     }
-    void CompleteChopping()
+    void CompleteChopping(ToolType type)
     {
-        EndAction?.Invoke();
-        foreach (Rigidbody o in gameObject.GetComponentsInChildren<Rigidbody>())
-        {
-            o.isKinematic = false;
-        }
+        if (type == ToolType.Knife) EndAction?.Invoke();
+        if (!IsAllSegmentsDetached()) { return; }
 
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
-        // later, this will just grab the name of the scriptable object attached to the prefab.
     }
     string RateChopping()
     {
         if (_cutCount == 0) return "no cuts were made.";
-        if (_cutCount > _cutPoints.Count()) return "you cut it too much!";
-        if (_cutCount == _cutPoints.Count()) return "you cut it perfectly!";
+        if (_cutCount > _cutPoints.Count() + 1) return "you cut it too much!";
+        if (_cutCount == _cutPoints.Count() + 1) return "you cut it perfectly!";
 
         return "you cut it too little.";
     }
@@ -236,6 +229,23 @@ public class CuttableIngredient : MonoBehaviour
                 EndAction = DeleteIngredient;
             }
         }
+    }
+    bool IsCutUpright()
+    {
+        float top, bottom;
+
+        top = _cursorPoints.First().y;
+        bottom = _cursorPoints.Last().y;
+
+        // Debug.Log("Top: "+top + " " + "Bottom: "+ bottom);
+        // for debugging
+
+        if (top > bottom) { return true; }
+        else { return false; }
+    }
+    bool IsAllSegmentsDetached()
+    {
+        return _segments.All(x => x.HasBeenDetached); 
     }
     void DeleteIngredient()
     {

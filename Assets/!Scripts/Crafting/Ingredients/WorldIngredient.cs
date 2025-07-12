@@ -21,26 +21,46 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     [SerializeField] private float baseDepth = 0f;
     [SerializeField] private float baseDepthDeviation;
 
-    private static Camera _cam = null;
+    private static Camera MainCam
+    {
+        get
+        {
+            if (_cam == null)
+            {
+                _cam = Camera.main;
+            }
 
-    private Rigidbody rb;
-    private Collider[] _colliders;
+            return _cam;
+        }
+    }
+
+    private static Camera _cam = null;
+    private Rigidbody Rigidbody
+    { 
+        get
+        {
+            if (_rb == null) _rb = GetComponent<Rigidbody>();
+            return _rb;
+        }
+    }
+    private Rigidbody _rb = null;
+
+    private Collider[] Colliders
+    {
+        get
+        {
+            if (_colliders == null) _colliders = GetComponents<Collider>();
+            return _colliders;
+        }
+    }
+    private Collider[] _colliders = null;
 
     [HideInInspector] public float currentDepth;
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
-    private void Start()
-    {
-        if (_cam == null)
-            _cam = Camera.main;
-        
-        rb = GetComponent<Rigidbody>();
-        _colliders = GetComponents<Collider>();
-    }
-
     public void BeginDrag()
     {
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject == gameObject)
@@ -50,14 +70,21 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
                 if (CursorManager.Instance == null) return;
 
                 _isDragging = true;
-                rb.useGravity = false;
-                rb.linearVelocity = Vector3.zero;
+                Rigidbody.useGravity = false;
+                Rigidbody.linearVelocity = Vector3.zero;
                 
-                foreach (Collider c in _colliders) c.isTrigger = true;
+                foreach (Collider c in Colliders) c.isTrigger = true;
 
                 CursorManager.Instance.AttachToCursor(transform, transform);
             }
         }
+    }
+
+    public void UpdateDrag()
+    {
+        if (TryGetComponent(out CuttableIngredient cuttable))
+            foreach (var segment in cuttable.Segments)
+                segment.UpdateDrag();
     }
 
     public void EndDrag()
@@ -66,13 +93,43 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
         else if (CursorManager.Instance.AttachedObject != transform) return;
 
         _isDragging = false;
-        rb.useGravity = true;
 
-        foreach (Collider c in _colliders)
+        if (TryGetComponent(out CuttableIngredient cuttable))
+        {
+            foreach (var segment in cuttable.Segments)
+            {
+                segment.Ungrab();
+            }
+        }
+
+        if (Rigidbody != null) Rigidbody.useGravity = true;
+
+        foreach (Collider c in Colliders)
         {
             c.isTrigger = false;
         }
 
         CursorManager.Instance.ClearCursor();
+    }
+
+    public void NoColliderBeginDrag(Transform supplyingCollider)
+    {
+        if (CursorManager.Instance == null) return;
+
+        _isDragging = true;
+
+        foreach (Rigidbody rbb in transform.GetComponentsInChildren<Rigidbody>())
+        {
+            rbb.useGravity = false;
+            rbb.linearVelocity = Vector3.zero;
+            rbb.angularVelocity = Vector3.zero;
+        }
+
+        foreach (Collider c in _colliders)
+        {
+            c.isTrigger = true;
+        }
+
+        CursorManager.Instance.AttachToCursor(transform, supplyingCollider);
     }
 }

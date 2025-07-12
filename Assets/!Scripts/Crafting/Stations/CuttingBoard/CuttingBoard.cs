@@ -8,6 +8,8 @@ public class CuttingBoard : Singleton<CuttingBoard>
     public bool CanCut = false;
     public Action OnCutComplete;
 
+    [SerializeField] Transform pivot;
+
     private void OnEnable()
     {
         GameEvents.Crafting.OnToolSelected += Enable;
@@ -49,7 +51,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
 
             if (cutPF != null)
             {
-                GameObject p = Instantiate(cutPF, new(0, 1, 0), Quaternion.identity);
+                GameObject p = Instantiate(cutPF, pivot.position, pivot.rotation);
                 p.transform.SetParent(transform);
                 ModifiedIngredient mod = w.ModifiedState;
 
