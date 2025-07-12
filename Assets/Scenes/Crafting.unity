@@ -484,7 +484,6 @@ GameObject:
   - component: {fileID: 350980752}
   - component: {fileID: 350980753}
   - component: {fileID: 350980754}
-  - component: {fileID: 350980755}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -640,7 +639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
+  attenuationObject: {fileID: 350980745}
 --- !u!114 &350980754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,37 +654,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCam: {fileID: 350980750}
   _useDebug: 1
---- !u!114 &350980755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 350980745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  Event: 
-  EventPlayTrigger: 0
-  EventStopTrigger: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: -1
-  OverrideMaxDistance: -1
 --- !u!1 &365418373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,8 +1519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8809b578442c770449cf2a62e396a9e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds:
-  - {fileID: 11400000, guid: ac999b334ccd3934e8ec74beeb8fb55c, type: 2}
 --- !u!4 &816766716
 Transform:
   m_ObjectHideFlags: 0

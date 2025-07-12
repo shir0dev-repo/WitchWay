@@ -60,7 +60,20 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
     public void BeginDrag()
     {
-        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+        if (CursorManager.Instance == null) return;
+
+        Rigidbody.useGravity = false;
+        Rigidbody.linearVelocity = Vector3.zero;
+
+        foreach (Collider c in Colliders) c.isTrigger = true;
+
+        CursorManager.Instance.AttachToCursor(transform, transform);
+
+
+        if (SoundManager.Instance != null && !_data.BaseIngredient.OnPickupAudioClip.IsNull)
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPickupAudioClip);
+
+        /*Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject == gameObject)
@@ -77,7 +90,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
                 CursorManager.Instance.AttachToCursor(transform, transform);
             }
-        }
+        }*/
     }
 
     public void UpdateDrag()
