@@ -7,6 +7,8 @@ public class TooltipCursor : Singleton<TooltipCursor>
     [SerializeField] private GameObject _uiParent;
     [SerializeField] private TextMeshProUGUI _hoveredItemName;
     [SerializeField] private Image _hoveredSprite;
+    public StationsInvBoxItem HoveredItem { get; set; } = null;
+    
     private bool _shouldFollowCursor = false;
 
     protected override void Awake()
@@ -15,26 +17,20 @@ public class TooltipCursor : Singleton<TooltipCursor>
         _uiParent.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        GameEvents.Crafting.OnIngredientUIHover += OnHoverOverUIItem;
+        GameEvents.Crafting.OnIngredientUIUnhovered += OnUIItemUnhovered;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnIngredientUIHover -= OnHoverOverUIItem;
+        GameEvents.Crafting.OnIngredientUIUnhovered -= OnUIItemUnhovered;
+    }
+
     private void Update()
     {
-        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(r, out RaycastHit hit, Mathf.Infinity))
-        {
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), Color.red);
-            if (hit.collider)
-            {
-                Debug.Log(hit.collider.gameObject.name);
-                if (hit.collider.TryGetComponent(out StationsInvBoxItem item))
-                {
-                    OnHoverOverUIItem(item.Ingredient);
-                }
-            }
-        }
-        else
-        {
-            OnUIItemUnhovered();
-        }
-
         if (_shouldFollowCursor)
         {
             transform.position = Input.mousePosition;

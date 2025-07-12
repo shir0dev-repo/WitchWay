@@ -52,7 +52,6 @@ public class CursorManager : Singleton<CursorManager>
         if (_currentFollowCursor != null)
         {
             _currentFollowCursor.UpdateDrag();
-            Debug.Log((_currentFollowCursor as MonoBehaviour).gameObject.name);
         }
     }
 

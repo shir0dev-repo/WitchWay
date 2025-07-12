@@ -8,18 +8,12 @@ public class StationsInvBoxItem : MonoBehaviour
     [SerializeField] private ModifiedIngredient ingredient;
     [SerializeField] private StationsInvBox attachedBox;
 
-    [SerializeField] private GameObject hoverUi;
-    [SerializeField] private TMP_Text ingredientNameText;
     [SerializeField] private Collider2D detectCollider;
 
     private bool inBounds = false;
     private bool isHoverable = false;
     private bool canSpawn = false;
-
-    void Start()
-    {
-        if (ingredient != null) ingredientNameText.text = ingredient.BaseIngredient.name;
-    }
+    private bool hasInvoked = false;
 
     void Update()
     {
@@ -31,14 +25,21 @@ public class StationsInvBoxItem : MonoBehaviour
             {
                 SpawnWorldIngredient();
             }
-            else if (isHoverable)
+            else if (!hasInvoked && isHoverable && TooltipCursor.Instance.HoveredItem == null)
             {
-                hoverUi.SetActive(true);
+                GameEvents.Crafting.OnIngredientUIHover?.Invoke(ingredient);
+                TooltipCursor.Instance.HoveredItem = this;
+                hasInvoked = true;
             }
         }
         else
         {
-            hoverUi.SetActive(false);
+            if (TooltipCursor.Instance.HoveredItem == this && hasInvoked)
+            {
+                GameEvents.Crafting.OnIngredientUIUnhovered?.Invoke();
+                TooltipCursor.Instance.HoveredItem = null;
+                hasInvoked = false;
+            }
         }
     }
 
@@ -69,11 +70,9 @@ public class StationsInvBoxItem : MonoBehaviour
         attachedBox.GetVisuals().Remove(gameObject);
         attachedBox.RemoveItem(ingredient);
 
+        GameEvents.Crafting.OnIngredientUIUnhovered?.Invoke();
         attachedBox.OpenIngredients();
-
-        if (TooltipCursor.Instance != null)
-            TooltipCursor.Instance.OnUIItemUnhovered();
-
+        
         Destroy(gameObject);
     }
 
