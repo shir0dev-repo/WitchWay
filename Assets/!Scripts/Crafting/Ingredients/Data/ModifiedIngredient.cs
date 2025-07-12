@@ -20,6 +20,13 @@ public class ModifiedIngredient
         else return BaseIngredient.WorldPrefab;
     }
 
+    public Sprite GetUIRepresentation()
+    {
+        if (HasBeenCrushed) return BaseIngredient.CrushedSprite;
+        else if (HasBeenCut) return BaseIngredient.CutSprite;
+        else return BaseIngredient.Sprite;
+    }
+
     public void Cut()
     {
         HasBeenCut = !HasBeenCrushed && BaseIngredient.CanBeCut && true;

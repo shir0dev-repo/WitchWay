@@ -274,10 +274,11 @@ public class Inventory : MonoBehaviour
 
     public void AddItemTrigger(Collider collision)
     {
-        WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
-        if (worldIngredient != null)
+        if (collision.gameObject.TryGetComponent(out WorldIngredient worldIngredient))
         {
             AddNewItem(worldIngredient.BaseIngredient);
+            if (CursorManager.Instance != null)
+                CursorManager.Instance.ClearCursor(false);
             Destroy(collision.gameObject);
         }
     }
