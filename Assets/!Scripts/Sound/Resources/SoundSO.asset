@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a011c1d0081f00b43b15d9c5788b76ba, type: 3}
+  m_Name: SoundSO
+  m_EditorClassIdentifier: 
+  EventName: OnItemPlacedOnCuttingBoard
+  FMODEventPlayable:
+    Guid:
+      Data1: 1904616906
+      Data2: 1273945822
+      Data3: 479922054
+      Data4: -1008850172
+    Path: event:/Testing 1
+  Clip: {fileID: 0}

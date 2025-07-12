@@ -63,6 +63,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
                     CursorManager.Instance.ClearCursor(false);
 
                 Destroy(collision.gameObject);
+                GameEvents.Crafting.OnItemPlacedOnCuttingBoard?.Invoke(w);
             }
         }
         catch
