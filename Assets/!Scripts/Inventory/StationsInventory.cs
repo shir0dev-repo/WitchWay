@@ -64,11 +64,18 @@ public class StationsInventory : MonoBehaviour
         //AddItemsToBaskets();
     }
 
+    private void OnEnable()
+    {
+        GameEvents.Crafting.OnStationChanged += OnStationChangedHandler;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnStationChanged -= OnStationChangedHandler;
+    }
+
     void Start()
     {
-        stationManger = StationManager.Instance;
-        if (stationManger != null) stationManger.OnStationChanged.AddListener(OnStationChangedHandler);
-
         //setup triggers
         GameEvents.Crafting.OnItemPlacedInTrash += PermanentRemove;
 
@@ -85,7 +92,6 @@ public class StationsInventory : MonoBehaviour
 
     private void PopulateIngredients()
     {
-        print(PersistantItemList.inventorySlots.Count);
         foreach (InventorySlot slot in PersistantItemList.inventorySlots)
         {
             ingredients.Add(slot.ingredient);

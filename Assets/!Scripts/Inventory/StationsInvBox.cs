@@ -77,7 +77,7 @@ public class StationsInvBox : MonoBehaviour
                 if (sr != null)
                 {
                     sr.sortingOrder = 0; //Mathf.RoundToInt(-offsetZ * 100);
-                    sr.sprite = item.assignedIngredient.BaseIngredient.Sprite;
+                    sr.sprite = item.assignedIngredient.GetUIRepresentation();
                     sr.transform.localScale = new Vector3(spriteScale.x, spriteScale.y, 1);
 
                     BoxCollider2D collider = visual.GetComponent<BoxCollider2D>();

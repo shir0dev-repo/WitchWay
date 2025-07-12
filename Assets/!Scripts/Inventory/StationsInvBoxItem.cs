@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StationsInvBoxItem : MonoBehaviour
 {
+    public ModifiedIngredient Ingredient => ingredient;
     [SerializeField] private ModifiedIngredient ingredient;
     [SerializeField] private StationsInvBox attachedBox;
 
@@ -68,7 +69,10 @@ public class StationsInvBoxItem : MonoBehaviour
         attachedBox.GetVisuals().Remove(gameObject);
         attachedBox.RemoveItem(ingredient);
 
-        attachedBox.GetComponent<StationsInvBox>().OpenIngredients();
+        attachedBox.OpenIngredients();
+
+        if (TooltipCursor.Instance != null)
+            TooltipCursor.Instance.OnUIItemUnhovered();
 
         Destroy(gameObject);
     }

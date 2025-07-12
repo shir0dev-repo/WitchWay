@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 120661591431166982}
   - component: {fileID: 8337854804719505679}
   - component: {fileID: 303988764540983591}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: HoverUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4922974631752072279}
   - component: {fileID: 941375192218184550}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 6885770149785171353}
   - component: {fileID: 2948973557488729238}
   - component: {fileID: -3087408171726731086}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BoxItemVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deac31fe3d5cd144c87d969e5e7c7b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 0}
+  ingredient:
+    BaseIngredient: {fileID: 0}
+    ModifierList:
+      OperationsPerformed: 
+    HasBeenCut: 0
+    HasBeenCrushed: 0
+    HasBeenFrozen: 0
+    HasBeenHeated: 0
+    CurrentSpell: 0
   attachedBox: {fileID: 0}
   hoverUi: {fileID: 1990471545227463354}
   ingredientNameText: {fileID: 5999401268571940475}
@@ -298,7 +306,7 @@ GameObject:
   - component: {fileID: 4093594619965707927}
   - component: {fileID: 865833089681301693}
   - component: {fileID: 5999401268571940475}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: IngredientNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +442,7 @@ GameObject:
   - component: {fileID: 1649939197212021999}
   - component: {fileID: 5330175481439736901}
   - component: {fileID: 1872592462515208336}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
