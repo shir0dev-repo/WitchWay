@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace DungeonMaster2D
 {
     [System.Flags]
-    public enum Direction
+    public enum Direction : byte
     {
+        None = 0,
         Left = 1,
         Up = 2,
         Right = 4,
@@ -37,6 +39,14 @@ namespace DungeonMaster2D
             }
 
             origin.Entrances = direction;
+        }
+
+        public static bool HasAllFlags(this Direction direction, Direction other)
+        {
+            byte d = Convert.ToByte(direction);
+            byte o = Convert.ToByte(other);
+
+            return o - d == 0;
         }
     }
 }

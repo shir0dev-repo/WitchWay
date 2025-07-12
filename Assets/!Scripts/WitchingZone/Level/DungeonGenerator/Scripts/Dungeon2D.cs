@@ -26,7 +26,7 @@ namespace DungeonMaster2D
             get { return _nodes[40]; }
         }
 
-        public Node[] ValidNodes => Dungeon2DUtils.GetValidNodes((Node[])this);
+        public Node[] ValidNodes => _nodes.GetValidNodes();
 
         public Dungeon2D(DungeonGeneratorData data, Node startingNode)
         {
