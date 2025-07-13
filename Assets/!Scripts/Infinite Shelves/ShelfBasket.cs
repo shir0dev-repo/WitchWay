@@ -88,7 +88,8 @@ public class ShelfBasket : MonoBehaviour
             displayObject = Instantiate(storedIngredient.WorldPrefab, displayPoint.position, Quaternion.identity);
             displayObject.transform.SetParent(displayPoint);
             displayObject.transform.eulerAngles = displayRotation;
-            if (displayObject.GetComponent<WorldIngredient>()) displayObject.GetComponent<WorldIngredient>().enabled = false;
+
+            if (displayObject.TryGetComponent(out WorldIngredient wIng)) Destroy(wIng);
             if (displayObject.GetComponent<Rigidbody>()) displayObject.GetComponent<Rigidbody>().isKinematic = true;
         }
         //fallback for no set visual
@@ -122,13 +123,11 @@ public class ShelfBasket : MonoBehaviour
             {
                 displayObjDefaultMat = mr.material;
                 mr.material = null; //idk just temp
-                mr.gameObject.layer = LayerMask.NameToLayer("Outline");
             }
             else if (mr = displayObject.GetComponentInChildren<MeshRenderer>())
             {
                 displayObjDefaultMat = mr.material;
                 mr.material = lockedMaterial;
-                mr.gameObject.layer = LayerMask.NameToLayer("Outline");
             }
             else
             {
