@@ -15,11 +15,11 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.6016376, g: 0.75022066, b: 0.754717, a: 1}
+  m_FogColor: {r: 0, g: 0, b: 0, a: 1}
   m_FogMode: 1
   m_FogDensity: 1
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 10
+  m_LinearFogStart: 20
+  m_LinearFogEnd: 1000
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -32073,6 +32073,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle 3
       objectReference: {fileID: 0}
+    - target: {fileID: 9058320905006395390, guid: e95d567404ebee74c953c394c6f16bd3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32129,6 +32133,10 @@ PrefabInstance:
     - target: {fileID: 8344498133174562368, guid: 9ae797f9cfb286d47aa3b1b18f5f27e6, type: 3}
       propertyPath: m_Name
       value: Bottle 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344498133174562368, guid: 9ae797f9cfb286d47aa3b1b18f5f27e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32187,6 +32195,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8999633913194511009, guid: 4c5e5ddd8bd30c249a59ec953d9a1cbd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32243,6 +32255,10 @@ PrefabInstance:
     - target: {fileID: 7243042299931034822, guid: d662e58af89594542baf9d3e6bfe4f51, type: 3}
       propertyPath: m_Name
       value: Bottle 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243042299931034822, guid: d662e58af89594542baf9d3e6bfe4f51, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32575,6 +32591,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6286953848855819678, guid: 490428df9f8fb0142b156c5f884034a6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32631,6 +32651,10 @@ PrefabInstance:
     - target: {fileID: 5842531893421704027, guid: 7a1c4b047f09fb54ab9f7fd4816d03c3, type: 3}
       propertyPath: m_Name
       value: Bottle 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5842531893421704027, guid: 7a1c4b047f09fb54ab9f7fd4816d03c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32717,6 +32741,10 @@ PrefabInstance:
     - target: {fileID: 5024984371405329644, guid: 586d0c9bfdde3d141b9aa3bceb05d7eb, type: 3}
       propertyPath: m_Name
       value: Bottle 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024984371405329644, guid: 586d0c9bfdde3d141b9aa3bceb05d7eb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8111260077328189695, guid: 586d0c9bfdde3d141b9aa3bceb05d7eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32904,6 +32932,10 @@ PrefabInstance:
     - target: {fileID: 7640636896694313020, guid: c08c477bd46452343964c1cc38dca58a, type: 3}
       propertyPath: m_Name
       value: Bottle 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640636896694313020, guid: c08c477bd46452343964c1cc38dca58a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

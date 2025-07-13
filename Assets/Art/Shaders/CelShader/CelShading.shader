@@ -31,8 +31,8 @@ Shader "Toon/Cel-Shading"
     {
         Tags { 
             "RenderPipeline" = "UniversalRenderPipeline" 
-            "RenderType"="Opaque" 
-            //"Queue" = "Transparent"
+            "RenderType"="Transparent" 
+            "Queue" = "Transparent"
             "DisableBatching" = "True"
         }
         
@@ -182,6 +182,7 @@ Shader "Toon/Cel-Shading"
             }
             ENDCG
         }
+
         UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }
 }
