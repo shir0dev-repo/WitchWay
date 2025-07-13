@@ -2286,6 +2286,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: scrollImpulse
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: scrollFriction
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: keyAcceleration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 9053353405156417222, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
       propertyPath: m_Name
       value: Scrolling Shelf

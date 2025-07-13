@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class InfiniteShelves : MonoBehaviour
 {
-    [Header("Scroll Settings")]
-    [SerializeField] private float scrollSpeed;
+    [Header("Momentum Settings")]
+    [SerializeField] private float keyAcceleration;
+    [SerializeField] private float scrollImpulse;
+    [SerializeField] private float scrollFriction;
 
     [Header("Loop Settings")]
     [SerializeField] private float shelfHeight; //25 with my test setup
@@ -14,26 +16,32 @@ public class InfiniteShelves : MonoBehaviour
     [SerializeField] private Transform[] shelves;
 
     //private vars
-    float verticalInput;
+    private float arrowInput;
+    private float scrollVelocity;
 
     void Update()
     {
-        ScrollInput();
+        ReadInputs();
 
         UpdateShelfPositions();
     }
 
-    private void ScrollInput()
+    private void ReadInputs()
     {
         //get input
-        verticalInput = Input.GetAxis("Vertical");
-        verticalInput += Input.GetAxis("Mouse ScrollWheel") * 100;
+        float arrow = Input.GetAxis("Vertical");
+        scrollVelocity += arrow * keyAcceleration * Time.deltaTime;
+
+        float wheel = Input.GetAxis("Mouse ScrollWheel");
+        scrollVelocity += wheel * scrollImpulse;
+
+        scrollVelocity *= 1f / (1f + scrollFriction * Time.deltaTime);
     }
 
     //Update postions of the shelf models
     private void UpdateShelfPositions()
     {
-        Vector3 delta = Vector3.up * (verticalInput * scrollSpeed * Time.deltaTime);
+        Vector3 delta = Vector3.up * (scrollVelocity * Time.deltaTime);
 
         //updates the shelves (parent objects for things sitting on shelves)
         foreach (Transform trans in shelves)
