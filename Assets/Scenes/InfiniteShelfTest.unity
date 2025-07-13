@@ -1155,6 +1155,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7632382036369836652, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
   m_PrefabInstance: {fileID: 7763252680851072052}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &893217993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
+  m_PrefabInstance: {fileID: 1741954439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &995922660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1537,6 +1542,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
+--- !u!1 &1503433721 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
+  m_PrefabInstance: {fileID: 1343715613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1579330507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,6 +2308,30 @@ PrefabInstance:
       propertyPath: keyAcceleration
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: sehlfWalls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: shelfWalls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: 'sehlfWalls.Array.data[0]'
+      value: 
+      objectReference: {fileID: 893217993}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: 'sehlfWalls.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1503433721}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: 'shelfWalls.Array.data[0]'
+      value: 
+      objectReference: {fileID: 893217993}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: 'shelfWalls.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1503433721}
     - target: {fileID: 9053353405156417222, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
       propertyPath: m_Name
       value: Scrolling Shelf

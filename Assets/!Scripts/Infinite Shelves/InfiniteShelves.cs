@@ -14,6 +14,7 @@ public class InfiniteShelves : MonoBehaviour
     [Header("Objects")]
     [SerializeField] private Transform[] shelfModels;
     [SerializeField] private Transform[] shelves;
+    [SerializeField] private GameObject[] shelfWalls;
 
     //private vars
     private float arrowInput;
@@ -58,6 +59,8 @@ public class InfiniteShelves : MonoBehaviour
 
             trans.localPosition += delta;
         }
+
+        UpdateShelfWalls(delta);
     }
 
     //check if model is too far down or up
@@ -89,6 +92,24 @@ public class InfiniteShelves : MonoBehaviour
         else if (objectTrans.localPosition.y < -(shelfHeight / 2) - 1)
         {
             objectTrans.localPosition = new Vector3(objectTrans.localPosition.x, GetHighestShelf().localPosition.y + shelfSpacing, objectTrans.localPosition.z);
+        }
+    }
+
+    private void UpdateShelfWalls(Vector3 delta)
+    {
+        foreach (GameObject obj in shelfWalls)
+        {
+            Renderer rend = obj.GetComponent<Renderer>(); ;
+            Material mat = rend.material;
+            Vector2 tile = mat.mainTextureScale;
+            Vector3 size = rend.bounds.size;
+
+            float factorX = tile.x / size.x;
+            float factorY = tile.y / size.y;
+
+            Vector2 uvDelta = new Vector2(delta.x * factorX, delta.y * factorY);
+
+            mat.mainTextureOffset -= uvDelta;
         }
     }
 
