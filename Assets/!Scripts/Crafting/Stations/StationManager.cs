@@ -164,7 +164,7 @@ public class StationManager : MonoBehaviour
     //this block of code is for not changing stations until the mouse is let go
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !recipeBookOpen)
+        if (Input.GetMouseButtonDown(0))
         {
             // check that the table was clicked on
             if (ClickedOnTable())
