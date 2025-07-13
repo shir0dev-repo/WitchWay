@@ -71,7 +71,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
 
         if (SoundManager.Instance != null && !_data.BaseIngredient.OnPickupAudioClip.IsNull)
-            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPickupAudioClip);
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPickupAudioClip, CursorManager.Instance.AttachedObject.transform.position);
 
         /*Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
@@ -121,6 +121,9 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
         {
             c.isTrigger = false;
         }
+
+        if (SoundManager.Instance != null && !_data.BaseIngredient.OnPutDownAudioClip.IsNull)
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPutDownAudioClip, CursorManager.Instance.AttachedObject.transform.position);
 
         CursorManager.Instance.ClearCursor();
     }

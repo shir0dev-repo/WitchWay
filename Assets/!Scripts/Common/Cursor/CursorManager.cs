@@ -38,7 +38,7 @@ public class CursorManager : Singleton<CursorManager>
         if (!_isObjectAttached && Input.GetMouseButtonDown(0))
         {
             int layer = ~(1 << LayerMask.NameToLayer("Ignore Raycast"));
-            if (CastScreenRay(Input.mousePosition, out RaycastHit hit, layer) && hit.transform.TryGetComponent(out _currentFollowCursor))
+            if (CastScreenRay(Input.mousePosition, out RaycastHit hit, layer) && hit.transform.TryGetComponent(out _currentFollowCursor) && StationManager.Instance.recipeBookOpen != true)
             {
                 _currentFollowCursor.BeginDrag();
             }
