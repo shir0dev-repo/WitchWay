@@ -62,8 +62,11 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     {
         if (CursorManager.Instance == null) return;
 
-        Rigidbody.useGravity = false;
-        Rigidbody.linearVelocity = Vector3.zero;
+        if (Rigidbody)
+        {
+            Rigidbody.useGravity = false;
+            Rigidbody.linearVelocity = Vector3.zero;
+        }
 
         foreach (Collider c in Colliders) c.isTrigger = true;
 
@@ -115,7 +118,8 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
             }
         }
 
-        if (Rigidbody != null) Rigidbody.useGravity = true;
+        if (Rigidbody != null) 
+            Rigidbody.useGravity = true;
 
         foreach (Collider c in Colliders)
         {
