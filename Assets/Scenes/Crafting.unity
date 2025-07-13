@@ -4167,6 +4167,46 @@ PrefabInstance:
       propertyPath: m_CullTransparentMesh
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Path
+      value: event:/SFX/book/sfx_book_pageturn
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data1
+      value: -2078439624
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data2
+      value: 1248930825
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data3
+      value: -1391577467
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data4
+      value: -1580523278
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
     - target: {fileID: 2316111610902574764, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4255,10 +4295,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3062563502462176753, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: m_TagString
+      value: IgnoreUIDrag
+      objectReference: {fileID: 0}
     - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: basketsTrigger
       value: 
       objectReference: {fileID: 1175823819}
+    - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: OnItemTrashedSound.Path
+      value: event:/SFX/misc/sfx_garbage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: OnItemTrashedSound.Guid.Data1
+      value: -10952324
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: OnItemTrashedSound.Guid.Data2
+      value: 1133536382
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: OnItemTrashedSound.Guid.Data3
+      value: 948638864
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: OnItemTrashedSound.Guid.Data4
+      value: -553464592
+      objectReference: {fileID: 0}
+    - target: {fileID: 3667233744668505285, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 4160753663
+      objectReference: {fileID: 0}
     - target: {fileID: 3845045252839907767, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -4335,6 +4403,46 @@ PrefabInstance:
       propertyPath: _centerPoint
       value: 
       objectReference: {fileID: 647644017}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Path
+      value: event:/SFX/book/sfx_book_open
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Path
+      value: event:/SFX/book/sfx_book_close
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data1
+      value: 1708296935
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data2
+      value: 1263817972
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data3
+      value: -1664932729
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data4
+      value: -1072211586
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data1
+      value: 833337449
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data2
+      value: 1220147067
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data3
+      value: 1235003052
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data4
+      value: -1790301550
+      objectReference: {fileID: 0}
     - target: {fileID: 8985273173368202663, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
