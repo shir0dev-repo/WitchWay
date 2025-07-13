@@ -62,6 +62,21 @@ public class CuttableIngredient : MonoBehaviour
 
     private void Update()
     {
+        if (!_board.CanCut)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                _board.baseIngredient.gameObject.SetActive(true);
+                _board.baseIngredient.gameObject.transform.position = new Vector3(-5, 0, 0);
+                // replace this with dragging from the world ingredient... somehow
+
+                CursorManager.Instance.ClearCursor();
+
+                Destroy(gameObject);
+            }
+            return; 
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             _cursorPoints.Clear();
@@ -131,7 +146,7 @@ public class CuttableIngredient : MonoBehaviour
 
     private void TryDetachSegment(Transform targetCutPoint)
     {
-        if (TryGetLastTwoSegments().Length == 2 && != null)
+        if (TryGetLastTwoSegments().Length == 2 && TryGetLastTwoSegments() != null)
         {
             var lastTwo = TryGetLastTwoSegments();
             ChopLastTwoSegmentsLeft(lastTwo[0], lastTwo[1]);

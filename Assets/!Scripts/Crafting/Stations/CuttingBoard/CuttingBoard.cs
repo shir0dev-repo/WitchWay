@@ -5,6 +5,8 @@ public class CuttingBoard : Singleton<CuttingBoard>
 {
     public bool HasIngredient => _currentIngredient != null;
     private CuttableIngredient _currentIngredient = null;
+    public GameObject baseIngredient;
+     
     public bool CanCut = false;
     public Action OnCutComplete;
 
@@ -57,14 +59,14 @@ public class CuttingBoard : Singleton<CuttingBoard>
 
                 if (!(w = p.GetComponent<WorldIngredient>())) return;
 
-                _currentIngredient = p.GetComponent<CuttableIngredient>();
                 w.UpdateModifiers(mod);
 
                 //later, this will just ask for the name of the scriptable object
                 if (CursorManager.Instance != null)
                     CursorManager.Instance.ClearCursor(false);
 
-                Destroy(collision.gameObject);
+                collision.gameObject.SetActive(false);
+                baseIngredient = collision.gameObject;
             }
         }
         catch
