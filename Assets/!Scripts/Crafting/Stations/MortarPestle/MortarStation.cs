@@ -16,6 +16,10 @@ public class MortarStation : Singleton<MortarStation>
     private List<CrushableIngredientState> ingredientsInMortar = new();
     private Dictionary<Rigidbody, RigidbodyConstraints> constraints = new();
 
+    public int GetIngredientCount()
+    {
+        return ingredientsInMortar.Count;
+    }
     private void Start()
     {
         GameEvents.Crafting.OnSuccessfullyCrushedItem += SpawnCrushedItem;
@@ -100,10 +104,12 @@ public class MortarStation : Singleton<MortarStation>
         {
             ingredientsInMortar.Add(state);
         }
-        if (ingredientsInMortar.Count > 1)
-        {
-            BlowUp();
-        }
+
+        //Removing this for updated failstate logic
+        /* if (ingredientsInMortar.Count > 1)
+         {
+             BlowUp();
+         }*/
     }
 
 
@@ -115,6 +121,7 @@ public class MortarStation : Singleton<MortarStation>
         {
             if (!other.TryGetComponent(out CrushableIngredientState state)) return;
             state.SetCrushable(true);
+
         }
     }
 
@@ -163,7 +170,7 @@ public class MortarStation : Singleton<MortarStation>
         }
     }
 
-    private void BlowUp()
+    public void BlowUp()
     {
         Debug.Log("Too many ingredients, KABOOM!");
 

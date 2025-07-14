@@ -20,7 +20,7 @@ public class CrushableIngredientState : MonoBehaviour
     public bool canBeCrushed = false;
 
     private bool _isCrushableIngredient;
-    
+
     private void Start()
     {
         _isCrushableIngredient = CheckCrushability();
@@ -41,6 +41,12 @@ public class CrushableIngredientState : MonoBehaviour
     {
         if (CanBeCrushed(other))
         {
+            //Hello, this is checking the amount of ingredients in the thing for splosions
+            if (MortarStation.Instance != null && MortarStation.Instance.GetIngredientCount() > 1)
+            {
+                MortarStation.Instance.BlowUp();
+                return;
+            }
             TakeDamage(5);
             ChangeState();
         }
