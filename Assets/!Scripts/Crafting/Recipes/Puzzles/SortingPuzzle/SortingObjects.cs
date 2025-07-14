@@ -11,10 +11,15 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     [SerializeField] public string objID;
     private bool isPlacedCorrectly = false;
 
+    [Header("Image Stuff")]
+    private Image imageComponent;
+    [SerializeField] private Sprite correctSprite;
+
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        imageComponent = GetComponent<Image>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -46,5 +51,10 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         isPlacedCorrectly = true;
         //canvasGroup.interactable = false;
         // canvasGroup.blocksRaycasts = false;
+
+        if (correctSprite != null && imageComponent != null)
+        {
+            imageComponent.sprite = correctSprite;
+        }
     }
 }
