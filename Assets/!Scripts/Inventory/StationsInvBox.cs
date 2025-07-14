@@ -83,6 +83,10 @@ public class StationsInvBox : MonoBehaviour
                     BoxCollider2D collider = visual.GetComponent<BoxCollider2D>();
                     collider.size = sr.sprite.bounds.size;
                 }
+                else
+                {
+                    print("no sprite renderer");
+                }
 
                 visuals.Add(visual);
             }
