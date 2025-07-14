@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TriggerForwarder : MonoBehaviour
@@ -15,8 +16,15 @@ public class TriggerForwarder : MonoBehaviour
     public Action onTriggerExitNorm;
     public Action onTriggerStayNorm;
 
+    //tracking for multi collider objects
+    private HashSet<int> pickedUp = new HashSet<int>();
+
     void OnTriggerEnter(Collider collision)
     {
+        int id = collision.gameObject.GetInstanceID();
+        if (pickedUp.Contains(id)) return;
+        pickedUp.Add(id);
+
         if (passColliderData) onTriggerEnter?.Invoke(collision);
         else onTriggerEnterNorm?.Invoke();
     }

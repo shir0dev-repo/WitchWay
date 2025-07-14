@@ -109,6 +109,8 @@ public class ShelfBasket : MonoBehaviour
             displayObject.GetComponent<MeshRenderer>().material = defaultMat;
             displayObjDefaultMat = defaultMat;
             Destroy(temp);
+
+            print("fallback item create");
         }
 
         SetupUnlockVisual();
@@ -169,15 +171,12 @@ public class ShelfBasket : MonoBehaviour
 
     private void GrabIngredient()
     {
-        grabbedObject = Instantiate(displayObject, GetMousePos(), Quaternion.identity);
-        Vector3 grabbedTransPos = grabbedObject.transform.position;
-        grabbedObject.transform.position = new Vector3(grabbedTransPos.x, grabbedTransPos.y, zGrabPos);
+        grabbedObject = Instantiate(storedIngredient.WorldPrefab, GetMousePos(), Quaternion.identity);
+        //Vector3 grabbedTransPos = grabbedObject.transform.position;
+        //grabbedObject.transform.position = new Vector3(grabbedTransPos.x, grabbedTransPos.y, zGrabPos);
         WorldIngredient wIngred = grabbedObject.GetComponent<WorldIngredient>();
         if (wIngred)
         {
-            wIngred.enabled = true; //works once there proper world perfabs
-            wIngred._isDragging = true;
-            draggingIngred = true;
             wIngred.currentDepth = zGrabPos;
 
             if (grabbedObject.GetComponent<Rigidbody>())
@@ -185,6 +184,8 @@ public class ShelfBasket : MonoBehaviour
                 grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
                 grabbedObject.GetComponent<Rigidbody>().useGravity = false;
             }
+
+            if (CursorManager.Instance != null) CursorManager.Instance.AttachToCursor(wIngred, grabbedObject.transform);
         }
         else
         {
