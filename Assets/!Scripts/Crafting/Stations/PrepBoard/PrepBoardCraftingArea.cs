@@ -32,7 +32,7 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
         {
             if (ToolSelector.Instance != null && ToolSelector.Instance.CurrentlySelected == null)
             {
-                if (Input.GetMouseButtonDown(1) && CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit, _mortarMask))
+                if (Input.GetMouseButtonDown(1) && CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))
                 {
                     if (hit.transform == _mortar.transform) DisableMortar();
                 }

@@ -658,6 +658,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCam: {fileID: 350980750}
   _useDebug: 1
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 585
+  blockedLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &365418373
 GameObject:
   m_ObjectHideFlags: 0

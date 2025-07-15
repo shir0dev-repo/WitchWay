@@ -43,8 +43,7 @@ public class CursorManager : Singleton<CursorManager>
     {
         if (!_isObjectAttached && Input.GetMouseButtonDown(0))
         {
-            int layer = ~(1 << LayerMask.NameToLayer("Ignore Raycast"));
-            if (CastScreenRay(Input.mousePosition, out RaycastHit hit, layer) && hit.transform.TryGetComponent(out _currentFollowCursor))
+            if (CastScreenRay(Input.mousePosition, out RaycastHit hit) && hit.transform.TryGetComponent(out _currentFollowCursor))
             {
                 _currentFollowCursor.BeginDrag();
             }
@@ -231,7 +230,6 @@ public class CursorManager : Singleton<CursorManager>
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-
         }
     }
 }
