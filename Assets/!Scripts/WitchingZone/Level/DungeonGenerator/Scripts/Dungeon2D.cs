@@ -35,6 +35,7 @@ namespace DungeonMaster2D
             MaxNodes = data.TargetRoomCount;
 
             AddNode(startingNode);
+            StartingNode.NodeType = NodeType.Start;
         }
 
         public Node this[int i]
