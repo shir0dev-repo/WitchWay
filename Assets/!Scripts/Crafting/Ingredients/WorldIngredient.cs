@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -10,7 +9,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     }
 
     public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
-    
+
     public ModifiedIngredient ModifiedState => _data;
     public void UpdateModifiers(ModifiedIngredient mod) => _data = mod;
 
@@ -36,7 +35,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
     private static Camera _cam = null;
     private Rigidbody Rigidbody
-    { 
+    {
         get
         {
             if (_rb == null) _rb = GetComponent<Rigidbody>();
@@ -60,24 +59,19 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
     public void BeginDrag()
     {
-        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
+        if (CursorManager.Instance == null) return;
+
+        _isDragging = true;
+
+        if (Rigidbody != null)
         {
-            if (hit.collider.gameObject == gameObject)
-            {
-                startPos = hit.collider.transform.position;
-
-                if (CursorManager.Instance == null) return;
-
-                _isDragging = true;
-                Rigidbody.useGravity = false;
-                Rigidbody.linearVelocity = Vector3.zero;
-                
-                foreach (Collider c in Colliders) c.isTrigger = true;
-
-                CursorManager.Instance.AttachToCursor(transform, transform);
-            }
+            Rigidbody.useGravity = false;
+            Rigidbody.linearVelocity = Vector3.zero;
         }
+
+        foreach (Collider c in Colliders) c.isTrigger = true;
+
+        CursorManager.Instance.AttachToCursor(transform, transform);
     }
 
     public void EndDrag()

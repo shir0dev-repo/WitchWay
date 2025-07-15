@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class IngredientSegment : MonoBehaviour, IFollowCursor
@@ -47,7 +48,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     private void Grab()
     {
         _rb.useGravity = false;
-        
+
         _rb.excludeLayers = ~(1 << LayerMask.NameToLayer("Cursor Collection"));
     }
 
@@ -64,23 +65,30 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
         if (CursorManager.Instance == null) return;
         //else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
+        var siblings = GrabSimilar(_parentIngredient.transform);
+        if (CuttingBoard.Instance != null && !siblings.Any(s => s.HasBeenDetached))
+        {
+            CursorManager.Instance.ClearCursor(false);
+            CuttingBoard.Instance.RevertCurrentIngredient();
+            return;
+        }
+
         CursorManager.Instance.AttachToCursor(transform, transform);
 
-        var siblings = GrabSimilar(_parentIngredient.transform);
-        
+
         foreach (IngredientSegment segment in siblings)
         {
             segment.Grab();
         }
     }
-    
+
     public void UpdateDrag()
     {
         if (CursorManager.Instance == null) return;
-        else if (CursorManager.Instance.AttachedObject != transform) return;
+        else if (CursorManager.Instance.HasObjectFollowingCursor && CursorManager.Instance.AttachedObject != transform) return;
         else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
-            var siblings = GrabSimilar(_parentIngredient.transform);
+        var siblings = GrabSimilar(_parentIngredient.transform);
         foreach (IngredientSegment child in siblings)
         {
             if (child.transform == transform) continue;

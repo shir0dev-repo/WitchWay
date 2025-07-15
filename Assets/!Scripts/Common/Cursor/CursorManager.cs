@@ -49,10 +49,7 @@ public class CursorManager : Singleton<CursorManager>
             _currentFollowCursor?.EndDrag();
         }
 
-        if (_currentFollowCursor != null)
-        {
-            _currentFollowCursor.UpdateDrag();
-        }
+        _currentFollowCursor?.UpdateDrag();
     }
 
     private void FixedUpdate()

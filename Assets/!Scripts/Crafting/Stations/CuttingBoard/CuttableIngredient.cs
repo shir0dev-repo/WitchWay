@@ -63,10 +63,7 @@ public class CuttableIngredient : MonoBehaviour
 
     private void Update()
     {
-        if (!_board.CanCut)
-        {
-            if (Input.GetMouseButtonDown(0)) CuttingBoard.Instance.OnCutCancelled?.Invoke();
-        }
+        if (!_board.CanCut) return;
         
         if (Input.GetMouseButtonDown(0))
         {

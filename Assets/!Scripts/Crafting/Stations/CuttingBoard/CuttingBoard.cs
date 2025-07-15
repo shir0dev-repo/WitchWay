@@ -5,8 +5,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
 {
     public bool HasIngredient => _currentIngredient != null;
     private CuttableIngredient _currentIngredient = null;
-    public GameObject CurrIngredientObj;
-    
+
     public bool CanCut = false;
     public Action OnCutComplete;
     public Action OnCutCancelled;
@@ -17,7 +16,8 @@ public class CuttingBoard : Singleton<CuttingBoard>
     {
         GameEvents.Crafting.OnToolSelected += Enable;
         GameEvents.Crafting.OnToolDeselected += Disable;
-        OnCutCancelled += CancelCutting;
+        GameEvents.Crafting.OnSuccessfullyCutItem += _ => _currentIngredient = null;
+        OnCutCancelled += RevertCurrentIngredient;
     }
 
     private void OnDisable()
@@ -53,23 +53,30 @@ public class CuttingBoard : Singleton<CuttingBoard>
             if (ingredient.CanBeCut == false) return;
             GameObject cutPF = ingredient.CutWorldPrefab;
 
-            if (cutPF != null)
+            if (cutPF == null) return;
+
+            
+
+            GameObject p = Instantiate(cutPF, pivot.position, pivot.rotation);
+            if (!p.TryGetComponent(out _currentIngredient))
             {
-                GameObject p = Instantiate(cutPF, pivot.position, pivot.rotation);
-                p.transform.SetParent(transform);
-                ModifiedIngredient mod = w.ModifiedState;
-
-                if (!(w = p.GetComponent<WorldIngredient>())) return;
-
-                w.UpdateModifiers(mod);
-
-                //later, this will just ask for the name of the scriptable object
-                if (CursorManager.Instance != null)
-                    CursorManager.Instance.ClearCursor(false);
-
-                CurrIngredientObj = collision.gameObject;
-                collision.gameObject.SetActive(false);
+                Destroy(p);
+                return;
             }
+
+            p.transform.SetParent(transform);
+            ModifiedIngredient mod = w.ModifiedState;
+
+            if (!(w = p.GetComponent<WorldIngredient>())) return;
+
+            w.UpdateModifiers(mod);
+
+            //later, this will just ask for the name of the scriptable object
+            if (CursorManager.Instance != null)
+                CursorManager.Instance.ClearCursor(false);
+
+            Destroy(collision.gameObject);
+
         }
         catch
         {
@@ -82,26 +89,26 @@ public class CuttingBoard : Singleton<CuttingBoard>
         if (_currentIngredient == null) return;
 
         if (!collision.gameObject.CompareTag("Ingredient")) return;
+    }
 
-        if (collision.gameObject.TryGetComponent(out CuttableIngredient ing) && ing == _currentIngredient)
+    public void RevertCurrentIngredient()
+    {
+        if (_currentIngredient == null) return;
+        if (!_currentIngredient.TryGetComponent(out WorldIngredient wIng)) return;
+
+        ModifiedIngredient modifiedState = wIng.ModifiedState;
+        GameObject ingGO = modifiedState.GetWorldRepresentation();
+
+        ingGO = Instantiate(ingGO, _currentIngredient.transform.position, Quaternion.identity);
+        if (ingGO.TryGetComponent(out wIng))
         {
-            _currentIngredient = null;
+            wIng.UpdateModifiers(modifiedState);
         }
 
-    }
-    public void CancelCutting()
-    {
-        CurrIngredientObj.SetActive(true);
-        if (CurrIngredientObj.TryGetComponent(out WorldIngredient w))
-        {
-            CursorManager.Instance.ClearCursor();
-            w.BeginDrag();
-        }
+        CursorManager.Instance.AttachToCursor(wIng, wIng.transform);
+        
 
-        ClearCurrentObject();
-    }
-    public void ClearCurrentObject()
-    {
-        CurrIngredientObj = null;
+        Destroy(_currentIngredient.gameObject);
+        _currentIngredient = null;
     }
 }
