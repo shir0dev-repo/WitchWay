@@ -23,6 +23,7 @@ public class PotTemperature : MonoBehaviour
     public float Progress = 0;
 
     private WorldIngredient _targetIngredient;
+    GameObject currentIngredientInPot;
 
     public bool isChangingTemp { get; set; }
     public bool amCurrentlyBurning {  get; set; }
@@ -101,6 +102,8 @@ public class PotTemperature : MonoBehaviour
             ingredient.targetTemp = TargetTemperature;
             if (ingredient.TryGetComponent(out WorldIngredient ing))
                 _targetIngredient = ing;
+
+            currentIngredientInPot = other.gameObject;
             StartCooking?.Invoke();
         }
     }
@@ -122,10 +125,20 @@ public class PotTemperature : MonoBehaviour
         ToggleSliders(true);
 
         TempSlider.SetPointerLocation(TargetTemperature);
+
+        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        {
+            w.enabled = false;
+        }
     }
     void EndEnd()
     {
         ToggleSliders(false);
+
+        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        {
+            w.enabled = true;
+        }
     }
     void InBurningThreshold()
     {
