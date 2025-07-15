@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 public class PestleTool : ToolBase
@@ -7,9 +8,12 @@ public class PestleTool : ToolBase
     private Vector3 _positionLastFrame;
     private bool _shouldUpdatePosition = false;
 
+    [SerializeField] private EventReference onIngredientCrushedSound;
+
     protected override void OnToolSelected()
     {
         _shouldUpdatePosition = true;
+        SoundManager.Instance.PlayOneShot(onToolSelected, this.transform.position);
     }
 
     protected override void OnToolDeselected()
@@ -41,6 +45,7 @@ public class PestleTool : ToolBase
 
         if (ingredientState.TakeDamage(_crushDamage))
         {
+            SoundManager.Instance.PlayOneShot(onIngredientCrushedSound, ingredientState.transform.position);
             if (ingredientState.TryGetComponent(out WorldIngredient ing))
                 GameEvents.Crafting.OnItemDurabilityChanged?.Invoke(ing, ingredientState.CurrentDurability);
         }

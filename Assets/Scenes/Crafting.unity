@@ -978,6 +978,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   _restAnchor: {fileID: 685195217}
+  onToolSelected:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  onToolDeselected:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   stirRotationEulers: {x: 0, y: 0, z: -90}
   restRotationEulers: {x: 0, y: -90, z: 0}
 --- !u!4 &399076002 stripped
@@ -2391,6 +2405,46 @@ PrefabInstance:
       propertyPath: _restAnchor
       value: 
       objectReference: {fileID: 2013239309}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Path
+      value: event:/SFX/mortar and pestle/sfx_pestle_pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data1
+      value: -1969172848
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data2
+      value: 1301531157
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data3
+      value: 1488290218
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data4
+      value: 1977039044
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Path
+      value: event:/SFX/mortar and pestle/sfx_pestle_crushing
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data1
+      value: -700802921
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data2
+      value: 1240127948
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data3
+      value: 112197508
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data4
+      value: 602423844
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3509,6 +3563,26 @@ PrefabInstance:
     - target: {fileID: 4020039851240476334, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Path
+      value: event:/SFX/mortar and pestle/sfx_mortar_pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data1
+      value: -357666649
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data2
+      value: 1244586759
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data3
+      value: 667290772
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data4
+      value: -1817321077
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
