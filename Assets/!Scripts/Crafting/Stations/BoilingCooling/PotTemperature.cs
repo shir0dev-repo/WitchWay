@@ -14,6 +14,7 @@ public class PotTemperature : MonoBehaviour
 
     public static event Action TriggerBurning;
 
+    [SerializeField] private Gradient _temperatureSliderGradient;
     [SerializeField] Slider_WithPointer TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
@@ -22,6 +23,7 @@ public class PotTemperature : MonoBehaviour
     public float Progress = 0;
 
     private WorldIngredient _targetIngredient;
+    GameObject currentIngredientInPot;
 
     public bool isChangingTemp { get; set; }
     public bool amCurrentlyBurning {  get; set; }
@@ -42,7 +44,7 @@ public class PotTemperature : MonoBehaviour
 
     private void Start()
     {
-        TargetTemperature = Random.Range(-50, 50);
+        TargetTemperature = Random.Range(-40, 40);
         TempSlider.SetPointerLocation(TargetTemperature);
     }
 
@@ -97,8 +99,11 @@ public class PotTemperature : MonoBehaviour
     {
         if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
         {
+            ingredient.targetTemp = TargetTemperature;
             if (ingredient.TryGetComponent(out WorldIngredient ing))
                 _targetIngredient = ing;
+
+            currentIngredientInPot = other.gameObject;
             StartCooking?.Invoke();
         }
     }
@@ -109,15 +114,31 @@ public class PotTemperature : MonoBehaviour
             _targetIngredient = null;
     }
 
+    public void SetSliderColor(float sliderValue)
+    {
+        float val01 = ((sliderValue / 50.0f) + 1.0f) * 0.5f;
+        TempSlider.slider.targetGraphic.color = _temperatureSliderGradient.Evaluate(val01);
+    }
+
     void StartStart()
     {
         ToggleSliders(true);
 
         TempSlider.SetPointerLocation(TargetTemperature);
+
+        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        {
+            w.enabled = false;
+        }
     }
     void EndEnd()
     {
         ToggleSliders(false);
+
+        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        {
+            w.enabled = true;
+        }
     }
     void InBurningThreshold()
     {

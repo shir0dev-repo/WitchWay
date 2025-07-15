@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -10,7 +9,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     }
 
     public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
-    
+
     public ModifiedIngredient ModifiedState => _data;
     public void UpdateModifiers(ModifiedIngredient mod) => _data = mod;
 
@@ -36,7 +35,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
     private static Camera _cam = null;
     private Rigidbody Rigidbody
-    { 
+    {
         get
         {
             if (_rb == null) _rb = GetComponent<Rigidbody>();
@@ -60,7 +59,23 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
     public void BeginDrag()
     {
-        Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+        if (CursorManager.Instance == null) return;
+
+        if (Rigidbody)
+        {
+            Rigidbody.useGravity = false;
+            Rigidbody.linearVelocity = Vector3.zero;
+        }
+
+        foreach (Collider c in Colliders) c.isTrigger = true;
+
+        CursorManager.Instance.AttachToCursor(transform, transform);
+
+
+        if (SoundManager.Instance != null && !_data.BaseIngredient.OnPickupAudioClip.IsNull)
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPickupAudioClip, CursorManager.Instance.AttachedObject.transform.position);
+
+        /*Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject == gameObject)
@@ -69,15 +84,19 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
                 if (CursorManager.Instance == null) return;
 
-                _isDragging = true;
-                Rigidbody.useGravity = false;
-                Rigidbody.linearVelocity = Vector3.zero;
-                
-                foreach (Collider c in Colliders) c.isTrigger = true;
+        _isDragging = true;
+
+        if (Rigidbody != null)
+        {
+            Rigidbody.useGravity = false;
+            Rigidbody.linearVelocity = Vector3.zero;
+        }
+
+        foreach (Collider c in Colliders) c.isTrigger = true;
 
                 CursorManager.Instance.AttachToCursor(transform, transform);
             }
-        }
+        }*/
     }
 
     public void UpdateDrag()
@@ -102,34 +121,17 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
             }
         }
 
-        if (Rigidbody != null) Rigidbody.useGravity = true;
+        if (Rigidbody != null) 
+            Rigidbody.useGravity = true;
 
         foreach (Collider c in Colliders)
         {
             c.isTrigger = false;
         }
 
+        if (SoundManager.Instance != null && !_data.BaseIngredient.OnPutDownAudioClip.IsNull)
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPutDownAudioClip, CursorManager.Instance.AttachedObject.transform.position);
+
         CursorManager.Instance.ClearCursor();
-    }
-
-    public void NoColliderBeginDrag(Transform supplyingCollider)
-    {
-        if (CursorManager.Instance == null) return;
-
-        _isDragging = true;
-
-        foreach (Rigidbody rbb in transform.GetComponentsInChildren<Rigidbody>())
-        {
-            rbb.useGravity = false;
-            rbb.linearVelocity = Vector3.zero;
-            rbb.angularVelocity = Vector3.zero;
-        }
-
-        foreach (Collider c in _colliders)
-        {
-            c.isTrigger = true;
-        }
-
-        CursorManager.Instance.AttachToCursor(transform, supplyingCollider);
     }
 }

@@ -40,6 +40,7 @@ public class CuttableIngredient : MonoBehaviour
         _ingredient = GetComponent<WorldIngredient>();
 
         GameEvents.Crafting.OnToolDeselected += CompleteChopping;
+        _board.OnCutCancelled += DeleteIngredient;
 
         foreach (IngredientSegment segment in _segments)
         {
@@ -63,6 +64,8 @@ public class CuttableIngredient : MonoBehaviour
 
     private void Update()
     {
+        if (!_board.CanCut) return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             _cursorPoints.Clear();
@@ -132,8 +135,13 @@ public class CuttableIngredient : MonoBehaviour
 
     private void TryDetachSegment(Transform targetCutPoint)
     {
-        // see if segment on either side is end piece
-        // detach end piece
+        if (TryGetLastTwoSegments().Length == 2 && TryGetLastTwoSegments() != null)
+        {
+            var lastTwo = TryGetLastTwoSegments();
+            ChopLastTwoSegmentsLeft(lastTwo[0], lastTwo[1]);
+
+            return; 
+        }
 
         var closestPair = GetClosestPairToCutPoint(targetCutPoint.position);
 
@@ -177,7 +185,6 @@ public class CuttableIngredient : MonoBehaviour
             }
         }
     }
-
     private (IngredientSegment left, IngredientSegment right) GetClosestPairToCutPoint(Vector3 cutPoint)
     {
         // sort by distance to cut point
@@ -191,7 +198,17 @@ public class CuttableIngredient : MonoBehaviour
 
         return (closestPair[0], closestPair[1]);
     }
+    IngredientSegment[] TryGetLastTwoSegments()
+    {
+        if (_segments.Count == 0) return null;
+        IngredientSegment[] lastSegments = _segments.Where(i => !i.HasBeenDetached).ToArray();
 
+        return lastSegments;
+    }
+    void ChopLastTwoSegmentsLeft(IngredientSegment one, IngredientSegment two)
+    {
+        one.Detach(); two.Detach();
+    }
     void UpdateChoppingProgress()
     {
         _cutCount++;
@@ -209,8 +226,8 @@ public class CuttableIngredient : MonoBehaviour
     string RateChopping()
     {
         if (_cutCount == 0) return "no cuts were made.";
-        if (_cutCount > _cutPoints.Count() + 1) return "you cut it too much!";
-        if (_cutCount == _cutPoints.Count() + 1) return "you cut it perfectly!";
+        if (_cutCount > _cutPoints.Count()) return "you cut it too much!";
+        if (_cutCount == _cutPoints.Count()) return "you cut it perfectly!";
 
         return "you cut it too little.";
     }

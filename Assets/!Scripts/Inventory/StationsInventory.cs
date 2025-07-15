@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 [System.Serializable]
 public class BasketItems
 {
     public Transform basket;
-    public IngredientSO assignedIngredient;
+    public ModifiedIngredient assignedIngredient;
     public int itemAmount;
 
-    public BasketItems(Transform basket, IngredientSO assignedIngredient, int itemAmount)
+    public BasketItems(Transform basket, ModifiedIngredient assignedIngredient, int itemAmount)
     {
         this.basket = basket;
         this.assignedIngredient = assignedIngredient;
@@ -45,6 +46,7 @@ public class StationsInventory : MonoBehaviour
     [SerializeField] private int _destroySectionIndex = 0;
     public int DestroySectionIndex => _destroySectionIndex;
 
+
     //private vars
     [SerializeField] private GameObject[] boxes;
     private List<IngredientSO> ingredients = new List<IngredientSO>();
@@ -52,6 +54,9 @@ public class StationsInventory : MonoBehaviour
     private StationManager stationManger;
 
     private bool startDelayed = false;
+
+    [Header("Sound")]
+    [SerializeField] private EventReference OnItemTrashedSound;
 
     void Awake()
     {
@@ -64,11 +69,18 @@ public class StationsInventory : MonoBehaviour
         //AddItemsToBaskets();
     }
 
+    private void OnEnable()
+    {
+        GameEvents.Crafting.OnStationChanged += OnStationChangedHandler;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnStationChanged -= OnStationChangedHandler;
+    }
+
     void Start()
     {
-        stationManger = StationManager.Instance;
-        if (stationManger != null) stationManger.OnStationChanged.AddListener(OnStationChangedHandler);
-
         //setup triggers
         GameEvents.Crafting.OnItemPlacedInTrash += PermanentRemove;
 
@@ -85,10 +97,10 @@ public class StationsInventory : MonoBehaviour
 
     private void PopulateIngredients()
     {
-        print(PersistantItemList.inventorySlots.Count);
         foreach (InventorySlot slot in PersistantItemList.inventorySlots)
         {
-            ingredients.Add(slot.ingredient);
+            for (int i = 0; i < slot.ingredientAmt; i++)
+                ingredients.Add(slot.ingredient);
         }
     }
 
@@ -109,7 +121,9 @@ public class StationsInventory : MonoBehaviour
             }
             else
             {
-                groupedItems[ingred.name] = new BasketItems(null, ingred, 1);
+                ModifiedIngredient newMIngred = new ModifiedIngredient();
+                newMIngred.BaseIngredient = ingred;
+                groupedItems[ingred.name] = new BasketItems(null, newMIngred, 1);
             }
         }
 
@@ -161,6 +175,7 @@ public class StationsInventory : MonoBehaviour
                 else
                 {
                     PersistantItemList.inventorySlots.RemoveAt(i);
+                    SoundManager.Instance.PlayOneShot(OnItemTrashedSound, ingredient.transform.position);
                 }
 
                 break;

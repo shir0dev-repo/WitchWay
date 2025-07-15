@@ -15,6 +15,13 @@ public class StationsInvBox : MonoBehaviour
     [SerializeField] private float xMax = 1.25f;
     [SerializeField] private float zMin = -0.2f;
     [SerializeField] private float zMax = 0.2f;
+    [SerializeField] private Vector2 spriteScale;
+    [SerializeField] private float spriteHeightPos = 1;
+
+    [Header("Opened Display Settings")]
+    [SerializeField] private int itemsPerRow = 5;
+    [SerializeField] private float itemSpacing = 0.8f;
+    [SerializeField] private float itemVerticalOffset = 1.4f;
 
     private List<StationsInvBox> otherBoxes;
     private List<BasketItems> basketItems = new List<BasketItems>();
@@ -53,7 +60,7 @@ public class StationsInvBox : MonoBehaviour
             {
                 float offsetX = Random.Range(xMin, xMax);
                 float offsetZ = Random.Range(zMin, zMax);
-                Vector3 offset = new Vector3(offsetX, 0.5f, offsetZ);
+                Vector3 offset = new Vector3(offsetX, spriteHeightPos, offsetZ);
                 Vector3 spawnPos = transform.position + offset;
 
                 GameObject visual = Instantiate(boxItemPrefab, spawnPos, Quaternion.identity, transform);
@@ -69,12 +76,16 @@ public class StationsInvBox : MonoBehaviour
                 SpriteRenderer sr = visual.GetComponentInChildren<SpriteRenderer>();
                 if (sr != null)
                 {
-                    sr.sortingOrder = Mathf.RoundToInt(-offsetZ * 100);
-                    sr.sprite = item.assignedIngredient.Sprite;
-                    sr.transform.localScale = new Vector3(4, 4, 1);
+                    sr.sortingOrder = 0; //Mathf.RoundToInt(-offsetZ * 100);
+                    sr.sprite = item.assignedIngredient.GetUIRepresentation();
+                    sr.transform.localScale = new Vector3(spriteScale.x, spriteScale.y, 1);
 
                     BoxCollider2D collider = visual.GetComponent<BoxCollider2D>();
-                    collider.size = new Vector2(sr.transform.localScale.x / 6, sr.transform.localScale.y / 6);
+                    collider.size = sr.sprite.bounds.size;
+                }
+                else
+                {
+                    print("no sprite renderer");
                 }
 
                 visuals.Add(visual);
@@ -107,7 +118,7 @@ public class StationsInvBox : MonoBehaviour
             WorldIngredient ingredient;
             if (Input.GetMouseButtonUp(0) && CheckObjectsInBounds(out ingredient))
             {
-                AddWorldItem(ingredient.BaseIngredient);
+                AddWorldItem(ingredient.ModifiedState);
                 Destroy(ingredient.transform.gameObject);
                 SetupDisplay();
             }
@@ -127,12 +138,12 @@ public class StationsInvBox : MonoBehaviour
         basketItems.Add(item);
     }
 
-    public void AddWorldItem(IngredientSO ingredient)
+    public void AddWorldItem(ModifiedIngredient ingredient)
     {
         basketItems.Add(new BasketItems(transform, ingredient, 1));
     }
 
-    public void RemoveItem(IngredientSO ingredient)
+    public void RemoveItem(ModifiedIngredient ingredient)
     {
         foreach (BasketItems item in basketItems)
         {
@@ -158,10 +169,6 @@ public class StationsInvBox : MonoBehaviour
     {
         print(gameObject.name + " opened");
 
-        int itemsPerRow = 5;
-        float spacing = 0.8f;
-        float verticalOffset = 1.4f;
-
         int itemCount = visuals.Count;
 
         for (int i = 0; i < itemCount; i++)
@@ -170,11 +177,11 @@ public class StationsInvBox : MonoBehaviour
             int col = i % itemsPerRow;
 
             int itemsInThisRow = Mathf.Min(itemsPerRow, itemCount - row * itemsPerRow);
-            float rowWidth = (itemsInThisRow - 1) * spacing;
-            float offsetX = -rowWidth / 2f + col * spacing;
-            float offsetY = row * spacing;
+            float rowWidth = (itemsInThisRow - 1) * itemSpacing;
+            float offsetX = -rowWidth / 2f + col * itemSpacing;
+            float offsetY = row * itemSpacing;
 
-            Vector3 localOffset = new Vector3(offsetX, verticalOffset + offsetY, 0f);
+            Vector3 localOffset = new Vector3(offsetX, itemVerticalOffset + offsetY, 0f);
             visuals[i].transform.position = transform.position + localOffset;
 
             SpriteRenderer sr = visuals[i].GetComponentInChildren<SpriteRenderer>();
