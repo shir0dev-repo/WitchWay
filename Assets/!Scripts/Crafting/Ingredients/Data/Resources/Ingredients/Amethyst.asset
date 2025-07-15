@@ -22,6 +22,34 @@ MonoBehaviour:
   WorldPrefab: {fileID: 3114237181974206438, guid: 3f3748531a821d64f84967881b460db0, type: 3}
   CutWorldPrefab: {fileID: 0}
   CrushedWorldPrefab: {fileID: 5445807108987374733, guid: 9bd0d4a9ad2dd7942b3d005a3bc1118d, type: 3}
+  OnCutAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnCrushAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnPickupAudioClip:
+    Guid:
+      Data1: -1835327055
+      Data2: 1176748429
+      Data3: -718773830
+      Data4: -1383917073
+    Path: event:/SFX/pickup/sfx_pickup_rocks
+  OnPutDownAudioClip:
+    Guid:
+      Data1: 1905619790
+      Data2: 1097607645
+      Data3: -1997121919
+      Data4: 1988594868
+    Path: event:/SFX/putdown/sfx_putdown_rocks
   CanBeCut: 0
   CanBeCrushed: 1
   CanBeFrozen: 0

@@ -17,7 +17,7 @@ public class StationManager : MonoBehaviour
 
     [Header("Controls")]
     [SerializeField] private InputAction _changeStationAction;
-    
+
     [Header("Cutting Board")]
     [SerializeField] private CuttingBoard _cuttingBoard;
     [SerializeField] private Transform _cuttingBoardTransform;
@@ -156,8 +156,15 @@ public class StationManager : MonoBehaviour
             }
         }
 
-    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //return Physics.Raycast(ray, out RaycastHit hit) && hit.collider == tableCollider;
+        if (CursorManager.BlockInteraction) { return false; }
+
+        if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))
+        {
+            return hit.collider == tableCollider;
+        }
+        return false;
     }
 
 
@@ -172,7 +179,7 @@ public class StationManager : MonoBehaviour
                 isDragging = true;
                 clickedOnTable = true;
                 dragStartPos = Input.mousePosition;
-                
+
                 bool camSmooth = _useCameraSmoothing && CameraManager.Instance.IsMoving;
                 tableStartPos = camSmooth ? CameraManager.Instance.GetTargetPosition() : tableTransform.position;
             }

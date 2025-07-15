@@ -1,10 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using FMODUnity;
 
 public class RecipeBookToggle : MonoBehaviour
 {
     [SerializeField] private float animationTime = 0.1f;
     [SerializeField] private RectTransform recipeBookPanel;
+
+    [Header("Sound")]
+    [SerializeField] private EventReference bookOpenSound, bookCloseSound;
 
     private Vector2 startPos, targetPos;
 
@@ -18,14 +22,18 @@ public class RecipeBookToggle : MonoBehaviour
 
     public void ToggleRecipeBook()
     {
-        
+
         if (StationManager.Instance.recipeBookOpen)
         {
             StationManager.Instance.recipeBookOpen = false;
+            SoundManager.Instance.PlayOneShot(bookCloseSound);
+            CursorManager.BlockInteraction = false;
         }
         else
         {
             StationManager.Instance.recipeBookOpen = true;
+            CursorManager.BlockInteraction = true;
+            SoundManager.Instance.PlayOneShot(bookOpenSound);
         }
 
         StartCoroutine(RecipeBookAnimation());
@@ -56,5 +64,5 @@ public class RecipeBookToggle : MonoBehaviour
             ToggleRecipeBook();
         }
     }
-        
+
 }

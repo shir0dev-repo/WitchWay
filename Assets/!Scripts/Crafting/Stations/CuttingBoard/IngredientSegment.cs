@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class IngredientSegment : MonoBehaviour, IFollowCursor
@@ -66,21 +67,35 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void BeginDrag()
     {
         if (CursorManager.Instance == null) return;
-
         CursorManager.Instance.AttachToCursor<WorldIngredient>(_parentIngredient, _parentIngredient.transform);
 
         var siblings = GrabSimilar(_parentIngredient.transform);
-        
+        if (CuttingBoard.Instance != null && !siblings.Any(s => s.HasBeenDetached))
+        {
+            CursorManager.Instance.ClearCursor(false);
+            CuttingBoard.Instance.RevertCurrentIngredient();
+            return;
+        }
+
+        CursorManager.Instance.AttachToCursor(transform, transform);
+
+
         foreach (IngredientSegment segment in siblings)
         {
             segment.Grab();
         }
     }
-    
+
     public void UpdateDrag()
     {
-        if (TryGetComponent(out Rigidbody rgbd))
+        if (CursorManager.Instance == null) return;
+        else if (CursorManager.Instance.HasObjectFollowingCursor && CursorManager.Instance.AttachedObject != transform) return;
+        else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
+
+        var siblings = GrabSimilar(_parentIngredient.transform);
+        foreach (IngredientSegment child in siblings)
         {
+            if (!child.transform.TryGetComponent(out Rigidbody rgbd)) continue;
             Vector3 force = (_parentIngredient.transform.position - rgbd.position).normalized * GrabVelocity;
             rgbd.AddForce(force);
             rgbd.linearVelocity = Vector3.ClampMagnitude(rgbd.linearVelocity, MaxGrabVelocity);
@@ -90,6 +105,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void EndDrag()
     {
         if (CursorManager.Instance == null) return;
+        else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
         _parentIngredient._isDragging = false;
         CursorManager.Instance.ClearCursor(false);

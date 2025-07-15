@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 [System.Serializable]
 public class BasketItems
@@ -45,6 +46,7 @@ public class StationsInventory : MonoBehaviour
     [SerializeField] private int _destroySectionIndex = 0;
     public int DestroySectionIndex => _destroySectionIndex;
 
+
     //private vars
     [SerializeField] private GameObject[] boxes;
     private List<IngredientSO> ingredients = new List<IngredientSO>();
@@ -52,6 +54,9 @@ public class StationsInventory : MonoBehaviour
     private StationManager stationManger;
 
     private bool startDelayed = false;
+
+    [Header("Sound")]
+    [SerializeField] private EventReference OnItemTrashedSound;
 
     void Awake()
     {
@@ -170,6 +175,7 @@ public class StationsInventory : MonoBehaviour
                 else
                 {
                     PersistantItemList.inventorySlots.RemoveAt(i);
+                    SoundManager.Instance.PlayOneShot(OnItemTrashedSound, ingredient.transform.position);
                 }
 
                 break;
