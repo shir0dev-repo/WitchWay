@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //NOTE: if max item amount changes will need to add functionality to rescale items
@@ -136,7 +137,11 @@ public class Inventory : MonoBehaviour
                 {
                     slot.slotObject.transform.SetParent(null); //objects destroyed at end of frame so this is required for the realignment
                     Destroy(slot.slotObject);
-                    if (inventoryType == InventoryType.OnlyFilledSlots) Destroy(slot.slotParent.gameObject);
+                    if (inventoryType == InventoryType.OnlyFilledSlots)
+                    {
+                        slotParents.Remove(slot.slotParent.gameObject);
+                        Destroy(slot.slotParent.gameObject);
+                    }    
 
                     PersistantItemList.inventorySlots.Remove(slot);
                     removed = true;
@@ -196,6 +201,8 @@ public class Inventory : MonoBehaviour
         newSlot.AddComponent<Image>();
         newSlot.GetComponent<RectTransform>().SetParent(slotsGrid, false);
         newSlot.GetComponent<RectTransform>().sizeDelta = new Vector2(245, 245);
+        newSlot.AddComponent<InventorySlotScript>();
+
         newSlot.SetActive(true);
 
         slotParents.Add(newSlot);
@@ -219,6 +226,8 @@ public class Inventory : MonoBehaviour
         GameObject itemSlotVisual = Instantiate(slotVisualObject, parentTransform);
         itemSlotVisual.GetComponentInChildren<Image>().sprite = newIngredient.Sprite;
         newItemSlot.slotObject = itemSlotVisual;
+
+        parentTransform.GetComponent<InventorySlotScript>().SetIngredient(newIngredient);
 
         return newItemSlot;
     }
@@ -274,10 +283,12 @@ public class Inventory : MonoBehaviour
 
     public void AddItemTrigger(Collider collision)
     {
-        WorldIngredient worldIngredient = collision.gameObject.GetComponent<WorldIngredient>();
-        if (worldIngredient != null)
+        if (collision.gameObject.TryGetComponent(out WorldIngredient worldIngredient))
         {
-            AddNewItem(worldIngredient.ingredient);
+            AddNewItem(worldIngredient.BaseIngredient);
+            if (CursorManager.Instance != null)
+                CursorManager.Instance.ClearCursor(false);
+            Destroy(collision.gameObject);
         }
     }
 }

@@ -5,7 +5,8 @@ public enum ToolType : byte
     None = 0,
     Knife,
     Chalk,
-    Pestle
+    Pestle,
+    Spoon
 }
 
 public abstract class ToolBase : MonoBehaviour

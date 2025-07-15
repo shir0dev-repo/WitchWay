@@ -3,15 +3,21 @@ using UnityEngine;
 
 public class CuttingBoard : Singleton<CuttingBoard>
 {
-    public CuttableIngredientList list {  get; private set; }
+    public bool HasIngredient => _currentIngredient != null;
+    private CuttableIngredient _currentIngredient = null;
 
     public bool CanCut = false;
     public Action OnCutComplete;
+    public Action OnCutCancelled;
+
+    [SerializeField] Transform pivot;
 
     private void OnEnable()
     {
         GameEvents.Crafting.OnToolSelected += Enable;
         GameEvents.Crafting.OnToolDeselected += Disable;
+        GameEvents.Crafting.OnSuccessfullyCutItem += _ => _currentIngredient = null;
+        OnCutCancelled += RevertCurrentIngredient;
     }
 
     private void OnDisable()
@@ -31,43 +37,75 @@ public class CuttingBoard : Singleton<CuttingBoard>
         if (type == ToolType.Knife)
             CanCut = false;
     }
-
-    void Start()
-    {
-        list = GetComponentInChildren<CuttableIngredientList>();
-        // the ingredient list is part of the cutting board object!
-    }
-    
     public void ChangeCuttingAbility()
     { // changed this into function so it can be called in other scripts
         CanCut = !CanCut;
     }
     private void OnCollisionEnter(Collision collision)
     {
+        if (_currentIngredient != null) return;
+
         try
         {
-            if (collision.gameObject.tag == "Ingredient")
-            {
-                string name = collision.gameObject.name;
-                if (list.GetPrefab(name.ToLower()) != null)
-                {
-                    GameObject p = Instantiate(list.GetPrefab(name.ToLower()));
-                    p.transform.position = new Vector3(0, 1, 0);
-                    p.transform.parent = transform;
-                    p.name = name;
-                    // to make sure this works, the ingredient dropped has to have the
-                    // same name as the prefab it's referring too!
+            if (!collision.gameObject.TryGetComponent(out WorldIngredient w)) return;
 
-                    //later, this will just ask for the name of the scriptable object
-                    Destroy(collision.gameObject);
-                    if (CursorManager.Instance != null)
-                        CursorManager.Instance.ClearCursor(false);
-                }
+            IngredientSO ingredient = w.BaseIngredient;
+            if (ingredient.CanBeCut == false) return;
+            GameObject cutPF = ingredient.CutWorldPrefab;
+
+            if (cutPF == null) return;
+
+            GameObject p = Instantiate(cutPF, pivot.position, pivot.rotation);
+            if (!p.TryGetComponent(out _currentIngredient))
+            {
+                Destroy(p);
+                return;
             }
+
+            p.transform.SetParent(transform);
+            ModifiedIngredient mod = w.ModifiedState;
+
+            if (!(w = p.GetComponent<WorldIngredient>())) return;
+
+            w.UpdateModifiers(mod);
+
+            //later, this will just ask for the name of the scriptable object
+            if (CursorManager.Instance != null)
+                CursorManager.Instance.ClearCursor(false);
+
+            Destroy(collision.gameObject);
         }
         catch
         {
             Debug.Break();
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (_currentIngredient == null) return;
+
+        if (!collision.gameObject.CompareTag("Ingredient")) return;
+    }
+
+    public void RevertCurrentIngredient()
+    {
+        if (_currentIngredient == null) return;
+        if (!_currentIngredient.TryGetComponent(out WorldIngredient wIng)) return;
+
+        ModifiedIngredient modifiedState = wIng.ModifiedState;
+        GameObject ingGO = modifiedState.GetWorldRepresentation();
+
+        ingGO = Instantiate(ingGO, _currentIngredient.transform.position, Quaternion.identity);
+        if (ingGO.TryGetComponent(out wIng))
+        {
+            wIng.UpdateModifiers(modifiedState);
+        }
+
+        CursorManager.Instance.AttachToCursor(wIng, wIng.transform);
+        
+
+        Destroy(_currentIngredient.gameObject);
+        _currentIngredient = null;
     }
 }

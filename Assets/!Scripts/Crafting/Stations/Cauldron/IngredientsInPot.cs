@@ -3,33 +3,45 @@ using UnityEngine;
 
 public class IngredientsInPot : MonoBehaviour
 {
-    public List<GameObject> IngredientsToAdd = new();
-    int thingsInPot;
-    int allIngredientsToAdd;
-
-    void Start()
-    {
-        allIngredientsToAdd = IngredientsToAdd.Count;
-    }
+    public List<WorldIngredient> IngredientsToAdd = new();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ingredient"))
+        if (other.TryGetComponent(out WorldIngredient ing))
         {
-            thingsInPot++;
-            if (other.TryGetComponent(out WorldIngredient ing))
-                GameEvents.Crafting.OnItemPlacedInCauldron?.Invoke(ing);
-
-            CheckPot();
+            GameEvents.Crafting.OnItemPlacedInCauldron?.Invoke(ing);
+            IngredientsToAdd.Add(ing);
+            other.gameObject.SetActive(false);
         }
     }
 
-    void CheckPot()
+    public void ReturnRejectedIngredients()
     {
-        if (allIngredientsToAdd == thingsInPot)
+        if (IngredientsToAdd == null) { return; }
+
+        foreach (WorldIngredient i in IngredientsToAdd)
         {
-            Debug.Log("everything is in the pot!");
-            SwitchToMixing.mixingMode?.Invoke();
+            i.gameObject.SetActive(true);
+            i.gameObject.transform.position = new Vector3(-3, 0, 0);
+            i.gameObject.transform.rotation = Quaternion.identity;
         }
+
+        ClearList();
     }
+
+    public void UseIngredientsInValidRecipe()
+    {
+        foreach (WorldIngredient i in IngredientsToAdd)
+        {
+            Destroy(i.gameObject);
+        }
+
+        ClearList();
+    }
+
+    public void ClearList()
+    {
+        IngredientsToAdd?.Clear();
+    }
+    public List<WorldIngredient> GetIngredients() { return IngredientsToAdd; }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ToolSelector : Singleton<ToolSelector>
@@ -36,11 +35,14 @@ public class ToolSelector : Singleton<ToolSelector>
         }
     }
 
-    private void DeselectTool()
+    public void DeselectTool()
     {
-        CursorManager.Instance.ClearCursor();
-        CurrentlySelected.DeselectTool();
+        if (!CurrentlySelected) return;
 
+        if (CursorManager.Instance && CursorManager.Instance.AttachedObject == CurrentlySelected.transform)
+            CursorManager.Instance.ClearCursor();
+
+        CurrentlySelected.DeselectTool();
         CurrentlySelected = null;
 
         ToolType type = CurrentType;
@@ -52,9 +54,14 @@ public class ToolSelector : Singleton<ToolSelector>
     private bool RaycastTool(out ToolBase tool)
     {
         tool = null;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1 << LayerMask.NameToLayer("UI")))
+        {
+            return hit.rigidbody != null && hit.rigidbody.TryGetComponent(out tool);
+        }*/
+
+        if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))
         {
             return hit.rigidbody != null && hit.rigidbody.TryGetComponent(out tool);
         }

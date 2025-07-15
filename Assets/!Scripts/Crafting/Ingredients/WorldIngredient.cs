@@ -1,181 +1,137 @@
-using System.Collections;
 using UnityEngine;
 
-public class WorldIngredient : MonoBehaviour
+[DisallowMultipleComponent]
+public class WorldIngredient : MonoBehaviour, IFollowCursor
 {
-    public IngredientSO ingredient; //added this so can ref what ingredient it is
+    public void SetIngredient(IngredientSO data)
+    {
+        _data.BaseIngredient = data;
+    }
 
+    public IngredientSO BaseIngredient => _data.BaseIngredient; //added this so can ref what ingredient it is
+
+    public ModifiedIngredient ModifiedState => _data;
+    public void UpdateModifiers(ModifiedIngredient mod) => _data = mod;
+
+    [SerializeField] private ModifiedIngredient _data;
     [HideInInspector] public bool _isDragging = false;
-
-    private Vector3 _mousePosWS = Vector3.zero;
-    private Vector3 _velocity = Vector3.zero;
-    private float _moveSpeed = 4.5f;
 
     [Header("Grabbing")]
     [SerializeField] private float baseDepth = 0f;
     [SerializeField] private float baseDepthDeviation;
 
+    private static Camera MainCam
+    {
+        get
+        {
+            if (_cam == null)
+            {
+                _cam = Camera.main;
+            }
+
+            return _cam;
+        }
+    }
+
     private static Camera _cam = null;
+    private Rigidbody Rigidbody
+    {
+        get
+        {
+            if (_rb == null) _rb = GetComponent<Rigidbody>();
+            return _rb;
+        }
+    }
+    private Rigidbody _rb = null;
 
-    private Rigidbody rb;
-    private float currentDepth;
-    private bool isStationValid = true;
-    private bool inDestroyArea = false;
-    private bool _anchoredToStation = false;
+    private Collider[] Colliders
+    {
+        get
+        {
+            if (_colliders == null) _colliders = GetComponents<Collider>();
+            return _colliders;
+        }
+    }
+    private Collider[] _colliders = null;
 
+    [HideInInspector] public float currentDepth;
     [HideInInspector] public Vector3 startPos = Vector3.zero;
 
-    //private StationManager stationManager;
-
-    private void OnEnable()
+    public void BeginDrag()
     {
-        GameEvents.Crafting.OnItemPlacedInStation += CheckValid;
-    }
+        if (CursorManager.Instance == null) return;
 
-    private void OnDisable()
-    {
-        GameEvents.Crafting.OnItemPlacedInStation -= CheckValid;
-    }
-
-    private void Start()
-    {
-        if (_cam == null)
-            _cam = Camera.main;
-        
-        rb = GetComponent<Rigidbody>();
-    }
-
-    private void Update()
-    {
-        HandleInput();
-
-        if (_isDragging)
+        if (Rigidbody)
         {
-            HandleScroll();
-            UpdateDragging();
+            Rigidbody.useGravity = false;
+            Rigidbody.linearVelocity = Vector3.zero;
         }
-    }
 
-    private void HandleInput()
-    {
-        if (!_isDragging && Input.GetMouseButtonDown(0))
-        {
-            CastRay();
-        }
-        else if (_isDragging && Input.GetMouseButtonUp(0))
-        {
-            EndDrag();
-        }
-    }
+        foreach (Collider c in Colliders) c.isTrigger = true;
 
-    private void HandleScroll()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (Mathf.Abs(scroll) > 0.01f)
-        {
-            currentDepth += scroll * 5f;
+        CursorManager.Instance.AttachToCursor(transform, transform);
 
-            float maxDepth = baseDepth + baseDepthDeviation;
-            currentDepth = Mathf.Clamp(currentDepth, baseDepth, maxDepth);
-        }
-    }
 
-    private void CastRay()
-    {
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Ignore))
+        if (SoundManager.Instance != null && !_data.BaseIngredient.OnPickupAudioClip.IsNull)
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPickupAudioClip, CursorManager.Instance.AttachedObject.transform.position);
+
+        /*Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.gameObject == gameObject)
             {
                 startPos = hit.collider.transform.position;
-                BeginDrag();
-            }
-        }
-    }
 
-    private void BeginDrag()
-    {
+                if (CursorManager.Instance == null) return;
+
         _isDragging = true;
-        rb.useGravity = false;
-        rb.linearVelocity = Vector3.zero;
-        if (CursorManager.Instance != null)
-            CursorManager.Instance.AttachToCursor(transform, transform);
+
+        if (Rigidbody != null)
+        {
+            Rigidbody.useGravity = false;
+            Rigidbody.linearVelocity = Vector3.zero;
+        }
+
+        foreach (Collider c in Colliders) c.isTrigger = true;
+
+                CursorManager.Instance.AttachToCursor(transform, transform);
+            }
+        }*/
     }
 
-    private void UpdateDragging()
+    public void UpdateDrag()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 oProjC = Vector3.Project(transform.position - _cam.transform.position, _cam.transform.forward);
-        mousePos.z = oProjC.magnitude;
-
-        Vector3 worldPos = _cam.ScreenToWorldPoint(mousePos);
-
-        if (StationsInventory.Instance != null)
-        {
-            currentDepth = baseDepth;
-            CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
-
-            if (craftingRects != null)
-            {
-                for (int i = 0; i < craftingRects.Length; i++)
-                {
-                    CraftingRectArea craftingRectArea = craftingRects[i];
-                    RectTransform rect = craftingRectArea.screenRect;
-
-                    Vector2 localMousePosition = rect.InverseTransformPoint(mousePos);
-                    if (rect.rect.Contains(localMousePosition))
-                    {
-                        currentDepth = craftingRectArea.depthValue;
-                        inDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
-
-                        break;
-                    }
-                }
-            }
-        }
-        
-        _mousePosWS = new Vector3(worldPos.x, worldPos.y, currentDepth);
-        transform.position = Vector3.SmoothDamp(transform.position, _mousePosWS, ref _velocity, _moveSpeed * Time.deltaTime);
+        if (TryGetComponent(out CuttableIngredient cuttable))
+            foreach (var segment in cuttable.Segments)
+                segment.UpdateDrag();
     }
 
     public void EndDrag()
     {
+        if (CursorManager.Instance == null) return;
+        else if (CursorManager.Instance.AttachedObject != transform) return;
+
         _isDragging = false;
-        rb.useGravity = true;
 
-        if (inDestroyArea)
+        if (TryGetComponent(out CuttableIngredient cuttable))
         {
-            FindFirstObjectByType<StationsInventory>().PermanentRemove(this);
-            Destroy(gameObject);
-        }
-        else if (CursorManager.Instance != null)
-        {
-            CursorManager.Instance.ClearCursor();
-        }
-    }
-
-    private void CheckValid(WorldIngredient wIngredient, StationType station, Transform stationAnchor)
-    {
-        if (wIngredient != this) return;
-
-        if (ingredient == null)
-        {
-            StartCoroutine(DeferredCheck(station));
-            return;
+            foreach (var segment in cuttable.Segments)
+            {
+                segment.Ungrab();
+            }
         }
 
-        isStationValid = ingredient.CanBeUsedAtStation(station);
-        if (isStationValid)
-        {
-            _anchoredToStation = true;
-            transform.position = stationAnchor.position;
-        }
-    }
+        if (Rigidbody != null) 
+            Rigidbody.useGravity = true;
 
-    private IEnumerator DeferredCheck(StationType station)
-    {
-        yield return null;
-        if (ingredient != null)
-            isStationValid = ingredient.CanBeUsedAtStation(station);
+        foreach (Collider c in Colliders)
+        {
+            c.isTrigger = false;
+        }
+
+        if (SoundManager.Instance != null && !_data.BaseIngredient.OnPutDownAudioClip.IsNull)
+            SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPutDownAudioClip, CursorManager.Instance.AttachedObject.transform.position);
+
+        CursorManager.Instance.ClearCursor();
     }
 }

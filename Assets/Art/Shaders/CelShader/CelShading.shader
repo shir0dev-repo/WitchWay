@@ -5,10 +5,10 @@ Shader "Toon/Cel-Shading"
         [Header(Main)]
         _MainTex ("Main Texture", 2D) = "white" {}
         [MainColor] _Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
+        _FXColor("Effect Color", Color) = (1, 1, 1, 1)
         [NoScaleOffset][Normal] _NormalTex ("Normal", 2D) = "bump" {}
         [NoScaleOffset] _RoughnessTex ("Roughness", 2D) = "white" {}
         [NoScaleOffset] _EmissiveTex ("Emissive", 2D) = "white" {}
-        
         [Header(Emissive)]
         [HDR]_EmissiveColour ("Emissive Color", Color) = (0, 0, 0, 1)
         _EmissiveStrength ("Emissive Strength", Range(0, 100)) = 0
@@ -32,7 +32,7 @@ Shader "Toon/Cel-Shading"
         Tags { 
             "RenderPipeline" = "UniversalRenderPipeline" 
             "RenderType"="Opaque" 
-            "Queue" = "Transparent"
+            //"Queue" = "Transparent"
             "DisableBatching" = "True"
         }
         
@@ -62,16 +62,17 @@ Shader "Toon/Cel-Shading"
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
-                float3 worldPos : TEXCOORD0;
-                half3 tspace0 : TEXCOORD1;
-                half3 tspace1 : TEXCOORD2;
-                half3 tspace2 : TEXCOORD3;
-                float2 uv : TEXCOORD4;
-                UNITY_FOG_COORDS(1)
-                SHADOW_COORDS(2)
-                float3 worldNormal : NORMAL;
-                float3 viewDir : TEXCOORD5;
+                float4 vertex       : SV_POSITION;
+                
+                half3 tspace0       : TEXCOORD0;
+                half3 tspace1       : TEXCOORD1;
+                half3 tspace2       : TEXCOORD2;
+                float2 uv           : TEXCOORD3;
+                float3 viewDir      : TEXCOORD4;
+                UNITY_FOG_COORDS(5)
+                SHADOW_COORDS(6)
+                
+                float3 worldNormal  : NORMAL;
             };
 
             sampler2D _MainTex;
@@ -83,6 +84,7 @@ Shader "Toon/Cel-Shading"
             sampler2D _EmissiveTex;
             float4 _EmissiveTex_ST;
 
+            float4 _FXColor;
             float4 _Diffuse;
             float _AmbientStrength;
             

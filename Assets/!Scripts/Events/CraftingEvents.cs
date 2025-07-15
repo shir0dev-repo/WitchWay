@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static partial class GameEvents
@@ -14,8 +15,15 @@ public static partial class GameEvents
         // Inventory Events
         public static Action<IngredientSO> OnItemAddedToInventory;
         public static Action<IngredientSO> OnItemRemovedFromInventory;
+
+        public static Action<ModifiedIngredient> OnIngredientUIHover;
+        public static Action OnIngredientUIUnhovered;
+        
         public static Action<WorldIngredient> OnItemPlacedInTrash;
+        
+
         public static Action<WorldIngredient, StationType, Transform> OnItemPlacedInStation;
+
 
         // Cutting Board Events
         public static Action<WorldIngredient> OnItemPlacedOnCuttingBoard;
@@ -24,7 +32,7 @@ public static partial class GameEvents
         public static Action<WorldIngredient> OnSuccessfullyCutItem;
         public static Action<WorldIngredient> OnFailedToCutItem;
 
-        public static Action<WorldIngredient> OnCutItem;
+        public static Action<WorldIngredient, Transform> OnCutItem;
 
         // Mortar and Pestle Events
         public static Action<WorldIngredient> OnItemPlacedInMortar;
@@ -57,14 +65,21 @@ public static partial class GameEvents
         // Cauldron Events
         public static Action<WorldIngredient> OnItemPlacedInCauldron;
         public static Action OnCauldronMixStepCompleted;
+        public static Action OnCauldronMixSequenceCompleted;
 
-        public static Action<Potion> OnSuccessfullyMixedPotion;
-        public static Action<Potion> OnFailedToMixPotion;
+        public static Action<List<ModifiedIngredient>, bool> OnMixedPotionRequested;
+
+        public static Action<PotionData> OnSuccessfullyMixedPotion;
+        public static Action<RecipeSO> OnFailedToMixPotion;
+
 
         // Bottler events
         // TODO: Add Bottle class as parameter
         public static Action OnBottleSelected;
+        public static Action<Bottle> OnBottlePlacedInBottler;
         public static Action OnBottlingStationSelected;
+        public static Action<float> OnBottleFillChanged;
+        public static Action<PotionData> OnBottleFilled;
 
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;

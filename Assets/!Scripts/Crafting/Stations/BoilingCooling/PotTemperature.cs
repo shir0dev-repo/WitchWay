@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PotTemperature : MonoBehaviour
 {
@@ -13,12 +14,17 @@ public class PotTemperature : MonoBehaviour
 
     public static event Action TriggerBurning;
 
-    [SerializeField] Slider_WithPointer TempSlider; 
+    [SerializeField] private Gradient _temperatureSliderGradient;
+    [SerializeField] Slider_WithPointer TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
     public float TargetTemperature;
     public float Temperature = 0;
     public float Progress = 0;
+
+    private WorldIngredient _targetIngredient;
+    GameObject currentIngredientInPot;
+
     public bool isChangingTemp { get; set; }
     public bool amCurrentlyBurning {  get; set; }
 
@@ -33,8 +39,15 @@ public class PotTemperature : MonoBehaviour
         }
         
         Instance = this;
-        FailState = GetComponentInChildren<FailState_BurnCool>();
-    } 
+        FailState = GetComponent<FailState_BurnCool>();
+    }
+
+    private void Start()
+    {
+        TargetTemperature = Random.Range(-40, 40);
+        TempSlider.SetPointerLocation(TargetTemperature);
+    }
+
     private void OnEnable()
     {
         StartCooking += StartStart;
@@ -66,23 +79,66 @@ public class PotTemperature : MonoBehaviour
         {
             FillValueSlider.SetValue(Progress);
         }
+
+        if (Progress >= 100)
+        {
+            if (_targetIngredient != null)
+            {
+                FinishCooking?.Invoke();
+                if (TargetTemperature >= 0)
+                    _targetIngredient.ModifiedState.Heat();
+                else
+                    _targetIngredient.ModifiedState.Freeze();
+
+                _targetIngredient = null;
+            }
+
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
         {
+            ingredient.targetTemp = TargetTemperature;
+            if (ingredient.TryGetComponent(out WorldIngredient ing))
+                _targetIngredient = ing;
+
+            currentIngredientInPot = other.gameObject;
             StartCooking?.Invoke();
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent(out WorldIngredient ing) && ing == _targetIngredient)
+            _targetIngredient = null;
+    }
+
+    public void SetSliderColor(float sliderValue)
+    {
+        float val01 = ((sliderValue / 50.0f) + 1.0f) * 0.5f;
+        TempSlider.slider.targetGraphic.color = _temperatureSliderGradient.Evaluate(val01);
+    }
+
     void StartStart()
     {
         ToggleSliders(true);
 
         TempSlider.SetPointerLocation(TargetTemperature);
+
+        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        {
+            w.enabled = false;
+        }
     }
     void EndEnd()
     {
         ToggleSliders(false);
+
+        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        {
+            w.enabled = true;
+        }
     }
     void InBurningThreshold()
     {

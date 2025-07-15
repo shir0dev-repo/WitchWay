@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e886bdd6c0da7d642a15303e0cdc7851, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  Ingredients:
+  - TargetIngredient: {fileID: 11400000, guid: 236bd21787528b148b73f5383683623b, type: 2}
+    OrderedCraftingOperations: 
+  - TargetIngredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
+    OrderedCraftingOperations: 
+  Output: {fileID: 11400000, guid: ab9bcb66b7584a948a55545f7a3b153b, type: 2}
+  IsDiscovered: 1

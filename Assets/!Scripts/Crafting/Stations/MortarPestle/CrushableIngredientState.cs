@@ -20,7 +20,7 @@ public class CrushableIngredientState : MonoBehaviour
     public bool canBeCrushed = false;
 
     private bool _isCrushableIngredient;
-    
+
     private void Start()
     {
         _isCrushableIngredient = CheckCrushability();
@@ -29,33 +29,19 @@ public class CrushableIngredientState : MonoBehaviour
 
     private bool CheckCrushability()
     {
-        if (TryGetComponent(out WorldIngredient ing))
+        if (TryGetComponent(out WorldIngredient ing) && ing.BaseIngredient != null)
         {
-            return ing.ingredient.CanBeCrushed;
+            return ing.BaseIngredient.CanBeCrushed;
         }
 
         return false;
-    }
-
-    private void OnCollisionEnter(Collision other) // changed from trigger to prevent multiple calls while mashing
-    {
-        if (CanBeCrushed(other))
-        {
-            TakeDamage(5);
-            ChangeState();
-        }
-    }
-
-    private bool CanBeCrushed(Collision other)
-    {
-        return _isCrushableIngredient && canBeCrushed && other.gameObject.TryGetComponent<PestleTool>(out _);
     }
 
     public bool TakeDamage(float dmg)
     {
         if (CurrentDurability <= 0) { return false; }
         CurrentDurability -= dmg;
-
+        ChangeState();
         return true;
     }
 
@@ -78,6 +64,8 @@ public class CrushableIngredientState : MonoBehaviour
         else
         {
             CurrState = CrushState.Dust;
+            GetComponent<WorldIngredient>().ModifiedState.Crush();
+            GameEvents.Crafting.OnSuccessfullyCrushedItem?.Invoke(GetComponent<WorldIngredient>());
         }
 
         Debug.Log("Ingredient is currently: " + CurrState.ToString() + "\n"
