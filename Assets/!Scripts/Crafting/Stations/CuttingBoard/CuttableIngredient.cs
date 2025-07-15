@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using FMODUnity;
 
 public class CuttableIngredient : MonoBehaviour
 {
@@ -109,8 +110,10 @@ public class CuttableIngredient : MonoBehaviour
             float xPosition = _mainCamera.WorldToScreenPoint(t.position).x;
 
             if (_cursorPoints.Any(p => Mathf.Abs(p.x - xPosition) > _dstThreshold))
-                continue;
-
+            {
+            SoundManager.Instance.PlayOneShot(_board.onKnifeFailSound, t.position);
+            continue;
+            }
             else
             {
                 success = true;
@@ -124,6 +127,8 @@ public class CuttableIngredient : MonoBehaviour
             Debug.Log("Yay!");
             GameEvents.Crafting.OnCutItem?.Invoke(_ingredient, targetCutPoint);
             TryDetachSegment(targetCutPoint);
+            SoundManager.Instance.PlayOneShot(_board.onKnifeCutSound, targetCutPoint.position);
+
             // on a successful cut, add to the count
         }
 

@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638880158683054478
+  lastModified: 638881938673213070
   FileSizes:
   - Name: 
-    Value: 1658
+    Value: 2036
   Exists: 1
 --- !u!114 &-7998683031750279346
 MonoBehaviour:
@@ -116,7 +116,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Testing.bank
   Name: Testing
   StudioPath: bank:/Testing
-  lastModified: 638880158683435354
+  lastModified: 638879268307466056
   FileSizes: []
   Exists: 1
 --- !u!114 &-5598305694464427847
@@ -146,6 +146,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 312
+--- !u!114 &-4754945186947591745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/mortar and pestle/sfx_mortar_pickup
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/mortar and pestle/sfx_mortar_pickup
+  Guid:
+    Data1: -357666649
+    Data2: 1244586759
+    Data3: 667290772
+    Data4: -1817321077
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 347
 --- !u!114 &-4276976304560864787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +188,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638840520584814787
+  lastModified: 638847313022664023
   FileSizes: []
   Exists: 1
 --- !u!114 &-3570219696970672762
@@ -191,6 +218,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-3417876545531463674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/knife/sfx_knife_pickup
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/knife/sfx_knife_pickup
+  Guid:
+    Data1: -60421861
+    Data2: 1114711793
+    Data3: -1174976097
+    Data4: 1617139048
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 375
 --- !u!114 &-2507497865807535650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +287,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638880158683269969
+  lastModified: 638881938673333210
   FileSizes: []
   Exists: 1
 --- !u!114 &-1154540382460864894
@@ -299,13 +353,47 @@ MonoBehaviour:
   - {fileID: 1799357372240623760}
   - {fileID: 5643069272333734910}
   - {fileID: -7998683031750279346}
+  - {fileID: -3417876545531463674}
+  - {fileID: 1755533061577914901}
+  - {fileID: 5204707763685806799}
+  - {fileID: 3082619399738649495}
+  - {fileID: 1284110147895122902}
+  - {fileID: -4754945186947591745}
+  - {fileID: 559029468993008427}
   EditorParameters: []
   MasterBanks:
   - {fileID: 1423918322811222098}
   StringsBanks:
   - {fileID: -8208752150901246708}
-  cacheTime: 638880158683435354
+  cacheTime: 638881938673368323
   cacheVersion: 131624
+--- !u!114 &559029468993008427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/knife/sfx_knife_slice_failure
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/knife/sfx_knife_slice_failure
+  Guid:
+    Data1: -2070546982
+    Data2: 1087669883
+    Data3: -905885037
+    Data4: -1444665686
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1248
 --- !u!114 &846722778096396184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +420,34 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 625
+  Length: 468
+--- !u!114 &1284110147895122902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/knife/sfx_knife_drop
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/knife/sfx_knife_drop
+  Guid:
+    Data1: -535477608
+    Data2: 1091863204
+    Data3: -1821102411
+    Data4: -2138231769
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 500
 --- !u!114 &1423918322811222098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,9 +463,36 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638840520584814787
+  lastModified: 638847313022730911
   FileSizes: []
   Exists: 1
+--- !u!114 &1755533061577914901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/knife/sfx_knife_slice_success
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/knife/sfx_knife_slice_success
+  Guid:
+    Data1: 753014603
+    Data2: 1212308808
+    Data3: 1642644101
+    Data4: 1621677134
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 496
 --- !u!114 &1799357372240623760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +520,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 749
+--- !u!114 &3082619399738649495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/mortar and pestle/sfx_pestle_crushing
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/mortar and pestle/sfx_pestle_crushing
+  Guid:
+    Data1: -700802921
+    Data2: 1240127948
+    Data3: 112197508
+    Data4: 602423844
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2000
 --- !u!114 &3193661496884717999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,7 +616,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638880158683380255
+  lastModified: 638881938673368323
   FileSizes: []
   Exists: 1
 --- !u!114 &3753397860973681106
@@ -504,6 +673,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 312
+--- !u!114 &5204707763685806799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/mortar and pestle/sfx_pestle_pickup
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/mortar and pestle/sfx_pestle_pickup
+  Guid:
+    Data1: -1969172848
+    Data2: 1301531157
+    Data3: 1488290218
+    Data4: 1977039044
+  Banks:
+  - {fileID: 3659357014926601701}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 477
 --- !u!114 &5643069272333734910
 MonoBehaviour:
   m_ObjectHideFlags: 0

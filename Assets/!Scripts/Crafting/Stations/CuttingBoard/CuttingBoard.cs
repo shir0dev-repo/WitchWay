@@ -1,4 +1,5 @@
 using System;
+using FMODUnity;
 using UnityEngine;
 
 public class CuttingBoard : Singleton<CuttingBoard>
@@ -9,6 +10,9 @@ public class CuttingBoard : Singleton<CuttingBoard>
     public Action OnCutComplete;
 
     [SerializeField] Transform pivot;
+
+    [Header("Sounds")]
+    public EventReference onKnifeCutSound, onKnifeFailSound;
 
     private void OnEnable()
     {

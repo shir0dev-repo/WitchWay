@@ -21,7 +21,16 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlayOneShot(EventReference sound, Vector3 position = default)
     {
+        try
+        {
         _emitterSFX.EventReference = sound;
-        _emitterSFX.Play();
+        RuntimeManager.PlayOneShot(sound, position);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"SoundManager: Failed to play sound {sound} at position {position}. Error: {e.Message}");
+            return;
+        }
+        
     }
 }
