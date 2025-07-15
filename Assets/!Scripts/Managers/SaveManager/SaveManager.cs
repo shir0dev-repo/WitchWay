@@ -3,25 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SaveManager : MonoBehaviour
+public class SaveManager : PersistentSingleton<SaveManager>
 {
     private string savePath => Application.persistentDataPath + "/playerSave.json";
     public SaveData saveData = new();
 
-    public static SaveManager Instance;
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-            LoadGame();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
+        LoadGame();
     }
     public void CollectIngredient(string id)
     {
