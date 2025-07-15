@@ -20,7 +20,7 @@ public class CrushableIngredientState : MonoBehaviour
     public bool canBeCrushed = false;
 
     private bool _isCrushableIngredient;
-    
+
     private void Start()
     {
         _isCrushableIngredient = CheckCrushability();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CursorManager : Singleton<CursorManager>
 {
@@ -18,6 +19,11 @@ public class CursorManager : Singleton<CursorManager>
 
     public bool HasObjectFollowingCursor => _isObjectAttached;
     private bool _isObjectAttached = false;
+
+    public static bool BlockInteraction = false;
+    [SerializeField] private LayerMask interactableLayers;
+    [SerializeField] private LayerMask blockedLayers;
+    public static LayerMask InteractionMasks => BlockInteraction ? Instance.blockedLayers : Instance.interactableLayers;
 
     public void ToggleVisibility(bool visible)
     {
@@ -57,7 +63,7 @@ public class CursorManager : Singleton<CursorManager>
 
     private void FixedUpdate()
     {
-        if (_isObjectAttached)
+        if (_isObjectAttached && !BlockInteraction)
         {
             TryGetZTarget();
             SnapCurrentObjectToCursor();
@@ -204,9 +210,28 @@ public class CursorManager : Singleton<CursorManager>
         ToggleVisibility(true);
     }
 
-    public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit, LayerMask layermask)
+    public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit)//, LayerMask layermask)
     {
         Ray r = Camera.main.ScreenPointToRay(mousePos);
-        return Physics.Raycast(r, out hit, Mathf.Infinity, layermask);
+        return Physics.Raycast(r, out hit, Mathf.Infinity, InteractionMasks);// layermask);
+    }
+
+    // This should hopefully make the cursor visible again after leaving the witching zone
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode dog)  // awoof
+    {
+        if (scene.name != "WZPlayerController")     // scene name will need to change depending on the naming of the witching zone
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+        }
     }
 }
