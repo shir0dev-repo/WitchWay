@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class MortarStation : Singleton<MortarStation>
 {
@@ -12,6 +13,8 @@ public class MortarStation : Singleton<MortarStation>
 
     private List<CrushableIngredientState> ingredientsInMortar = new();
     private Dictionary<Rigidbody, RigidbodyConstraints> constraints = new();
+
+    [SerializeField] public EventReference onToolSelected;
 
     private void Start()
     {
