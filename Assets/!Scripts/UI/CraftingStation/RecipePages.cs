@@ -17,7 +17,7 @@ public class RecipePages : MonoBehaviour
     [SerializeField] private GameObject nextPageButton, previousPageButton;
 
     [Header("Sound")]
-    [SerializeField] private EventReference pageTurnSound, pictureMoveSound;
+    [SerializeField] private EventReference pageTurnSound;
 
     void Start()
     {

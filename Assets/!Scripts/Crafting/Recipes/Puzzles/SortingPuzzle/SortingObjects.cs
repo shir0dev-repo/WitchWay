@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,9 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     [Header("Image Stuff")]
     private Image imageComponent;
     [SerializeField] private Sprite correctSprite;
+
+    [Header("Sound")]
+    [SerializeField] private EventReference onPictureMoveSound;
 
     void Awake()
     {
@@ -37,7 +41,10 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (isPlacedCorrectly) return;
+        SoundManager.Instance.PlayOneShot(onPictureMoveSound);
+        Debug.Log("the OnPictureMoveSound would play here if it existed");
+        if (isPlacedCorrectly)
+            return;
 
         canvasGroup.blocksRaycasts = true;
         // if (!eventData.pointerEnter || !eventData.pointerEnter.GetComponent<DropSpot>())
