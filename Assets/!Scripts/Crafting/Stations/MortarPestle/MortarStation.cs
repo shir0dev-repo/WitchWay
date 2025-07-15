@@ -11,6 +11,7 @@ public class MortarStation : Singleton<MortarStation>
     // Fail state stuff
     [SerializeField] private GameObject explosionPrefab;    // Im sure james will want to make a fun effect to play
     [SerializeField] public EventReference onToolSelected;
+
     private List<CrushableIngredientState> ingredientsInMortar = new();
     private Dictionary<Rigidbody, RigidbodyConstraints> constraints = new();
 
