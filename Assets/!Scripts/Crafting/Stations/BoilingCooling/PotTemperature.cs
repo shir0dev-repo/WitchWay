@@ -14,6 +14,7 @@ public class PotTemperature : MonoBehaviour
 
     public static event Action TriggerBurning;
 
+    [SerializeField] private Gradient _temperatureSliderGradient;
     [SerializeField] Slider_WithPointer TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
@@ -42,7 +43,7 @@ public class PotTemperature : MonoBehaviour
 
     private void Start()
     {
-        TargetTemperature = Random.Range(-50, 50);
+        TargetTemperature = Random.Range(-40, 40);
         TempSlider.SetPointerLocation(TargetTemperature);
     }
 
@@ -97,6 +98,7 @@ public class PotTemperature : MonoBehaviour
     {
         if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
         {
+            ingredient.targetTemp = TargetTemperature;
             if (ingredient.TryGetComponent(out WorldIngredient ing))
                 _targetIngredient = ing;
             StartCooking?.Invoke();
@@ -107,6 +109,12 @@ public class PotTemperature : MonoBehaviour
     {
         if (other.TryGetComponent(out WorldIngredient ing) && ing == _targetIngredient)
             _targetIngredient = null;
+    }
+
+    public void SetSliderColor(float sliderValue)
+    {
+        float val01 = ((sliderValue / 50.0f) + 1.0f) * 0.5f;
+        TempSlider.slider.targetGraphic.color = _temperatureSliderGradient.Evaluate(val01);
     }
 
     void StartStart()
