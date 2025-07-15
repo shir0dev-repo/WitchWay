@@ -39,6 +39,7 @@ public class CuttableIngredient : MonoBehaviour
         _ingredient = GetComponent<WorldIngredient>();
 
         GameEvents.Crafting.OnToolDeselected += CompleteChopping;
+        _board.OnCutCancelled += DeleteIngredient;
 
         foreach (IngredientSegment segment in _segments)
         {
@@ -64,17 +65,7 @@ public class CuttableIngredient : MonoBehaviour
     {
         if (!_board.CanCut)
         {
-            if (Input.GetMouseButton(0))
-            {
-                _board.baseIngredient.gameObject.SetActive(true);
-                _board.baseIngredient.gameObject.transform.position = new Vector3(-5, 0, 0);
-                // replace this with dragging from the world ingredient... somehow
-
-                CursorManager.Instance.ClearCursor();
-
-                Destroy(gameObject);
-            }
-            return; 
+            if (Input.GetMouseButtonDown(0)) CuttingBoard.Instance.OnCutCancelled?.Invoke();
         }
         
         if (Input.GetMouseButtonDown(0))

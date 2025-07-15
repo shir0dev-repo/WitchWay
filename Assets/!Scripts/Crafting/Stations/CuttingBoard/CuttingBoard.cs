@@ -5,10 +5,11 @@ public class CuttingBoard : Singleton<CuttingBoard>
 {
     public bool HasIngredient => _currentIngredient != null;
     private CuttableIngredient _currentIngredient = null;
-    public GameObject baseIngredient;
-     
+    public GameObject CurrIngredientObj;
+    
     public bool CanCut = false;
     public Action OnCutComplete;
+    public Action OnCutCancelled;
 
     [SerializeField] Transform pivot;
 
@@ -16,6 +17,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
     {
         GameEvents.Crafting.OnToolSelected += Enable;
         GameEvents.Crafting.OnToolDeselected += Disable;
+        OnCutCancelled += CancelCutting;
     }
 
     private void OnDisable()
@@ -65,8 +67,8 @@ public class CuttingBoard : Singleton<CuttingBoard>
                 if (CursorManager.Instance != null)
                     CursorManager.Instance.ClearCursor(false);
 
+                CurrIngredientObj = collision.gameObject;
                 collision.gameObject.SetActive(false);
-                baseIngredient = collision.gameObject;
             }
         }
         catch
@@ -86,5 +88,20 @@ public class CuttingBoard : Singleton<CuttingBoard>
             _currentIngredient = null;
         }
 
+    }
+    public void CancelCutting()
+    {
+        CurrIngredientObj.SetActive(true);
+        if (CurrIngredientObj.TryGetComponent(out WorldIngredient w))
+        {
+            CursorManager.Instance.ClearCursor();
+            w.BeginDrag();
+        }
+
+        ClearCurrentObject();
+    }
+    public void ClearCurrentObject()
+    {
+        CurrIngredientObj = null;
     }
 }

@@ -62,6 +62,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void BeginDrag()
     {
         if (CursorManager.Instance == null) return;
+        //else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
         CursorManager.Instance.AttachToCursor(transform, transform);
 
@@ -77,8 +78,9 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     {
         if (CursorManager.Instance == null) return;
         else if (CursorManager.Instance.AttachedObject != transform) return;
+        else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
-        var siblings = GrabSimilar(_parentIngredient.transform);
+            var siblings = GrabSimilar(_parentIngredient.transform);
         foreach (IngredientSegment child in siblings)
         {
             if (child.transform == transform) continue;
@@ -95,6 +97,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void EndDrag()
     {
         if (CursorManager.Instance == null) return;
+        else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
         _parentIngredient._isDragging = false;
         CursorManager.Instance.ClearCursor(false);

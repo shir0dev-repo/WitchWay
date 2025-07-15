@@ -95,25 +95,4 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
         CursorManager.Instance.ClearCursor();
     }
-
-    public void NoColliderBeginDrag(Transform supplyingCollider)
-    {
-        if (CursorManager.Instance == null) return;
-
-        _isDragging = true;
-
-        foreach (Rigidbody rbb in transform.GetComponentsInChildren<Rigidbody>())
-        {
-            rbb.useGravity = false;
-            rbb.linearVelocity = Vector3.zero;
-            rbb.angularVelocity = Vector3.zero;
-        }
-
-        foreach (Collider c in _colliders)
-        {
-            c.isTrigger = true;
-        }
-
-        CursorManager.Instance.AttachToCursor(transform, supplyingCollider);
-    }
 }
