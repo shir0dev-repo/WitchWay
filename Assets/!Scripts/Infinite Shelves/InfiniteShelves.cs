@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class InfiniteShelves : MonoBehaviour
 {
-    [Header("Scroll Settings")]
-    [SerializeField] private float scrollSpeed;
+    [Header("Momentum Settings")]
+    [SerializeField] private float keyAcceleration;
+    [SerializeField] private float scrollImpulse;
+    [SerializeField] private float scrollFriction;
 
     [Header("Loop Settings")]
     [SerializeField] private float shelfHeight; //25 with my test setup
@@ -12,28 +14,35 @@ public class InfiniteShelves : MonoBehaviour
     [Header("Objects")]
     [SerializeField] private Transform[] shelfModels;
     [SerializeField] private Transform[] shelves;
+    [SerializeField] private GameObject[] shelfWalls;
 
     //private vars
-    float verticalInput;
+    private float arrowInput;
+    private float scrollVelocity;
 
     void Update()
     {
-        ScrollInput();
+        ReadInputs();
 
         UpdateShelfPositions();
     }
 
-    private void ScrollInput()
+    private void ReadInputs()
     {
         //get input
-        verticalInput = Input.GetAxis("Vertical");
-        verticalInput += Input.GetAxis("Mouse ScrollWheel") * 100;
+        float arrow = Input.GetAxis("Vertical");
+        scrollVelocity += arrow * keyAcceleration * Time.deltaTime;
+
+        float wheel = Input.GetAxis("Mouse ScrollWheel");
+        scrollVelocity += wheel * scrollImpulse;
+
+        scrollVelocity *= 1f / (1f + scrollFriction * Time.deltaTime);
     }
 
     //Update postions of the shelf models
     private void UpdateShelfPositions()
     {
-        Vector3 delta = Vector3.up * (verticalInput * scrollSpeed * Time.deltaTime);
+        Vector3 delta = Vector3.up * (scrollVelocity * Time.deltaTime);
 
         //updates the shelves (parent objects for things sitting on shelves)
         foreach (Transform trans in shelves)
@@ -50,6 +59,8 @@ public class InfiniteShelves : MonoBehaviour
 
             trans.localPosition += delta;
         }
+
+        UpdateShelfWalls(delta);
     }
 
     //check if model is too far down or up
@@ -81,6 +92,24 @@ public class InfiniteShelves : MonoBehaviour
         else if (objectTrans.localPosition.y < -(shelfHeight / 2) - 1)
         {
             objectTrans.localPosition = new Vector3(objectTrans.localPosition.x, GetHighestShelf().localPosition.y + shelfSpacing, objectTrans.localPosition.z);
+        }
+    }
+
+    private void UpdateShelfWalls(Vector3 delta)
+    {
+        foreach (GameObject obj in shelfWalls)
+        {
+            Renderer rend = obj.GetComponent<Renderer>(); ;
+            Material mat = rend.material;
+            Vector2 tile = mat.mainTextureScale;
+            Vector3 size = rend.bounds.size;
+
+            float factorX = tile.x / size.x;
+            float factorY = tile.y / size.y;
+
+            Vector2 uvDelta = new Vector2(delta.x * factorX, delta.y * factorY);
+
+            mat.mainTextureOffset -= uvDelta;
         }
     }
 

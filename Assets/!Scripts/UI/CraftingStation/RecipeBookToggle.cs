@@ -27,11 +27,12 @@ public class RecipeBookToggle : MonoBehaviour
         {
             StationManager.Instance.recipeBookOpen = false;
             SoundManager.Instance.PlayOneShot(bookCloseSound);
-
+            CursorManager.BlockInteraction = false;
         }
         else
         {
             StationManager.Instance.recipeBookOpen = true;
+            CursorManager.BlockInteraction = true;
             SoundManager.Instance.PlayOneShot(bookOpenSound);
         }
 
@@ -63,5 +64,5 @@ public class RecipeBookToggle : MonoBehaviour
             ToggleRecipeBook();
         }
     }
-        
+
 }

@@ -26,6 +26,7 @@ public class WZPlayerInteract : MonoBehaviour
     [SerializeField] private string ingredientObjectTag; //these can be changed if/when they have unique scripts
     [SerializeField] private string draggableObjectTag;
     [SerializeField] private string npcObjectTag;
+    [SerializeField] private string doorObjectTag;
     [SerializeField] private float pickupDistance;
     [SerializeField] private float objectDragSpeed = 20f;
 
@@ -131,7 +132,7 @@ public class WZPlayerInteract : MonoBehaviour
 
     void Update()
     {
-        CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag);
+        CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag, doorObjectTag);
 
         DragObject();
     }
@@ -139,7 +140,7 @@ public class WZPlayerInteract : MonoBehaviour
     //interaction controls
     private void OnInteract(InputAction.CallbackContext context)
     {
-        GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag); //if null no object found
+        GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag, doorObjectTag); //if null no object found
         if (interactedObject != null)
         {
             if (interactedObject.CompareTag(ingredientObjectTag))
@@ -149,6 +150,10 @@ public class WZPlayerInteract : MonoBehaviour
             else if (interactedObject.CompareTag(npcObjectTag) && !DialogueManager.Instance.IsDialogueActive())
             {
                 interactedObject.GetComponent<DialogueActor>()?.Interact();
+            }
+            else if(interactedObject.CompareTag(doorObjectTag))
+            {
+                interactedObject.GetComponent<WZDoor>()?.Interact();
             }
             else
             {
@@ -160,6 +165,21 @@ public class WZPlayerInteract : MonoBehaviour
     //interacted with an ingrediant (this adds to ALL ingrediants, including ones you have previously collected. if this isnt desired i can change it)
     private void IngrediantInteracted(WZWorldIngredient ingredient)
     {
+        // Save Logic, blame Sara
+        var saveable = ingredient.GetComponent<SaveableItem>();
+        if (saveable != null && !string.IsNullOrEmpty(saveable.itemID))
+        {
+            switch (saveable.itemType)
+            {
+                case SaveItemType.Ingredient:
+                    SaveManager.Instance.CollectIngredient(saveable.itemID);
+                    break;
+                case SaveItemType.Bottle:
+                    SaveManager.Instance.CollectBottle(saveable.itemID);
+                    break;
+            }
+        }
+
         //add ingrediant to inventory
         Inventory inventory = GetComponent<Inventory>();
         inventory.AddNewItem(ingredient.ingredient);
@@ -294,7 +314,7 @@ public class WZPlayerInteract : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * pickupDistance, Color.red);
 #endif
     }
-    
+
     //check if the hit ingrediant is a correct type
     private GameObject CheckForInteractable(params string[] tagsToCheck)
     {

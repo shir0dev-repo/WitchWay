@@ -15,8 +15,15 @@ public static partial class GameEvents
         // Inventory Events
         public static Action<IngredientSO> OnItemAddedToInventory;
         public static Action<IngredientSO> OnItemRemovedFromInventory;
+
+        public static Action<ModifiedIngredient> OnIngredientUIHover;
+        public static Action OnIngredientUIUnhovered;
+        
         public static Action<WorldIngredient> OnItemPlacedInTrash;
+        
+
         public static Action<WorldIngredient, StationType, Transform> OnItemPlacedInStation;
+
 
         // Cutting Board Events
         public static Action<WorldIngredient> OnItemPlacedOnCuttingBoard;

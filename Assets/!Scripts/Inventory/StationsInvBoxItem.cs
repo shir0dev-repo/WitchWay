@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class StationsInvBoxItem : MonoBehaviour
 {
-    [SerializeField] private IngredientSO ingredient;
+    public ModifiedIngredient Ingredient => ingredient;
+    [SerializeField] private ModifiedIngredient ingredient;
     [SerializeField] private StationsInvBox attachedBox;
 
-    [SerializeField] private GameObject hoverUi;
-    [SerializeField] private TMP_Text ingredientNameText;
     [SerializeField] private Collider2D detectCollider;
 
     private bool inBounds = false;
     private bool isHoverable = false;
     private bool canSpawn = false;
-
-    void Start()
-    {
-        if (ingredient != null) ingredientNameText.text = ingredient.name;
-    }
+    private bool hasInvoked = false;
 
     void Update()
     {
@@ -30,18 +25,25 @@ public class StationsInvBoxItem : MonoBehaviour
             {
                 SpawnWorldIngredient();
             }
-            else if (isHoverable)
+            else if (!hasInvoked && isHoverable && TooltipCursor.Instance.HoveredItem == null)
             {
-                hoverUi.SetActive(true);
+                GameEvents.Crafting.OnIngredientUIHover?.Invoke(ingredient);
+                TooltipCursor.Instance.HoveredItem = this;
+                hasInvoked = true;
             }
         }
         else
         {
-            hoverUi.SetActive(false);
+            if (TooltipCursor.Instance.HoveredItem == this && hasInvoked)
+            {
+                GameEvents.Crafting.OnIngredientUIUnhovered?.Invoke();
+                TooltipCursor.Instance.HoveredItem = null;
+                hasInvoked = false;
+            }
         }
     }
 
-    public void SetIngredient(IngredientSO ingred)
+    public void SetIngredient(ModifiedIngredient ingred)
     {
         ingredient = ingred;
     }
@@ -58,15 +60,19 @@ public class StationsInvBoxItem : MonoBehaviour
 
     private void SpawnWorldIngredient()
     {
-        WorldIngredient wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity).GetComponent<WorldIngredient>();
+        GameObject ing = Instantiate(ingredient.GetWorldRepresentation());
+        WorldIngredient wIng = ing.GetComponent<WorldIngredient>();
+        wIng.UpdateModifiers(ingredient);
+        //WorldIngredient wIngred = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity).GetComponent<WorldIngredient>();
         if (CursorManager.Instance != null)
-            CursorManager.Instance.AttachToCursor(wIngred, transform);
+            CursorManager.Instance.AttachToCursor(wIng, transform);
 
         attachedBox.GetVisuals().Remove(gameObject);
         attachedBox.RemoveItem(ingredient);
 
-        attachedBox.GetComponent<StationsInvBox>().OpenIngredients();
-
+        GameEvents.Crafting.OnIngredientUIUnhovered?.Invoke();
+        attachedBox.OpenIngredients();
+        
         Destroy(gameObject);
     }
 
