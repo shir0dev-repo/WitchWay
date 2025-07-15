@@ -94,7 +94,8 @@ public class StationsInventory : MonoBehaviour
     {
         foreach (InventorySlot slot in PersistantItemList.inventorySlots)
         {
-            ingredients.Add(slot.ingredient);
+            for (int i = 0; i < slot.ingredientAmt; i++)
+                ingredients.Add(slot.ingredient);
         }
     }
 
