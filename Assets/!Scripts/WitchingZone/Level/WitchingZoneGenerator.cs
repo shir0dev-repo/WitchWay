@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 
-public class WitchingZoneGenerator : MonoBehaviour
+public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
 {
     [SerializeField] private GameObject _roomPF;
     [SerializeField] private Dungeon2D _dungeon;
