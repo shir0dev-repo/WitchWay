@@ -6,7 +6,7 @@ using UnityEngine;
 public class DropTableItem
 {
     public IngredientSO Item;
-    [SerializeField] public float Chance;
+    [SerializeField, Range(0, 100)] public int Chance;
 }
 
 [System.Serializable]
@@ -16,7 +16,13 @@ public class DropTable
 
     public IngredientSO GetDrop()
     {
-        float chance = Random.value;
+        float chance = Random.Range(0, 101);
+        if (chance == 1)
+        {
+            // do jumpscare things
+            return null;
+        }
+
         var possible = _possibleDrops
             .Where(d => chance <= d.Chance)
             .Select(d => d.Item)
