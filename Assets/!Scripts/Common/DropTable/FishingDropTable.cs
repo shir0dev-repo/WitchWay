@@ -10,17 +10,20 @@ public class DropTableItem
 }
 
 [System.Serializable]
-public class DropTable
+public class FishingDropTable
 {
     [SerializeField] private List<DropTableItem> _possibleDrops = new();
 
-    public IngredientSO GetDrop()
+    public FishingRod.Result GetDrop(out IngredientSO drop)
     {
+        drop = null;
+        
         float chance = Random.Range(0, 101);
         if (chance == 1)
         {
             // do jumpscare things
-            return null;
+
+            return FishingRod.Result.Jumpscare;
         }
 
         var possible = _possibleDrops
@@ -28,8 +31,9 @@ public class DropTable
             .Select(d => d.Item)
             .ToList();
 
-        if (possible.Count <= 0) return null;
+        if (possible.Count <= 0) return FishingRod.Result.Nothing;
 
-        return possible[Random.Range(0, possible.Count)];
+        drop = possible[Random.Range(0, possible.Count)];
+        return FishingRod.Result.Item;
     }
 }
