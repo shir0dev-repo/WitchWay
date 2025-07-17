@@ -169,6 +169,8 @@ public class CursorManager : Singleton<CursorManager>
         {
             col.isTrigger = true;
         }
+
+        GameEvents.Crafting.OnObjectAttachedToCursor?.Invoke(_currentFollowCursor);
     }
 
     public void AssignReturnPivot(Transform newPivot)
@@ -185,8 +187,7 @@ public class CursorManager : Singleton<CursorManager>
         if (_attachedObject == null) return;
 
         _grabOffset = Vector3.zero;
-        _currentFollowCursor = null;
-
+        
         if (returnToRestPosition && _restPivot != null)
             _attachedObject.position = _restPivot.position;
         
@@ -201,9 +202,13 @@ public class CursorManager : Singleton<CursorManager>
 
         _restPivot = null;
         _attachedObject = null;
+        IFollowCursor followCursor = _currentFollowCursor;
+        _currentFollowCursor = null;
 
         _isObjectAttached = false;
         ToggleVisibility(true);
+
+        GameEvents.Crafting.OnObjectRemovedFromCursor?.Invoke(_currentFollowCursor);
     }
 
     public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit)//, LayerMask layermask)
