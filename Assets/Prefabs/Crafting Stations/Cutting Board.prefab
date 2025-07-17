@@ -81,6 +81,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanCut: 0
   pivot: {fileID: 2409469305286454363}
+  onKnifeCutSound:
+    Guid:
+      Data1: 753014603
+      Data2: 1212308808
+      Data3: 1642644101
+      Data4: 1621677134
+    Path: event:/SFX/knife/sfx_knife_slice_success
+  onKnifeFailSound:
+    Guid:
+      Data1: -2070546982
+      Data2: 1087669883
+      Data3: -905885037
+      Data4: -1444665686
+    Path: event:/SFX/knife/sfx_knife_slice_failure
 --- !u!54 &6002527063681734263
 Rigidbody:
   m_ObjectHideFlags: 0

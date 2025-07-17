@@ -978,6 +978,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 4
   _restAnchor: {fileID: 685195217}
+  onToolSelected:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  onToolDeselected:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   stirRotationEulers: {x: 0, y: 0, z: -90}
   restRotationEulers: {x: 0, y: -90, z: 0}
 --- !u!4 &399076002 stripped
@@ -1608,18 +1622,6 @@ PrefabInstance:
     - target: {fileID: 3779837971943557966, guid: 539097725feea93459480e081372e267, type: 3}
       propertyPath: m_Name
       value: Temperature Pot
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944502600162808952, guid: 539097725feea93459480e081372e267, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944502600162808952, guid: 539097725feea93459480e081372e267, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944502600162808952, guid: 539097725feea93459480e081372e267, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2403,6 +2405,46 @@ PrefabInstance:
       propertyPath: _restAnchor
       value: 
       objectReference: {fileID: 2013239309}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Path
+      value: event:/SFX/mortar and pestle/sfx_pestle_pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data1
+      value: -1969172848
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data2
+      value: 1301531157
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data3
+      value: 1488290218
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onToolSelected.Guid.Data4
+      value: 1977039044
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Path
+      value: event:/SFX/mortar and pestle/sfx_pestle_crushing
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data1
+      value: -700802921
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data2
+      value: 1240127948
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data3
+      value: 112197508
+      objectReference: {fileID: 0}
+    - target: {fileID: 5772214784698814288, guid: e013eb51fbad8714488d45c4275ce343, type: 3}
+      propertyPath: onIngredientCrushedSound.Guid.Data4
+      value: 602423844
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3522,6 +3564,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Path
+      value: event:/SFX/mortar and pestle/sfx_mortar_pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data1
+      value: -357666649
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data2
+      value: 1244586759
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data3
+      value: 667290772
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104382560650044217, guid: 2e2891bb1baaf384795945847419a3ce, type: 3}
+      propertyPath: onToolSelected.Guid.Data4
+      value: -1817321077
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4002,6 +4064,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 640
   _mortarActivePosition: {x: 0, y: 0.3, z: 0}
+--- !u!114 &2129537873 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+  m_PrefabInstance: {fileID: 826263689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7574fc11bf5253e41ac3f68c98ac1d1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2136425451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8149003039099122356, guid: 53411ddd72b179a478979a59c58de47d, type: 3}
@@ -4338,10 +4411,130 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 485698481301467460, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 485698481301467460, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 485698481301467460, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 485698481301467460, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 485698481301467460, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
+    - target: {fileID: 744683174027073509, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 744683174027073509, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 744683174027073509, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 744683174027073509, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 744683174027073509, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164750392046061594, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164750392046061594, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164750392046061594, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164750392046061594, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 1164750392046061594, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Path
+      value: event:/SFX/book/sfx_book_pageturn
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data1
+      value: -2078439624
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data2
+      value: 1248930825
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data3
+      value: -1391577467
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493597517707413367, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: pageTurnSound.Guid.Data4
+      value: -1580523278
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311234472603873500, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311234472603873500, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311234472603873500, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311234472603873500, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311234472603873500, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
     - target: {fileID: 2316111610902574764, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1964813681}
+    - target: {fileID: 2564419950448735446, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564419950448735446, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564419950448735446, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564419950448735446, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 2564419950448735446, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
     - target: {fileID: 2956819817518101082, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4422,6 +4615,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3021468782924626652, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021468782924626652, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021468782924626652, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021468782924626652, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021468782924626652, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
     - target: {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: 'boxes.Array.data[0]'
       value: 
@@ -4450,14 +4663,162 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1964813681}
+    - target: {fileID: 5982647233878125627, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982647233878125627, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982647233878125627, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982647233878125627, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 5982647233878125627, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
+    - target: {fileID: 6130025330500062633, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2129537873}
+    - target: {fileID: 6130025330500062633, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSliderColor
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399653579219221196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399653579219221196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399653579219221196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399653579219221196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 6399653579219221196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
     - target: {fileID: 6981294161357056705, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1964813681}
+    - target: {fileID: 7975656169683729441, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975656169683729441, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975656169683729441, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975656169683729441, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975656169683729441, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
     - target: {fileID: 8011590361451132220, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1964813681}
+    - target: {fileID: 8074368442314626196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 8074368442314626196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 8074368442314626196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 8074368442314626196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 8074368442314626196, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224954078659246239, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Path
+      value: event:/SFX/book/TBDsfx_book_picturemove
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224954078659246239, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data1
+      value: -1156431700
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224954078659246239, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data2
+      value: 1113449393
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224954078659246239, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data3
+      value: 1693857442
+      objectReference: {fileID: 0}
+    - target: {fileID: 8224954078659246239, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: onPictureMoveSound.Guid.Data4
+      value: -576776726
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Path
+      value: event:/SFX/book/sfx_book_open
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Path
+      value: event:/SFX/book/sfx_book_close
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data1
+      value: 1708296935
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data2
+      value: 1263817972
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data3
+      value: -1664932729
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookOpenSound.Guid.Data4
+      value: -1072211586
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data1
+      value: 833337449
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data2
+      value: 1220147067
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data3
+      value: 1235003052
+      objectReference: {fileID: 0}
+    - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: bookCloseSound.Guid.Data4
+      value: -1790301550
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

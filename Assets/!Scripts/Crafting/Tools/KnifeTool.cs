@@ -8,10 +8,12 @@ public class KnifeTool : ToolBase
     protected override void OnToolSelected()
     {
         RotateToCuttingPosition();
+        SoundManager.Instance.PlayOneShot(onToolSelected, this.transform.position);
     }
     protected override void OnToolDeselected()
     {
         RotateToRestPosition();
+        SoundManager.Instance.PlayOneShot(onToolDeselected, this.transform.position);
     }
 
     private void RotateToRestPosition()
