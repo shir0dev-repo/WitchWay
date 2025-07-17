@@ -6,6 +6,7 @@ public class InfiniteShelves : MonoBehaviour
     [SerializeField] private float keyAcceleration;
     [SerializeField] private float scrollImpulse;
     [SerializeField] private float scrollFriction;
+    [SerializeField] private float dragSens;
 
     [Header("Loop Settings")]
     [SerializeField] private float shelfHeight; //25 with my test setup
@@ -17,14 +18,53 @@ public class InfiniteShelves : MonoBehaviour
     [SerializeField] private GameObject[] shelfWalls;
 
     //private vars
-    private float arrowInput;
+    private bool isDragging;
+    private Vector3 lastMousePos;
+    private LayerMask wallLayer;
     private float scrollVelocity;
+
+    void Start()
+    {
+        wallLayer = LayerMask.GetMask("ShelfWalls");
+    }
 
     void Update()
     {
+        HandleDragInput();
         ReadInputs();
-
         UpdateShelfPositions();
+    }
+
+    private void HandleDragInput()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+            {
+                foreach (GameObject wall in shelfWalls) //chnaging the layer makes them invisible so idk
+                {
+                    if (hit.collider.gameObject == wall)
+                    {
+                        isDragging = true;
+                        lastMousePos = Input.mousePosition;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
+        }
+
+        if (isDragging)
+        {
+            Vector3 delta = Input.mousePosition - lastMousePos;
+            scrollVelocity += delta.y * dragSens;
+            lastMousePos = Input.mousePosition;
+        }
     }
 
     private void ReadInputs()

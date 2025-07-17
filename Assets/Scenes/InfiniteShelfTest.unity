@@ -935,6 +935,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCam: {fileID: 372417573}
   _useDebug: 1
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  blockedLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &630912166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1160,6 +1166,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
   m_PrefabInstance: {fileID: 1741954439}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &893217994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893217993}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &995922660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1540,13 +1567,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1503433722}
   m_SourcePrefab: {fileID: 100100000, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
 --- !u!1 &1503433721 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
   m_PrefabInstance: {fileID: 1343715613}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1503433722
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503433721}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1579330507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,6 +1726,13 @@ MonoBehaviour:
     depthValue: -10
   _destroySectionIndex: 1
   boxes: []
+  OnItemTrashedSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1626260140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1912,6 +1970,10 @@ PrefabInstance:
       value: SM_Shelf
       objectReference: {fileID: 0}
     - target: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1922,7 +1984,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5953997104734458364, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 893217994}
   m_SourcePrefab: {fileID: 100100000, guid: 4c4efa3a9d9cef641986492a5c616aa9, type: 3}
 --- !u!1 &1794867943
 GameObject:
@@ -2295,6 +2360,10 @@ PrefabInstance:
     - target: {fileID: 230096485561956446, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
+      propertyPath: dragSens
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4033640102775569306, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
       propertyPath: scrollImpulse
