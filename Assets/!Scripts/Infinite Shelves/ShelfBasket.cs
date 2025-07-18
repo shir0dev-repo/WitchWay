@@ -118,6 +118,8 @@ public class ShelfBasket : MonoBehaviour
 
     private void SetupUnlockVisual()
     {
+        IsUnlocked = SaveManager.Instance.hasIngredient(storedIngredient.ID.ToString());
+        
         if (!IsUnlocked)
         {
             //could move these into function
