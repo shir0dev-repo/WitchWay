@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Bottle : MonoBehaviour, IFollowCursor
@@ -6,6 +7,19 @@ public class Bottle : MonoBehaviour, IFollowCursor
 
     private Collider _collider;
     private Rigidbody _rb;
+
+    public bool CanBeBottled { get; private set; }
+
+    private void OnEnable()
+    {
+        CanBeBottled = true;
+        GameEvents.Crafting.OnBottleFilled += CapBottle;
+    }
+
+    private void CapBottle()
+    {
+        CanBeBottled = false;
+    }
 
     private void Awake()
     {
@@ -20,9 +34,7 @@ public class Bottle : MonoBehaviour, IFollowCursor
     {
         if (CursorManager.Instance == null) return;
 
-        _collider.isTrigger = true;
-        _rb.useGravity = false;
-        _rb.constraints = RigidbodyConstraints.FreezeAll;
+        AdjustPhysicsBehaviour(true);
         CursorManager.Instance.AttachToCursor(transform, transform);
     }
 
@@ -32,18 +44,16 @@ public class Bottle : MonoBehaviour, IFollowCursor
 
         CursorManager.Instance.ClearCursor(false);
 
-        if (BottlingStation.Instance != null && BottlingStation.Instance.CurrentBottle == this)
+        if (BottlingStation.Instance == null || BottlingStation.Instance.CurrentBottle != this)
         {
-            GameEvents.Crafting.OnBottlePlacedInBottler?.Invoke(this);
-            transform.position = BottlingStation.Instance.BottlePivot.position;
+            AdjustPhysicsBehaviour(false);
         }
-        else
-        {
-            _collider.isTrigger = false;
-            _rb.useGravity = true;
-            _rb.constraints = RigidbodyConstraints.FreezeRotation;
-        }
+    }
 
-        
+    private void AdjustPhysicsBehaviour(bool isCurrentlyHeld)
+    {
+        _collider.isTrigger = isCurrentlyHeld;
+        _rb.useGravity = !isCurrentlyHeld;
+        _rb.constraints = isCurrentlyHeld ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.FreezeRotation;
     }
 }

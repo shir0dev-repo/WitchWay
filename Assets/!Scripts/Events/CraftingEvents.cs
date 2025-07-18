@@ -83,7 +83,7 @@ public static partial class GameEvents
         public static Action<Bottle> OnBottlePlacedInBottler;
         public static Action OnBottlingStationSelected;
         public static Action<float> OnBottleFillChanged;
-        public static Action<PotionData> OnBottleFilled;
+        public static Action OnBottleFilled;
 
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;
