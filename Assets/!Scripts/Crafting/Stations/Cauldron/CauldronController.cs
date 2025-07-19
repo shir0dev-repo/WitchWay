@@ -4,11 +4,9 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class CauldronController : MonoBehaviour
+public class CauldronController : Singleton<CauldronController>
 {
     [SerializeField] private TextMeshProUGUI _stdDevUGUI;
-
-    RecipeSO recipe;
 
     [Header("Mixing")]
     [SerializeField] private float _mixTimer = 5.0f;
@@ -32,6 +30,8 @@ public class CauldronController : MonoBehaviour
     float switchStirDirectionTimer = 4.0f;
 
     private float _progress = 0.0f;
+    private float _progressLastFrame = 0.0f;
+    private float _invocationTimer = 0.5f;
 
     void Start()
     {
@@ -39,12 +39,21 @@ public class CauldronController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    private void OnEnable()
+    {
+        _progress = 0.0f;
+        _holdTimer = 0.0f;
+    }
+
     private void Update()
     {
+        if (CauldronMaster.Instance == null || !CauldronMaster.Instance.CurrentlyMixing) return;
+
         UpdateCursorPoints();
 
         if (Input.GetMouseButton(0))
         {
+            _progressLastFrame = _progress;
             // add cursor position to point list
             TryAddPoint();
 
@@ -71,12 +80,15 @@ public class CauldronController : MonoBehaviour
             }
 
             _progress += Time.deltaTime;
+            
             if (_progress >= _mixTimer)
             {
-                _progress = 0.0f;
-                _holdTimer = 0.0f;
-                
                 GameEvents.Crafting.OnCauldronMixSequenceCompleted?.Invoke();
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                GameEvents.Crafting.OnCauldronMixProgressIncreased?.Invoke(_progress / _mixTimer);
             }
 
             // compare deviation to threshold
@@ -91,14 +103,7 @@ public class CauldronController : MonoBehaviour
             {
                 ChangeStirringDirection();
                 switchStirDirectionTimer = _directionSwitchTimer;
-                // simple timer function for switching directions
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ChangeStirringDirection();
-            // simple testing function, only works when the mouse is held down
         }
     }
 

@@ -7,6 +7,7 @@ public class RecipeSO : ScriptableObject
 {
     public List<RecipeEntry> Ingredients;
     public PotionData Output;
+    public CauldronEffectParams CauldronEffects;
     public bool IsDiscovered;
 
     /*
