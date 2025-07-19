@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SaveManager : PersistentSingleton<SaveManager>
 {
-    private string savePath => Application.persistentDataPath + "/playerSave.json";
+    public static string SavePath => Application.persistentDataPath + "/playerSave.json";
     public SaveData saveData = new();
 
     protected override void Awake()
@@ -45,13 +45,13 @@ public class SaveManager : PersistentSingleton<SaveManager>
     public void SaveGame()
     {
         string json = JsonUtility.ToJson(saveData, true);
-        File.WriteAllText(savePath, json);
+        File.WriteAllText(SavePath, json);
     }
     public void LoadGame()
     {
-        if (File.Exists(savePath))
+        if (File.Exists(SavePath))
         {
-            string json = File.ReadAllText(savePath);
+            string json = File.ReadAllText(SavePath);
             saveData = JsonUtility.FromJson<SaveData>(json);
         }
     }
