@@ -89,7 +89,8 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void UpdateDrag()
     {
         if (CursorManager.Instance == null) return;
-        else if (CursorManager.Instance.HasObjectFollowingCursor && CursorManager.Instance.AttachedObject != transform) return;
+        else if (CursorManager.Instance.HasObjectFollowingCursor 
+            && CursorManager.Instance.AttachedObject != _parentIngredient.transform) return;
         else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
         var siblings = GrabSimilar(_parentIngredient.transform);
