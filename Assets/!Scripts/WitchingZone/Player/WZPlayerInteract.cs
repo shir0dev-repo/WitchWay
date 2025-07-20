@@ -278,7 +278,7 @@ public class WZPlayerInteract : MonoBehaviour
     //utility
     private void CastInteractRay(params string[] tagsToCheck)
     {
-    foreach (var mimic in FindObjectsOfType<WZMimicAI>())
+    foreach (var mimic in FindObjectsByType<WZMimicAI>(FindObjectsSortMode.None))
     {
         mimic.SetBeingLookedAt(false);
     }
@@ -287,16 +287,12 @@ public class WZPlayerInteract : MonoBehaviour
     Ray ray = cam.ScreenPointToRay(center);
 
     didHit = Physics.Raycast(ray, out lastHit, pickupDistance);
-
-    if (didHit && lastHit.transform.TryGetComponent<WZMimicAI>(out var mimicHit))
-    {
-        mimicHit.SetBeingLookedAt(true);
-    }
+    
         if (didHit)
         {
             foreach (string tag in tagsToCheck)
             {
-                if (!string.IsNullOrEmpty(tag)&&lastHit.transform.CompareTag(tag))
+                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag))
                 {
                     //maybe store these at start?
                     Color newRetColor = new Color(baseReticleColor.r, baseReticleColor.g, baseReticleColor.b, baseReticleColor.a + (baseReticleColor.a * 0.25f));

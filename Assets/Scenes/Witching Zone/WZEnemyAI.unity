@@ -4087,7 +4087,7 @@ GameObject:
   - component: {fileID: 1791326773}
   - component: {fileID: 1791326772}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Mimic AI
   m_TagString: WZMimic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4106,15 +4106,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 743580525}
-  activationDelay: 1
-  activationDistance: 10
-  deactivationDistance: 12
+  activationDelay: 0
+  deactivationDelay: 1
+  activationDistance: 4
+  deactivationDistance: 6
   staringThreshold: 6
   growlDelay: 12
   twitchDelay: 8
-  moveSpeed: 1
+  moveSpeed: 2
   attackDelay: 1
   attackDistance: 3
+  lookDetectDistance: 20
 --- !u!65 &1791326773
 BoxCollider:
   m_ObjectHideFlags: 0
