@@ -9,8 +9,8 @@ public class WZMimicAI : MonoBehaviour
     private quaternion startRot;
     private float distanceToPlayer, stareTimer = 0f;
     [Header("References")]
-    public Transform playerTransform;
-    
+    [SerializeField] Transform playerTransform;
+
     [Header("Mimic Settings")]
     [SerializeField] private float activationDelay;
     [SerializeField] private float deactivationDelay;
