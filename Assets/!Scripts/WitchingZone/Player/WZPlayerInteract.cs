@@ -151,7 +151,7 @@ public class WZPlayerInteract : MonoBehaviour
             {
                 interactedObject.GetComponent<DialogueActor>()?.Interact();
             }
-            else if(interactedObject.CompareTag(doorObjectTag))
+            else if (interactedObject.CompareTag(doorObjectTag))
             {
                 interactedObject.GetComponent<WZDoor>()?.Interact();
             }
@@ -278,16 +278,16 @@ public class WZPlayerInteract : MonoBehaviour
     //utility
     private void CastInteractRay(params string[] tagsToCheck)
     {
-    foreach (var mimic in FindObjectsByType<WZMimicAI>(FindObjectsSortMode.None))
-    {
-        mimic.SetBeingLookedAt(false);
-    }
+        foreach (var mimic in FindObjectsByType<WZMimicAI>(FindObjectsSortMode.None))
+        {
+            mimic.SetBeingLookedAt(false);
+        }
 
-    Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-    Ray ray = cam.ScreenPointToRay(center);
+        Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Ray ray = cam.ScreenPointToRay(center);
 
-    didHit = Physics.Raycast(ray, out lastHit, pickupDistance);
-    
+        didHit = Physics.Raycast(ray, out lastHit, pickupDistance);
+
         if (didHit)
         {
             foreach (string tag in tagsToCheck)

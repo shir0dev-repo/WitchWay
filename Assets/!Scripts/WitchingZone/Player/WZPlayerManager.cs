@@ -1,29 +1,26 @@
 using UnityEngine;
 
-public class WZPlayerManager : MonoBehaviour
+public class WZPlayerManager : Singleton<WZPlayerManager>
 {
-    public static WZPlayerManager Instance;
     private WZPlayerController playerController;
     private WZPlayerSanity playerSanity;
     private WZPlayerInteract playerInteract;
 
-    void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
+
         playerController = GetComponent<WZPlayerController>();
         playerSanity = GetComponent<WZPlayerSanity>();
     }
 
-    public void SetCanMove(bool canMove)
+    public void ToggleInput(bool toggle)
     {
         if (playerController != null)
-            playerController.SetCanMove(canMove);
+            playerController.SetCanMove(toggle);
 
         if (playerInteract != null)
-            playerInteract.SetControlsEnabled(canMove);
+            playerInteract.SetControlsEnabled(toggle);
     }
 
     public void IncreaseSanity(int amount)
@@ -38,9 +35,9 @@ public class WZPlayerManager : MonoBehaviour
             playerSanity.DecreaseSanity(Mathf.Abs(amount));
     }
 
-    public void SetCursor(bool visible)
+    public void ToggleCursor(bool isVisible)
     {
-        Cursor.visible = visible;
-        Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isVisible;
+        Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }
