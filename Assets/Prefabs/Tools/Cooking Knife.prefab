@@ -49,6 +49,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 1
   _restAnchor: {fileID: 0}
+  onToolSelected:
+    Guid:
+      Data1: -60421861
+      Data2: 1114711793
+      Data3: -1174976097
+      Data4: 1617139048
+    Path: event:/SFX/knife/sfx_knife_pickup
+  onToolDeselected:
+    Guid:
+      Data1: -535477608
+      Data2: 1091863204
+      Data3: -1821102411
+      Data4: -2138231769
+    Path: event:/SFX/knife/sfx_knife_drop
   cutRotationEulers: {x: 0, y: 180, z: 90}
   restRotationEulers: {x: 0, y: 180, z: 0}
 --- !u!54 &7115577137079933807

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using FMODUnity;
 
 public class CuttableIngredient : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class CuttableIngredient : MonoBehaviour
     [SerializeField] Transform[] _cutPoints;
 
     [Header("Segments")]
+    public List<IngredientSegment> Segments => _segments;
     [SerializeField] private List<IngredientSegment> _segments = new();
     [SerializeField] private float _grabVelocity = 2.5f;
     [SerializeField] private float _maxGrabVelocity = 1.5f;
@@ -37,6 +40,9 @@ public class CuttableIngredient : MonoBehaviour
         _mainCamera = Camera.main;
         _ingredient = GetComponent<WorldIngredient>();
 
+        GameEvents.Crafting.OnToolDeselected += CompleteChopping;
+        _board.OnCutCancelled += DeleteIngredient;
+
         foreach (IngredientSegment segment in _segments)
         {
             segment.GrabVelocity = _grabVelocity;
@@ -59,15 +65,8 @@ public class CuttableIngredient : MonoBehaviour
 
     private void Update()
     {
-        if (!_board.CanCut)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                CompleteChopping();
-            }
-            return;
-        }
-
+        if (!_board.CanCut) return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             _cursorPoints.Clear();
@@ -105,6 +104,8 @@ public class CuttableIngredient : MonoBehaviour
         bool success = false;
 
         if (_cursorPoints.Count < 2) return;
+        if (IsCutUpright() == false) return;
+        
         Transform targetCutPoint = null;
 
         foreach (Transform t in _cutPoints)
@@ -112,8 +113,10 @@ public class CuttableIngredient : MonoBehaviour
             float xPosition = _mainCamera.WorldToScreenPoint(t.position).x;
 
             if (_cursorPoints.Any(p => Mathf.Abs(p.x - xPosition) > _dstThreshold))
-                continue;
-
+            {
+            SoundManager.Instance.PlayOneShot(_board.onKnifeFailSound, t.position);
+            continue;
+            }
             else
             {
                 success = true;
@@ -127,6 +130,8 @@ public class CuttableIngredient : MonoBehaviour
             Debug.Log("Yay!");
             GameEvents.Crafting.OnCutItem?.Invoke(_ingredient, targetCutPoint);
             TryDetachSegment(targetCutPoint);
+            SoundManager.Instance.PlayOneShot(_board.onKnifeCutSound, targetCutPoint.position);
+
             // on a successful cut, add to the count
         }
 
@@ -135,8 +140,13 @@ public class CuttableIngredient : MonoBehaviour
 
     private void TryDetachSegment(Transform targetCutPoint)
     {
-        // see if segment on either side is end piece
-        // detach end piece
+        if (TryGetLastTwoSegments().Length == 2 && TryGetLastTwoSegments() != null)
+        {
+            var lastTwo = TryGetLastTwoSegments();
+            ChopLastTwoSegmentsLeft(lastTwo[0], lastTwo[1]);
+
+            return; 
+        }
 
         var closestPair = GetClosestPairToCutPoint(targetCutPoint.position);
 
@@ -180,7 +190,6 @@ public class CuttableIngredient : MonoBehaviour
             }
         }
     }
-
     private (IngredientSegment left, IngredientSegment right) GetClosestPairToCutPoint(Vector3 cutPoint)
     {
         // sort by distance to cut point
@@ -194,7 +203,17 @@ public class CuttableIngredient : MonoBehaviour
 
         return (closestPair[0], closestPair[1]);
     }
+    IngredientSegment[] TryGetLastTwoSegments()
+    {
+        if (_segments.Count == 0) return null;
+        IngredientSegment[] lastSegments = _segments.Where(i => !i.HasBeenDetached).ToArray();
 
+        return lastSegments;
+    }
+    void ChopLastTwoSegmentsLeft(IngredientSegment one, IngredientSegment two)
+    {
+        one.Detach(); two.Detach();
+    }
     void UpdateChoppingProgress()
     {
         _cutCount++;
@@ -202,16 +221,12 @@ public class CuttableIngredient : MonoBehaviour
 
         CheckIngredientStatus();
     }
-    void CompleteChopping()
+    void CompleteChopping(ToolType type)
     {
-        EndAction?.Invoke();
-        foreach (Rigidbody o in gameObject.GetComponentsInChildren<Rigidbody>())
-        {
-            o.isKinematic = false;
-        }
+        if (type == ToolType.Knife) EndAction?.Invoke();
+        if (!IsAllSegmentsDetached()) { return; }
 
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
-        // later, this will just grab the name of the scriptable object attached to the prefab.
     }
     string RateChopping()
     {
@@ -236,6 +251,23 @@ public class CuttableIngredient : MonoBehaviour
                 EndAction = DeleteIngredient;
             }
         }
+    }
+    bool IsCutUpright()
+    {
+        float top, bottom;
+
+        top = _cursorPoints.First().y;
+        bottom = _cursorPoints.Last().y;
+
+        // Debug.Log("Top: "+top + " " + "Bottom: "+ bottom);
+        // for debugging
+
+        if (top > bottom) { return true; }
+        else { return false; }
+    }
+    bool IsAllSegmentsDetached()
+    {
+        return _segments.All(x => x.HasBeenDetached); 
     }
     void DeleteIngredient()
     {

@@ -14,5 +14,7 @@ public static partial class GameEvents
 
         public static Action<Room> OnRoomExited;
         public static Action<Room> OnRoomEntered;
+
+        public static Action OnDoorUnlocked;
     }
 }

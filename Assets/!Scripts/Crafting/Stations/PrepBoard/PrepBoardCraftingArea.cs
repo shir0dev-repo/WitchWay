@@ -1,3 +1,4 @@
+using FMOD;
 using UnityEngine;
 
 public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
@@ -19,9 +20,13 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit, _mortarMask)) {
+            if (CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))//, _mortarMask)) {
+            {
                 if (hit.transform == _mortar.transform && !_mortar.enabled)
+                { 
                     EnableMortar();
+                    SoundManager.Instance.PlayOneShot(_mortar.onToolSelected, _mortar.transform.position);
+                }
                 else if (_mortar.enabled && !_mortar.HasIngredient && hit.transform == _mortarOutline.transform)
                     DisableMortar();
             }
@@ -31,7 +36,7 @@ public class PrepBoardCraftingArea : Singleton<PrepBoardCraftingArea>
         {
             if (ToolSelector.Instance != null && ToolSelector.Instance.CurrentlySelected == null)
             {
-                if (Input.GetMouseButtonDown(1) && CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit, _mortarMask))
+                if (Input.GetMouseButtonDown(1) && CursorManager.CastScreenRay(Input.mousePosition, out RaycastHit hit))
                 {
                     if (hit.transform == _mortar.transform) DisableMortar();
                 }

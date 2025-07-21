@@ -20,6 +20,50 @@ public class ModifiedIngredient
         else return BaseIngredient.WorldPrefab;
     }
 
+    public Sprite GetUIRepresentation()
+    {
+        if (HasBeenCrushed) return BaseIngredient.CrushedSprite;
+        else if (HasBeenCut) return BaseIngredient.CutSprite;
+        else return BaseIngredient.Sprite;
+    }
+
+    public string GetStringRepresentation()
+    {
+        string name = "";
+        name += GetPhysicalStateString();
+        name += GetTemperatureStateString();
+        name += GetAlchemicalStateString();
+        name += BaseIngredient.Name;
+        return name;
+    }
+
+    private string GetPhysicalStateString()
+    {
+        if (HasBeenCrushed) return "Crushed ";
+        else if (HasBeenCut) return "Sliced ";
+        else return string.Empty;
+    }
+
+    private string GetTemperatureStateString()
+    {
+        if (HasBeenHeated) return "Heated ";
+        else if (HasBeenFrozen) return "Chilled ";
+        else return string.Empty;
+    }
+
+    private string GetAlchemicalStateString()
+    {
+        return CurrentSpell switch
+        {
+            AlchemicalSymbol.Abjuration     => "Abjurated ",
+            AlchemicalSymbol.Necromancy     => "Necromanced ",
+            AlchemicalSymbol.Enchantment    => "Enchanted ",
+            AlchemicalSymbol.Divination     => "Divinated ",
+            AlchemicalSymbol.Evocation      => "Evocated ",
+            _ => string.Empty
+        };
+    }
+
     public void Cut()
     {
         HasBeenCut = !HasBeenCrushed && BaseIngredient.CanBeCut && true;

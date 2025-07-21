@@ -13,6 +13,7 @@ public class MagicDisc : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.Crafting.OnSymbolDrawn += SpellbindIngredients;
+        GameEvents.Crafting.OnObjectAttachedToCursor += RemoveFromCircle;
     }
 
     private void OnDisable()
@@ -35,6 +36,23 @@ public class MagicDisc : MonoBehaviour
         SetIngredientPositions();
 
         GameEvents.Crafting.OnItemPlacedInArcaneCircle?.Invoke(ingredient);
+    }
+
+    private void RemoveFromCircle(IFollowCursor cursor)
+    {
+        if (!(cursor is WorldIngredient wIng)) return;
+
+        if (!_currentlyHeldIngredients.Contains(wIng)) return;
+
+        _currentlyHeldIngredients.Remove(wIng);
+
+        if (wIng.TryGetComponent(out Rigidbody rgbd))
+        {
+            rgbd.constraints = RigidbodyConstraints.FreezeRotation;
+        }
+
+        RecalculateAnchors();
+        SetIngredientPositions();
     }
 
     private void RemoveIngredient(WorldIngredient ingredient)

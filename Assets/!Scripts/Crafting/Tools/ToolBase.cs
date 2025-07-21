@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 public enum ToolType : byte
 {
@@ -17,7 +18,9 @@ public abstract class ToolBase : MonoBehaviour
     [SerializeField] protected Transform _restAnchor;
     
     public Transform GetRestAnchor() => _restAnchor;
-    
+
+    [SerializeField] public EventReference onToolSelected, onToolDeselected;
+
     public void SelectTool()
     {
         OnToolSelected();

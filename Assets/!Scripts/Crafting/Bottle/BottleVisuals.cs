@@ -27,12 +27,7 @@ public class BottleVisuals : MonoBehaviour
         _potionFX.SetFillAmount(0);
     }
 
-    public void SetBottlePosition(Vector3 bottlerPivot)
-    {
-        transform.position = bottlerPivot;
-    }
-
-    private void FinishPotion(PotionData data)
+    private void FinishPotion()
     {
         _cork.SetActive(true);
     }

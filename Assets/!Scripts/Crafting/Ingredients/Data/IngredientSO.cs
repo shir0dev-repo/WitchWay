@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 [CreateAssetMenu(fileName = "New Ingredient", menuName = "Alchemy/New Ingredient")]
 public class IngredientSO : SODatabase.DatabaseObject
@@ -8,11 +9,21 @@ public class IngredientSO : SODatabase.DatabaseObject
     [Space]
     [Range(0.5f, 5.0f)] public float CostMultiplier = 1.0f;
 
-    [Header("Representation")]
+    [Header("UI Representation")]
     public Sprite Sprite;
+    public Sprite CutSprite;
+    public Sprite CrushedSprite;
+
+    [Header("World Representation")]
     public GameObject WorldPrefab;
     public GameObject CutWorldPrefab;
     public GameObject CrushedWorldPrefab;
+
+    [Header("Audio Representation")]
+    public EventReference OnCutAudioClip;
+    public EventReference OnCrushAudioClip;
+    public EventReference OnPickupAudioClip;
+    public EventReference OnPutDownAudioClip;
 
     [Header("Modification Flags")]
     public bool CanBeCut;

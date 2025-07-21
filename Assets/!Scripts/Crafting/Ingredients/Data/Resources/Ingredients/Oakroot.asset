@@ -16,10 +16,40 @@ MonoBehaviour:
   Name: Oakroot
   Description: The roots of an Oak tree.
   CostMultiplier: 1.5
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Sprite: {fileID: 21300000, guid: b09c9f805fa22a9419fa1607b0bd867e, type: 3}
+  CutSprite: {fileID: 21300000, guid: 4101f53a7486640498ba9224c710e128, type: 3}
+  CrushedSprite: {fileID: 21300000, guid: a89e29f0c53bf84429f0deff8a3c00e2, type: 3}
   WorldPrefab: {fileID: 1169835833099662794, guid: e67622855c7f30d488fc40fbd1af45ea, type: 3}
   CutWorldPrefab: {fileID: 5485628479046149676, guid: cdd1229ffd6f48b488496f1d70f4aa6e, type: 3}
   CrushedWorldPrefab: {fileID: 17548535806173022, guid: 7197c2c2cc5a3054e8b7170d9b633594, type: 3}
+  OnCutAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnCrushAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnPickupAudioClip:
+    Guid:
+      Data1: 1378799445
+      Data2: 1136571235
+      Data3: -1972558955
+      Data4: -1918587766
+    Path: event:/SFX/pickup/sfx_pickup_plants
+  OnPutDownAudioClip:
+    Guid:
+      Data1: 269968937
+      Data2: 1179994125
+      Data3: -1342337888
+      Data4: 2064553865
+    Path: event:/SFX/putdown/sfx_putdown_plants
   CanBeCut: 1
   CanBeCrushed: 1
   CanBeFrozen: 1

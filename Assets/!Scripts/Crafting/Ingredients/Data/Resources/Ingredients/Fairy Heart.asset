@@ -16,10 +16,40 @@ MonoBehaviour:
   Name: Fairy Heart
   Description: The heart of a Fairy.
   CostMultiplier: 2
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Sprite: {fileID: 21300000, guid: dff48f2929e235c40962b6b362ff6782, type: 3}
+  CutSprite: {fileID: 21300000, guid: b096d9eff0700d743a6be688a397d096, type: 3}
+  CrushedSprite: {fileID: 21300000, guid: ce5c1377ffec9ac4fa6408a006a869c7, type: 3}
   WorldPrefab: {fileID: 6693240687505344851, guid: ad68e2439d837314b907a28d8707fe6c, type: 3}
   CutWorldPrefab: {fileID: 921307132026222747, guid: 25a6c798857007d45a9cd52c6fa8ae40, type: 3}
   CrushedWorldPrefab: {fileID: 6898099833362151345, guid: df0f350bd0165d04fb1a9cd1e6f3b16e, type: 3}
+  OnCutAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnCrushAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnPickupAudioClip:
+    Guid:
+      Data1: 1505707392
+      Data2: 1100815656
+      Data3: -115230051
+      Data4: -1222904091
+    Path: event:/SFX/pickup/sfx_pickup_organs
+  OnPutDownAudioClip:
+    Guid:
+      Data1: -1110222530
+      Data2: 1192537540
+      Data3: 484350858
+      Data4: 1412597108
+    Path: event:/SFX/putdown/sfx_putdown_organs
   CanBeCut: 1
   CanBeCrushed: 1
   CanBeFrozen: 1

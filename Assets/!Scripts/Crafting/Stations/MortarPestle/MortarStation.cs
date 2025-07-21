@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class MortarStation : Singleton<MortarStation>
 {
@@ -9,9 +10,15 @@ public class MortarStation : Singleton<MortarStation>
 
     // Fail state stuff
     [SerializeField] private GameObject explosionPrefab;    // Im sure james will want to make a fun effect to play
+    [SerializeField] public EventReference onToolSelected;
 
     private List<CrushableIngredientState> ingredientsInMortar = new();
     private Dictionary<Rigidbody, RigidbodyConstraints> constraints = new();
+
+    public int GetIngredientCount()
+    {
+        return ingredientsInMortar.Count;
+    }
 
     private void Start()
     {
@@ -91,10 +98,12 @@ public class MortarStation : Singleton<MortarStation>
         {
             ingredientsInMortar.Add(state);
         }
-        if (ingredientsInMortar.Count > 1)
-        {
-            BlowUp();
-        }
+
+        //Removing this for updated failstate logic
+        /* if (ingredientsInMortar.Count > 1)
+         {
+             BlowUp();
+         }*/
     }
 
 
@@ -106,6 +115,7 @@ public class MortarStation : Singleton<MortarStation>
         {
             if (!other.TryGetComponent(out CrushableIngredientState state)) return;
             state.SetCrushable(true);
+
         }
     }
 
@@ -139,7 +149,7 @@ public class MortarStation : Singleton<MortarStation>
         }
     }
 
-    private void BlowUp()
+    public void BlowUp()
     {
         Debug.Log("Too many ingredients, KABOOM!");
 

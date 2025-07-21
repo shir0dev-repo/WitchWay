@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD;
 
 public class RecipePages : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class RecipePages : MonoBehaviour
     [Header("Page Navigation")]
     [SerializeField] private InputAction _changeStationAction;
     [SerializeField] private GameObject nextPageButton, previousPageButton;
+
+    [Header("Sound")]
+    [SerializeField] private EventReference pageTurnSound;
 
     void Start()
     {
@@ -43,6 +48,7 @@ public class RecipePages : MonoBehaviour
     {
         currentPageIndex = (currentPageIndex + 1) % pages.Count;
         ShowPage(currentPageIndex);
+        SoundManager.Instance.PlayOneShot(pageTurnSound);
     }
 
     public void PreviousPage()
@@ -53,6 +59,8 @@ public class RecipePages : MonoBehaviour
             currentPageIndex = pages.Count - 1;
 
         ShowPage(currentPageIndex);
+        SoundManager.Instance.PlayOneShot(pageTurnSound);
+
     }
 
     private void ShowPage(int index)

@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class IngredientSegment : MonoBehaviour, IFollowCursor
@@ -10,6 +11,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public float MaxGrabVelocity { get; set; } = 0.0f;
 
     private Rigidbody _rb;
+    private Collider _collider;
     private RigidbodyConstraints _rbConstraints;
     private WorldIngredient _parentIngredient;
 
@@ -17,6 +19,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     {
         _parentIngredient = GetComponentInParent<WorldIngredient>();
         _rb = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
         _rbConstraints = _rb.constraints;
         _rb.constraints = RigidbodyConstraints.FreezeAll;
         if (TryGetComponent(out MeshRenderer mr))
@@ -47,55 +50,64 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     private void Grab()
     {
         _rb.useGravity = false;
-        
+        _collider.isTrigger = true;
         _rb.excludeLayers = ~(1 << LayerMask.NameToLayer("Cursor Collection"));
     }
 
-    private void Ungrab()
+    public void Ungrab()
     {
         //transform.SetParent(_parentIngredient.transform);
         _rb.useGravity = true;
+        _collider.isTrigger = false;
         _rb.excludeLayers = 0;
         _rb.includeLayers = 0;
+        
     }
 
     public void BeginDrag()
     {
         if (CursorManager.Instance == null) return;
+        CursorManager.Instance.AttachToCursor<WorldIngredient>(_parentIngredient, _parentIngredient.transform);
+
+        var siblings = GrabSimilar(_parentIngredient.transform);
+        if (CuttingBoard.Instance != null && !siblings.Any(s => s.HasBeenDetached))
+        {
+            CursorManager.Instance.ClearCursor(false);
+            CuttingBoard.Instance.RevertCurrentIngredient();
+            return;
+        }
 
         CursorManager.Instance.AttachToCursor(transform, transform);
 
-        var siblings = GrabSimilar(_parentIngredient.transform);
-        
+
         foreach (IngredientSegment segment in siblings)
         {
             segment.Grab();
         }
     }
-    
+
     public void UpdateDrag()
     {
         if (CursorManager.Instance == null) return;
-        else if (CursorManager.Instance.AttachedObject != transform) return;
+        else if (CursorManager.Instance.HasObjectFollowingCursor && CursorManager.Instance.AttachedObject != transform) return;
+        else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
         var siblings = GrabSimilar(_parentIngredient.transform);
         foreach (IngredientSegment child in siblings)
         {
-            if (child.transform == transform) continue;
-
-            if (child.TryGetComponent(out Rigidbody rgbd))
-            {
-                Vector3 force = (transform.position - rgbd.position).normalized * GrabVelocity;
-                rgbd.AddForce(force);
-                rgbd.linearVelocity = Vector3.ClampMagnitude(rgbd.linearVelocity, MaxGrabVelocity);
-            }
+            if (!child.transform.TryGetComponent(out Rigidbody rgbd)) continue;
+            Vector3 force = (_parentIngredient.transform.position - rgbd.position).normalized * GrabVelocity;
+            rgbd.AddForce(force);
+            rgbd.linearVelocity = Vector3.ClampMagnitude(rgbd.linearVelocity, MaxGrabVelocity);
         }
     }
 
     public void EndDrag()
     {
         if (CursorManager.Instance == null) return;
+        else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 
+        _parentIngredient._isDragging = false;
         CursorManager.Instance.ClearCursor(false);
         var siblings = GrabSimilar(_parentIngredient.transform);
 

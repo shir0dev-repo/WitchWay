@@ -16,10 +16,40 @@ MonoBehaviour:
   Name: Witches Butter
   Description: Typically melted onto a pan to sear a nice Gryphon Steak.
   CostMultiplier: 1.15
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Sprite: {fileID: 21300000, guid: 34778105d2cb48648aef2521dbbd9c8c, type: 3}
+  CutSprite: {fileID: 21300000, guid: 34778105d2cb48648aef2521dbbd9c8c, type: 3}
+  CrushedSprite: {fileID: 21300000, guid: 34778105d2cb48648aef2521dbbd9c8c, type: 3}
   WorldPrefab: {fileID: 7570606435075991950, guid: dbc1b9e6d27eced47b94a16b84ecf47b, type: 3}
-  CutWorldPrefab: {fileID: 0}
-  CrushedWorldPrefab: {fileID: 0}
+  CutWorldPrefab: {fileID: 7570606435075991950, guid: dbc1b9e6d27eced47b94a16b84ecf47b, type: 3}
+  CrushedWorldPrefab: {fileID: 7570606435075991950, guid: dbc1b9e6d27eced47b94a16b84ecf47b, type: 3}
+  OnCutAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnCrushAudioClip:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  OnPickupAudioClip:
+    Guid:
+      Data1: 1505707392
+      Data2: 1100815656
+      Data3: -115230051
+      Data4: -1222904091
+    Path: event:/SFX/pickup/sfx_pickup_organs
+  OnPutDownAudioClip:
+    Guid:
+      Data1: -1110222530
+      Data2: 1192537540
+      Data3: 484350858
+      Data4: 1412597108
+    Path: event:/SFX/putdown/sfx_putdown_organs
   CanBeCut: 0
   CanBeCrushed: 1
   CanBeFrozen: 1

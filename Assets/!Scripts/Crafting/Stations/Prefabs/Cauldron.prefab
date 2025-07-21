@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 698.0852, y: 150.852}
+  m_AnchoredPosition: {x: 0, y: -73.3}
+  m_SizeDelta: {x: 586.9919, y: 150.852}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3551418032837937758
 CanvasRenderer:
@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7243044838691868186}
   - component: {fileID: 5776491473097600995}
-  - component: {fileID: 8753385291518312672}
+  - component: {fileID: 8373998472511508983}
   m_Layer: 5
   m_Name: Cauldron
   m_TagString: Untagged
@@ -163,7 +163,7 @@ RectTransform:
   m_GameObject: {fileID: 7763836151708796754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8786693, y: 1.8786693, z: 1.8786693}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8520757118291137107}
@@ -182,7 +182,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7763836151708796754}
   m_CullTransparentMesh: 1
---- !u!114 &8753385291518312672
+--- !u!114 &8373998472511508983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,12 +191,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7763836151708796754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 537bebfd9d00dd04c8bdc93c5f198f61, type: 3}
+  m_Script: {fileID: 11500000, guid: ce10e008a7fcc4847bec6af15ec212c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _centerPoint: {fileID: 0}
   _stdDevUGUI: {fileID: 8139392395071600453}
-  _maxDeviation: 50
+  _mixTimer: 5
+  _directionSwitchTimer: 4
+  Deviation:
+    _deviation: 0
+    _direction: 0
+    _maxDeviation: 50
   _deviationOKThreshold: 0.5
   _deviationHoldTime: 3
-  _pointCount: 25
+  _maxPointCount: 25
