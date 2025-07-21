@@ -8,7 +8,7 @@ using DG.Tweening;
 
 using Random = UnityEngine.Random;
 
-public class WitchingZoneGenerator : MonoBehaviour
+public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
 {
     [Serializable]
     public class RoomData
@@ -27,6 +27,8 @@ public class WitchingZoneGenerator : MonoBehaviour
     [SerializeField] private float _roomExtentSize = 1.0f;
     [SerializeField] private float _roomScale = 5.0f;
     [SerializeField] private List<RoomData> _roomPrefabs;
+    public bool ShouldDisableOnStart => _shouldDisableOnStart;
+    [SerializeField] private bool _shouldDisableOnStart = true;
 
     [Header("Generation")]
     [SerializeField] private Dungeon2D _dungeon;
@@ -43,6 +45,17 @@ public class WitchingZoneGenerator : MonoBehaviour
 
     private void Start()
     {
+        Generate();
+    }
+
+    [ContextMenu("Generate")]
+    public void Generate()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+
         _dungeon = MapGenerator.Generate2D(_generatorData, _specialRoomTypes.Select(n => n.Type).ToArray());
         Random.InitState(_generatorData.GetSeed());
 
@@ -51,6 +64,7 @@ public class WitchingZoneGenerator : MonoBehaviour
 
     private IEnumerator GenerateDungeonCoroutine()
     {
+        _rooms.Clear();
         foreach (Node n in _dungeon.ValidNodes)
         {
             RoomData[] rooms = _roomPrefabs.Where(r => r.Entrances.HasAllFlags(n.Entrances)).ToArray();
@@ -60,7 +74,7 @@ public class WitchingZoneGenerator : MonoBehaviour
             GameObject pf = rooms[rand_i].Prefab;
             GameObject roomGO = Instantiate(pf, pos, pf.transform.rotation);
             roomGO.transform.SetParent(transform);
-            roomGO.name = $"{n.NodeType} Room {n}";
+            roomGO.name = $"{pf.name}: {n.NodeType} Room {n}";
 
             if (roomGO.TryGetComponent(out Room room))
             {
@@ -91,6 +105,11 @@ public class WitchingZoneGenerator : MonoBehaviour
     private void UnloadRoom(Room room)
     {
         StartCoroutine(UnloadRoomCoroutine(room));
+    }
+
+    private void LoadRoomCoroutine(Room room)
+    {
+
     }
 
     private IEnumerator UnloadRoomCoroutine(Room room)

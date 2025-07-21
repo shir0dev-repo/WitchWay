@@ -32,6 +32,8 @@ public class Room : MonoBehaviour
         
         InitDoors();
 
+        if (WitchingZoneGenerator.Instance == null || !WitchingZoneGenerator.Instance.ShouldDisableOnStart) return;
+        
         if (Node.NodeType != NodeType.Start)
             gameObject.SetActive(false);
     }
