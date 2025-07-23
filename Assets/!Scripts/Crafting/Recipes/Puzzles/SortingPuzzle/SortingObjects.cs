@@ -32,6 +32,8 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
         originPos = rectTransform.anchoredPosition;
         canvasGroup.blocksRaycasts = false;
+
+        transform.SetAsLastSibling();
     }
     public void OnDrag(PointerEventData evenData)
     {
@@ -43,10 +45,28 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     {
         SoundManager.Instance.PlayOneShot(onPictureMoveSound);
         Debug.Log("the OnPictureMoveSound would play here if it existed");
-        if (isPlacedCorrectly)
-            return;
 
         canvasGroup.blocksRaycasts = true;
+        if (isPlacedCorrectly) { return; }
+
+        DropSpot[] dropSpots = FindObjectsOfType<DropSpot>();
+        foreach (DropSpot spot in dropSpots)    //arf
+        {
+            if (spot.IsCorrect) { continue; }
+
+            RectTransform spotRect = spot.GetComponent<RectTransform>();
+            if (RectTransformUtility.RectangleContainsScreenPoint(spotRect, Input.mousePosition, canvas.worldCamera))
+            {
+                if (spot.CorrectObjID == objID)
+                {
+                    rectTransform.position = spotRect.position;
+                    isPlacedCorrectly = true;
+                    spot.FlagCorrect();
+                    PlacedCorrectly();
+                    return;
+                }
+            }
+        }
         // if (!eventData.pointerEnter || !eventData.pointerEnter.GetComponent<DropSpot>())
         //{
         //    rectTransform.anchoredPosition = originPos;
@@ -63,5 +83,7 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         {
             imageComponent.sprite = correctSprite;
         }
+        canvasGroup.blocksRaycasts = false;
+        transform.SetAsFirstSibling();      // did anyone else know this existed? I feel so silly
     }
 }
