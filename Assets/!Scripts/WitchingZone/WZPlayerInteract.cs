@@ -51,11 +51,14 @@ public class WZPlayerInteract : MonoBehaviour
     {
         cam = Camera.main;
 
-        //store reticle values
-        baseReticleColor = reticleImage.color;
-        baseReticleSize = reticleImage.rectTransform.sizeDelta;
-
-        inventoryCanvasGroup.alpha = 0;
+        if (reticleImage != null)
+        {
+            //store reticle values
+            baseReticleColor = reticleImage.color;
+            baseReticleSize = reticleImage.rectTransform.sizeDelta;
+        }
+        if (inventoryCanvasGroup != null)
+            inventoryCanvasGroup.alpha = 0;
     }
 
     void OnEnable()

@@ -25,6 +25,7 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
 
     [Header("Rooms")]
     [SerializeField] private float _roomExtentSize = 1.0f;
+    public Vector3 RoomScale => _roomExtentSize * Vector3.one;
     [SerializeField] private float _roomScale = 5.0f;
     [SerializeField] private List<RoomData> _roomPrefabs;
     public bool ShouldDisableOnStart => _shouldDisableOnStart;
