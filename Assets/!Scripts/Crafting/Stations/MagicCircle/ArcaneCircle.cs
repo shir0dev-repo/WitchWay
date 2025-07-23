@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using FMODUnity;
 
 [RequireComponent(typeof(SymbolPainter))]
 public class ArcaneCircle : Singleton<ArcaneCircle>
@@ -22,6 +23,9 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
     [SerializeField] private List<GestureSymbolPair> _symbols;
 
     private Stack<RemoveLineCommand> _savedLines = new();
+
+    [Header("Audio")]
+    [SerializeField] private EventReference drawValidSound;
 
     public void Enable(ToolType type)
     {
@@ -83,6 +87,7 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
             if (gesturePair.GestureName == symbolName && accuracy >= gesturePair.AccuracyThreshold)
             {
                 result = gesturePair.Symbol;
+                SoundManager.Instance.PlayOneShot(drawValidSound, Camera.main.transform.position);
                 return true;
             }
 

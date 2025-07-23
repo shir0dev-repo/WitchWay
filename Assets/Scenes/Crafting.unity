@@ -4663,6 +4663,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1964813681}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Path
+      value: event:/SFX/magic circles/sfx_magic_success
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data1
+      value: -1482099376
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data2
+      value: 1148326693
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data3
+      value: 761932986
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data4
+      value: 56508916
+      objectReference: {fileID: 0}
     - target: {fileID: 5982647233878125627, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: onPictureMoveSound.Path
       value: event:/SFX/book/TBDsfx_book_picturemove
@@ -4818,6 +4838,26 @@ PrefabInstance:
     - target: {fileID: 8593091546877254103, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: bookCloseSound.Guid.Data4
       value: -1790301550
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Path
+      value: event:/SFX/magic circles/sfx_magic_drawing_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data1
+      value: -983130502
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data2
+      value: 1295555056
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data3
+      value: -1361293952
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data4
+      value: 368632567
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
