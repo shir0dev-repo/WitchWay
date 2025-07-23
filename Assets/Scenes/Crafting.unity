@@ -1579,6 +1579,86 @@ PrefabInstance:
       propertyPath: FillValueSlider
       value: 
       objectReference: {fileID: 607709196}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: coolingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_cooling_oneshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: heatingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_heating_oneshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: successSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_success
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: constantTempSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_constanttemperature_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: coolingSound.Guid.Data1
+      value: -1482707141
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: coolingSound.Guid.Data2
+      value: 1233824769
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: coolingSound.Guid.Data3
+      value: 2117495992
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: coolingSound.Guid.Data4
+      value: -2067880044
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: heatingSound.Guid.Data1
+      value: -544738889
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: heatingSound.Guid.Data2
+      value: 1125346500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: heatingSound.Guid.Data3
+      value: 1533156271
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: heatingSound.Guid.Data4
+      value: -1911835300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: successSound.Guid.Data1
+      value: -1886031960
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: successSound.Guid.Data2
+      value: 1202198897
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: successSound.Guid.Data3
+      value: -769052031
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: successSound.Guid.Data4
+      value: -33955774
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: constantTempSound.Guid.Data1
+      value: -123025517
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: constantTempSound.Guid.Data2
+      value: 1100951087
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: constantTempSound.Guid.Data3
+      value: 2044242071
+      objectReference: {fileID: 0}
+    - target: {fileID: 2538444106152329893, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: constantTempSound.Guid.Data4
+      value: 878709344
+      objectReference: {fileID: 0}
     - target: {fileID: 3710075882374381007, guid: 539097725feea93459480e081372e267, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4491,6 +4571,106 @@ PrefabInstance:
       propertyPath: pageTurnSound.Guid.Data4
       value: -1580523278
       objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_constanttemperature_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_cooling_oneshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_heating_oneshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_success
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_constanttemperature_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data1
+      value: -123025517
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data2
+      value: 1100951087
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data3
+      value: 2044242071
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data4
+      value: 878709344
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data1
+      value: -1482707141
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data2
+      value: 1233824769
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data3
+      value: 2117495992
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data4
+      value: -2067880044
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data1
+      value: -544738889
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data2
+      value: 1125346500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data3
+      value: 1533156271
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data4
+      value: -1911835300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data1
+      value: -1886031960
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data2
+      value: 1202198897
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data3
+      value: -769052031
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data4
+      value: -33955774
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data1
+      value: -123025517
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data2
+      value: 1100951087
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data3
+      value: 2044242071
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876102884626013890, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data4
+      value: 878709344
+      objectReference: {fileID: 0}
     - target: {fileID: 2311234472603873500, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: onPictureMoveSound.Path
       value: event:/SFX/book/TBDsfx_book_picturemove
@@ -4858,6 +5038,106 @@ PrefabInstance:
     - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: drawSound.Guid.Data4
       value: 368632567
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_constanttemperature_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_cooling_oneshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_heating_oneshot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_success
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Path
+      value: event:/SFX/temperature pot/sfx_temppot_constanttemperature_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data1
+      value: -123025517
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data2
+      value: 1100951087
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data3
+      value: 2044242071
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: mixingSound.Guid.Data4
+      value: 878709344
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data1
+      value: -1482707141
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data2
+      value: 1233824769
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data3
+      value: 2117495992
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: coolingSound.Guid.Data4
+      value: -2067880044
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data1
+      value: -544738889
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data2
+      value: 1125346500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data3
+      value: 1533156271
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: heatingSound.Guid.Data4
+      value: -1911835300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data1
+      value: -1886031960
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data2
+      value: 1202198897
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data3
+      value: -769052031
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: successSound.Guid.Data4
+      value: -33955774
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data1
+      value: -123025517
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data2
+      value: 1100951087
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data3
+      value: 2044242071
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997737889916325331, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: constantTempSound.Guid.Data4
+      value: 878709344
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
