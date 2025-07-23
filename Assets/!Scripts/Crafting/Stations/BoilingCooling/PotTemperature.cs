@@ -6,6 +6,7 @@ public class PotTemperature : MonoBehaviour
 {
     public static PotTemperature Instance {  get; private set; }
     public FailState_BurnCool FailState { get; private set; }
+    public RandomArrowMovement arrowMovement {  get; private set; }
 
     public delegate void MinigameActivation();
     public static MinigameActivation StartCooking;
@@ -18,7 +19,7 @@ public class PotTemperature : MonoBehaviour
     [SerializeField] Slider_WithPointer TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
-    public float TargetTemperature;
+    public float TargetTemperature => arrowMovement.ArrowValue;
     public float Temperature = 0;
     public float Progress = 0;
 
@@ -40,12 +41,7 @@ public class PotTemperature : MonoBehaviour
         
         Instance = this;
         FailState = GetComponent<FailState_BurnCool>();
-    }
-
-    private void Start()
-    {
-        TargetTemperature = Random.Range(-40, 40);
-        TempSlider.SetPointerLocation(TargetTemperature);
+        arrowMovement = GetComponent<RandomArrowMovement>();
     }
 
     private void OnEnable()
