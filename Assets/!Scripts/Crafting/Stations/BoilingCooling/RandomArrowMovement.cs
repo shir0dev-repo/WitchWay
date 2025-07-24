@@ -6,16 +6,16 @@ public class RandomArrowMovement : MonoBehaviour
     
     public float ArrowValue;
     float ArrowTargetValue; 
-    public bool CanBeHeated, CanBeCooled;
+    [SerializeField] public bool CanBeHeated, CanBeCooled;
 
-    float TimeUntilDirectionSwitches = 4;
-    float timeDuration = 5;
+    [SerializeField] float TimeUntilDirectionSwitches = 4;
+    [SerializeField] float timeDuration = 5;
     float timeElapsed;
 
     private void OnEnable()
     {
         ArrowValue = 0;
-        ArrowTargetValue = Random.Range(5, 50);
+        SwitchArrowDirection();
     }
 
     void Update()
@@ -25,7 +25,7 @@ public class RandomArrowMovement : MonoBehaviour
         TimeUntilDirectionSwitches -= Time.deltaTime;
         if (TimeUntilDirectionSwitches <= 0) 
         {
-            TimeUntilDirectionSwitches = 4;
+            TimeUntilDirectionSwitches = Random.Range(3f,5f);
             SwitchArrowDirection();
 
             timeElapsed = 0;
@@ -45,6 +45,13 @@ public class RandomArrowMovement : MonoBehaviour
     void SwitchArrowDirection()
     {
         Debug.Log("arrow should be switching now");
-        ArrowTargetValue = Random.Range(5, 50);
+        GenerateRandomRangeNum();
+    }
+    void GenerateRandomRangeNum()
+    {
+        if (CanBeHeated && !CanBeCooled) { ArrowTargetValue = Random.Range(5, 50); }
+        else if (!CanBeHeated && CanBeCooled) { ArrowTargetValue = Random.Range(-50, -5); }
+        else if (CanBeHeated && CanBeCooled) { ArrowTargetValue = 0;}
+        // last case just for now until i figure out how to make two arrows
     }
 }

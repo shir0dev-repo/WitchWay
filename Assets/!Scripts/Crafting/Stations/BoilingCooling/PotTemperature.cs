@@ -199,12 +199,12 @@ public class PotTemperature : MonoBehaviour
     }
     public void IncreaseProgress()
     {
-        Progress += 7.5f * Time.deltaTime;
+        Progress += 10f * Time.deltaTime;
         Progress = Mathf.Clamp(Progress, 0, 100);
     }
     public void DecreaseProgress()
     {
-        Progress -= 5 * Time.deltaTime;
+        Progress -= 5f * Time.deltaTime;
         Progress = Mathf.Clamp(Progress, 0, 100);
     }
     void ClampTemp()
