@@ -48,6 +48,8 @@ public class WZPlayerInteract : MonoBehaviour
     private GameObject currentlyDragging;
     private Vector3 hitPosition;
 
+    private bool inInteract = false;
+
     void Awake()
     {
         cam = Camera.main;
@@ -142,7 +144,7 @@ public class WZPlayerInteract : MonoBehaviour
     private void OnInteract(InputAction.CallbackContext context)
     {
         GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag, doorObjectTag, otherInteractableTag); //if null no object found
-        if (interactedObject != null)
+        if (interactedObject != null && !inInteract)
         {
             if (interactedObject.CompareTag(ingredientObjectTag))
             {
@@ -335,5 +337,20 @@ public class WZPlayerInteract : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void SetInInteraction(bool inInteract)
+    {
+        this.inInteract = inInteract;
+    }
+
+    public void EnbaleReticle()
+    {
+        reticleImage.gameObject.SetActive(true);
+    }
+
+    public void DisableReticle()
+    {
+        reticleImage.gameObject.SetActive(false);
     }
 }

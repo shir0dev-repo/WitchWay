@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FishingRod : MonoBehaviour
 {
+    [SerializeField] private GameObject fishingArea;
+
     public enum Result
     {
         Nothing = 0,
@@ -10,11 +12,18 @@ public class FishingRod : MonoBehaviour
     }
 
     [SerializeField] private FishingDropTable _dropTable = new FishingDropTable();
-    
+
     public void Interact()
     {
         GameEvents.WitchingZone.OnFishingRodInteractedWith?.Invoke();
+
         // Fishing mechanic starts here
+        WZPlayerInteract playerInteract = FindFirstObjectByType<WZPlayerInteract>();
+        playerInteract.DisableReticle();
+        playerInteract.SetInInteraction(true);
+
+        //show aimer
+        fishingArea.GetComponent<FishingAreaPositionIndicator>()?.StartFollowing();
     }
 
     // call when finished fishing
