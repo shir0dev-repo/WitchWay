@@ -25,24 +25,6 @@ public class WZPlayerSanity : MonoBehaviour
         GameEvents.WitchingZone.OnSanityChanged?.Invoke();
     }
 
-    public void IncreaseSanity(int sanityChange) //passing a negative will decrease
-    {
-        playerSanity += sanityChange;
-        playerSanity = Mathf.Clamp(playerSanity, -10, 10);
-
-        GameEvents.WitchingZone.OnSanityChanged?.Invoke();
-        GameEvents.WitchingZone.OnSanityIncreased?.Invoke();
-    }
-
-    public void DecreaseSanity(int sanityChange)
-    {
-        playerSanity -= sanityChange;
-        playerSanity = Mathf.Clamp(playerSanity, -10, 10);
-
-        GameEvents.WitchingZone.OnSanityChanged?.Invoke();
-        GameEvents.WitchingZone.OnSanityDecreased?.Invoke();
-    }
-
     private void CheckSanityLevel()
     {
         if (playerSanity <= -10)

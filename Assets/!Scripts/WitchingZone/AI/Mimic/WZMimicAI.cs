@@ -221,7 +221,7 @@ public class WZMimicAI : MonoBehaviour
         }
         Debug.Log("Mimic Attack Sound/Animation plays");
         if (WZPlayerManager.Instance != null)
-            WZPlayerManager.Instance.DecreaseSanity(2);
+            WZPlayerManager.Instance.ModifySanity(-2);
 
         _state.IsAttacking = false;
     }

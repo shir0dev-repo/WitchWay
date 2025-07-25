@@ -31,10 +31,7 @@ public class DialogueFunctions : MonoBehaviour
     {
         if (WZPlayerManager.Instance != null)
         {
-            if (change > 0)
-                WZPlayerManager.Instance.IncreaseSanity(change);
-            else if (change < 0)
-                WZPlayerManager.Instance.DecreaseSanity(change);
+            WZPlayerManager.Instance.ModifySanity(change);
         }
     }
 }

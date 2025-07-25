@@ -23,16 +23,10 @@ public class WZPlayerManager : Singleton<WZPlayerManager>
             playerInteract.SetControlsEnabled(toggle);
     }
 
-    public void IncreaseSanity(int amount)
+    public void ModifySanity(int change)
     {
         if (playerSanity != null)
-            playerSanity.IncreaseSanity(Mathf.Abs(amount));
-    }
-
-    public void DecreaseSanity(int amount)
-    {
-        if (playerSanity != null)
-            playerSanity.DecreaseSanity(Mathf.Abs(amount));
+            playerSanity.ModifySanity(change);
     }
 
     public void ToggleCursor(bool isVisible)

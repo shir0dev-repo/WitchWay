@@ -33,6 +33,7 @@ public class WZPlayerInteract : MonoBehaviour
     [Header("UI Objects")]
     [SerializeField] private CanvasGroup inventoryCanvasGroup;
 
+
     //private vars
     Camera cam;
 
@@ -183,6 +184,8 @@ public class WZPlayerInteract : MonoBehaviour
         //add ingrediant to inventory
         Inventory inventory = GetComponent<Inventory>();
         inventory.AddNewItem(ingredient.ingredient);
+
+        GameEvents.WitchingZone.OnIngredientPickedUp?.Invoke(ingredient.transform.position);
 
         Destroy(ingredient.gameObject);
     }
