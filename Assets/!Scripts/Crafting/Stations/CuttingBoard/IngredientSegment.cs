@@ -14,16 +14,30 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     private Collider _collider;
     private RigidbodyConstraints _rbConstraints;
     private WorldIngredient _parentIngredient;
+    private bool _hasBeenInitialized = false;
 
     private void Awake()
     {
         _parentIngredient = GetComponentInParent<WorldIngredient>();
         _rb = GetComponent<Rigidbody>();
+        
         _collider = GetComponent<Collider>();
         _rbConstraints = _rb.constraints;
         _rb.constraints = RigidbodyConstraints.FreezeAll;
         if (TryGetComponent(out MeshRenderer mr))
             Center = mr.bounds.center;
+    }
+
+    private void Update()
+    {
+        if (_hasBeenInitialized) return;
+
+        _hasBeenInitialized = true;
+        if (_parentIngredient != null && _parentIngredient.ModifiedState.HasBeenCut)
+        {
+            _rb.isKinematic = false;
+            _rb.constraints = RigidbodyConstraints.FreezeRotation;
+        }
     }
 
     public void Detach()
@@ -70,7 +84,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
         CursorManager.Instance.AttachToCursor<WorldIngredient>(_parentIngredient, _parentIngredient.transform);
 
         var siblings = GrabSimilar(_parentIngredient.transform);
-        if (CuttingBoard.Instance != null && !siblings.Any(s => s.HasBeenDetached))
+        if (CuttingBoard.Instance != null && !siblings.All(s => s.HasBeenDetached))
         {
             CursorManager.Instance.ClearCursor(false);
             CuttingBoard.Instance.RevertCurrentIngredient();
@@ -99,7 +113,8 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
             if (!child.transform.TryGetComponent(out Rigidbody rgbd)) continue;
             Vector3 force = (_parentIngredient.transform.position - rgbd.position).normalized * GrabVelocity;
             rgbd.AddForce(force);
-            rgbd.linearVelocity = Vector3.ClampMagnitude(rgbd.linearVelocity, MaxGrabVelocity);
+            if (rgbd.isKinematic == false)
+                rgbd.linearVelocity = Vector3.ClampMagnitude(rgbd.linearVelocity, MaxGrabVelocity);
         }
     }
 
