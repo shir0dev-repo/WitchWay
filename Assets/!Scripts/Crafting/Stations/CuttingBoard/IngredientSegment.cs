@@ -35,6 +35,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
         _hasBeenInitialized = true;
         if (_parentIngredient != null && _parentIngredient.ModifiedState.HasBeenCut)
         {
+            HasBeenDetached = true;
             _rb.isKinematic = false;
             _rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
@@ -81,18 +82,19 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void BeginDrag()
     {
         if (CursorManager.Instance == null) return;
-        CursorManager.Instance.AttachToCursor<WorldIngredient>(_parentIngredient, _parentIngredient.transform);
+        
 
         var siblings = GrabSimilar(_parentIngredient.transform);
-        if (CuttingBoard.Instance != null && !siblings.All(s => s.HasBeenDetached))
+        if (CuttingBoard.Instance != null && siblings.Any(s => !s.HasBeenDetached))
         {
             CursorManager.Instance.ClearCursor(false);
             CuttingBoard.Instance.RevertCurrentIngredient();
             return;
         }
-
-        CursorManager.Instance.AttachToCursor(transform, transform);
-
+        
+        CursorManager.Instance.AttachToCursor<WorldIngredient>(_parentIngredient, _parentIngredient.transform);
+        Grab();
+        //CursorManager.Instance.AttachToCursor(transform, transform);
 
         foreach (IngredientSegment segment in siblings)
         {
@@ -103,7 +105,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     public void UpdateDrag()
     {
         if (CursorManager.Instance == null) return;
-        else if (CursorManager.Instance.HasObjectFollowingCursor 
+        else if (_parentIngredient != null && CursorManager.Instance.HasObjectFollowingCursor 
             && CursorManager.Instance.AttachedObject != _parentIngredient.transform) return;
         else if (!_parentIngredient.ModifiedState.HasBeenCut) return;
 

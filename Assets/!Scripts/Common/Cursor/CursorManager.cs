@@ -53,8 +53,8 @@ public class CursorManager : Singleton<CursorManager>
         {
             _currentFollowCursor?.EndDrag();
         }
-
-        _currentFollowCursor?.UpdateDrag();
+        if (_isObjectAttached)
+            _currentFollowCursor?.UpdateDrag();
     }
 
     private void FixedUpdate()
