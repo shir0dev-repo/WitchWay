@@ -30,13 +30,11 @@ public class BottlingStation : Singleton<BottlingStation>
     {
         if (!(cursor is Bottle bottle))
         {
-            Debug.Log("Object is not bottle!");
             _pipe.SetActive(false);
             return;
         }
         if (_bottle != null && bottle == _bottle)
         {
-            Debug.Log("Bottle Attached!");
             _bottle.transform.position = BottlePivot.position;
             GameEvents.Crafting.OnBottlePlacedInBottler?.Invoke(_bottle);
             ToggleRelevantComponents(true);
