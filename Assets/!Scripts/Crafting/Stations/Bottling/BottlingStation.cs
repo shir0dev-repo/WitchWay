@@ -1,29 +1,78 @@
+using System;
 using UnityEngine;
 
 public class BottlingStation : Singleton<BottlingStation>
 {
     public Vector3 BottlePivotPosition => _bottlePivot.position;
     public Transform BottlePivot => _bottlePivot;
+    [Header("References")]
     [SerializeField] private Transform _bottlePivot;
     [SerializeField] private GameObject _pipe;
+    
+    [Space]
+    [SerializeField] private Siphon _siphon;
 
     public Bottle CurrentBottle => _bottle;
     private Bottle _bottle;
 
-    
+    private void OnEnable()
+    {
+        GameEvents.Crafting.OnObjectRemovedFromCursor += AttachBottle;
+        GameEvents.Crafting.OnBottleFilled += FinishBottling;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnObjectRemovedFromCursor -= AttachBottle;
+    }
+
+    private void AttachBottle(IFollowCursor cursor)
+    {
+        if (!(cursor is Bottle bottle))
+        {
+            Debug.Log("Object is not bottle!");
+            _pipe.SetActive(false);
+            return;
+        }
+        if (_bottle != null && bottle == _bottle)
+        {
+            Debug.Log("Bottle Attached!");
+            _bottle.transform.position = BottlePivot.position;
+            GameEvents.Crafting.OnBottlePlacedInBottler?.Invoke(_bottle);
+            ToggleRelevantComponents(true);
+            
+        }
+        else
+        {
+            ToggleRelevantComponents(false);
+        }
+    }
+
+    private void FinishBottling()
+    {
+        _bottle = null;
+        _pipe.SetActive(false);
+    }
+
+    private void ToggleRelevantComponents(bool toggle)
+    {
+        _pipe.SetActive(toggle);
+        _siphon.enabled = toggle;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent(out Bottle bottle)) return;
 
-        if (_bottle != null) return;
-        _bottle = bottle;
-
+        if (bottle.CanBeBottled == false || _bottle != null)
+            return;
+        else
+            _bottle = bottle;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (_bottle == null) return;
-
         _bottle = null;
     }
 }

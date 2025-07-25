@@ -1,116 +1,103 @@
+using System;
 using UnityEngine;
 
-public class Siphon : MonoBehaviour
+public class Siphon : Singleton<Siphon>
 {
-    public static Siphon Instance {  get; private set; }
-    [SerializeField] SliderBar slider;
-    // siphon requires it's own slider
+    private const float HALF_PI = Mathf.PI * 0.5f;
 
-    [Header("Pressure Rates")]
-    [SerializeField] private float _minFallSpeed = 5.0f;
-    [SerializeField] private float _maxFallSpeed = 25.0f;
+    [Header("Sliders")]
+    // TODO: Find way to show pressure in game, not through slider
+    [SerializeField] SliderBar _pressureSlider;
 
-    [Header("Pressure Fill Speed")]
-    [SerializeField] private float _addedPressure = 2.5f;
-    [SerializeField] float visiblePressure;
+    public SiphonPressure Pressure => _pressure;
+    [SerializeField] private SiphonPressure _pressure = new(0.0f, 100.0f);
 
-    Vector2 targetValue; // the value that's actually being calculated
-    Vector2 pressureValue; // the value of the slider
+    [Header("Bottle Fill")]
+    public float FillAmount { get; private set; }
+    [SerializeField] private float _maxStreamRate = 15.0f;
+    private float _streamRate = 0.0f;
 
-    float currTime = 0.0f;
+    private bool _isLeftClick = true;
 
-    void Start()
+    private void Initialize()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-        }
-
-        this.enabled = false;
+        _pressure.Reset();
+        _streamRate = 0.0f;
+        _pressureSlider.SetValue(0.0f);
     }
+
     private void OnEnable()
     {
-        BottleDetection.filledBottle += EndMinigame;
-        BottleDetection.bottlePlaced -= StartMinigame;
+        GameEvents.Crafting.OnBottleFilled += EndMinigame;
+        GameEvents.Crafting.OnBottlePlacedInBottler -= StartMinigame;
     }
     private void OnDisable()
     {
-        BottleDetection.filledBottle -= EndMinigame;
-        BottleDetection.bottlePlaced += StartMinigame;
+        GameEvents.Crafting.OnBottleFilled -= EndMinigame;
+        GameEvents.Crafting.OnBottlePlacedInBottler += StartMinigame;
+    }
+
+    void Start()
+    {
+        Initialize();
+        _pressureSlider.gameObject.SetActive(false);
+        this.enabled = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (FillAmount >= 100)
         {
-            IncreasePressure(_addedPressure);
+            GameEvents.Crafting.OnBottleFilled?.Invoke();
+            return;
         }
 
-        DecreasePressure();
-        slider.SetValue(EaseValues());
+        _pressure.Update(Time.deltaTime);
+        KeyCode targetKey = _isLeftClick ? KeyCode.Q: KeyCode.E;
+        if (Input.GetKeyDown(targetKey))
+        {
+            _isLeftClick = !_isLeftClick;
+            _pressure.Increase();
+        }
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _pressure.Increase();
+        }*/
+        else
+        {
+            _pressure.Decrease();
+        }
 
-        visiblePressure = targetValue.x; // for debugging 
-    }
-    void IncreasePressure(float amount)
-    {
-        targetValue.x += amount;
-        targetValue.x = ClampPressureAmount();
+        _pressure.DoEase();
+        _pressureSlider.SetValue(_pressure.Value);
 
-        currTime = 0f;
-    } 
-    float EaseValues()
-    {
-        float value;
-        currTime += Time.deltaTime;
+        FillBottle();
+    }
 
-        float e = Mathf.Clamp01(currTime / 0.5f);
-        value = Easing(e);
-        // e = progress of the easing
-        // value = the current value within the easing process
+    private void FillBottle()
+    {
+        UpdateStreamRate();
+        if (Mathf.Approximately(_streamRate, 0.0f)) return;
 
-        pressureValue.x = Mathf.Lerp(pressureValue.x, targetValue.x, value);
+        FillAmount = Mathf.Clamp(FillAmount + Time.smoothDeltaTime * _streamRate, 0.0f, 100.0f);
+        GameEvents.Crafting.OnBottleFillChanged?.Invoke(FillAmount * 0.01f);
+    }
 
-        return pressureValue.x;
-    }
-    public void DecreasePressure()
+    private void UpdateStreamRate()
     {
-        float currentPercent = 1.0f - (targetValue.x * 0.01f);
-        float decrease = Mathf.Lerp(_maxFallSpeed, _minFallSpeed, currentPercent);
+        float pressurePercent = Mathf.InverseLerp(_pressure.MinValue, _pressure.MaxValue, _pressure.Value);
+        _streamRate = pressurePercent * _maxStreamRate;
+    }
 
-        targetValue.x -= decrease * Time.deltaTime;
-        targetValue.x = ClampPressureAmount();
-    }
-    float ClampPressureAmount()
+    void StartMinigame(Bottle bottle)
     {
-        return Mathf.Clamp(targetValue.x, 0, 100);
+        Initialize();
+        _pressureSlider.gameObject.SetActive(true);
     }
-    public float GetCurrentPressureAmount()
-    {
-        return targetValue.x;
-    }
-    public void ResetPressure() 
-    {
-        pressureValue.x = 0.0f;
-        targetValue.x = 0.0f;
-        slider.SetValue(targetValue.x);
-    }
-    void StartMinigame()
-    {
-        ResetPressure();
-        slider.gameObject.SetActive(true);
-    }
+
     void EndMinigame()
     {
-        slider.gameObject.SetActive(false);
-        
+        _pressureSlider.gameObject.SetActive(false);
         this.enabled = false;
-    }
-    float Easing(float x) // taken from easings.net
-    {
-        return Mathf.Sin((x * Mathf.PI)/2);
     }
 }

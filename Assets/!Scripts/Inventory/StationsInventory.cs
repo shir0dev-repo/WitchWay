@@ -90,11 +90,6 @@ public class StationsInventory : MonoBehaviour
         StartCoroutine(WaitAfterStart());
     }
 
-    void Update()
-    {
-
-    }
-
     private void PopulateIngredients()
     {
         foreach (InventorySlot slot in PersistantItemList.inventorySlots)
@@ -112,28 +107,21 @@ public class StationsInventory : MonoBehaviour
         }
 
         //quantify 
-        Dictionary<string, BasketItems> groupedItems = new Dictionary<string, BasketItems>();
+        List<BasketItems> items = new();
         foreach (IngredientSO ingred in ingredients)
         {
-            if (groupedItems.ContainsKey(ingred.name))
-            {
-                groupedItems[ingred.name].itemAmount += 1;
-            }
-            else
-            {
                 ModifiedIngredient newMIngred = new ModifiedIngredient();
                 newMIngred.BaseIngredient = ingred;
-                groupedItems[ingred.name] = new BasketItems(null, newMIngred, 1);
-            }
+                items.Add(new BasketItems(null, newMIngred, 1));
         }
 
         //prep data
         int[] boxCounts = new int[boxes.Length];
         int currentBox = 0;
 
-        foreach (BasketItems bValue in groupedItems.Values)
+        foreach (BasketItems item in items)
         {
-            int remaining = bValue.itemAmount;
+            int remaining = item.itemAmount;
 
             while (remaining > 0)
             {
@@ -146,12 +134,13 @@ public class StationsInventory : MonoBehaviour
 
                 if (tries >= boxes.Length)
                 {
+                    // NOTE: Should never happen ! Check if player adds too many ingredients from the shelf, before reaching this
                     Debug.LogWarning("too many");
                     return;
                 }
 
                 StationsInvBox boxScript = boxes[currentBox].GetComponent<StationsInvBox>();
-                boxScript.AddItem(new BasketItems(boxes[currentBox].transform, bValue.assignedIngredient, 1));
+                boxScript.AddItem(new BasketItems(boxes[currentBox].transform, item.assignedIngredient, 1));
 
                 boxCounts[currentBox]++;
                 remaining--;

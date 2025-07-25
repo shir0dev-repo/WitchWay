@@ -12,6 +12,10 @@ public static partial class GameEvents
         public static Action<ToolType> OnToolSelected;
         public static Action<ToolType> OnToolDeselected;
 
+        // Cursor Events
+        public static Action<IFollowCursor> OnObjectAttachedToCursor;
+        public static Action<IFollowCursor> OnObjectRemovedFromCursor;
+
         // Inventory Events
         public static Action<IngredientSO> OnItemAddedToInventory;
         public static Action<IngredientSO> OnItemRemovedFromInventory;
@@ -79,7 +83,7 @@ public static partial class GameEvents
         public static Action<Bottle> OnBottlePlacedInBottler;
         public static Action OnBottlingStationSelected;
         public static Action<float> OnBottleFillChanged;
-        public static Action<PotionData> OnBottleFilled;
+        public static Action OnBottleFilled;
 
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;

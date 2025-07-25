@@ -102,6 +102,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8899681205394887481}
+  - component: {fileID: 4328674890508838288}
+  - component: {fileID: 4237926219528466628}
   m_Layer: 0
   m_Name: Stations
   m_TagString: Untagged
@@ -128,6 +130,34 @@ Transform:
   - {fileID: 5395888322168563671}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4328674890508838288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121311402015910558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a638d79cff4794580cbf9df4748ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MysteriousPotion: {fileID: 11400000, guid: 7f68dc97743ca774cb6db4f908b3f941, type: 2}
+--- !u!114 &4237926219528466628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8121311402015910558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a762824b7ce6f47448438b27f1c49e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecipeSOList:
+  - {fileID: 11400000, guid: 2692bfbb2c8959342a3866f4b0f6b5b5, type: 2}
+  - {fileID: 11400000, guid: 472e68ee3d64a074aba772ecef597f7f, type: 2}
 --- !u!1 &8605699912213357105
 GameObject:
   m_ObjectHideFlags: 0
