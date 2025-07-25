@@ -1,5 +1,6 @@
 using UnityEngine;
 using DungeonMaster2D;
+using System;
 
 [System.Flags]
 public enum Entrance : byte
@@ -13,34 +14,33 @@ public enum Entrance : byte
 
 public class Room : MonoBehaviour
 {
-    [Header("Room Data")]
-    public Entrance Entrances => _entrances;
-    [SerializeField] Entrance _entrances;
-    
-    public NodeType Type => _roomType;
-    [SerializeField] NodeType _roomType;
+    public Node Node { get; set; } = null;
+    public Door[] Doors { get; private set; }
 
-    [Header("Scene References")]
-    public Door[] Doors => _doors;
-    [SerializeField] private Door[] _doors;
-
-    [ContextMenu("Set Entrances")]
-    public void SetEntrances()
+    private void OnEnable()
     {
-        if (_doors == null)
+        GameEvents.WitchingZone.OnDungeonGenerated += Setup;
+    }
+
+    private void Setup(Dungeon2D d)
+    {
+        if (Node == null)
         {
-            _doors = GetComponentsInChildren<Door>(true);
+            Debug.LogWarning("A room does not have a Node attached to it!");
+            return;
         }
+        
+        InitDoors();
 
-        int entrances = 0;
+        if (WitchingZoneGenerator.Instance == null || !WitchingZoneGenerator.Instance.ShouldDisableOnStart) return;
+        
+        if (Node.NodeType != NodeType.Start)
+            gameObject.SetActive(false);
+    }
 
-        foreach (Door door in _doors)
-        {
-            Vector3 toDoor = (door.transform.position - transform.position).normalized;
-            int angle = (int) Vector3.SignedAngle(transform.forward, toDoor, Vector3.up);
-            entrances |= Mathf.NextPowerOfTwo(angle / 90);
-        }
-
-        _entrances = (Entrance) entrances;
+    private void InitDoors()
+    {
+        Doors = GetComponentsInChildren<Door>(true);
+        foreach (Door door in Doors) door.AttachedRoom = this;
     }
 }

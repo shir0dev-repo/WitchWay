@@ -9,7 +9,7 @@ Possible improvements:
 */
 
 //this script is big may be good to split it
-public class WZPlayerController : MonoBehaviour
+public class WZPlayerController : Singleton<WZPlayerController>
 {
     [Header("World Controls")]
     [SerializeField] private InputAction moveAction;
@@ -54,7 +54,7 @@ public class WZPlayerController : MonoBehaviour
 
     private bool canMove = true;
 
-    void Awake()
+    protected override void Awake()
     {
         rb = GetComponent<Rigidbody>();
         camTransform = GetComponentInChildren<Camera>().transform;

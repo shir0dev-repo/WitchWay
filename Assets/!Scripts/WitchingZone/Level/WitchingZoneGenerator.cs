@@ -1,50 +1,131 @@
-using EnumsEditor;
 using DungeonMaster2D;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System;
+using DG.Tweening;
 
-public class WitchingZoneGenerator : MonoBehaviour
+using Random = UnityEngine.Random;
+
+public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
 {
-    [SerializeField] private GameObject _roomPF;
+    [Serializable]
+    public class RoomData
+    {
+        public GameObject Prefab;
+        public Direction Entrances;
+
+    }
+
+    [Header("Visual")]
+    [SerializeField] private bool _useCoroutine = false;
+    [SerializeField, Range(0, 1.0f)] private float _roomSpawnDelay = 0.3f;
+    [SerializeField] private float _roomFadeInDuration = 0.4f;
+
+    [Header("Rooms")]
+    [SerializeField] private float _roomExtentSize = 1.0f;
+    public Vector3 RoomScale => _roomExtentSize * Vector3.one;
+    [SerializeField] private float _roomScale = 5.0f;
+    [SerializeField] private List<RoomData> _roomPrefabs;
+    public bool ShouldDisableOnStart => _shouldDisableOnStart;
+    [SerializeField] private bool _shouldDisableOnStart = true;
+
+    [Header("Generation")]
     [SerializeField] private Dungeon2D _dungeon;
     [SerializeField] private DungeonGeneratorData _generatorData;
     [SerializeField] private List<SpecialRoomType> _specialRoomTypes;
 
-    public Action<Dungeon2D> OnDungeonGenerated;
+    private List<Room> _rooms = new();
+
+    private void OnEnable()
+    {
+        GameEvents.WitchingZone.OnRoomExited += UnloadRoom;
+        GameEvents.WitchingZone.OnRoomEntered += LoadRoom;
+    }
 
     private void Start()
     {
-        _dungeon = MapGenerator.Generate2D(_generatorData, _specialRoomTypes.Select(n => n.Type).ToArray());
+        Generate();
+    }
 
+    [ContextMenu("Generate")]
+    public void Generate()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+
+        _dungeon = MapGenerator.Generate2D(_generatorData, _specialRoomTypes.Select(n => n.Type).ToArray());
+        Random.InitState(_generatorData.GetSeed());
+
+        StartCoroutine(GenerateDungeonCoroutine());
+    }
+
+    private IEnumerator GenerateDungeonCoroutine()
+    {
+        _rooms.Clear();
         foreach (Node n in _dungeon.ValidNodes)
         {
-            Vector3 pos = new Vector3(n.Position.x, 0, n.Position.y);
-            GameObject room = Instantiate(_roomPF, pos, Quaternion.identity);
-            room.transform.SetParent(transform);
-            if (room.TryGetComponent(out MeshRenderer mr))
-            {
-                var special = _specialRoomTypes.Find(e => e.Type == n.NodeType);
+            RoomData[] rooms = _roomPrefabs.Where(r => r.Entrances.HasAllFlags(n.Entrances)).ToArray();
+            int rand_i = Random.Range(0, rooms.Length - 1);
 
-                if (special != null)
-                    mr.material.color = special.Color;
-                else 
-                    mr.material.color = n.NodeType switch
-                    {
-                        NodeType.Scare => Color.magenta,
-                        NodeType.Stockpile => Color.green,
-                        NodeType.Amazement => Color.yellow,
-                        NodeType.Exit => Color.red,
-                        _ => Color.white
-                    };
+            Vector3 pos = new Vector3(n.Position.x, 0, n.Position.y) * _roomExtentSize;
+            GameObject pf = rooms[rand_i].Prefab;
+            GameObject roomGO = Instantiate(pf, pos, pf.transform.rotation);
+            roomGO.transform.SetParent(transform);
+            roomGO.name = $"{pf.name}: {n.NodeType} Room {n}";
+
+            if (roomGO.TryGetComponent(out Room room))
+            {
+                room.Node = n;
+                _rooms.Add(room);
+            }
+
+            if (_useCoroutine)
+            {
+                room.transform.localScale = Vector3.one * 0.001f;
+                room.transform.DOScale(5.0f, _roomFadeInDuration);
+                yield return new WaitForSeconds(_roomSpawnDelay);
             }
             else
             {
-                Debug.Break();
+                yield return null;
             }
         }
 
-        OnDungeonGenerated?.Invoke(_dungeon);
+        GameEvents.WitchingZone.OnDungeonGenerated?.Invoke(_dungeon);
+    }
+
+    private void LoadRoom(Room room)
+    {
+        
+    }
+
+    private void UnloadRoom(Room room)
+    {
+        StartCoroutine(UnloadRoomCoroutine(room));
+    }
+
+    private void LoadRoomCoroutine(Room room)
+    {
+
+    }
+
+    private IEnumerator UnloadRoomCoroutine(Room room)
+    {
+        WZPlayerController player = WZPlayerController.Instance;
+        if (player == null) yield break;
+
+        player.SetCanMove(false);
+        ScreenEffects se = ScreenEffects.Instance;
+        if (se != null)
+        {
+            bool effectFinished = false;
+            se.DoScreenEffect("Room Exit", 0.3f, 1.0f, () => effectFinished = true, false);
+            yield return new WaitUntil(() => effectFinished);
+        }
+        Debug.Log("new room !!!");
     }
 }
