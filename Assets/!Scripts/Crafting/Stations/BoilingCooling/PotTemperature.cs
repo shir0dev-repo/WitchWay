@@ -126,6 +126,8 @@ public class PotTemperature : MonoBehaviour
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
+            arrowMovement.CanBeCooled = w.BaseIngredient.CanBeFrozen;
+            arrowMovement.CanBeHeated = w.BaseIngredient.CanBeHeated;
             w.enabled = false;
         }
     }
@@ -175,6 +177,7 @@ public class PotTemperature : MonoBehaviour
     {
         return Temperature;
     }
+    public WorldIngredient GetWorldIngredient() { return _targetIngredient; }
     void EqualOutTemp()
     {
         float toMiddle = Mathf.Clamp01(Mathf.Abs(Temperature) * 0.01f);

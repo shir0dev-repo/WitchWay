@@ -6,18 +6,24 @@ public class RandomArrowMovement : MonoBehaviour
     
     public float ArrowValue;
     float ArrowTargetValue; 
-    [SerializeField] public bool CanBeHeated, CanBeCooled;
+    public bool CanBeHeated, CanBeCooled;
 
-    [SerializeField] float TimeUntilDirectionSwitches = 4;
-    [SerializeField] float timeDuration = 5;
+    [SerializeField] float DefaultDuration;
+    float TimeUntilDirectionSwitches;
+
+    [SerializeField] float timeDuration;
     float timeElapsed;
 
     private void OnEnable()
     {
+        PotTemperature.StartCooking += OnCookingStart;
+    }
+    void OnCookingStart()
+    {
         ArrowValue = 0;
         SwitchArrowDirection();
+        TimeUntilDirectionSwitches = DefaultDuration;
     }
-
     void Update()
     {
         if (!pot.currentlyCooking) return;
@@ -25,7 +31,7 @@ public class RandomArrowMovement : MonoBehaviour
         TimeUntilDirectionSwitches -= Time.deltaTime;
         if (TimeUntilDirectionSwitches <= 0) 
         {
-            TimeUntilDirectionSwitches = Random.Range(3f,5f);
+            TimeUntilDirectionSwitches = Random.Range(DefaultDuration--,DefaultDuration++);
             SwitchArrowDirection();
 
             timeElapsed = 0;
@@ -49,9 +55,10 @@ public class RandomArrowMovement : MonoBehaviour
     }
     void GenerateRandomRangeNum()
     {
-        if (CanBeHeated && !CanBeCooled) { ArrowTargetValue = Random.Range(5, 50); }
-        else if (!CanBeHeated && CanBeCooled) { ArrowTargetValue = Random.Range(-50, -5); }
-        else if (CanBeHeated && CanBeCooled) { ArrowTargetValue = 0;}
+        if (CanBeHeated == true && CanBeCooled == false) { ArrowTargetValue = Random.Range(5, 50); }
+        else if (CanBeHeated == false && CanBeCooled == true) { ArrowTargetValue = Random.Range(-50, -5); }
+        else if (CanBeHeated == true && CanBeCooled == true) { ArrowTargetValue = 0;}
+        else { ArrowTargetValue = 0;}
         // last case just for now until i figure out how to make two arrows
     }
 }

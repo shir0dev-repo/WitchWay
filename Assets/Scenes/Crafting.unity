@@ -2002,7 +2002,15 @@ PrefabInstance:
       objectReference: {fileID: 607709196}
     - target: {fileID: 3180893849169945057, guid: 539097725feea93459480e081372e267, type: 3}
       propertyPath: CanBeHeated
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180893849169945057, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: timeDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3180893849169945057, guid: 539097725feea93459480e081372e267, type: 3}
+      propertyPath: DefaultDuration
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3710075882374381007, guid: 539097725feea93459480e081372e267, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3944,7 +3952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eea2a972563435f4294b29ea6415fb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowedDeviance: 5
+  allowedDeviance: 10
 --- !u!1 &1773395582
 GameObject:
   m_ObjectHideFlags: 0
