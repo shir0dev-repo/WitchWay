@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using FMODUnity;
+using FMOD;
 
 public class PotTemperature : MonoBehaviour
 {
@@ -30,6 +32,13 @@ public class PotTemperature : MonoBehaviour
 
     float TimeUntilBurn = 0;
     [SerializeField] float BurnTimerThreshold = 5f;
+
+    
+    [Header("Audio")]
+    public EventReference heatingSound;
+    public EventReference coolingSound;
+    public EventReference constantTempSound;
+    public EventReference successSound;
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -74,6 +83,15 @@ public class PotTemperature : MonoBehaviour
             // only runs when player is not hovering on button, prevents values from fighting
 
             TempSlider.SetValue(Temperature);
+
+            if(!SoundManager.Instance.IsLooping("ConstantTempSound"))
+            SoundManager.Instance.PlayLoop("ConstantTempSound", constantTempSound, transform.position);
+
+            if (SoundManager.Instance.IsLooping("ConstantTempSound"))
+            {
+                float normalizedTemp = Mathf.InverseLerp(-50f, 50f, Temperature);
+                SoundManager.Instance.SetParameterByName("ConstantTempSound", "temperature", normalizedTemp);
+            }
         }
         if (FillValueSlider.isActiveAndEnabled)
         {
@@ -139,6 +157,8 @@ public class PotTemperature : MonoBehaviour
         {
             w.enabled = true;
         }
+        SoundManager.Instance.StopLoop("ConstantTempSound");
+        SoundManager.Instance.PlayOneShot(successSound, transform.position);
     }
     void InBurningThreshold()
     {
@@ -156,6 +176,8 @@ public class PotTemperature : MonoBehaviour
         Temperature = 0;
         TimeUntilBurn = 0;
         amCurrentlyBurning = true;
+        SoundManager.Instance.StopLoop("ConstantTempSound");
+
     }
     public void ToggleSliders(bool value)
     {

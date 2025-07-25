@@ -4,6 +4,7 @@ using PDollarGestureRecognizer;
 using System.IO;
 using TMPro;
 using System;
+using FMODUnity;
 
 public class SymbolPainter : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class SymbolPainter : MonoBehaviour
 
     private readonly List<LineRenderer> _gestureLineRenderers = new();
     public LineRenderer CurrentGestureRenderer { get; private set; }
+
+    [Header("Audio")]
+    [SerializeField] private EventReference drawSound;
 
     private void Start()
     {
@@ -64,11 +68,16 @@ public class SymbolPainter : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _virtualKeyPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+            if(!SoundManager.Instance.IsLooping("DrawSound"))
+            {
+                SoundManager.Instance.PlayLoop("DrawSound", drawSound, Camera.main.transform.position);
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             OnLineDrawn?.Invoke();
+            SoundManager.Instance.StopLoop("DrawSound");
         }
 
         if (_UICanvas.pixelRect.Contains(_virtualKeyPosition))

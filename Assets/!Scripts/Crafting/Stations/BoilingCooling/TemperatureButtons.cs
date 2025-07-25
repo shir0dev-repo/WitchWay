@@ -19,6 +19,8 @@ public class TemperatureButtons : MonoBehaviour
         PotTemperature.StartCooking += StartMinigame;
         PotTemperature.FinishCooking -= EndMinigame;
     }
+
+    private bool mouseOverStart = true;
     private void Start()
     {
         pot = PotTemperature.Instance;
@@ -43,15 +45,26 @@ public class TemperatureButtons : MonoBehaviour
         if (isHeating)
         {
             pot.RaiseTemp(value);
+            if (mouseOverStart)
+            {
+                SoundManager.Instance.PlayOneShot(pot.heatingSound, Camera.main.transform.position);
+                mouseOverStart = false;
+            }
         }
         else
         {
             pot.LowerTemp(value);
+            if (mouseOverStart)
+            {
+                SoundManager.Instance.PlayOneShot(pot.coolingSound, Camera.main.transform.position);
+                mouseOverStart = false;
+            }
         }
     }
     private void OnMouseExit()
     {
         pot.isChangingTemp = false;
+        mouseOverStart = true;
     }
     void StartMinigame()
     {
