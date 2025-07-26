@@ -82,14 +82,7 @@ public class RandomArrowMovement : MonoBehaviour
     }
     void GenerateRandomRangeNum()
     {
-        if (CanBeHeated && !CanBeCooled) { HeatTarget = Random.Range(5, 50); }
-        else if (!CanBeHeated && CanBeCooled) { CoolTarget = Random.Range(-50, -5); }
-        else if (CanBeHeated && CanBeCooled)
-        {
-            HeatTarget = Random.Range(5, 50);
-            CoolTarget = Random.Range(-50, -5);
-        }
-        else { HeatTarget = 0; CoolTarget = 0; }
+        HeatTarget = CanBeHeated ? Random.Range(5, 45) : 0;
+        CoolTarget = CanBeCooled ? Random.Range(-45, -5) : 0;
     }
-    
 }
