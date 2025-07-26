@@ -13,6 +13,8 @@ public class FishingAreaPositionIndicator : MonoBehaviour
 
     private bool isFollowing = false;
 
+    private Vector3 position;
+
     void Awake()
     {
         fishingPlane = new Plane(transform.up, transform.position);
@@ -39,6 +41,18 @@ public class FishingAreaPositionIndicator : MonoBehaviour
 
             Vector3 finalPos = new Vector3(closestPoint.x, transform.position.y + sphereYOffset, closestPoint.z);
             spawnedSphere.transform.position = finalPos;
+            position = finalPos;
         }
+    }
+
+    public void StopFollowing()
+    {
+        isFollowing = false;
+        Destroy(spawnedSphere);
+    }
+
+    public Vector3 GetPosition()
+    {
+        return position;
     }
 }

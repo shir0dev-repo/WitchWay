@@ -2,6 +2,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public enum PlayerInteractActions
+{
+    interactAction,
+    dragAction,
+    optionChangeAction,
+    selectAction,
+    showIngrediantsAction,
+    recipeBookAction,
+    pauseAction
+}
+
 public class WZPlayerInteract : MonoBehaviour
 {
     [Header("Interact Controls")]
@@ -352,5 +363,49 @@ public class WZPlayerInteract : MonoBehaviour
     public void DisableReticle()
     {
         reticleImage.gameObject.SetActive(false);
+    }
+
+    public void EnableDisableAction(bool enabled, PlayerInteractActions[] actions)
+    {
+        foreach (PlayerInteractActions action in actions)
+        {
+            InputAction targetAction = null;
+
+            switch (action)
+            {
+                case PlayerInteractActions.interactAction:
+                    targetAction = interactAction;
+                    break;
+
+                case PlayerInteractActions.dragAction:
+                    targetAction = dragAction;
+                    break;
+
+                case PlayerInteractActions.optionChangeAction:
+                    targetAction = optionChangeAction;
+                    break;
+
+                case PlayerInteractActions.selectAction:
+                    targetAction = optionChangeAction;
+                    break;
+
+                case PlayerInteractActions.showIngrediantsAction:
+                    targetAction = showIngrediantsAction;
+                    break;
+
+                case PlayerInteractActions.recipeBookAction:
+                    targetAction = recipeBookAction;
+                    break;
+
+                case PlayerInteractActions.pauseAction:
+                    targetAction = pauseAction;
+                    break;
+            }
+
+            if (targetAction == null) continue;
+
+            if (enabled) targetAction.Enable();
+            else targetAction.Disable();
+        }
     }
 }
