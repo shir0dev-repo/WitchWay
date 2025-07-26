@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7451688504179165955}
   - component: {fileID: 4798455712602748545}
+  - component: {fileID: 7772381725034251849}
   m_Layer: 0
   m_Name: WZMapGenerator
   m_TagString: Untagged
@@ -45,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _useCoroutine: 1
-  _roomSpawnDelay: 0.2
+  _roomSpawnDelay: 0.039
   _roomFadeInDuration: 0.4
   _roomExtentSize: 50
   _roomScale: 5
@@ -188,12 +189,13 @@ MonoBehaviour:
     Entrances: 15
   - Prefab: {fileID: 964162002384994544, guid: 8338331b5b6088d498d017d4c646bd30, type: 3}
     Entrances: 15
+  _shouldDisableOnStart: 0
   _dungeon:
     _nodes: []
   _generatorData:
     UseRandomSeed: 1
     CurrentSeed: 0
-    TargetRoomCount: 25
+    TargetRoomCount: 36
   _specialRoomTypes:
   - Type: 5
     Color: {r: 0.39475965, g: 0, b: 1, a: 1}
@@ -207,3 +209,15 @@ MonoBehaviour:
   - Type: 2
     Color: {r: 1, g: 0, b: 0.99997807, a: 1}
     IsPuzzleReward: 0
+--- !u!114 &7772381725034251849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7265231474738730067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ec7008023ebbe4c9f6e68be1de4938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

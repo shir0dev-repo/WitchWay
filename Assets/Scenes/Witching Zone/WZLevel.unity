@@ -574,23 +574,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &1120666107 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7265231474738730067, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-  m_PrefabInstance: {fileID: 3425225306730992812}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1120666110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120666107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ec7008023ebbe4c9f6e68be1de4938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2060982929
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,26 +627,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _useCoroutine
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _roomSpawnDelay
-      value: 0.039
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _shouldDisableOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _generatorData.TargetRoomCount
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _specialRoomTypes.Array.data[1].IsPuzzleReward
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7265231474738730067, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
       propertyPath: m_Name
       value: WZMapGenerator
@@ -711,10 +674,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7265231474738730067, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1120666110}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
