@@ -8,6 +8,7 @@ public class PotTemperature : MonoBehaviour
 {
     public static PotTemperature Instance {  get; private set; }
     public FailState_BurnCool FailState { get; private set; }
+    public RandomArrowMovement arrowMovement {  get; private set; }
 
     public delegate void MinigameActivation();
     public static MinigameActivation StartCooking;
@@ -17,16 +18,18 @@ public class PotTemperature : MonoBehaviour
     public static event Action TriggerBurning;
 
     [SerializeField] private Gradient _temperatureSliderGradient;
-    [SerializeField] Slider_WithPointer TempSlider;
+    [SerializeField] Slider_TwoPointers TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
-    public float TargetTemperature;
+    float TargetTemperature => arrowMovement.TrueArrow;
     public float Temperature = 0;
     public float Progress = 0;
 
+    public WorldIngredient GetWorldIngredient() { return _targetIngredient; }
     private WorldIngredient _targetIngredient;
     GameObject currentIngredientInPot;
 
+    public bool currentlyCooking { get; set; } = false;
     public bool isChangingTemp { get; set; }
     public bool amCurrentlyBurning {  get; set; }
 
@@ -49,12 +52,7 @@ public class PotTemperature : MonoBehaviour
         
         Instance = this;
         FailState = GetComponent<FailState_BurnCool>();
-    }
-
-    private void Start()
-    {
-        TargetTemperature = Random.Range(-40, 40);
-        TempSlider.SetPointerLocation(TargetTemperature);
+        arrowMovement = GetComponent<RandomArrowMovement>();
     }
 
     private void OnEnable()
@@ -83,6 +81,7 @@ public class PotTemperature : MonoBehaviour
             // only runs when player is not hovering on button, prevents values from fighting
 
             TempSlider.SetValue(Temperature);
+            SetSliderPointers();
 
             if(!SoundManager.Instance.IsLooping("ConstantTempSound"))
             SoundManager.Instance.PlayLoop("ConstantTempSound", constantTempSound, transform.position);
@@ -117,7 +116,6 @@ public class PotTemperature : MonoBehaviour
     {
         if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
         {
-            ingredient.targetTemp = TargetTemperature;
             if (ingredient.TryGetComponent(out WorldIngredient ing))
                 _targetIngredient = ing;
 
@@ -141,24 +139,33 @@ public class PotTemperature : MonoBehaviour
     void StartStart()
     {
         ToggleSliders(true);
+        SetSliderPointers();
 
-        TempSlider.SetPointerLocation(TargetTemperature);
+        currentlyCooking = true;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
+            arrowMovement.CanBeCooled = w.BaseIngredient.CanBeFrozen;
+            arrowMovement.CanBeHeated = w.BaseIngredient.CanBeHeated;
+            
             w.enabled = false;
         }
     }
     void EndEnd()
     {
         ToggleSliders(false);
+         currentlyCooking = false;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
             w.enabled = true;
         }
-        SoundManager.Instance.StopLoop("ConstantTempSound");
-        SoundManager.Instance.PlayOneShot(successSound, transform.position);
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopLoop("ConstantTempSound");
+            SoundManager.Instance.PlayOneShot(successSound, transform.position);
+        }
     }
     void InBurningThreshold()
     {
@@ -176,13 +183,36 @@ public class PotTemperature : MonoBehaviour
         Temperature = 0;
         TimeUntilBurn = 0;
         amCurrentlyBurning = true;
-        SoundManager.Instance.StopLoop("ConstantTempSound");
 
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.StopLoop("ConstantTempSound");
     }
     public void ToggleSliders(bool value)
     {
         TempSlider.gameObject.SetActive(value);
         FillValueSlider.gameObject.SetActive(value);
+
+        if (value)
+        {
+            if (_targetIngredient.BaseIngredient.CanBeHeated) { TempSlider.pointer1.SetActive(true); }
+            else { TempSlider.pointer1.SetActive(false); }
+
+            if (_targetIngredient.BaseIngredient.CanBeFrozen) { TempSlider.pointer2.SetActive(true); }
+            else { TempSlider.pointer2.SetActive(false); }
+        }
+        else { return; }
+    }
+    void SetSliderPointers()
+    {
+        if (_targetIngredient.BaseIngredient.CanBeHeated)
+        {
+            TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
+        }
+
+        if (_targetIngredient.BaseIngredient.CanBeFrozen)
+        {
+            TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
+        }
     }
     public void RaiseTemp(float amount)
     {
@@ -198,6 +228,7 @@ public class PotTemperature : MonoBehaviour
     {
         return Temperature;
     }
+    
     void EqualOutTemp()
     {
         float toMiddle = Mathf.Clamp01(Mathf.Abs(Temperature) * 0.01f);
@@ -222,12 +253,12 @@ public class PotTemperature : MonoBehaviour
     }
     public void IncreaseProgress()
     {
-        Progress += 7.5f * Time.deltaTime;
+        Progress += 10f * Time.deltaTime;
         Progress = Mathf.Clamp(Progress, 0, 100);
     }
     public void DecreaseProgress()
     {
-        Progress -= 5 * Time.deltaTime;
+        Progress -= 5f * Time.deltaTime;
         Progress = Mathf.Clamp(Progress, 0, 100);
     }
     void ClampTemp()
