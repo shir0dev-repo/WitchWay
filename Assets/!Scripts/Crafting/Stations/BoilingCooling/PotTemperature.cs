@@ -71,8 +71,7 @@ public class PotTemperature : MonoBehaviour
             // only runs when player is not hovering on button, prevents values from fighting
 
             TempSlider.SetValue(Temperature);
-            TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
-            TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
+            SetSliderPointers();
         }
         if (FillValueSlider.isActiveAndEnabled)
         {
@@ -121,9 +120,8 @@ public class PotTemperature : MonoBehaviour
     void StartStart()
     {
         ToggleSliders(true);
+        SetSliderPointers();
 
-        TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
-        TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
         currentlyCooking = true;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
@@ -165,6 +163,28 @@ public class PotTemperature : MonoBehaviour
     {
         TempSlider.gameObject.SetActive(value);
         FillValueSlider.gameObject.SetActive(value);
+
+        if (value)
+        {
+            if (_targetIngredient.BaseIngredient.CanBeHeated) { TempSlider.pointer1.SetActive(true); }
+            else { TempSlider.pointer1.SetActive(false); }
+
+            if (_targetIngredient.BaseIngredient.CanBeFrozen) { TempSlider.pointer2.SetActive(true); }
+            else { TempSlider.pointer2.SetActive(false); }
+        }
+        else { return; }
+    }
+    void SetSliderPointers()
+    {
+        if (_targetIngredient.BaseIngredient.CanBeHeated)
+        {
+            TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
+        }
+
+        if (_targetIngredient.BaseIngredient.CanBeFrozen)
+        {
+            TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
+        }
     }
     public void RaiseTemp(float amount)
     {
