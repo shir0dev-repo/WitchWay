@@ -164,7 +164,6 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   TempSlider: {fileID: 0}
   FillValueSlider: {fileID: 0}
-  TargetTemperature: 0
   Temperature: 0
   Progress: 0
   BurnTimerThreshold: 3
@@ -192,6 +191,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f402fb1914f9b8448f6b543e9299478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeatArrow: 0
+  CoolArrow: 0
+  CanBeHeated: 0
+  CanBeCooled: 0
+  DefaultDuration: 3
+  timeDuration: 3
 --- !u!1001 &2117965091932797476
 PrefabInstance:
   m_ObjectHideFlags: 0
