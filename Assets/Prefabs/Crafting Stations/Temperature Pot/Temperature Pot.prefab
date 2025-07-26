@@ -167,6 +167,34 @@ MonoBehaviour:
   Temperature: 0
   Progress: 0
   BurnTimerThreshold: 3
+  heatingSound:
+    Guid:
+      Data1: -544738889
+      Data2: 1125346500
+      Data3: 1533156271
+      Data4: -1911835300
+    Path: event:/SFX/temperature pot/sfx_temppot_heating_oneshot
+  coolingSound:
+    Guid:
+      Data1: -1482707141
+      Data2: 1233824769
+      Data3: 2117495992
+      Data4: -2067880044
+    Path: event:/SFX/temperature pot/sfx_temppot_cooling_oneshot
+  constantTempSound:
+    Guid:
+      Data1: -123025517
+      Data2: 1100951087
+      Data3: 2044242071
+      Data4: 878709344
+    Path: event:/SFX/temperature pot/sfx_temppot_constanttemperature_lp
+  successSound:
+    Guid:
+      Data1: -1886031960
+      Data2: 1202198897
+      Data3: -769052031
+      Data4: -33955774
+    Path: event:/SFX/temperature pot/sfx_temppot_success
 --- !u!114 &5259924387180644553
 MonoBehaviour:
   m_ObjectHideFlags: 0
