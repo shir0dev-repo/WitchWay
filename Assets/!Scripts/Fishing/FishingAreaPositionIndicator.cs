@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//needs a limiter for how far from player
 public class FishingAreaPositionIndicator : MonoBehaviour
 {
     [Header("Sphere Settings")]

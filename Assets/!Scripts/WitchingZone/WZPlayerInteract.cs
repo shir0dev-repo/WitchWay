@@ -355,7 +355,7 @@ public class WZPlayerInteract : MonoBehaviour
         this.inInteract = inInteract;
     }
 
-    public void EnbaleReticle()
+    public void EnableReticle()
     {
         reticleImage.gameObject.SetActive(true);
     }

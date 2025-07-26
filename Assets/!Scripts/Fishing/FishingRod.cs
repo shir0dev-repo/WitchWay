@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class FishingRod : MonoBehaviour
 {
@@ -15,7 +16,18 @@ public class FishingRod : MonoBehaviour
     [SerializeField] private float castArcHeight;
     [SerializeField] private float castDuration;
 
+    [Header("Fishing Settings")]
+    [Tooltip("X for min, Y for max")]
+    [SerializeField] private Vector2 catchTimeMinMax;
+
+    [Header("Reeling Settings")]
+    [SerializeField] private float reelStartAmount = 20;
+    [SerializeField] private float mashIncreaseAmount = 5;
+    [SerializeField] private float struggleDecreaseAmount = 2;
+
     [Header("Refs")]
+    [SerializeField] private GameObject fishingUi;
+    [SerializeField] private Slider reelingProgressSlider;
     [SerializeField] private GameObject fishingArea;
     [SerializeField] private GameObject bobberPrefab;
     [SerializeField] private Material lineMaterial;
@@ -81,6 +93,8 @@ public class FishingRod : MonoBehaviour
         exitEventAction.Enable();
 
         castAction.started += CastLine;
+        reelAction.started += ReelIn;
+        exitEventAction.started += OnExitInput;
     }
 
     private void CastLine(InputAction.CallbackContext context)
@@ -115,9 +129,25 @@ public class FishingRod : MonoBehaviour
 
     void Update()
     {
-        if ((fishingState == State.Casting || fishingState == State.Fishing) && activeBobber != null)
+        //drawing rod line
+        if ((fishingState == State.Casting) && activeBobber != null)
         {
             DrawFishingLine();
+        }
+        else if (fishingState == State.Reeling)
+        {
+            DrawFishingLineTense();
+
+            if (reelingProgressSlider.value > reelingProgressSlider.minValue)
+            {
+                reelingProgressSlider.value -= struggleDecreaseAmount * Time.deltaTime;
+                reelingProgressSlider.value = Mathf.Max(reelingProgressSlider.value, reelingProgressSlider.minValue);
+            }
+            else if (reelingProgressSlider.value <= reelingProgressSlider.minValue)
+            {
+                HandleResultNothing();
+                fishingState = State.Caught;
+            }
         }
     }
 
@@ -143,22 +173,24 @@ public class FishingRod : MonoBehaviour
     private void HandleResultNothing()
     {
         // might be used for textbox
+        print("nothing");
+        ExitFishing();
     }
 
     private void HandleResultItem(IngredientSO fishedIngredient)
     {
         // add item to inventory
+        print("item");
+        ExitFishing();
     }
 
     private void HandleResultJumpscare()
     {
         // gets implemented later
         GameEvents.WitchingZone.OnJumpscareRequested?.Invoke();
-    }
 
-    private void DisableInputActions()
-    {
-
+        print("jumpscare");
+        ExitFishing();
     }
 
     private void DrawFishingLine()
@@ -174,6 +206,18 @@ public class FishingRod : MonoBehaviour
         activeLine.SetPosition(0, start);
         activeLine.SetPosition(1, middle);
         activeLine.SetPosition(2, end);
+    }
+
+    private void DrawFishingLineTense()
+    {
+        if (activeLine == null) return;
+
+        activeLine.positionCount = 2;
+        Vector3 start = playerInteract.transform.position;
+        Vector3 end = new Vector3(activeBobber.transform.position.x, activeBobber.transform.position.y + (activeBobber.transform.localScale.y / 2), activeBobber.transform.position.z);
+
+        activeLine.SetPosition(0, start);
+        activeLine.SetPosition(1, end);
     }
 
     private IEnumerator AnimateBobberToTarget(Transform bobber, Vector3 targetPos, float duration)
@@ -199,5 +243,77 @@ public class FishingRod : MonoBehaviour
         bobber.position = targetPos;
 
         fishingState = State.Fishing;
+        StartCoroutine(Fishing());
+    }
+
+    private IEnumerator Fishing()
+    {
+        yield return new WaitForSeconds(Random.Range(catchTimeMinMax.x, catchTimeMinMax.y));
+
+        fishingState = State.Reeling;
+        fishingUi.SetActive(true);
+        reelingProgressSlider.value = reelStartAmount;
+    }
+
+    private void ReelIn(InputAction.CallbackContext context)
+    {
+        if (fishingState != State.Reeling) return;
+
+        reelingProgressSlider.value += mashIncreaseAmount;
+
+        if (reelingProgressSlider.value >= reelingProgressSlider.maxValue)
+        {
+            OnFishingSuccessful();
+            fishingState = State.Caught;
+        }
+    }
+
+    private void OnExitInput(InputAction.CallbackContext context) //wrapper for exit key
+    {
+        ExitFishing();
+    }
+
+    private void ExitFishing()
+    {
+        fishingState = State.Nothing;
+
+        //diable fishing input
+        castAction.started -= CastLine;
+        reelAction.started -= ReelIn;
+        exitEventAction.started -= OnExitInput;
+
+        castAction.Disable();
+        reelAction.Disable();
+        exitEventAction.Disable();
+
+        //reenable player
+        if (playerController != null)
+        {
+            playerController.EnableDisableAction(true,
+                new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+        }
+
+        if (playerInteract != null)
+        {
+            playerInteract.EnableDisableAction(true,
+                new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+
+            playerInteract.EnableReticle();
+            playerInteract.SetInInteraction(false);
+        }
+
+        //reset ui
+        fishingUi.SetActive(false);
+        reelingProgressSlider.value = 0;
+
+        //stop indicator
+        indicator.StopFollowing();
+
+        //destory bobber and line
+        if (activeLine != null) Destroy(activeLine);
+        if (activeBobber != null) Destroy(activeBobber);
+
+        activeBobber = null;
+        activeLine = null;
     }
 }
