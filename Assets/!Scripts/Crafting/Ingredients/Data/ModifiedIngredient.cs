@@ -66,8 +66,10 @@ public class ModifiedIngredient
 
     public void Cut()
     {
+        bool prevCut = HasBeenCut;
         HasBeenCut = !HasBeenCrushed && BaseIngredient.CanBeCut && true;
-        ModifierList.CacheModifier(CraftingOperation.Cut);
+        if (!prevCut && HasBeenCut)
+            ModifierList.CacheModifier(CraftingOperation.Cut);
     }
 
     public void Crush()

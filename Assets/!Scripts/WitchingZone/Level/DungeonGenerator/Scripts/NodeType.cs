@@ -6,8 +6,8 @@ namespace DungeonMaster2D
 {
     public enum NodeType
     {
+        Default,
         Start,
-        Break,
         Travel,
         Stockpile,
         Discovery,

@@ -14,6 +14,7 @@ public class RecipeManager : MonoBehaviour
     void Start()
     {
         recipeImg.gameObject.SetActive(false);
+        SetSortingActive(false);
     }
 
     public void AddCount()
@@ -74,5 +75,13 @@ public class RecipeManager : MonoBehaviour
         }
 
         group.alpha = 1f;
+    }
+    public void SetSortingActive(bool active)
+    {
+        foreach (var obj in recipeObjs)
+        {
+            obj.enabled = active;
+            obj.gameObject.SetActive(active);
+        }
     }
 }

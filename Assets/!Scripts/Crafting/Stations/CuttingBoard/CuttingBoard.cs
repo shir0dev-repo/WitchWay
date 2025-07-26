@@ -20,8 +20,9 @@ public class CuttingBoard : Singleton<CuttingBoard>
     {
         GameEvents.Crafting.OnToolSelected += Enable;
         GameEvents.Crafting.OnToolDeselected += Disable;
+        GameEvents.Crafting.OnObjectAttachedToCursor += ClearIngredient;
         GameEvents.Crafting.OnSuccessfullyCutItem += _ => _currentIngredient = null;
-        OnCutCancelled += RevertCurrentIngredient;
+        //OnCutCancelled += RevertCurrentIngredient;
     }
 
     private void OnDisable()
@@ -41,6 +42,14 @@ public class CuttingBoard : Singleton<CuttingBoard>
         if (type == ToolType.Knife)
             CanCut = false;
     }
+
+    private void ClearIngredient(IFollowCursor cursor)
+    {
+        if (cursor is not WorldIngredient cuttable) return;
+        if (cuttable.GetComponent<CuttableIngredient>() == _currentIngredient)
+            _currentIngredient = null;
+    }
+
     public void ChangeCuttingAbility()
     { // changed this into function so it can be called in other scripts
         CanCut = !CanCut;
@@ -95,18 +104,19 @@ public class CuttingBoard : Singleton<CuttingBoard>
     public void RevertCurrentIngredient()
     {
         if (_currentIngredient == null) return;
+        Debug.Log("reverting");
         if (!_currentIngredient.TryGetComponent(out WorldIngredient wIng)) return;
 
         ModifiedIngredient modifiedState = wIng.ModifiedState;
         GameObject ingGO = modifiedState.GetWorldRepresentation();
+        GameObject newIng = Instantiate(ingGO, _currentIngredient.transform.position, Quaternion.identity);
 
-        ingGO = Instantiate(ingGO, _currentIngredient.transform.position, Quaternion.identity);
-        if (ingGO.TryGetComponent(out wIng))
+        if (newIng.TryGetComponent(out WorldIngredient wIng2))
         {
-            wIng.UpdateModifiers(modifiedState);
+            wIng2.UpdateModifiers(modifiedState);
         }
-
-        CursorManager.Instance.AttachToCursor(wIng, wIng.transform);
+        CursorManager.Instance.ClearCursor(false);
+        CursorManager.Instance.AttachToCursor(wIng2, newIng.transform);
         
 
         Destroy(_currentIngredient.gameObject);

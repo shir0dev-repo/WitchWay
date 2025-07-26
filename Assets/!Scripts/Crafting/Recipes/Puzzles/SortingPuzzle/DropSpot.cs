@@ -8,6 +8,15 @@ public class DropSpot : MonoBehaviour, IDropHandler
     [SerializeField] private RecipeManager recipeManager;
     private bool isCorrect = false;
 
+    public string CorrectObjID => correctObjID;
+    public bool IsCorrect => isCorrect;
+
+    public void FlagCorrect()
+    {
+        isCorrect = true;
+        recipeManager.AddCount();
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         //if (isCorrect) return;

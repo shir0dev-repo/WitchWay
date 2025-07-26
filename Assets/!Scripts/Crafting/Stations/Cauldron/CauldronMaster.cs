@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class CauldronMaster : Singleton<CauldronMaster>
 {
+    [Header("References")]
     [SerializeField] CauldronController _controller;
+    [SerializeField] private CauldronVisuals _visuals;
+    
+    [Space]
     [SerializeField] List<WorldIngredient> _ingredients = new();
 
     private PotionData _targetPotion = null;
@@ -49,6 +54,8 @@ public class CauldronMaster : Singleton<CauldronMaster>
         {
             ToolSelector.Instance.DeselectTool();
         }
+
+        _targetPotion = null;
     }
 
     void FinishMixing(ToolType tool)
@@ -97,6 +104,9 @@ public class CauldronMaster : Singleton<CauldronMaster>
             Debug.Log("NOOOOOOOOOOOOOOOOOOO");
         }
 
+        if (_visuals != null)
+            _visuals.SetTargetPropertyBlock(recipe.CauldronEffects);
+        GameEvents.Crafting.OnMixedPotionRequested?.Invoke(result);
         return result;
     }
 
@@ -113,7 +123,7 @@ public class CauldronMaster : Singleton<CauldronMaster>
         }
         else
         {
-            Debug.Log("Potion completed!");
+            Debug.Log("Potion incomplete!");
         }
     }
 

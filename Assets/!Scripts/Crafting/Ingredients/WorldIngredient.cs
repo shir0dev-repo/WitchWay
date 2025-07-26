@@ -34,15 +34,24 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     }
 
     private static Camera _cam = null;
-    private Rigidbody Rigidbody
+    private Rigidbody[] Rigidbodies
     {
         get
         {
-            if (_rb == null) _rb = GetComponent<Rigidbody>();
+            if (_rb == null)
+            {
+                _rb = new Rigidbody[1];
+                _rb[0] = GetComponent<Rigidbody>();
+            }
+            if (_rb[0] == null)
+            {
+                _rb = GetComponentsInChildren<Rigidbody>();
+            }
+
             return _rb;
         }
     }
-    private Rigidbody _rb = null;
+    private Rigidbody[] _rb = null;
 
     private Collider[] Colliders
     {
@@ -61,42 +70,22 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     {
         if (CursorManager.Instance == null) return;
 
-        if (Rigidbody)
+        if (Rigidbodies.Length > 0)
         {
-            Rigidbody.useGravity = false;
-            Rigidbody.linearVelocity = Vector3.zero;
+            foreach (Rigidbody rb in Rigidbodies)
+            {
+                rb.useGravity = false;
+                if (!rb.isKinematic)
+                    rb.linearVelocity = Vector3.zero;
+            }
         }
 
         foreach (Collider c in Colliders) c.isTrigger = true;
 
         CursorManager.Instance.AttachToCursor(transform, transform);
 
-
         if (SoundManager.Instance != null && !_data.BaseIngredient.OnPickupAudioClip.IsNull)
             SoundManager.Instance.PlayOneShot(_data.BaseIngredient.OnPickupAudioClip, CursorManager.Instance.AttachedObject.transform.position);
-
-        /*Ray ray = MainCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~0, QueryTriggerInteraction.Collide))
-        {
-            if (hit.collider.gameObject == gameObject)
-            {
-                startPos = hit.collider.transform.position;
-
-                if (CursorManager.Instance == null) return;
-
-        _isDragging = true;
-
-        if (Rigidbody != null)
-        {
-            Rigidbody.useGravity = false;
-            Rigidbody.linearVelocity = Vector3.zero;
-        }
-
-        foreach (Collider c in Colliders) c.isTrigger = true;
-
-                CursorManager.Instance.AttachToCursor(transform, transform);
-            }
-        }*/
     }
 
     public void UpdateDrag()
@@ -121,8 +110,13 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
             }
         }
 
-        if (Rigidbody != null) 
-            Rigidbody.useGravity = true;
+        if (Rigidbodies.Length > 0)
+        {
+            foreach (Rigidbody rb in Rigidbodies)
+            {
+                rb.useGravity = true;
+            }
+        }
 
         foreach (Collider c in Colliders)
         {

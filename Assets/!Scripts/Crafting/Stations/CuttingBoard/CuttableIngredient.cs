@@ -223,9 +223,10 @@ public class CuttableIngredient : MonoBehaviour
     }
     void CompleteChopping(ToolType type)
     {
-        if (type == ToolType.Knife) EndAction?.Invoke();
+        if (type != ToolType.Knife) return;
         if (!IsAllSegmentsDetached()) { return; }
 
+        EndAction?.Invoke();
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
     }
     string RateChopping()
