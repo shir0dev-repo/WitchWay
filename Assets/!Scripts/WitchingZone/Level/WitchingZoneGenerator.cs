@@ -37,6 +37,17 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
     [SerializeField] private List<SpecialRoomType> _specialRoomTypes;
 
     private List<Room> _rooms = new();
+    public Room GetRoom(Node n)
+    {
+        return _rooms.Find(r => r.Node == n);
+    }
+
+    public Room GetRoom(Vector3 position)
+    {
+        Vector3 local = position / _roomExtentSize;
+        Vector2Int index = new Vector2Int(Mathf.RoundToInt(local.x), Mathf.RoundToInt(local.z));
+        return _rooms.Find(r => r.Node.Position == index);
+    }
 
     private void OnEnable()
     {
