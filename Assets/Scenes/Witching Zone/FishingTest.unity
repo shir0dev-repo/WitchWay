@@ -378,6 +378,14 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Cast
       m_Flags: 0
+    - m_Name: 
+      m_Id: 60a59b24-a7dc-4649-946b-98725d4dff86
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Cast
+      m_Flags: 0
     m_Flags: 0
   reelAction:
     m_Name: Reel
@@ -386,7 +394,23 @@ MonoBehaviour:
     m_Id: f43859bb-a7c8-4a02-baf7-8b840fd3bffd
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d88cf9a8-79c3-4de9-bb9e-44ca6c6c778b
+      m_Path: <Keyboard>/space
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Reel
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 77c0e1b6-e126-48c9-8dc5-3e7014d7e8c4
+      m_Path: <Mouse>/rightButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Reel
+      m_Flags: 0
     m_Flags: 0
   exitEventAction:
     m_Name: Exit Event
@@ -395,7 +419,15 @@ MonoBehaviour:
     m_Id: b218a48b-6606-44ed-a44d-e43faed1c5ea
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 97bb5f08-2b04-4cc9-b723-ea956a416311
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Exit Event
+      m_Flags: 0
     m_Flags: 0
   castArcHeight: 2
   castDuration: 1

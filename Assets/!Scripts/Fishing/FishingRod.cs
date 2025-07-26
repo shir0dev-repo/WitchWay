@@ -43,6 +43,7 @@ public class FishingRod : MonoBehaviour
     private State fishingState = State.Nothing;
 
     private WZPlayerInteract playerInteract;
+    private WZPlayerController playerController;
     private FishingAreaPositionIndicator indicator;
 
     private GameObject activeBobber;
@@ -57,9 +58,16 @@ public class FishingRod : MonoBehaviour
         if (indicator == null) indicator = fishingArea.GetComponent<FishingAreaPositionIndicator>();
 
         // Fishing mechanic starts here
+        if (playerController == null) playerController = FindFirstObjectByType<WZPlayerController>();
         if (playerInteract == null) playerInteract = FindFirstObjectByType<WZPlayerInteract>();
         playerInteract.DisableReticle();
         playerInteract.SetInInteraction(true);
+
+        playerController.EnableDisableAction(false,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+
+        playerInteract.EnableDisableAction(false,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
 
         //show aimer
         indicator?.StartFollowing();
