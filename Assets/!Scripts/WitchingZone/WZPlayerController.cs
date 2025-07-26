@@ -18,7 +18,7 @@ public enum PlayerControllerActions //for disabling specfic actions
     crouchAction
 }
 
-public class WZPlayerController : MonoBehaviour
+public class WZPlayerController : Singleton<WZPlayerController>
 {
     [Header("World Controls")]
     [SerializeField] private InputAction moveAction;
