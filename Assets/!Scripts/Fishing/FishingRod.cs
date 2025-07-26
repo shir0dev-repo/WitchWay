@@ -180,7 +180,11 @@ public class FishingRod : MonoBehaviour
     private void HandleResultItem(IngredientSO fishedIngredient)
     {
         // add item to inventory
-        print("item");
+        //SaveManager.Instance.CollectIngredient(fishedIngredient.name);
+
+        Inventory inventory = GetComponent<Inventory>();
+        inventory.AddNewItem(fishedIngredient);
+
         ExitFishing();
     }
 
