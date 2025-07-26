@@ -16,10 +16,10 @@ public class PotTemperature : MonoBehaviour
     public static event Action TriggerBurning;
 
     [SerializeField] private Gradient _temperatureSliderGradient;
-    [SerializeField] Slider_WithPointer TempSlider;
+    [SerializeField] Slider_TwoPointers TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
-    float TargetTemperature => arrowMovement.ArrowValue;
+    float TargetTemperature => arrowMovement.TrueArrow;
     public float Temperature = 0;
     public float Progress = 0;
 
@@ -71,7 +71,8 @@ public class PotTemperature : MonoBehaviour
             // only runs when player is not hovering on button, prevents values from fighting
 
             TempSlider.SetValue(Temperature);
-            TempSlider.SetPointerLocation(TargetTemperature);
+            TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
+            TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
         }
         if (FillValueSlider.isActiveAndEnabled)
         {
@@ -121,13 +122,15 @@ public class PotTemperature : MonoBehaviour
     {
         ToggleSliders(true);
 
-        TempSlider.SetPointerLocation(TargetTemperature);
+        TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
+        TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
         currentlyCooking = true;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
             arrowMovement.CanBeCooled = w.BaseIngredient.CanBeFrozen;
             arrowMovement.CanBeHeated = w.BaseIngredient.CanBeHeated;
+            
             w.enabled = false;
         }
     }

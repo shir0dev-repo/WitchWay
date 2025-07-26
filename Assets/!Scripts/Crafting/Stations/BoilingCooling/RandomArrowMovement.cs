@@ -3,16 +3,35 @@ using UnityEngine;
 public class RandomArrowMovement : MonoBehaviour
 {
     PotTemperature pot => PotTemperature.Instance;
-    
-    public float ArrowValue;
-    float ArrowTargetValue; 
+
+    public float TrueArrow
+    {
+        get
+        {
+            if (CanBeHeated && !CanBeCooled) return HeatArrow;
+            else if (!CanBeHeated && CanBeCooled) return CoolArrow;
+            else if (CanBeHeated && CanBeCooled)
+            {
+                float distH = Mathf.Abs(HeatArrow - pot.GetCurrentTemp());
+                float distC = Mathf.Abs(CoolArrow - pot.GetCurrentTemp());
+                return (distH <= distC) ? HeatArrow : CoolArrow;
+            }
+
+                return 0f;
+        }
+    }
+    // if someone could do a better job with this then by all means pls do
+    // i, myself, do not like this
+
+    public float HeatArrow, CoolArrow;
+    float HeatTarget, CoolTarget; 
     public bool CanBeHeated, CanBeCooled;
 
     [SerializeField] float DefaultDuration;
     float TimeUntilDirectionSwitches;
 
     [SerializeField] float timeDuration;
-    float timeElapsed;
+    float timeElapsed_H, timeElapsed_C;
 
     private void OnEnable()
     {
@@ -20,7 +39,7 @@ public class RandomArrowMovement : MonoBehaviour
     }
     void OnCookingStart()
     {
-        ArrowValue = 0;
+        HeatArrow = 0; CoolArrow = 0;
         SwitchArrowDirection();
         TimeUntilDirectionSwitches = DefaultDuration;
     }
@@ -33,32 +52,44 @@ public class RandomArrowMovement : MonoBehaviour
         {
             TimeUntilDirectionSwitches = Random.Range(DefaultDuration--,DefaultDuration++);
             SwitchArrowDirection();
-
-            timeElapsed = 0;
         }
 
         MoveArrow();
     }
     void MoveArrow()
     {
-        if (ArrowValue != ArrowTargetValue)
+        if (HeatArrow != HeatTarget && CanBeHeated)
         {
-            timeElapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(timeElapsed / timeDuration);
-            ArrowValue = Mathf.SmoothStep(ArrowValue, ArrowTargetValue, t);
+            timeElapsed_H += Time.deltaTime;
+            float t = Mathf.Clamp01(timeElapsed_H / timeDuration);
+            HeatArrow = Mathf.SmoothStep(HeatArrow, HeatTarget, t);
+        }
+        if (CoolArrow != CoolTarget && CanBeCooled)
+        {
+            timeElapsed_C += Time.deltaTime;
+            float t = Mathf.Clamp01(timeElapsed_C / timeDuration);
+            CoolArrow = Mathf.SmoothStep(CoolArrow, CoolTarget, t);
         }
     }
     void SwitchArrowDirection()
     {
         Debug.Log("arrow should be switching now");
+
+        timeElapsed_H = 0;
+        timeElapsed_C = 0;
+
         GenerateRandomRangeNum();
     }
     void GenerateRandomRangeNum()
     {
-        if (CanBeHeated == true && CanBeCooled == false) { ArrowTargetValue = Random.Range(5, 50); }
-        else if (CanBeHeated == false && CanBeCooled == true) { ArrowTargetValue = Random.Range(-50, -5); }
-        else if (CanBeHeated == true && CanBeCooled == true) { ArrowTargetValue = 0;}
-        else { ArrowTargetValue = 0;}
-        // last case just for now until i figure out how to make two arrows
+        if (CanBeHeated && !CanBeCooled) { HeatTarget = Random.Range(5, 50); }
+        else if (!CanBeHeated && CanBeCooled) { CoolTarget = Random.Range(-50, -5); }
+        else if (CanBeHeated && CanBeCooled)
+        {
+            HeatTarget = Random.Range(5, 50);
+            CoolTarget = Random.Range(-50, -5);
+        }
+        else { HeatTarget = 0; CoolTarget = 0; }
     }
+    
 }
