@@ -220,6 +220,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4462753044908955332, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: slotsGrid
+      value: 
+      objectReference: {fileID: 958792894}
     - target: {fileID: 6774186531164130374, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
       propertyPath: reticleImage
       value: 
@@ -595,10 +599,10 @@ MonoBehaviour:
     m_Flags: 0
   castArcHeight: 2
   castDuration: 1
-  catchTimeMinMax: {x: 1, y: 2}
+  catchTimeMinMax: {x: 0, y: 0}
   reelStartAmount: 20
   mashIncreaseAmount: 5
-  struggleDecreaseAmount: 10
+  struggleDecreaseAmount: 2
   fishingUi: {fileID: 837238993}
   reelingProgressSlider: {fileID: 15759733}
   fishingArea: {fileID: 839680979}

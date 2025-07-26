@@ -88,13 +88,13 @@ public class FishingRod : MonoBehaviour
 
     private void SetupInputActions()
     {
-        castAction.Enable();
-        reelAction.Enable();
-        exitEventAction.Enable();
-
         castAction.started += CastLine;
         reelAction.started += ReelIn;
         exitEventAction.started += OnExitInput;
+
+        castAction.Enable();
+        reelAction.Enable();
+        exitEventAction.Enable();
     }
 
     private void CastLine(InputAction.CallbackContext context)
@@ -182,8 +182,8 @@ public class FishingRod : MonoBehaviour
         // add item to inventory
         //SaveManager.Instance.CollectIngredient(fishedIngredient.name);
 
-        Inventory inventory = GetComponent<Inventory>();
-        inventory.AddNewItem(fishedIngredient);
+        if (Inventory.Instance != null)
+            Inventory.Instance.AddNewItem(fishedIngredient);
 
         ExitFishing();
     }

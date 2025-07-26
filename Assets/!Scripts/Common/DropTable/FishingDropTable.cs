@@ -18,15 +18,15 @@ public class FishingDropTable
     {
         drop = null;
         
-        float chance = Random.Range(0, 101);
-        if (chance == 1)
+        float chance = Random.Range(0, 100);
+        if (chance == 0)
         {
             // do jumpscare things
 
             return FishingRod.Result.Jumpscare;
         }
 
-        var possible = _possibleDrops
+        List<IngredientSO> possible = _possibleDrops
             .Where(d => chance <= d.Chance)
             .Select(d => d.Item)
             .ToList();
