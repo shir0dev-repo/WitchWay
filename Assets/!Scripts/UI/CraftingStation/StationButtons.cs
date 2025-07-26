@@ -6,6 +6,7 @@ using System.Collections;
 public class StationButtons : MonoBehaviour
 {
     [SerializeField] private List<RectTransform> stationButtons;
+    [SerializeField] private List<GameObject> activeTabs;   // The boarder icons showing which tab is currently active
     [SerializeField] private float dropAmount;
     [SerializeField] private float animationTime;
 
@@ -36,10 +37,12 @@ public class StationButtons : MonoBehaviour
             {
                 StopAllCoroutines();
                 StartCoroutine(AnimateButton(i, originalPositions[i] + new Vector2(0, -dropAmount)));
+                activeTabs[i].SetActive(true);
             }
             else
             {
                 stationButtons[i].anchoredPosition = originalPositions[i];
+                activeTabs[i].SetActive(false);
             }
         }
     }
