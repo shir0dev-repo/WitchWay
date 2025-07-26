@@ -2,6 +2,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public enum PlayerInteractActions
+{
+    interactAction,
+    dragAction,
+    optionChangeAction,
+    selectAction,
+    showIngrediantsAction,
+    recipeBookAction,
+    pauseAction
+}
+
 public class WZPlayerInteract : MonoBehaviour
 {
     [Header("Interact Controls")]
@@ -27,6 +38,7 @@ public class WZPlayerInteract : MonoBehaviour
     [SerializeField] private string draggableObjectTag;
     [SerializeField] private string npcObjectTag;
     [SerializeField] private string doorObjectTag;
+    [SerializeField] private string otherInteractableTag;
     [SerializeField] private float pickupDistance;
     [SerializeField] private float objectDragSpeed = 20f;
 
@@ -46,6 +58,8 @@ public class WZPlayerInteract : MonoBehaviour
 
     private GameObject currentlyDragging;
     private Vector3 hitPosition;
+
+    private bool inInteract = false;
 
     void Awake()
     {
@@ -135,16 +149,16 @@ public class WZPlayerInteract : MonoBehaviour
 
     void Update()
     {
-        CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag, doorObjectTag);
+        CastInteractRay(ingredientObjectTag, draggableObjectTag, npcObjectTag, doorObjectTag, otherInteractableTag); //just need to make an array of strings to check for
 
         DragObject();
     }
 
-    //interaction controls
+    //interaction controls (can be reworked to use one interactable tag)
     private void OnInteract(InputAction.CallbackContext context)
     {
-        GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag, doorObjectTag); //if null no object found
-        if (interactedObject != null)
+        GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag, doorObjectTag, otherInteractableTag); //if null no object found
+        if (interactedObject != null && !inInteract)
         {
             if (interactedObject.CompareTag(ingredientObjectTag))
             {
@@ -154,9 +168,14 @@ public class WZPlayerInteract : MonoBehaviour
             {
                 interactedObject.GetComponent<DialogueActor>()?.Interact();
             }
-            else if(interactedObject.CompareTag(doorObjectTag))
+            else if (interactedObject.CompareTag(doorObjectTag))
             {
                 interactedObject.GetComponent<WZDoor>()?.Interact();
+            }
+            else if (interactedObject.CompareTag(otherInteractableTag))
+            {
+                WZInteractable interactable = interactedObject.GetComponent<WZInteractable>();
+                interactable?.Interacted();
             }
             else
             {
@@ -332,5 +351,64 @@ public class WZPlayerInteract : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void SetInInteraction(bool inInteract)
+    {
+        this.inInteract = inInteract;
+    }
+
+    public void EnableReticle()
+    {
+        reticleImage.gameObject.SetActive(true);
+    }
+
+    public void DisableReticle()
+    {
+        reticleImage.gameObject.SetActive(false);
+    }
+
+    public void EnableDisableAction(bool enabled, PlayerInteractActions[] actions)
+    {
+        foreach (PlayerInteractActions action in actions)
+        {
+            InputAction targetAction = null;
+
+            switch (action)
+            {
+                case PlayerInteractActions.interactAction:
+                    targetAction = interactAction;
+                    break;
+
+                case PlayerInteractActions.dragAction:
+                    targetAction = dragAction;
+                    break;
+
+                case PlayerInteractActions.optionChangeAction:
+                    targetAction = optionChangeAction;
+                    break;
+
+                case PlayerInteractActions.selectAction:
+                    targetAction = optionChangeAction;
+                    break;
+
+                case PlayerInteractActions.showIngrediantsAction:
+                    targetAction = showIngrediantsAction;
+                    break;
+
+                case PlayerInteractActions.recipeBookAction:
+                    targetAction = recipeBookAction;
+                    break;
+
+                case PlayerInteractActions.pauseAction:
+                    targetAction = pauseAction;
+                    break;
+            }
+
+            if (targetAction == null) continue;
+
+            if (enabled) targetAction.Enable();
+            else targetAction.Disable();
+        }
     }
 }

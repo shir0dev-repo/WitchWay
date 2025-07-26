@@ -16,5 +16,8 @@ public static partial class GameEvents
         public static Action<Room> OnRoomEntered;
 
         public static Action OnDoorUnlocked;
+
+        public static Action OnFishingRodInteractedWith;
+        public static Action OnJumpscareRequested;
     }
 }
