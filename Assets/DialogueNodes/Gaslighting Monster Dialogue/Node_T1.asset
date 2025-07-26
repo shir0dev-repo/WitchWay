@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
-  m_Name: Node_C3
+  m_Name: Node_T1
   m_EditorClassIdentifier: 
-  nodeID: C3
+  nodeID: T1
   speakerName: Test NPC
-  line: you picked choice 3
+  line: Gaslight Monster Test Dialogue
   typingSpeed: 0.05
-  nextNodeID: 
-  nextNode: {fileID: 0}
+  nextNodeID: T2
+  nextNode: {fileID: 11400000, guid: 02a228772475f88498a0dbcb817e6cd6, type: 2}
   responses: []
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []
