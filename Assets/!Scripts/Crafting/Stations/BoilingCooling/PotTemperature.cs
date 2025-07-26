@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using FMODUnity;
-using FMOD;
 
 public class PotTemperature : MonoBehaviour
 {
