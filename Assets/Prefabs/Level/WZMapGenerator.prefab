@@ -49,7 +49,224 @@ MonoBehaviour:
   _roomSpawnDelay: 0.039
   _roomFadeInDuration: 0.4
   _roomExtentSize: 50
-  _roomScale: 5
+  _roomTypeLookup:
+  - NodeType: 1
+    RoomData:
+    - Prefab: {fileID: 964162002384994544, guid: 5ba4a750be5710c4eb151a1cf2630a9a, type: 3}
+      Entrances: 1
+    - Prefab: {fileID: 3240648291517670895, guid: 3a3054ef19ef0654e9187e2a637d7929, type: 3}
+      Entrances: 8
+    - Prefab: {fileID: 2876387794763714384, guid: e61818b3f4a3d474fa51aca813f36dce, type: 3}
+      Entrances: 2
+    - Prefab: {fileID: 3956478708799026753, guid: f120bb9fc9b198049a2be689c4f28f98, type: 3}
+      Entrances: 4
+    - Prefab: {fileID: 5993869513821762466, guid: f58aae1ca5205cf42af0dc939479163a, type: 3}
+      Entrances: 9
+    - Prefab: {fileID: 964162002384994544, guid: f33c0824df1d5ef489a1763badb70db7, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 964162002384994544, guid: 0ae4b1f4b5af2484a9e20c273fc9b8cc, type: 3}
+      Entrances: 3
+    - Prefab: {fileID: 7711309686158045116, guid: 73820ff150a47d847ab0119d71122790, type: 3}
+      Entrances: 12
+    - Prefab: {fileID: 5271317302766331726, guid: cdc612c1023cf804e935c474a7ff4050, type: 3}
+      Entrances: 6
+    - Prefab: {fileID: 4866432425281648188, guid: 438148857db35194fa02a3f140f445c7, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 4089592119487717789, guid: 0722700ad15832945b546b96a687cc83, type: 3}
+      Entrances: 11
+    - Prefab: {fileID: 748723075383330775, guid: 564643119dac8c2489df29e1ac90e238, type: 3}
+      Entrances: 13
+    - Prefab: {fileID: 964162002384994544, guid: 8388f3d273173a1479fa76d8eb3d71f1, type: 3}
+      Entrances: 7
+    - Prefab: {fileID: 8440736546318047538, guid: cfb8c4e314c837f45b680259e4118bab, type: 3}
+      Entrances: 14
+    - Prefab: {fileID: 964162002384994544, guid: 89e49860874b85e4ab9ef31f1f83e72a, type: 3}
+      Entrances: 15
+  - NodeType: 2
+    RoomData:
+    - Prefab: {fileID: 8295449415105595390, guid: 461dbae68c5e7c9478a488244bad76ca, type: 3}
+      Entrances: 8
+    - Prefab: {fileID: 2820107513908731320, guid: 2bbb5b8aad659cd4ea3233ff95c39ea7, type: 3}
+      Entrances: 1
+    - Prefab: {fileID: 5161894134352875199, guid: 63fe125d197fecb449f000b860983fea, type: 3}
+      Entrances: 4
+    - Prefab: {fileID: 5766346320517850186, guid: d143feef370bd144db61a24914a7d414, type: 3}
+      Entrances: 2
+    - Prefab: {fileID: 3488257642244360287, guid: 4f738a4ab3c0fe14496733a5780f3768, type: 3}
+      Entrances: 8
+    - Prefab: {fileID: 2606461564740047057, guid: 0c0f678b679641242bf2189c1a98bbc6, type: 3}
+      Entrances: 1
+    - Prefab: {fileID: 6808845232474938115, guid: 883a4316aab0c764488ff7c34d0bbfd3, type: 3}
+      Entrances: 4
+    - Prefab: {fileID: 6401501644521533108, guid: f2ce26258f6dacf4fb32a8f5c1965d00, type: 3}
+      Entrances: 2
+    - Prefab: {fileID: 8388987402468021850, guid: 0a0bfaed414dfa84c820b2afb7ab2dd1, type: 3}
+      Entrances: 8
+    - Prefab: {fileID: 6268803427040862734, guid: 4d483778202cc724c987645eba053f95, type: 3}
+      Entrances: 1
+    - Prefab: {fileID: 3038655559984316034, guid: aa950bc092014e745b0d178af93ed665, type: 3}
+      Entrances: 4
+    - Prefab: {fileID: 5103941186332718449, guid: 30b20f102cc295f42a2be32460dd08ca, type: 3}
+      Entrances: 2
+    - Prefab: {fileID: 202913609168664295, guid: 1c10d08b837034d47af842f140c8f89d, type: 3}
+      Entrances: 9
+    - Prefab: {fileID: 6174124676731129039, guid: 8cd652290bfb2af438212975884ee6f3, type: 3}
+      Entrances: 3
+    - Prefab: {fileID: 707191189659063037, guid: 0eae180ea11018d479a3ecac04380ddf, type: 3}
+      Entrances: 12
+    - Prefab: {fileID: 5644316115841810114, guid: 68f28dfcfdc62a74bb83ddf8b40b8d28, type: 3}
+      Entrances: 6
+    - Prefab: {fileID: 7613389760474742003, guid: d87520975b5a15b47882e2a47660c54e, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 8871356885422626254, guid: 14fe737caf95cc94e870e72360f0a21e, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 7567844114083217493, guid: 033cb39d18245b442acec2baed831d8d, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 5763956799335852277, guid: 499ece606b6696d4590af819ff9d40cd, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 4323026703188987941, guid: 0e0a5365c14701a478d309d7566375c0, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 2644151104919796756, guid: 17d19f8b68ee8904f9fec66c78b5ea17, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 1026075581812595495, guid: ce4cdf2aaa6f05e419e1b5b0f9a622db, type: 3}
+      Entrances: 9
+    - Prefab: {fileID: 3675424918977245131, guid: af5ab9dd44bf20f4e90fdef2f84f6465, type: 3}
+      Entrances: 3
+    - Prefab: {fileID: 109909060686356870, guid: 47087d02cfecd38458297ca3128bc149, type: 3}
+      Entrances: 12
+    - Prefab: {fileID: 6697762341699243662, guid: 6a93b2061acd736418c2761f5649c844, type: 3}
+      Entrances: 6
+    - Prefab: {fileID: 9066673663476160518, guid: 6f0ccc4a723a82f4a8000f435ecbf952, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 7608805094697447851, guid: 9a2f3cdef648fd04a8e8938e27945a15, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 8354285135753359141, guid: f483bd01b5ef79246b1d584016aef1de, type: 3}
+      Entrances: 9
+    - Prefab: {fileID: 3082905503463397212, guid: 9335c39eb02c2f844ab1c1dab0926eac, type: 3}
+      Entrances: 3
+    - Prefab: {fileID: 1850698413871955066, guid: ff31a0154766f4b409975dfe52ae6867, type: 3}
+      Entrances: 12
+    - Prefab: {fileID: 5423043005618605456, guid: 55d335b31cf0cd644ae5fb9962f3acd4, type: 3}
+      Entrances: 6
+    - Prefab: {fileID: 2836042648485868066, guid: fd8641b00910fbc4493226d1ba59c94b, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 6322904523730800651, guid: 1717e85855c33654d86911296a2d2233, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 6643722498337364953, guid: eb8d901c76c8c6841b66c4b7fedd4692, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 405258383699535066, guid: d4b547e1539ad2742a2529d018f700ed, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 2722961645677432204, guid: a3d3d94937a838943827b2b5eee13da4, type: 3}
+      Entrances: 9
+    - Prefab: {fileID: 5778638121818165720, guid: 13336e83ebf3934409822ce40ed149eb, type: 3}
+      Entrances: 3
+    - Prefab: {fileID: 5293310946228275355, guid: 785df540f33d49545b83be43d8d0f030, type: 3}
+      Entrances: 12
+    - Prefab: {fileID: 2610635318884145523, guid: 6231faba077202640a503b07259966c3, type: 3}
+      Entrances: 6
+    - Prefab: {fileID: 9007113296102274578, guid: a08900b44c5d44149970416c8da2d806, type: 3}
+      Entrances: 9
+    - Prefab: {fileID: 176364165829681143, guid: 4b4c07876dd46c24d85b73ad1b77481a, type: 3}
+      Entrances: 3
+    - Prefab: {fileID: 8400349471801144085, guid: 31e8c246cdc825342bed8910d4a695f2, type: 3}
+      Entrances: 12
+    - Prefab: {fileID: 8520076041215894641, guid: 5c7838d4388a52b4d85b419752bab7a3, type: 3}
+      Entrances: 6
+    - Prefab: {fileID: 1406999987711094544, guid: 616d9c94618664f48bba649a3fa586ed, type: 3}
+      Entrances: 10
+    - Prefab: {fileID: 4291735412765394396, guid: f5fc720b50c9dbb498a0b6e9af350992, type: 3}
+      Entrances: 5
+    - Prefab: {fileID: 6125068946264867895, guid: 24021130cd83cf84eaf092872c5952f9, type: 3}
+      Entrances: 11
+    - Prefab: {fileID: 3289402369548396441, guid: 354cb24d97a098b4186b5e88b093d6c4, type: 3}
+      Entrances: 13
+    - Prefab: {fileID: 1849610592772336132, guid: 436b54db50e2ed3469ad35e329f5b307, type: 3}
+      Entrances: 7
+    - Prefab: {fileID: 8378536935553531117, guid: f5a6a92bf8a454448ad180c2e750598d, type: 3}
+      Entrances: 14
+    - Prefab: {fileID: 6419924698141712783, guid: 2182f33022067ff48985dfa8ff46941d, type: 3}
+      Entrances: 11
+    - Prefab: {fileID: 2223913541649770964, guid: 7e75ff2892f14d54f89e6fd1f31244db, type: 3}
+      Entrances: 13
+    - Prefab: {fileID: 3447519263945462318, guid: 68c2df2923033284d80980a882d14fe4, type: 3}
+      Entrances: 7
+    - Prefab: {fileID: 1867043708707987778, guid: 694d3c9664c0ca34bb1799c12dc821ed, type: 3}
+      Entrances: 14
+    - Prefab: {fileID: 5857756016069517964, guid: 4a671bbb619e21f4cb12d2bc1bc0bbf1, type: 3}
+      Entrances: 11
+    - Prefab: {fileID: 3935803759747519890, guid: 9ac9035bdb1cc7348a7d432dacf12b8c, type: 3}
+      Entrances: 13
+    - Prefab: {fileID: 1560055478988196376, guid: 4e9d214041bd65f42a176f05fdf82e81, type: 3}
+      Entrances: 7
+    - Prefab: {fileID: 8501808797730489345, guid: 178c40f35e16a3049aa862f922e605c4, type: 3}
+      Entrances: 14
+    - Prefab: {fileID: 8738591724838839565, guid: d35b842efba704f4290ef484cbe1bbda, type: 3}
+      Entrances: 11
+    - Prefab: {fileID: 157750930583497868, guid: f9a199657efc4ba4da165d74b36964c0, type: 3}
+      Entrances: 13
+    - Prefab: {fileID: 1694918915251771445, guid: ed7317a533da10f4fbef797e474077c9, type: 3}
+      Entrances: 7
+    - Prefab: {fileID: 7003898668626789782, guid: c7151fbe141f6c443acbf2da56c66687, type: 3}
+      Entrances: 14
+    - Prefab: {fileID: 7159051735775846881, guid: dc2e6ef24aeab9846871282efcbbde8f, type: 3}
+      Entrances: 11
+    - Prefab: {fileID: 5797348828104809291, guid: 9b34904ff095d844eaa10590cb014a2f, type: 3}
+      Entrances: 13
+    - Prefab: {fileID: 5925928290841679014, guid: 7ac86ec40a1907c4c8177b849c01ccb6, type: 3}
+      Entrances: 7
+    - Prefab: {fileID: 6910714659802345915, guid: d56d0346ca625a848b0791155e9ac23d, type: 3}
+      Entrances: 14
+    - Prefab: {fileID: 1249245567252167160, guid: 6e5acb28f3bf0734eac345f4d03d41d2, type: 3}
+      Entrances: 15
+    - Prefab: {fileID: 3109342505804524384, guid: c605e1e5ba0d7fc4592cdcaed9b20d07, type: 3}
+      Entrances: 15
+    - Prefab: {fileID: 964162002384994544, guid: 8338331b5b6088d498d017d4c646bd30, type: 3}
+      Entrances: 15
+  - NodeType: 3
+    RoomData: []
+  - NodeType: 4
+    RoomData: []
+  - NodeType: 5
+    RoomData: []
+  - NodeType: 6
+    RoomData: []
+  - NodeType: 7
+    RoomData: []
+  - NodeType: 8
+    RoomData: []
+  - NodeType: 9
+    RoomData: []
+  _startRoomPrefabs:
+  - Prefab: {fileID: 964162002384994544, guid: 5ba4a750be5710c4eb151a1cf2630a9a, type: 3}
+    Entrances: 1
+  - Prefab: {fileID: 3240648291517670895, guid: 3a3054ef19ef0654e9187e2a637d7929, type: 3}
+    Entrances: 8
+  - Prefab: {fileID: 2876387794763714384, guid: e61818b3f4a3d474fa51aca813f36dce, type: 3}
+    Entrances: 2
+  - Prefab: {fileID: 3956478708799026753, guid: f120bb9fc9b198049a2be689c4f28f98, type: 3}
+    Entrances: 4
+  - Prefab: {fileID: 5993869513821762466, guid: f58aae1ca5205cf42af0dc939479163a, type: 3}
+    Entrances: 9
+  - Prefab: {fileID: 964162002384994544, guid: f33c0824df1d5ef489a1763badb70db7, type: 3}
+    Entrances: 5
+  - Prefab: {fileID: 964162002384994544, guid: 0ae4b1f4b5af2484a9e20c273fc9b8cc, type: 3}
+    Entrances: 3
+  - Prefab: {fileID: 7711309686158045116, guid: 73820ff150a47d847ab0119d71122790, type: 3}
+    Entrances: 12
+  - Prefab: {fileID: 5271317302766331726, guid: cdc612c1023cf804e935c474a7ff4050, type: 3}
+    Entrances: 6
+  - Prefab: {fileID: 4866432425281648188, guid: 438148857db35194fa02a3f140f445c7, type: 3}
+    Entrances: 10
+  - Prefab: {fileID: 4089592119487717789, guid: 0722700ad15832945b546b96a687cc83, type: 3}
+    Entrances: 11
+  - Prefab: {fileID: 748723075383330775, guid: 564643119dac8c2489df29e1ac90e238, type: 3}
+    Entrances: 13
+  - Prefab: {fileID: 964162002384994544, guid: 8388f3d273173a1479fa76d8eb3d71f1, type: 3}
+    Entrances: 7
+  - Prefab: {fileID: 8440736546318047538, guid: cfb8c4e314c837f45b680259e4118bab, type: 3}
+    Entrances: 14
+  - Prefab: {fileID: 964162002384994544, guid: 89e49860874b85e4ab9ef31f1f83e72a, type: 3}
+    Entrances: 15
   _roomPrefabs:
   - Prefab: {fileID: 8295449415105595390, guid: 461dbae68c5e7c9478a488244bad76ca, type: 3}
     Entrances: 8

@@ -17,6 +17,12 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
         public Direction Entrances;
 
     }
+    [Serializable]
+    public class RoomCollection
+    {
+        public NodeType NodeType;
+        public List<RoomData> RoomData;
+    }
 
     [Header("Visual")]
     [SerializeField] private bool _useCoroutine = false;
@@ -26,7 +32,8 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
     [Header("Rooms")]
     [SerializeField] private float _roomExtentSize = 1.0f;
     public Vector3 RoomScale => _roomExtentSize * Vector3.one;
-    [SerializeField] private float _roomScale = 5.0f;
+    [SerializeField] private List<RoomCollection> _roomTypeLookup;
+    [SerializeField] private List<RoomData> _startRoomPrefabs;
     [SerializeField] private List<RoomData> _roomPrefabs;
     public bool ShouldDisableOnStart => _shouldDisableOnStart;
     [SerializeField] private bool _shouldDisableOnStart = true;
@@ -79,7 +86,14 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
         _rooms.Clear();
         foreach (Node n in _dungeon.ValidNodes)
         {
-            RoomData[] rooms = _roomPrefabs.Where(r => r.Entrances.HasAllFlags(n.Entrances)).ToArray();
+            RoomData[] rooms;
+            if (n.NodeType != NodeType.Start)
+            {
+                rooms = _roomPrefabs.Where(r => r.Entrances.HasAllFlags(n.Entrances)).ToArray();
+            }
+            else
+                rooms = _startRoomPrefabs.Where(r => r.Entrances.HasAllFlags(n.Entrances)).ToArray();
+
             int rand_i = Random.Range(0, rooms.Length - 1);
 
             Vector3 pos = new Vector3(n.Position.x, 0, n.Position.y) * _roomExtentSize;
