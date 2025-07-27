@@ -17,6 +17,7 @@ public class Room : MonoBehaviour
 {
     public Node Node { get; set; } = null;
     public Door[] Doors { get; private set; }
+    public bool HasBeenVisited { get; set; } = false;
 
     [SerializeField]
     private List<Transform> enemySpawnPoints = new();
@@ -37,11 +38,14 @@ public class Room : MonoBehaviour
         }
         
         InitDoors();
+        if (Node.NodeType == NodeType.Start) HasBeenVisited = true;
 
         if (WitchingZoneGenerator.Instance == null || !WitchingZoneGenerator.Instance.ShouldDisableOnStart) return;
-        
+
         if (Node.NodeType != NodeType.Start)
+        {
             gameObject.SetActive(false);
+        }
     }
 
     private void InitDoors()
