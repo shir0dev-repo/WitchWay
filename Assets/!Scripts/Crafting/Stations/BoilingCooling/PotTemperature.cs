@@ -134,8 +134,15 @@ public class PotTemperature : MonoBehaviour
     }
     void EndEnd()
     {
+        TempSlider.SetValue(0); FillValueSlider.SetValue(0);
+        Temperature = 0; Progress = 0;
+        TimeUntilBurn = 0;
+
+        currentlyCooking = false;
+        isChangingTemp = false;
+        amCurrentlyBurning = false;
+        
         ToggleSliders(false);
-         currentlyCooking = false;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {

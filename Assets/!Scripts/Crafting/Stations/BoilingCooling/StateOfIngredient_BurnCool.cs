@@ -42,6 +42,8 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     void EndEnd()
     {
         CalculateRating();
+
+        numTimesBurnt = 0;
     }
     void CookIngredient(float currTemp)
     {
