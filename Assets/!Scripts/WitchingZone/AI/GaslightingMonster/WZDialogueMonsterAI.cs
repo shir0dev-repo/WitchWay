@@ -61,10 +61,6 @@ public class WZDialogueMonsterAI : MonoBehaviour
 
     void Update()
     {
-        if(isDialogueCompleted || monsterTransform == null || playerTransform == null)
-        {
-            return;
-        }
         if (monsterTransform != null && playerTransform != null && isMonsterVisible)
         {
             Vector3 lookDir = playerTransform.position - monsterTransform.position;
@@ -72,6 +68,11 @@ public class WZDialogueMonsterAI : MonoBehaviour
             if (lookDir != Vector3.zero)
                 monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, Quaternion.LookRotation(lookDir), 10f * Time.deltaTime);
         }
+        if(isDialogueCompleted || monsterTransform == null || playerTransform == null)
+        {
+            return;
+        }
+        
 
         if (isMonsterVisible && playerTransform != null)
         {

@@ -48,9 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
   monsterTransform: {fileID: 655762628989036440}
+  dialogueActor: {fileID: 2782570740417607027}
   disappearDistance: 10
   disappearDelay: 3
   groundCheckDistance: 2
+  spawnChance: 0.4
   spawnDelay: 5
   spawnDistance: 5
   spawnHeight: 1
@@ -101,7 +103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &655762628989036440
 Transform:
   m_ObjectHideFlags: 0

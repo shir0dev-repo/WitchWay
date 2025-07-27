@@ -212,7 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mimicPrefab: {fileID: 3884090166025360098, guid: c6f603c7a6cdbb94489d73b8521b047b, type: 3}
   chance: 0.3
-  spawnOffset: {x: 0, y: 0, z: 0}
+  spawnOffset: {x: 0, y: 0.253, z: 0}
 --- !u!1 &220112466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1063,14 +1063,6 @@ PrefabInstance:
     - target: {fileID: 2225495678491694829, guid: 4b4b89a4ca0e1a446801cf862260bdec, type: 3}
       propertyPath: m_Name
       value: Gaslight Monster AI
-      objectReference: {fileID: 0}
-    - target: {fileID: 7630352446074623489, guid: 4b4b89a4ca0e1a446801cf862260bdec, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8296750548312102749, guid: 4b4b89a4ca0e1a446801cf862260bdec, type: 3}
-      propertyPath: playerTransform
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
