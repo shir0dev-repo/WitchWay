@@ -25,9 +25,35 @@ public class WZDialogueMonsterAI : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool debugMode = false;
 
-    private bool isMonsterVisible = true, isDialogueCompleted = false;
+    private bool isMonsterVisible = false, isDialogueCompleted = false;
     private float disappearTimer = 0f;
     private Coroutine reappearRoutine;
+
+    void OnEnable()
+    {
+        GameEvents.WitchingZone.OnRoomEntered += TrySpawnOnRoomEntered;
+    }
+
+    void OnDisable()
+    {
+        GameEvents.WitchingZone.OnRoomEntered -= TrySpawnOnRoomEntered;
+    }
+    void Start()
+    {
+        if (monsterTransform == null)
+        {
+            monsterTransform = transform;
+        }
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+
+        if (debugMode)
+        {
+            Debug.Log("Dialogue Monster AI initialized.");
+        }
+    }
 
     void Update()
     {
@@ -35,7 +61,11 @@ public class WZDialogueMonsterAI : MonoBehaviour
         {
             return;
         }
-        if (monsterTransform != null && playerTransform != null)
+        if (playerTransform == null)
+        {
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        if (monsterTransform != null && playerTransform != null && isMonsterVisible)
         {
             Vector3 lookDir = playerTransform.position - monsterTransform.position;
             lookDir.y = 0;
@@ -64,14 +94,14 @@ public class WZDialogueMonsterAI : MonoBehaviour
                 disappearTimer = 0f;
             }
         }
-        if (!isMonsterVisible && reappearRoutine == null && !isDialogueCompleted)
-        {
-            if (debugMode)
-            {
-                Debug.Log("Monster is not visible. Starting reappear routine.");
-            }
-            reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
-        }
+        // if (!isMonsterVisible && reappearRoutine == null && !isDialogueCompleted)
+        // {
+        //     if (debugMode)
+        //     {
+        //         Debug.Log("Monster is not visible. Starting reappear routine.");
+        //     }
+        //     reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
+        // }
     }
 
     private void DisappearMonster()
@@ -134,6 +164,25 @@ public class WZDialogueMonsterAI : MonoBehaviour
                     yield break;
                 }
             }
+        }
+    }
+
+    private void TrySpawnOnRoomEntered(Room room)
+    {
+        if (isMonsterVisible || isDialogueCompleted)
+            return;
+
+        float chance = 0.4f;
+        if (Random.value < chance)
+        {
+            if (debugMode)
+                Debug.Log("Dialogue monster will attempt to spawn in this room.");
+            if (reappearRoutine == null)
+                reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
+        }
+        else if (debugMode)
+        {
+            Debug.Log("Dialogue monster did not spawn (chance failed).");
         }
     }
 }

@@ -154,5 +154,5 @@ public class DialogueManager : MonoBehaviour
         WZPlayerManager.Instance.ToggleCursor(false);
     }
 
-    public bool IsDialogueActive() => dialogueParent.activeSelf;
+    public bool IsDialogueActive() => dialogueParent != null && dialogueParent.activeSelf;
 }

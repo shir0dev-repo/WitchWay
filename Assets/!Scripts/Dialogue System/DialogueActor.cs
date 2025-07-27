@@ -14,6 +14,7 @@ public class DialogueActor : MonoBehaviour
 
     public void Interact()
     {
+        Debug.Log("Interacting with Dialogue Actor: " + gameObject.name);
         DialogueManager.Instance.StartDialogue(rootNode);
     }
 

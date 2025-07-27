@@ -52,11 +52,23 @@ public class WZPlayerInteract : MonoBehaviour
     {
         cam = Camera.main;
 
+        if (reticleImage == null)
+        {
+            GameObject reticleGO = GameObject.Find("Reticle");
+            if (reticleGO != null)
+                reticleImage = reticleGO.GetComponent<Image>();
+        }
+
         if (reticleImage != null)
         {
-            //store reticle values
             baseReticleColor = reticleImage.color;
             baseReticleSize = reticleImage.rectTransform.sizeDelta;
+        }
+        if(inventoryCanvasGroup == null)
+        {
+            GameObject inventoryGO = GameObject.Find("InventorySlots");
+            if (inventoryGO != null)
+                inventoryCanvasGroup = inventoryGO.GetComponent<CanvasGroup>();
         }
         if (inventoryCanvasGroup != null)
             inventoryCanvasGroup.alpha = 0;

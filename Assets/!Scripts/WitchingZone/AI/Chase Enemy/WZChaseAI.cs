@@ -44,8 +44,8 @@ public class WZChaseAI : MonoBehaviour
     {
         _state = new WZChaseData(transform.position, transform.rotation);
         playerTransform = WZPlayerManager.Instance?.transform;
-        TransitionToState(WZChaseData.State.Idle);
 
+        
         GameEvents.WitchingZone.OnIngredientPickedUp += OnIngredientPickedUp;
     }
 
@@ -75,7 +75,7 @@ public class WZChaseAI : MonoBehaviour
         }
     }
 
-    private void TransitionToState(WZChaseData.State newState)
+    public void TransitionToState(WZChaseData.State newState)
     {
         if (_state.currentState == newState) return;
 

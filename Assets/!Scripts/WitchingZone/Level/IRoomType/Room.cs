@@ -1,6 +1,7 @@
 using UnityEngine;
 using DungeonMaster2D;
 using System;
+using System.Collections.Generic;
 
 [System.Flags]
 public enum Entrance : byte
@@ -16,6 +17,11 @@ public class Room : MonoBehaviour
 {
     public Node Node { get; set; } = null;
     public Door[] Doors { get; private set; }
+
+    [SerializeField]
+    private List<Transform> enemySpawnPoints = new();
+    public List<Transform> EnemySpawnPoints => enemySpawnPoints;
+    public List<WZChaseAI> ChaseEnemies { get; private set; } = new();
 
     private void OnEnable()
     {
