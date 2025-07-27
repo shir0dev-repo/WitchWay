@@ -379,6 +379,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WZ UI
       objectReference: {fileID: 0}
+    - target: {fileID: 7131735282135263216, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -623,22 +627,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _useCoroutine
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _shouldDisableOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _generatorData.TargetRoomCount
-      value: 36
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798455712602748545, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
-      propertyPath: _specialRoomTypes.Array.data[1].IsPuzzleReward
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7265231474738730067, guid: f9315201e8401aa4ebabf4fd92a35111, type: 3}
       propertyPath: m_Name
       value: WZMapGenerator
