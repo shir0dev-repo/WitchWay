@@ -14,6 +14,7 @@ public class WZDialogueMonsterAI : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 2f;
 
     [Header("Spawning Settings")]
+    [SerializeField] private float spawnChance = 0.4f;
     [SerializeField] private float spawnDelay = 5f;
     [SerializeField] private float spawnDistance = 5f;
     [SerializeField] private float spawnHeight = 2f;
@@ -44,10 +45,13 @@ public class WZDialogueMonsterAI : MonoBehaviour
         {
             monsterTransform = transform;
         }
-        if (playerTransform == null)
+        GameEvents.WitchingZone.OnPlayerSpawned += () =>
         {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        }
+            if (playerTransform == null)
+            {
+                playerTransform = WZPlayerManager.Instance?.transform;
+            }
+        };
 
         if (debugMode)
         {
@@ -57,13 +61,9 @@ public class WZDialogueMonsterAI : MonoBehaviour
 
     void Update()
     {
-        if(isDialogueCompleted)
+        if(isDialogueCompleted || monsterTransform == null || playerTransform == null)
         {
             return;
-        }
-        if (playerTransform == null)
-        {
-            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         }
         if (monsterTransform != null && playerTransform != null && isMonsterVisible)
         {
@@ -172,8 +172,7 @@ public class WZDialogueMonsterAI : MonoBehaviour
         if (isMonsterVisible || isDialogueCompleted)
             return;
 
-        float chance = 0.4f;
-        if (Random.value < chance)
+        if (Random.value < spawnChance)
         {
             if (debugMode)
                 Debug.Log("Dialogue monster will attempt to spawn in this room.");

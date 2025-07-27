@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WZGameManager : Singleton<WZGameManager>
 {
-    //[SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private Transform _playerPrefab;
+    [SerializeField] private GameObject _playerPrefab;
+    //[SerializeField] private Transform _playerPrefab;
 
     private void OnEnable()
     {
@@ -23,8 +23,10 @@ public class WZGameManager : Singleton<WZGameManager>
         Vector3 spawnPosition = new Vector3(spawnRoom.x, 0f, spawnRoom.y);
         spawnPosition = Vector3.Scale(spawnPosition, WitchingZoneGenerator.Instance.RoomScale);
         spawnPosition += Vector3.up * 2.0f;
-        //Instantiate(_playerPrefab, spawnPosition, Quaternion.identity);
-        _playerPrefab.position = spawnPosition;
-        _playerPrefab.gameObject.SetActive(true);
+        Instantiate(_playerPrefab, spawnPosition, Quaternion.identity);
+        //_playerPrefab.position = spawnPosition;
+        //_playerPrefab.rotation = Quaternion.identity;
+        //_playerPrefab.gameObject.SetActive(true);
+        GameEvents.WitchingZone.OnPlayerSpawned?.Invoke();
     }
 }

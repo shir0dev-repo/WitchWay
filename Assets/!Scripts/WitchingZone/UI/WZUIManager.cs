@@ -10,6 +10,15 @@ public class WZUIManager : MonoBehaviour
     private void Start()
     {
         GameEvents.WitchingZone.OnSanityChanged += UpdateSanityBar;
+        
+        GameEvents.WitchingZone.OnPlayerSpawned += () =>
+        {
+            if (playerSanity == null)
+            {
+                playerSanity = WZPlayerManager.Instance.GetComponent<WZPlayerSanity>();
+            }
+            UpdateSanityBar();
+        };
     }
 
     private void UpdateSanityBar()

@@ -40,20 +40,19 @@ public class AISpawnerManager : MonoBehaviour
 
                         foreach (var chaseAI in FindObjectsByType<WZChaseAI>(FindObjectsSortMode.None))
                         {
-                            if (Vector3.Distance(chaseAI.transform.position, spawnPoint.position) < 0.1f)
+                            if (Vector3.Distance(chaseAI.transform.position, spawnPoint.position) < 2f)
                             {
-                                chaseAI.TransitionToState(WZChaseData.State.Inactive);
                                 room.ChaseEnemies.Add(chaseAI);
-                                enemySpawned = true;
+                                chaseAI.TransitionToState(WZChaseData.State.Inactive);
                                 break;
                             }
                         }
+                        enemySpawned = true;
                     }
                 }
             }
         }
     }
-
     private void OnRoomEntered(Room room)
     {
         Debug.Log($"Entering room: {room.name}, ChaseEnemies: {room.ChaseEnemies.Count}");
