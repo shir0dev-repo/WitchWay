@@ -34,6 +34,7 @@ Shader "Shir0dev/Volumetric Fog"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RealtimeLights.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 
@@ -51,6 +52,11 @@ Shader "Shir0dev/Volumetric Fog"
             float _LightScattering;
             float _Height;
 
+            float inverse_lerp(float a, float b, float t)
+            {
+                return (t - a) / (b - a);
+            }
+
             float light_scattering(float angle, float scattering)
             {
                 return (1.0 - angle * angle) / (4.0 * PI * pow(1.0 + scattering * scattering - (2.0 * scattering) * angle, 1.5));
@@ -65,15 +71,23 @@ Shader "Shir0dev/Volumetric Fog"
                 return density;
             }
 
-            float3 light_contribution(float3 worldPos, float3 worldDir, Light light)
+            float3 light_contribution(float density, float3 worldPos, float3 worldDir, Light light, uint lightIndex)
             {
-                float3 toLight = normalize(worldPos - light.direction);
-                float scattering = light_scattering(dot(worldDir, toLight), _LightScattering);
-                float3 color = light.color.rgb * _LightContribution.rgb * light.shadowAttenuation * scattering * light.distanceAttenuation;
+
+                float4 lightPosition = _AdditionalLightsPosition[lightIndex];
+                float3 toLight = lightPosition - worldPos;
+                float viewDist = length(lightPosition - _WorldSpaceCameraPos);
+                float dist = length(toLight);
+                toLight = normalize(toLight);
+
+                float NdotL = (dot(worldDir, toLight) + 1) * 0.5f;
+                float scattering = light_scattering(NdotL, _LightScattering);
+                float atten = max(0.5, inverse_lerp(_MinDistance, _MaxDistance, viewDist)) * light.shadowAttenuation * scattering * light.distanceAttenuation;
+                float3 color = atten * light.color.rgb * _LightContribution.rgb;
                 return color;
             }
 
-            float3 get_additional_light_contribution(float3 worldPos, float3 worldDir)
+            float3 get_additional_light_contribution(float density, float3 worldPos, float3 worldDir)
             {
                 float3 lighting = 0;
                 Light mainLight = GetMainLight(TransformWorldToShadowCoord(worldPos));
@@ -88,7 +102,7 @@ Shader "Shir0dev/Volumetric Fog"
                 UNITY_LOOP for (uint lightIndex = 0; lightIndex < count; lightIndex++)
                 {
                     Light additionalLight = GetAdditionalLight(lightIndex, worldPos, half4(1,1,1,1));
-                    lighting += light_contribution(worldPos, worldDir, additionalLight) / float(count);
+                    lighting += light_contribution(density, worldPos, worldDir, additionalLight, lightIndex) / float(count);
                 }
                 #endif
 
@@ -100,11 +114,11 @@ Shader "Shir0dev/Volumetric Fog"
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(TransformWorldToHClip(inputData.positionWS));
                 LIGHT_LOOP_BEGIN(pixelLightCount)
                     Light additionalLight = GetAdditionalLight(lightIndex, worldPos);
-                    lighting += light_contribution(worldPos, worldDir, additionalLight);
+                    lighting += light_contribution(density, worldPos, worldDir, additionalLight, lightIndex);
                 LIGHT_LOOP_END
                 #endif
 
-                return float4(lighting, 1);
+                return saturate(lighting);
             }
 
             half4 frag(Varyings IN) : SV_Target
@@ -112,6 +126,7 @@ Shader "Shir0dev/Volumetric Fog"
                 float4 sceneColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, IN.texcoord);
 
                 float depth = SampleSceneDepth(IN.texcoord);
+                float depthWS = lerp(_ProjectionParams.y, _ProjectionParams.z, depth);
                 float3 worldPos = ComputeWorldSpacePosition(IN.texcoord, depth, UNITY_MATRIX_I_VP);
 
                 float3 entryPoint = _WorldSpaceCameraPos;
@@ -129,6 +144,7 @@ Shader "Shir0dev/Volumetric Fog"
                 while (distTravelled < distLimit)
                 {
                     float3 rayPos = entryPoint + rayDir * distTravelled;
+                    
 
                     float density = get_density(rayPos);
                     if (density > 0)
@@ -136,11 +152,12 @@ Shader "Shir0dev/Volumetric Fog"
                         //Light mainLight = GetMainLight(TransformWorldToShadowCoord(rayPos));
                         //float scattering = light_scattering(dot(rayDir, mainLight.direction), _LightScattering);
                         //float3 lightContribution = mainLight.color.rgb * _LightContribution.rgb * mainLight.shadowAttenuation * scattering;
-                        float3 lightContribution = get_additional_light_contribution(rayPos, rayDir);
+
+                        float3 lightContribution = get_additional_light_contribution(transmittance, rayPos, rayDir);
                         float3 color = lerp(0, lightContribution * density * _StepSize, saturate(_Height - rayPos.y));
                         fogCol.rgb += color;
                         
-                        float fogVal = /* exp(-pow(density, 2) * _StepSize);// */lerp(1, exp(-density * _StepSize), saturate(_Height - rayPos.y));
+                        float fogVal = exp(-pow(density, 2) * _StepSize);//lerp(1, exp(-density * _StepSize), saturate(_Height - rayPos.y));
                         transmittance *= fogVal;
                     }
 
