@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using UnityEngine;
 using FMODUnity;
@@ -6,7 +7,7 @@ public class PotTemperature : MonoBehaviour
 {
     public static PotTemperature Instance {  get; private set; }
     public FailState_BurnCool FailState { get; private set; }
-    public RandomArrowMovement arrowMovement {  get; private set; }
+    public RandomArrowMovement ArrowMovement {  get; private set; }
 
     public delegate void MinigameActivation();
     public static MinigameActivation StartCooking;
@@ -15,13 +16,21 @@ public class PotTemperature : MonoBehaviour
 
     public static event Action TriggerBurning;
 
-    [SerializeField] private Gradient _temperatureSliderGradient;
+    [Header("Mechanic Settings")]
+    [SerializeField] private float _progressIncrement = 5.0f;
+    [SerializeField] private float _progressDecrement = 4.0f;
+    [SerializeField] float BurnTimerThreshold = 5f;
+
+    [Header("References", order = 1)]
     [SerializeField] Slider_TwoPointers TempSlider;
     [SerializeField] SliderBar FillValueSlider;
 
-    float TargetTemperature => arrowMovement.TrueArrow;
-    public float Temperature = 0;
-    public float Progress = 0;
+    [Header("Visuals")]
+    [SerializeField] private Gradient _temperatureSliderGradient;
+
+    float TargetTemperature => ArrowMovement.TrueArrow;
+    public float Temperature { get; private set; } = 0;
+    public float Progress { get; private set; } = 0;
 
     public WorldIngredient GetWorldIngredient() { return _targetIngredient; }
     private WorldIngredient _targetIngredient;
@@ -50,7 +59,7 @@ public class PotTemperature : MonoBehaviour
         
         Instance = this;
         FailState = GetComponent<FailState_BurnCool>();
-        arrowMovement = GetComponent<RandomArrowMovement>();
+        ArrowMovement = GetComponent<RandomArrowMovement>();
     }
 
     private void OnEnable()
@@ -68,15 +77,15 @@ public class PotTemperature : MonoBehaviour
     void Update()
     {
         if(Temperature > 45 || Temperature < -45)
-        {
             InBurningThreshold();
-        }
-        else { TimeUntilBurn = Mathf.Max(TimeUntilBurn - Time.deltaTime, 0); }
+        else 
+            TimeUntilBurn = Mathf.Max(TimeUntilBurn - Time.deltaTime, 0);
 
         if (TempSlider.isActiveAndEnabled)
         {
-            if (!isChangingTemp) { EqualOutTemp(); }
             // only runs when player is not hovering on button, prevents values from fighting
+            if (!isChangingTemp) 
+                EqualOutTemp();
 
             TempSlider.SetValue(Temperature);
             SetSliderPointers();
@@ -143,16 +152,23 @@ public class PotTemperature : MonoBehaviour
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
-            arrowMovement.CanBeCooled = w.BaseIngredient.CanBeFrozen;
-            arrowMovement.CanBeHeated = w.BaseIngredient.CanBeHeated;
+            ArrowMovement.CanBeCooled = w.BaseIngredient.CanBeFrozen;
+            ArrowMovement.CanBeHeated = w.BaseIngredient.CanBeHeated;
             
             w.enabled = false;
         }
     }
     void EndEnd()
     {
+        TempSlider.SetValue(0); FillValueSlider.SetValue(0);
+        Temperature = 0; Progress = 0;
+        TimeUntilBurn = 0;
+
+        currentlyCooking = false;
+        isChangingTemp = false;
+        amCurrentlyBurning = false;
+        
         ToggleSliders(false);
-         currentlyCooking = false;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
@@ -204,12 +220,12 @@ public class PotTemperature : MonoBehaviour
     {
         if (_targetIngredient.BaseIngredient.CanBeHeated)
         {
-            TempSlider.SetPointerLocation(arrowMovement.HeatArrow, TempSlider.pointer1);
+            TempSlider.SetPointerLocation(ArrowMovement.HeatArrow, TempSlider.pointer1);
         }
 
         if (_targetIngredient.BaseIngredient.CanBeFrozen)
         {
-            TempSlider.SetPointerLocation(arrowMovement.CoolArrow, TempSlider.pointer2);
+            TempSlider.SetPointerLocation(ArrowMovement.CoolArrow, TempSlider.pointer2);
         }
     }
     public void RaiseTemp(float amount)
@@ -251,12 +267,12 @@ public class PotTemperature : MonoBehaviour
     }
     public void IncreaseProgress()
     {
-        Progress += 10f * Time.deltaTime;
+        Progress += _progressIncrement * Time.deltaTime;
         Progress = Mathf.Clamp(Progress, 0, 100);
     }
     public void DecreaseProgress()
     {
-        Progress -= 5f * Time.deltaTime;
+        Progress -= _progressDecrement * Time.deltaTime;
         Progress = Mathf.Clamp(Progress, 0, 100);
     }
     void ClampTemp()

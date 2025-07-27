@@ -5,7 +5,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
 {
     PotTemperature pot;
 
-    public float targetTemp => pot.arrowMovement.TrueArrow;
+    public float targetTemp => pot.ArrowMovement.TrueArrow;
     [SerializeField] float allowedDeviance = 10;
 
     bool isUsable = true;
@@ -42,6 +42,8 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     void EndEnd()
     {
         CalculateRating();
+
+        numTimesBurnt = 0;
     }
     void CookIngredient(float currTemp)
     {

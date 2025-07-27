@@ -36,12 +36,27 @@ public class RandomArrowMovement : MonoBehaviour
     private void OnEnable()
     {
         PotTemperature.StartCooking += OnCookingStart;
+        PotTemperature.FinishCooking += OnCookingEnd;
+    }
+    private void OnDisable()
+    {
+        PotTemperature.StartCooking -= OnCookingStart;
+        PotTemperature.FinishCooking -= OnCookingEnd;
     }
     void OnCookingStart()
     {
         HeatArrow = 0; CoolArrow = 0;
         SwitchArrowDirection();
         TimeUntilDirectionSwitches = DefaultDuration;
+    }
+    void OnCookingEnd()
+    {
+        HeatArrow = 0; CoolArrow = 0;
+        HeatTarget = 0; CoolTarget = 0;
+        CanBeHeated = false; CanBeCooled = false;
+
+        TimeUntilDirectionSwitches = 0;
+        timeElapsed_H = 0; timeElapsed_C = 0;
     }
     void Update()
     {
