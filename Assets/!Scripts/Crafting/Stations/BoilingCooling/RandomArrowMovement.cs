@@ -60,7 +60,7 @@ public class RandomArrowMovement : MonoBehaviour
     }
     void Update()
     {
-        if (!pot.currentlyCooking) return;
+        if (!pot.CurrentlyCooking) return;
         
         TimeUntilDirectionSwitches -= Time.deltaTime;
         if (TimeUntilDirectionSwitches <= 0) 

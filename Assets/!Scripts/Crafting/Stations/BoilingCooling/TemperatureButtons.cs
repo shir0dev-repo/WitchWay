@@ -29,9 +29,9 @@ public class TemperatureButtons : MonoBehaviour
     }
     private void OnMouseOver()
     {
-        if (pot.amCurrentlyBurning) { return; }
+        if (pot.IsCurrentlyBurning) { return; }
 
-        pot.isChangingTemp = true;
+        pot.IsChangingTemp = true;
 
         float currTemp = pot.GetCurrentTemp();
         float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
@@ -63,7 +63,7 @@ public class TemperatureButtons : MonoBehaviour
     }
     private void OnMouseExit()
     {
-        pot.isChangingTemp = false;
+        pot.IsChangingTemp = false;
         mouseOverStart = true;
     }
     void StartMinigame()

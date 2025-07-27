@@ -36,14 +36,12 @@ public class PotTemperature : MonoBehaviour
     private WorldIngredient _targetIngredient;
     GameObject currentIngredientInPot;
 
-    public bool currentlyCooking { get; set; } = false;
-    public bool isChangingTemp { get; set; }
-    public bool amCurrentlyBurning {  get; set; }
+    public bool CurrentlyCooking { get; set; } = false;
+    public bool IsChangingTemp { get; set; }
+    public bool IsCurrentlyBurning {  get; set; }
 
     float TimeUntilBurn = 0;
-    [SerializeField] float BurnTimerThreshold = 5f;
 
-    
     [Header("Audio")]
     public EventReference heatingSound;
     public EventReference coolingSound;
@@ -84,7 +82,7 @@ public class PotTemperature : MonoBehaviour
         if (TempSlider.isActiveAndEnabled)
         {
             // only runs when player is not hovering on button, prevents values from fighting
-            if (!isChangingTemp) 
+            if (!IsChangingTemp) 
                 EqualOutTemp();
 
             TempSlider.SetValue(Temperature);
@@ -148,7 +146,7 @@ public class PotTemperature : MonoBehaviour
         ToggleSliders(true);
         SetSliderPointers();
 
-        currentlyCooking = true;
+        CurrentlyCooking = true;
 
         if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
         {
@@ -164,9 +162,9 @@ public class PotTemperature : MonoBehaviour
         Temperature = 0; Progress = 0;
         TimeUntilBurn = 0;
 
-        currentlyCooking = false;
-        isChangingTemp = false;
-        amCurrentlyBurning = false;
+        CurrentlyCooking = false;
+        IsChangingTemp = false;
+        IsCurrentlyBurning = false;
         
         ToggleSliders(false);
 
@@ -196,7 +194,7 @@ public class PotTemperature : MonoBehaviour
 
         Temperature = 0;
         TimeUntilBurn = 0;
-        amCurrentlyBurning = true;
+        IsCurrentlyBurning = true;
 
         if (SoundManager.Instance != null)
             SoundManager.Instance.StopLoop("ConstantTempSound");

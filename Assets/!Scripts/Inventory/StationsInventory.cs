@@ -48,10 +48,8 @@ public class StationsInventory : MonoBehaviour
 
 
     //private vars
-    [SerializeField] private GameObject[] boxes;
+    [SerializeField] private StationsInvBox[] boxes;
     private List<IngredientSO> ingredients = new List<IngredientSO>();
-
-    private StationManager stationManger;
 
     private bool startDelayed = false;
 
@@ -101,9 +99,9 @@ public class StationsInventory : MonoBehaviour
 
     private void SortIntoBoxes()
     {
-        foreach (GameObject box in boxes)
+        foreach (StationsInvBox box in boxes)
         {
-            box.GetComponent<StationsInvBox>().ClearItems();
+            box.ClearItems();
         }
 
         //quantify 
@@ -139,8 +137,7 @@ public class StationsInventory : MonoBehaviour
                     return;
                 }
 
-                StationsInvBox boxScript = boxes[currentBox].GetComponent<StationsInvBox>();
-                boxScript.AddItem(new BasketItems(boxes[currentBox].transform, item.assignedIngredient, 1));
+                boxes[currentBox].AddItem(new BasketItems(boxes[currentBox].transform, item.assignedIngredient, 1));
 
                 boxCounts[currentBox]++;
                 remaining--;
@@ -174,16 +171,10 @@ public class StationsInventory : MonoBehaviour
 
     private void OnStationChangedHandler(int stationId)
     {
+        print("station changed");
         if (startDelayed)
         {
-            print("station chnaged");
-            List<WorldIngredient> worldIngreds = new List<WorldIngredient>(FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None));
-
-            foreach (WorldIngredient wIngred in worldIngreds)
-            {
-                //blank i cant be fucked rn
-                
-            }
+            StartCoroutine(SendToInventoryCoroutine());
         }
     }
 
@@ -192,5 +183,24 @@ public class StationsInventory : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         startDelayed = true;
+    }
+
+    private IEnumerator SendToInventoryCoroutine()
+    {
+        WorldIngredient[] ingredientsInWorld = FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None);
+        Queue<WorldIngredient> ingredientsToReturn = new Queue<WorldIngredient>(ingredientsInWorld);
+
+        int boxIndex = 0;
+        StationsInvBox invBox = boxes[boxIndex];
+        while (ingredientsToReturn.TryDequeue(out WorldIngredient wIng))
+        {
+            if (wIng.TryGetComponent(out HoverToLocation hover))
+            {
+                hover.Target = invBox.transform;
+                boxIndex = (boxIndex + 1) % boxes.Length;
+            }
+
+            yield return null;
+        }
     }
 }

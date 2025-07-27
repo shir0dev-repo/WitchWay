@@ -28,7 +28,7 @@ public class StateOfIngredient_BurnCool : MonoBehaviour
     }
     void Update()
     {
-        if (!pot.currentlyCooking) return;
+        if (!pot.CurrentlyCooking) return;
 
         if (pot.Progress < 100)
         {
