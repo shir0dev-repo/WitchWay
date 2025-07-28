@@ -220,7 +220,7 @@ public class PotTemperature : Singleton<PotTemperature>
 
         if (other.TryGetComponent(out WorldIngredient ing))
         {
-            if (!ing.BaseIngredient.CanBeFrozen || !ing.BaseIngredient.CanBeHeated)
+            if (!ing.BaseIngredient.CanBeFrozen && !ing.BaseIngredient.CanBeHeated)
                 return;
         }
 

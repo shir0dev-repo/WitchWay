@@ -1798,6 +1798,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1456212812}
   - {fileID: 1761270448}
   - {fileID: 1154988664}
   - {fileID: 641145333}
@@ -8716,6 +8717,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406315730}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1456212812 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+  m_PrefabInstance: {fileID: 1842239800}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1507182807
 GameObject:
   m_ObjectHideFlags: 0
@@ -9190,6 +9196,63 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 309898260}
   m_SourcePrefab: {fileID: 100100000, guid: 4e44f157631c6e749a420d553958ab23, type: 3}
+--- !u!1001 &1842239800
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 606522768}
+    m_Modifications:
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.119999
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280376425000675541, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9058432705468641892, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
+      propertyPath: m_Name
+      value: Bio Drando
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 007fcb5c68f7a024ba41bb48c0c8c62d, type: 3}
 --- !u!4 &1845644892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4697842801983068961, guid: 376493c207d19774ab660dc1f40b700d, type: 3}
@@ -10382,6 +10445,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftingCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4630671486115471109, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: recipeID
+      value: EvilPotion
+      objectReference: {fileID: 0}
     - target: {fileID: 4726875324595447022, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -10567,6 +10634,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4237926219528466628, guid: a2b30dbb75ea0d14ea3d9e2838ba2248, type: 3}
+      propertyPath: RecipeSOList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4237926219528466628, guid: a2b30dbb75ea0d14ea3d9e2838ba2248, type: 3}
+      propertyPath: 'RecipeSOList.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 644b81ce1c644ff49b9903affa0ac042, type: 2}
     - target: {fileID: 8121311402015910558, guid: a2b30dbb75ea0d14ea3d9e2838ba2248, type: 3}
       propertyPath: m_Name
       value: Stations
