@@ -87,6 +87,8 @@ public static partial class GameEvents
         // TODO: Add Bottle class as parameter
         public static Action OnBottleSelected;
         public static Action<Bottle> OnBottlePlacedInBottler;
+        public static Action<Bottle> OnBottleRemovedFromBottler;
+
         public static Action OnBottlingStationSelected;
         public static Action<float> OnBottleFillChanged;
         public static Action OnBottleFilled;

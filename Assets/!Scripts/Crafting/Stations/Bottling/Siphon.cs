@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Siphon : Singleton<Siphon>
 {
-    private const float HALF_PI = Mathf.PI * 0.5f;
-
     [Header("Sliders")]
     // TODO: Find way to show pressure in game, not through slider
     [SerializeField] SliderBar _pressureSlider;
@@ -17,7 +15,7 @@ public class Siphon : Singleton<Siphon>
     [SerializeField] private float _maxStreamRate = 15.0f;
     private float _streamRate = 0.0f;
 
-    private bool _isLeftClick = true;
+    private bool _isTargetQKey = true;
 
     private void Initialize()
     {
@@ -53,10 +51,10 @@ public class Siphon : Singleton<Siphon>
         }
 
         _pressure.Update(Time.deltaTime);
-        KeyCode targetKey = _isLeftClick ? KeyCode.Q: KeyCode.E;
+        KeyCode targetKey = _isTargetQKey ? KeyCode.Q : KeyCode.E;
         if (Input.GetKeyDown(targetKey))
         {
-            _isLeftClick = !_isLeftClick;
+            _isTargetQKey = !_isTargetQKey;
             _pressure.Increase();
         }
         /*if (Input.GetKeyDown(KeyCode.Space))
@@ -93,6 +91,13 @@ public class Siphon : Singleton<Siphon>
     {
         Initialize();
         _pressureSlider.gameObject.SetActive(true);
+        GameEvents.Crafting.OnBottleRemovedFromBottler += EndMinigame;
+    }
+
+    void EndMinigame(Bottle _)
+    {
+        EndMinigame();
+        GameEvents.Crafting.OnBottleRemovedFromBottler -= EndMinigame;
     }
 
     void EndMinigame()

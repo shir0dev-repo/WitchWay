@@ -28,20 +28,21 @@ public class BottlingStation : Singleton<BottlingStation>
 
     private void AttachBottle(IFollowCursor cursor)
     {
-        if (!(cursor is Bottle bottle))
+        if (cursor is not Bottle bottle)
         {
             _pipe.SetActive(false);
             return;
         }
+
         if (_bottle != null && bottle == _bottle)
         {
             _bottle.transform.position = BottlePivot.position;
             GameEvents.Crafting.OnBottlePlacedInBottler?.Invoke(_bottle);
             ToggleRelevantComponents(true);
-            
         }
         else
         {
+            GameEvents.Crafting.OnBottleRemovedFromBottler?.Invoke(_bottle);
             ToggleRelevantComponents(false);
         }
     }

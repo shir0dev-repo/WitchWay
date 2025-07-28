@@ -90,8 +90,9 @@ public class CuttingBoard : Singleton<CuttingBoard>
             
             GameEvents.Crafting.OnItemPlacedOnCuttingBoard?.Invoke(w);
         }
-        catch
+        catch (System.Exception e)
         {
+            Debug.LogException(e);
             Debug.Break();
         }
     }

@@ -29,12 +29,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FogNoiseOverlay:
         m_Texture: {fileID: 11700000, guid: b3cfc386f472fa84db89809c1611988f, type: 2}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.41, y: 0.83}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DensityMultiplier: 1
-    - _DensityThreshold: 1
+    - _DensityMultiplier: 0.32
+    - _DensityThreshold: 0.178
     - _Height: 4.41
     - _LightScattering: 1
     - _MaxDistance: 50
