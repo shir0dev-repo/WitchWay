@@ -6,14 +6,7 @@ public class FailState_BurnCool : MonoBehaviour
     
     float numberOfClicksNeeded;
     float numberOfClicksDone = 0;
-    private void OnEnable()
-    {
-        PotTemperature.TriggerBurning += OnBurning;
-    }
-    private void OnDisable()
-    {
-        PotTemperature.TriggerBurning -= OnBurning;
-    }
+
     private void OnMouseDown()
     {
         if (PotTemperature.Instance.IsCurrentlyBurning)
@@ -41,6 +34,5 @@ public class FailState_BurnCool : MonoBehaviour
         numberOfClicksDone = 0; 
         
         PotTemperature.Instance.IsCurrentlyBurning = false;
-        PotTemperature.Instance.ToggleSliders(true);
     }
 }

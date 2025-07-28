@@ -1,24 +1,16 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 
 public class TemperatureButtons : MonoBehaviour
 {
+    [SerializeField] PotTemperature.HeatingState _heatingState;
     PotTemperature pot;
     [SerializeField]
     bool isHeating;
 
-    [SerializeField]
-    float baseValue = 1f;
-    private void OnEnable()
-    {
-        PotTemperature.StartCooking -= StartMinigame;
-        PotTemperature.FinishCooking += EndMinigame;
-    }
-    private void OnDisable()
-    {
-        PotTemperature.StartCooking += StartMinigame;
-        PotTemperature.FinishCooking -= EndMinigame;
-    }
+    [SerializeField] float baseValue = 1f;
+    [SerializeField, Range(1, 2)] private float _scaleMultiplier = 1.5f;
 
     private bool mouseOverStart = true;
     private void Start()
@@ -29,11 +21,7 @@ public class TemperatureButtons : MonoBehaviour
     }
     private void OnMouseOver()
     {
-        if (pot.IsCurrentlyBurning) { return; }
-
-        pot.IsChangingTemp = true;
-
-        float currTemp = pot.GetCurrentTemp();
+        float currTemp = pot.Temperature;
         float toMiddle = Mathf.Clamp01(Mathf.Abs(currTemp) * 0.01f);
         float ease = Easing(toMiddle);
         float t = Mathf.Lerp(10, 0, ease);
@@ -42,29 +30,25 @@ public class TemperatureButtons : MonoBehaviour
 
         float value = baseValue * t * Time.smoothDeltaTime;
 
-        if (isHeating)
+        if (mouseOverStart)
         {
-            pot.RaiseTemp(value);
-            if (mouseOverStart)
+            if (SoundManager.Instance != null)
             {
-                SoundManager.Instance.PlayOneShot(pot.heatingSound, Camera.main.transform.position);
-                mouseOverStart = false;
+                var soundToPlay = isHeating ? pot.heatingSound : pot.coolingSound;
+                SoundManager.Instance.PlayOneShot(soundToPlay, Camera.main.transform.position);
             }
+
+            transform.DOScale(_scaleMultiplier, 0.15f);
+            mouseOverStart = false;
         }
-        else
-        {
-            pot.LowerTemp(value);
-            if (mouseOverStart)
-            {
-                SoundManager.Instance.PlayOneShot(pot.coolingSound, Camera.main.transform.position);
-                mouseOverStart = false;
-            }
-        }
+
+        pot.ModifyTemperature(_heatingState);
     }
     private void OnMouseExit()
     {
-        pot.IsChangingTemp = false;
         mouseOverStart = true;
+
+        transform.DOScale(1.0f, 0.15f);
     }
     void StartMinigame()
     {

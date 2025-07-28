@@ -51,6 +51,10 @@ public static partial class GameEvents
         public static Action<WorldIngredient> OnItemPlacedInTemperaturePot;
         public static Action<WorldIngredient> OnItemRemovedFromTemperaturePot;
 
+        public static Action<float> OnPotTemperatureChanged;
+        public static Action<float> OnTemperaturePotProgressChanged;
+        public static Action<float, PotTemperature.HeatingState> OnTemperatureTargetChanged;
+
         public static Action<WorldIngredient> OnItemSuccessfullyFrozen;
         public static Action<WorldIngredient> OnFailedToFreezeItem;
 

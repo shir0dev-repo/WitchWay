@@ -1,253 +1,201 @@
-using NUnit.Framework;
-using System;
-using UnityEngine;
 using FMODUnity;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class PotTemperature : MonoBehaviour
+public class PotTemperature : Singleton<PotTemperature>
 {
-    public static PotTemperature Instance {  get; private set; }
+    public const float MIN_TEMP = -50;
+    public const float MAX_TEMP = 50;
+
+    public enum HeatingState { None, Heating, Cooling };
+
+    private TemperatureTarget _coolingTarget;
+    private TemperatureTarget _heatingTarget;
+
+    private bool _isCooking = false;
+    private bool _temperatureChangedThisFrame = false;
+
     public FailState_BurnCool FailState { get; private set; }
-    public RandomArrowMovement ArrowMovement {  get; private set; }
-
-    public delegate void MinigameActivation();
-    public static MinigameActivation StartCooking;
-    public static MinigameActivation FinishCooking;
-    // i have realized that you can make multiple delegates out of the same one.
-
-    public static event Action TriggerBurning;
 
     [Header("Mechanic Settings")]
     [SerializeField] private float _progressIncrement = 5.0f;
     [SerializeField] private float _progressDecrement = 4.0f;
-    [SerializeField] float BurnTimerThreshold = 5f;
 
-    [Header("References", order = 1)]
-    [SerializeField] Slider_TwoPointers TempSlider;
-    [SerializeField] SliderBar FillValueSlider;
+    [Space]
+    [SerializeField] private float _temperatureIncrement = 10.0f;
+    [SerializeField] private float _temperatureDecrement = 5.0f;
 
-    [Header("Visuals")]
-    [SerializeField] private Gradient _temperatureSliderGradient;
+    [Space]
+    [SerializeField] private float _allowedTemperatureDeviance = 5.0f;
+    [SerializeField] private float _targetChangeDuration = 3.0f;
+    private float _targetChangeTimer = 0.0f;
 
-    float TargetTemperature => ArrowMovement.TrueArrow;
+
+    [Header("References")]
+    [SerializeField] private TemperatureButtons _heatingButton;
+    [SerializeField] private TemperatureButtons _coolingButton;
+
     public float Temperature { get; private set; } = 0;
     public float Progress { get; private set; } = 0;
 
     public WorldIngredient GetWorldIngredient() { return _targetIngredient; }
     private WorldIngredient _targetIngredient;
-    GameObject currentIngredientInPot;
 
-    public bool CurrentlyCooking { get; set; } = false;
-    public bool IsChangingTemp { get; set; }
-    public bool IsCurrentlyBurning {  get; set; }
-
-    float TimeUntilBurn = 0;
+    public bool IsCurrentlyBurning { get; set; }
 
     [Header("Audio")]
     public EventReference heatingSound;
     public EventReference coolingSound;
     public EventReference constantTempSound;
     public EventReference successSound;
-    void Awake()
+
+    private void Setup()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-            return;
-        }
-        
-        Instance = this;
-        FailState = GetComponent<FailState_BurnCool>();
-        ArrowMovement = GetComponent<RandomArrowMovement>();
+        Progress = 0;
+        Temperature = 0;
+
+        _heatingTarget = new(MAX_TEMP, _allowedTemperatureDeviance);
+        _coolingTarget = new(MIN_TEMP, _allowedTemperatureDeviance);
+
+        _heatingButton.gameObject.SetActive(true);
+        _coolingButton.gameObject.SetActive(true);
     }
 
-    private void OnEnable()
+    protected override void Awake()
     {
-        StartCooking += StartStart;
-        FinishCooking += EndEnd;
-        TriggerBurning += OnBurning;
+        base.Awake();
+
+        FailState = GetComponent<FailState_BurnCool>();
     }
-    private void OnDisable()
-    {
-        StartCooking = null;
-        FinishCooking = null;
-        TriggerBurning = null;
-    }
+
     void Update()
     {
-        if(Temperature > 45 || Temperature < -45)
-            InBurningThreshold();
-        else 
-            TimeUntilBurn = Mathf.Max(TimeUntilBurn - Time.deltaTime, 0);
+        if (!_isCooking) return;
 
-        if (TempSlider.isActiveAndEnabled)
+        UpdateProgress();
+        UpdateTargets();
+        if (_temperatureChangedThisFrame)
         {
-            // only runs when player is not hovering on button, prevents values from fighting
-            if (!IsChangingTemp) 
-                EqualOutTemp();
-
-            TempSlider.SetValue(Temperature);
-            SetSliderPointers();
-
-            if(!SoundManager.Instance.IsLooping("ConstantTempSound"))
-            SoundManager.Instance.PlayLoop("ConstantTempSound", constantTempSound, transform.position);
-
+            _temperatureChangedThisFrame = false;
+        }
+        else
+        {
+            EqualOutTemp();
+        }
+        if (SoundManager.Instance != null)
+        {
             if (SoundManager.Instance.IsLooping("ConstantTempSound"))
             {
                 float normalizedTemp = Mathf.InverseLerp(-50f, 50f, Temperature);
                 SoundManager.Instance.SetParameterByName("ConstantTempSound", "temperature", normalizedTemp);
             }
+            else
+                SoundManager.Instance.PlayLoop("ConstantTempSound", constantTempSound, transform.position);
         }
-        if (FillValueSlider.isActiveAndEnabled)
+    }
+
+    private void UpdateTargets()
+    {
+        _targetChangeTimer += Time.deltaTime;
+        if (_targetChangeTimer > _targetChangeDuration)
         {
-            FillValueSlider.SetValue(Progress);
+            _targetChangeTimer -= _targetChangeDuration;
+
+            float heatTarget = Random.Range(15, MAX_TEMP);
+            _heatingTarget.SetTarget(heatTarget);
+            GameEvents.Crafting.OnTemperatureTargetChanged?.Invoke(heatTarget, HeatingState.Heating);
+
+            float coolTarget = Random.Range(MIN_TEMP, -15);
+            
+            _coolingTarget.SetTarget(coolTarget);
+            GameEvents.Crafting.OnTemperatureTargetChanged?.Invoke(coolTarget, HeatingState.Cooling);
         }
 
-        if (Progress >= 100)
+        _heatingTarget.Update(Temperature);
+        _coolingTarget.Update(Temperature);
+    }
+
+    private void UpdateProgress()
+    {
+        if (_heatingTarget.IsWithinDeviance(Temperature) || _coolingTarget.IsWithinDeviance(Temperature))
         {
-            if (_targetIngredient != null)
+            Progress = Mathf.Clamp(Progress + _progressIncrement * Time.deltaTime, 0, 100);
+        }
+        else
+        {
+            Progress = Mathf.Clamp(Progress - _progressDecrement * Time.deltaTime, 0, 100);
+        }
+
+        if (Progress < 100)
+        {
+            GameEvents.Crafting.OnTemperaturePotProgressChanged?.Invoke(Progress);
+        }
+        else
+        {
+            _isCooking = false;
+
+            float timeHeated = _heatingTarget.TimeSpentAtTarget;
+            float timeCooled = _coolingTarget.TimeSpentAtTarget;
+
+            if (timeHeated >= timeCooled)
             {
-                FinishCooking?.Invoke();
-                if (TargetTemperature >= 0)
-                    _targetIngredient.ModifiedState.Heat();
-                else
-                    _targetIngredient.ModifiedState.Freeze();
-
-                _targetIngredient = null;
+                _targetIngredient.ModifiedState.Heat();
+                GameEvents.Crafting.OnItemSuccessfullyHeated?.Invoke(_targetIngredient);
+            }
+            else
+            {
+                _targetIngredient.ModifiedState.Freeze();
+                GameEvents.Crafting.OnItemSuccessfullyFrozen?.Invoke(_targetIngredient);
             }
 
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out StateOfIngredient_BurnCool ingredient))
-        {
-            if (ingredient.TryGetComponent(out WorldIngredient ing))
-                _targetIngredient = ing;
-
-            currentIngredientInPot = other.gameObject;
-            StartCooking?.Invoke();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out WorldIngredient ing) && ing == _targetIngredient)
             _targetIngredient = null;
-    }
-
-    public void SetSliderColor(float sliderValue)
-    {
-        float val01 = ((sliderValue / 50.0f) + 1.0f) * 0.5f;
-        TempSlider.slider.targetGraphic.color = _temperatureSliderGradient.Evaluate(val01);
-    }
-
-    void StartStart()
-    {
-        ToggleSliders(true);
-        SetSliderPointers();
-
-        CurrentlyCooking = true;
-
-        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
-        {
-            ArrowMovement.CanBeCooled = w.BaseIngredient.CanBeFrozen;
-            ArrowMovement.CanBeHeated = w.BaseIngredient.CanBeHeated;
-            
-            w.enabled = false;
+            _heatingButton.gameObject.SetActive(false);
+            _coolingButton.gameObject.SetActive(false);
         }
     }
-    void EndEnd()
+
+    public void ModifyTemperature(HeatingState state)
     {
-        TempSlider.SetValue(0); FillValueSlider.SetValue(0);
-        Temperature = 0; Progress = 0;
-        TimeUntilBurn = 0;
-
-        CurrentlyCooking = false;
-        IsChangingTemp = false;
-        IsCurrentlyBurning = false;
-        
-        ToggleSliders(false);
-
-        if (currentIngredientInPot.TryGetComponent(out WorldIngredient w))
+        switch (state)
         {
-            w.enabled = true;
-        }
-
-        if (SoundManager.Instance != null)
-        {
-            SoundManager.Instance.StopLoop("ConstantTempSound");
-            SoundManager.Instance.PlayOneShot(successSound, transform.position);
+            case HeatingState.Heating:
+                Temperature = Mathf.Clamp(Temperature + _temperatureIncrement * Time.deltaTime, MIN_TEMP, MAX_TEMP);
+                GameEvents.Crafting.OnPotTemperatureChanged?.Invoke(Temperature);
+                _temperatureChangedThisFrame = true;
+                break;
+            case HeatingState.Cooling:
+                Temperature = Mathf.Clamp(Temperature - _temperatureIncrement * Time.deltaTime, MIN_TEMP, MAX_TEMP);
+                GameEvents.Crafting.OnPotTemperatureChanged?.Invoke(Temperature);
+                _temperatureChangedThisFrame = true;
+                break;
+            default:
+                break;
         }
     }
-    void InBurningThreshold()
-    {
-        TimeUntilBurn = Mathf.Min(TimeUntilBurn + Time.deltaTime, BurnTimerThreshold);
 
-        if (TimeUntilBurn >= BurnTimerThreshold)
+    private void PlaceInPot(IFollowCursor cursorObj)
+    {
+        if (cursorObj is WorldIngredient wIng)
         {
-            TriggerBurning?.Invoke();
-        }
-    }
-    void OnBurning()
-    {
-        ToggleSliders(false);
-
-        Temperature = 0;
-        TimeUntilBurn = 0;
-        IsCurrentlyBurning = true;
-
-        if (SoundManager.Instance != null)
-            SoundManager.Instance.StopLoop("ConstantTempSound");
-    }
-    public void ToggleSliders(bool value)
-    {
-        TempSlider.gameObject.SetActive(value);
-        FillValueSlider.gameObject.SetActive(value);
-
-        if (value)
-        {
-            if (_targetIngredient.BaseIngredient.CanBeHeated) { TempSlider.pointer1.SetActive(true); }
-            else { TempSlider.pointer1.SetActive(false); }
-
-            if (_targetIngredient.BaseIngredient.CanBeFrozen) { TempSlider.pointer2.SetActive(true); }
-            else { TempSlider.pointer2.SetActive(false); }
-        }
-        else { return; }
-    }
-    void SetSliderPointers()
-    {
-        if (_targetIngredient.BaseIngredient.CanBeHeated)
-        {
-            TempSlider.SetPointerLocation(ArrowMovement.HeatArrow, TempSlider.pointer1);
+            if (wIng == _targetIngredient)
+            {
+                GameEvents.Crafting.OnItemPlacedInTemperaturePot?.Invoke(wIng);
+                Setup();
+                _isCooking = true;
+                //wIng.gameObject.SetActive(false);
+            }
         }
 
-        if (_targetIngredient.BaseIngredient.CanBeFrozen)
-        {
-            TempSlider.SetPointerLocation(ArrowMovement.CoolArrow, TempSlider.pointer2);
-        }
+        GameEvents.Crafting.OnObjectRemovedFromCursor -= PlaceInPot;
     }
-    public void RaiseTemp(float amount)
-    {
-        Temperature += amount;
-        ClampTemp();
-    }
-    public void LowerTemp(float amount)
-    {
-        Temperature -= amount;
-        ClampTemp();
-    }
-    public float GetCurrentTemp()
-    {
-        return Temperature;
-    }
-    
+
     void EqualOutTemp()
     {
         float toMiddle = Mathf.Clamp01(Mathf.Abs(Temperature) * 0.01f);
         float value = Mathf.Lerp(5, 0, toMiddle);
         // toMiddle is the temp's percentage away from zero, no matter if its pos or neg
         // since this is called every frame, make value small
-        
+
         if (Temperature > 0)
         {
             Temperature -= value * Time.deltaTime;
@@ -260,22 +208,39 @@ public class PotTemperature : MonoBehaviour
             if (Temperature > 0.001f) Temperature = 0;
         }
         else { Temperature = 0; }
-        
-        ClampTemp();
-    }
-    public void IncreaseProgress()
-    {
-        Progress += _progressIncrement * Time.deltaTime;
-        Progress = Mathf.Clamp(Progress, 0, 100);
-    }
-    public void DecreaseProgress()
-    {
-        Progress -= _progressDecrement * Time.deltaTime;
-        Progress = Mathf.Clamp(Progress, 0, 100);
-    }
-    void ClampTemp()
-    {
+
         if (Temperature > 0) { Temperature = Mathf.Clamp(Temperature, 0, 50); }
         else { Temperature = Mathf.Clamp(Temperature, -50, 0); }
+
+        GameEvents.Crafting.OnPotTemperatureChanged?.Invoke(Temperature);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.TryGetComponent(out WorldIngredient ing))
+        {
+            if (!ing.BaseIngredient.CanBeFrozen || !ing.BaseIngredient.CanBeHeated)
+                return;
+        }
+
+        _targetIngredient = ing;
+        if (CursorManager.Instance != null)
+        {
+            Transform cursorObj = CursorManager.Instance.AttachedObject;
+            if (cursorObj != null && cursorObj == other.transform)
+                GameEvents.Crafting.OnObjectRemovedFromCursor += PlaceInPot;
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.TryGetComponent(out WorldIngredient ing)) return;
+        else if (ing != _targetIngredient) return;
+
+        _targetIngredient = null;
+        GameEvents.Crafting.OnObjectRemovedFromCursor -= PlaceInPot;
+
     }
 }
