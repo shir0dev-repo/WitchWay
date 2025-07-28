@@ -10,18 +10,6 @@ public class DebugMenuManager : MonoBehaviour
     [SerializeField] TMP_Text debugMenuButton;
     [SerializeField] RectTransform debugMenuPanel;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     public void ToggleDebugMenu()
     {
         if (isDebugMenuActive)

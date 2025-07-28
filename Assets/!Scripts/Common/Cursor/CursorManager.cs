@@ -37,6 +37,9 @@ public class CursorManager : Singleton<CursorManager>
         base.Awake();
         if (_mainCam == null)
             _mainCam = Camera.main;
+
+
+        BlockInteraction = false;
     }
 
     private void Update()

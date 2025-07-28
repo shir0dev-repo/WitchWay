@@ -45,6 +45,7 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
             }
             if (_rb[0] == null)
             {
+                _rb = null;
                 _rb = GetComponentsInChildren<Rigidbody>();
             }
 
