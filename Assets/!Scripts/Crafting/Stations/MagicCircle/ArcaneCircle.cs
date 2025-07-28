@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.UI;
+using DG.Tweening;
 
 [RequireComponent(typeof(SymbolPainter))]
 public class ArcaneCircle : Singleton<ArcaneCircle>
@@ -10,6 +12,7 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
     [Serializable] public struct GestureSymbolPair
     {
         public string GestureName;
+        public Sprite Sprite;
         public AlchemicalSymbol Symbol;
         [Range(0, 1)] public float AccuracyThreshold;
     }
@@ -17,6 +20,7 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
     [Header("Scene References")]
     [SerializeField] private SymbolPainter _painter;
     [SerializeField] private GameObject _validateBtn;
+    [SerializeField] private Image _flashedSymbol;
     [Space]
     [SerializeField] private StationAreaType _areaType;
     [Space]
@@ -97,6 +101,9 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
         if (valid)
         {
             Debug.Log($"{symbolName}: {accuracy:F2}%");
+            _flashedSymbol.sprite = _symbols.FirstOrDefault(s =>  s.GestureName == symbolName).Sprite;
+            _flashedSymbol.color = Color.white;
+            DOTween.To(() => _flashedSymbol.color, (c) => _flashedSymbol.color = c, Color.clear, 1.5f).SetEase(Ease.OutCubic);
             GameEvents.Crafting.OnSymbolDrawn?.Invoke(result);
         }
     }

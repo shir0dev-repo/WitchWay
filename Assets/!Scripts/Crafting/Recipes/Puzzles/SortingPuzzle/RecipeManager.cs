@@ -14,7 +14,7 @@ public class RecipeManager : MonoBehaviour
     void Start()
     {
         recipeImg.gameObject.SetActive(false);
-        SetSortingActive(false);
+        //SetSortingActive(false);
     }
 
     public void AddCount()

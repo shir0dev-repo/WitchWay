@@ -21,7 +21,7 @@ public class RecipeBookToggle : MonoBehaviour
 
         startPos = recipeBookPanel.anchoredPosition;
 
-        recMan = FindObjectOfType<RecipeManager>();   // I hope this works when we add additional recipies... I guess I could test it... Oh well!
+        recMan = FindFirstObjectByType<RecipeManager>(FindObjectsInactive.Include);   // I hope this works when we add additional recipies... I guess I could test it... Oh well!
     }
 
     public void ToggleRecipeBook()

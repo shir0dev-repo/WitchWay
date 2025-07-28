@@ -16,10 +16,10 @@ MonoBehaviour:
   Name: Water
   Description: 70% of a human.
   CostMultiplier: 1.15
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Sprite: {fileID: 21300000, guid: 1c9686fbd3585be48aad39c205cf8ce8, type: 3}
   CutSprite: {fileID: 0}
   CrushedSprite: {fileID: 0}
-  WorldPrefab: {fileID: 6776122990788767171, guid: 4e189a4ca45f6c848a399089f49da0c1, type: 3}
+  WorldPrefab: {fileID: 1843107089276927860, guid: c1f8f7cf6f9fcf64fa8d19d0ab61c545, type: 3}
   CutWorldPrefab: {fileID: 0}
   CrushedWorldPrefab: {fileID: 0}
   OnCutAudioClip:
@@ -38,18 +38,18 @@ MonoBehaviour:
     Path: 
   OnPickupAudioClip:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1994354660
+      Data2: 1123159397
+      Data3: 780481408
+      Data4: 208480030
+    Path: event:/SFX/pickup/sfx_pickup_liquid
   OnPutDownAudioClip:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1533029359
+      Data2: 1306945564
+      Data3: 445185191
+      Data4: 1323085967
+    Path: event:/SFX/putdown/sfx_putdown_liquid
   CanBeCut: 0
   CanBeCrushed: 0
   CanBeFrozen: 1

@@ -45,6 +45,12 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlayLoop(string key, EventReference sound, Vector3 position = default)
     {
+        if (sound.IsNull)
+        {
+            Debug.LogWarning("Tried to play null FMODEventReference!");
+            return;
+        }
+
         if (_loopingInstances.TryGetValue(key, out var existingInstance))
         {
             existingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
