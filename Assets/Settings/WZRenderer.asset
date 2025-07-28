@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Volumetric Fog Pass
   m_EditorClassIdentifier: 
   m_Active: 1
-  injectionPoint: 450
+  injectionPoint: 600
   fetchColorBuffer: 1
   requirements: 5
   passMaterial: {fileID: 2100000, guid: 42c444750d43f1341b12dd7d4418aa51, type: 2}
@@ -101,9 +101,9 @@ MonoBehaviour:
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
   - {fileID: -5891618520950295127}
-  - {fileID: -9110866680682161930}
   - {fileID: -5988610610032996185}
-  m_RendererFeatureMap: a935a59a2bc43caef658ff7d06b38f81a710d912612ee4ac
+  - {fileID: -9110866680682161930}
+  m_RendererFeatureMap: a935a59a2bc43caea710d912612ee4acf658ff7d06b38f81
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -117,13 +117,13 @@ MonoBehaviour:
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
-    stencilCompareFunction: 8
-    passOperation: 2
-    failOperation: 0
-    zFailOperation: 0
+    stencilCompareFunction: 4
+    passOperation: 0
+    failOperation: 2
+    zFailOperation: 6
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 2
-  m_DepthPrimingMode: 1
+  m_DepthPrimingMode: 0
   m_CopyDepthMode: 1
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
