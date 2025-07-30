@@ -86,4 +86,15 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         canvasGroup.blocksRaycasts = false;
         transform.SetAsFirstSibling();      // did anyone else know this existed? I feel so silly
     }
+
+    public void PleaseHideTheseIdiots()
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+        }
+        gameObject.SetActive(false);
+    }
 }

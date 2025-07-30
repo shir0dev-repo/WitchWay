@@ -13,8 +13,17 @@ public class RecipeManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        recipeImg.gameObject.SetActive(false);
-        SetSortingActive(false);
+        bool recipeLearned = !string.IsNullOrEmpty(recipeID) && SaveManager.Instance.hasRecipe(recipeID);
+        if (recipeLearned)
+        {
+            //SetSortingActive(false);
+            ShowLearnedRecipe();
+        }
+        else
+        {
+            recipeImg.gameObject.SetActive(false);
+            SetSortingActive(false);
+        }
     }
 
     public void AddCount()
@@ -83,5 +92,21 @@ public class RecipeManager : MonoBehaviour
             obj.enabled = active;
             obj.gameObject.SetActive(active);
         }
+    }
+    private void ShowLearnedRecipe()
+    {
+        recipeImg.gameObject.SetActive(true);
+        CanvasGroup imgGroup = recipeImg.GetComponent<CanvasGroup>();
+        if (imgGroup != null)
+        {
+            imgGroup.alpha = 1f;
+            imgGroup.interactable = true;
+            imgGroup.blocksRaycasts = true;
+        }
+        foreach (var obj in recipeObjs)
+        {
+            obj.PleaseHideTheseIdiots();
+        }
+
     }
 }

@@ -11,7 +11,15 @@ public class SceneController : MonoBehaviour
     // [Header("References")]
     // private int mainSceneIndex = 1;  // I can come back later and use the actual name of the scene instead of indexing
 
-    public void StartButton()
+    public void NewGameButton()
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.ResetSave();
+        }
+        SceneManager.LoadScene("Crafting");
+    }
+    public void LoadButton()
     {
         SceneManager.LoadScene("Crafting");     // change this to whatever the first tscene the player should see when hitting the play button from the main menu
     }
