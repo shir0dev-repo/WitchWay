@@ -4,7 +4,7 @@ using UnityEngine;
 ///     Base class for all WZ Puzzle Rewards.<br/>
 /// </summary>
 /// <remarks>
-///     Inherit from this and implement <see cref="PuzzleRewardBase.OnGiveReward"/> to perform functionality when the player solves a puzzle.
+///     Inherit from this and implement <see cref="OnGiveReward"/> to perform functionality when the player solves a puzzle.
 /// </remarks>
 public abstract class PuzzleRewardBase : MonoBehaviour, IPuzzleReward
 {

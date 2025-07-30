@@ -92,7 +92,11 @@ public class SnappableObject
     /// </param>
     public void SnapToPoint(bool ignoreDistance = false)
     {
+        
         if (ignoreDistance || IsWithinSnapRange())
-            Object.position = ClosestSnapPoint.position + SnapOffset;
+        {
+            if (ClosestSnapPoint != null)
+                Object.position = ClosestSnapPoint.position + SnapOffset;
+        }
     }
 }
