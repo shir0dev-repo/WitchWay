@@ -19,5 +19,7 @@ public static partial class GameEvents
 
         public static Action OnFishingRodInteractedWith;
         public static Action OnJumpscareRequested;
+
+        public static Action<Room, IPuzzleReward> OnPuzzleSolved;
     }
 }
