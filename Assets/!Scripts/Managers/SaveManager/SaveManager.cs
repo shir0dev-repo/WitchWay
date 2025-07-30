@@ -55,11 +55,11 @@ public class SaveManager : PersistentSingleton<SaveManager>
             saveData = JsonUtility.FromJson<SaveData>(json);
         }
     }
-    /*public void ResetSave()       // if we wanted to be able to reset what the player has collected, might be needed for testing as well so you dont have to go through and delete json files
+    public void ResetSave()       // if we wanted to be able to reset what the player has collected, might be needed for testing as well so you dont have to go through and delete json files
     {
         saveData = new SaveData();
         SaveGame();
-    }*/
+    }
 
     void Start()
     {
