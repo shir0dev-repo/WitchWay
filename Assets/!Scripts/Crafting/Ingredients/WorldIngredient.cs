@@ -34,19 +34,18 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     }
 
     private static Camera _cam = null;
-    private Rigidbody[] Rigidbodies
+    public Rigidbody[] Rigidbodies
     {
         get
         {
             if (_rb == null)
             {
-                _rb = new Rigidbody[1];
-                _rb[0] = GetComponent<Rigidbody>();
+                _rb = GetComponentsInChildren<Rigidbody>(true);
             }
             if (_rb[0] == null)
             {
                 _rb = null;
-                _rb = GetComponentsInChildren<Rigidbody>();
+                _rb = GetComponentsInChildren<Rigidbody>(true);
             }
 
             return _rb;
@@ -54,11 +53,11 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
     }
     private Rigidbody[] _rb = null;
 
-    private Collider[] Colliders
+    public Collider[] Colliders
     {
         get
         {
-            if (_colliders == null) _colliders = GetComponents<Collider>();
+            if (_colliders == null) _colliders = GetComponentsInChildren<Collider>();
             return _colliders;
         }
     }
@@ -66,6 +65,12 @@ public class WorldIngredient : MonoBehaviour, IFollowCursor
 
     [HideInInspector] public float currentDepth;
     [HideInInspector] public Vector3 startPos = Vector3.zero;
+
+    private void Awake()
+    {
+        _rb = GetComponentsInChildren<Rigidbody>();
+        _colliders = GetComponentsInChildren<Collider>();
+    }
 
     public void BeginDrag()
     {

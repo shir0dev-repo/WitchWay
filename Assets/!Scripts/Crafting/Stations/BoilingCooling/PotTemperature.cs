@@ -49,6 +49,8 @@ public class PotTemperature : Singleton<PotTemperature>
     public EventReference constantTempSound;
     public EventReference successSound;
 
+    private bool _shouldListen = false;
+
     private void Setup()
     {
         Progress = 0;
@@ -59,6 +61,21 @@ public class PotTemperature : Singleton<PotTemperature>
 
         _heatingButton.gameObject.SetActive(true);
         _coolingButton.gameObject.SetActive(true);
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.Crafting.OnObjectAttachedToCursor += StartCollisionListen;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnObjectAttachedToCursor -= StartCollisionListen;
+    }
+
+    private void StartCollisionListen(IFollowCursor _)
+    {
+        _shouldListen = true;
     }
 
     protected override void Awake()
@@ -74,6 +91,7 @@ public class PotTemperature : Singleton<PotTemperature>
 
         UpdateProgress();
         UpdateTargets();
+
         if (_temperatureChangedThisFrame)
         {
             _temperatureChangedThisFrame = false;
@@ -106,7 +124,7 @@ public class PotTemperature : Singleton<PotTemperature>
             GameEvents.Crafting.OnTemperatureTargetChanged?.Invoke(heatTarget, HeatingState.Heating);
 
             float coolTarget = Random.Range(MIN_TEMP, -15);
-            
+
             _coolingTarget.SetTarget(coolTarget);
             GameEvents.Crafting.OnTemperatureTargetChanged?.Invoke(coolTarget, HeatingState.Cooling);
         }
@@ -148,6 +166,15 @@ public class PotTemperature : Singleton<PotTemperature>
                 GameEvents.Crafting.OnItemSuccessfullyFrozen?.Invoke(_targetIngredient);
             }
 
+            foreach (Rigidbody rb in _targetIngredient.Rigidbodies)
+            {
+                rb.isKinematic = false;
+            }
+            foreach (Collider c in _targetIngredient.Colliders)
+            {
+                c.enabled = true;
+            }
+
             _targetIngredient = null;
             _heatingButton.gameObject.SetActive(false);
             _coolingButton.gameObject.SetActive(false);
@@ -171,22 +198,6 @@ public class PotTemperature : Singleton<PotTemperature>
             default:
                 break;
         }
-    }
-
-    private void PlaceInPot(IFollowCursor cursorObj)
-    {
-        if (cursorObj is WorldIngredient wIng)
-        {
-            if (wIng == _targetIngredient)
-            {
-                GameEvents.Crafting.OnItemPlacedInTemperaturePot?.Invoke(wIng);
-                Setup();
-                _isCooking = true;
-                //wIng.gameObject.SetActive(false);
-            }
-        }
-
-        GameEvents.Crafting.OnObjectRemovedFromCursor -= PlaceInPot;
     }
 
     void EqualOutTemp()
@@ -215,32 +226,59 @@ public class PotTemperature : Singleton<PotTemperature>
         GameEvents.Crafting.OnPotTemperatureChanged?.Invoke(Temperature);
     }
 
+
+    private void PlaceInPot(IFollowCursor cursorObj)
+    {
+        Debug.Log(cursorObj.GetType().FullName);
+        if (!_shouldListen) return;
+        
+        if (cursorObj is WorldIngredient wIng)
+        {
+            _shouldListen = false;
+            if (wIng == _targetIngredient)
+            {
+                GameEvents.Crafting.OnItemPlacedInTemperaturePot?.Invoke(wIng);
+                Setup();
+                _isCooking = true;
+                foreach (Rigidbody rb in wIng.Rigidbodies)
+                {
+                    rb.isKinematic = true;
+                }
+
+                //wIng.gameObject.SetActive(false);
+            }
+        }
+
+        GameEvents.Crafting.OnObjectRemovedFromCursor -= PlaceInPot;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        WorldIngredient ing = other.GetComponentInParent<WorldIngredient>(true);
+        if (ing == null) return;
 
-        if (other.TryGetComponent(out WorldIngredient ing))
-        {
-            if (!ing.BaseIngredient.CanBeFrozen && !ing.BaseIngredient.CanBeHeated)
-                return;
-        }
+        if (!(ing.BaseIngredient.CanBeFrozen || ing.BaseIngredient.CanBeHeated))
+            return;
 
         _targetIngredient = ing;
         if (CursorManager.Instance != null)
         {
             Transform cursorObj = CursorManager.Instance.AttachedObject;
-            if (cursorObj != null && cursorObj == other.transform)
+            if (cursorObj != null && cursorObj == ing.transform)
+            {
                 GameEvents.Crafting.OnObjectRemovedFromCursor += PlaceInPot;
-        }
 
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.TryGetComponent(out WorldIngredient ing)) return;
+        WorldIngredient ing = other.GetComponentInParent<WorldIngredient>(true);
+        if (ing == null) return;
         else if (ing != _targetIngredient) return;
 
         _targetIngredient = null;
         GameEvents.Crafting.OnObjectRemovedFromCursor -= PlaceInPot;
-
     }
 }
