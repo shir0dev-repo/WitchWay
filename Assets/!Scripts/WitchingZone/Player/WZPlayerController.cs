@@ -9,15 +9,6 @@ Possible improvements:
 */
 
 //this script is big may be good to split it
-
-public enum PlayerControllerActions //for disabling specfic actions
-{
-    moveAction,
-    lookAction,
-    jumpAction,
-    crouchAction
-}
-
 public class WZPlayerController : Singleton<WZPlayerController>
 {
     [Header("World Controls")]
@@ -242,37 +233,6 @@ public class WZPlayerController : Singleton<WZPlayerController>
             lookAction.Disable();
             jumpAction.Disable();
             crouchAction.Disable();
-        }
-    }
-
-    public void EnableDisableAction(bool enabled, PlayerControllerActions[] actions)
-    {
-        foreach (PlayerControllerActions action in actions)
-        {
-            InputAction targetAction = null;
-            switch (action)
-            {
-                case PlayerControllerActions.moveAction:
-                    targetAction = moveAction;
-                    break;
-
-                case PlayerControllerActions.lookAction:
-                    targetAction = lookAction;
-                    break;
-
-                case PlayerControllerActions.jumpAction:
-                    targetAction = jumpAction;
-                    break;
-
-                case PlayerControllerActions.crouchAction:
-                    targetAction = crouchAction;
-                    break;
-            }
-            
-            if (targetAction == null) continue;
-
-            if (enabled) targetAction.Enable();
-            else targetAction.Disable();
         }
     }
 

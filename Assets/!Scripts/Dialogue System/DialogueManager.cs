@@ -51,6 +51,8 @@ public class DialogueManager : MonoBehaviour
         ShowLine(node);
 
         interactAction.Enable();
+
+        Time.timeScale = 0f;
     }
 
     private IEnumerator ClearJustStartedFlagNextFrame()
@@ -78,7 +80,7 @@ public class DialogueManager : MonoBehaviour
         foreach (char c in line)
         {
             bodyText.text += c;
-            yield return new WaitForSeconds(speed);
+            yield return new WaitForSecondsRealtime(speed);
         }
         isTyping = false;
 
@@ -152,7 +154,9 @@ public class DialogueManager : MonoBehaviour
 
         WZPlayerManager.Instance.ToggleInput(true);
         WZPlayerManager.Instance.ToggleCursor(false);
+
+        Time.timeScale = 1f;
     }
 
-    public bool IsDialogueActive() => dialogueParent.activeSelf;
+    public bool IsDialogueActive() => dialogueParent != null && dialogueParent.activeSelf;
 }

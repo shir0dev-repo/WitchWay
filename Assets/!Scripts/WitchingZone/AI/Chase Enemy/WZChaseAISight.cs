@@ -6,6 +6,7 @@ public class WZChaseAISight : MonoBehaviour
     private Transform playerTransform;
     [SerializeField] private LayerMask eyesightMask;
     [SerializeField] private float eyeHeight = 1.5f;
+    [SerializeField] private bool debugVision = false;
 
     private void Start()
     {
@@ -15,7 +16,7 @@ public class WZChaseAISight : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && IsPlayerVisible())
         {
             monsterAI.OnPlayerEnteredSightCone();
         }
@@ -44,26 +45,26 @@ public class WZChaseAISight : MonoBehaviour
     {
         if (playerTransform == null) return false;
 
-        Vector3 origin = transform.position + Vector3.up;
-        Vector3 target = playerTransform.position + Vector3.up;
+        Vector3 origin = transform.position + Vector3.up * eyeHeight;
+        Vector3 target = playerTransform.position + Vector3.up * eyeHeight;
         Vector3 direction = (target - origin).normalized;
         float distance = Vector3.Distance(origin, target);
 
-        // If the ray hits *anything* in between that's not the player, it's blocked
         if (Physics.Raycast(origin, direction, out RaycastHit hit, distance, eyesightMask))
         {
-            Debug.DrawLine(origin, hit.point, Color.red, 1f);
+            if (debugVision)
+                Debug.DrawLine(origin, hit.point, Color.red, 1f);
 
-            // Only count it as blocked if we hit something that is NOT the player
             if (!hit.transform.CompareTag("Player"))
             {
-                Debug.Log("Sight blocked by: " + hit.transform.name);
+                if (debugVision)
+                    Debug.Log("Sight blocked by: " + hit.transform.name);
                 return false;
             }
         }
 
-        // No obstruction OR directly hit the player
-        Debug.DrawLine(origin, target, Color.green, 1f);
+        if (debugVision)
+            Debug.DrawLine(origin, target, Color.green, 1f);
         return true;
     }
 }
