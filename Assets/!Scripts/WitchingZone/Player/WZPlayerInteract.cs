@@ -45,6 +45,7 @@ public class WZPlayerInteract : MonoBehaviour
     [Header("UI Objects")]
     [SerializeField] private CanvasGroup inventoryCanvasGroup;
 
+
     //private vars
     Camera cam;
 
@@ -206,6 +207,8 @@ public class WZPlayerInteract : MonoBehaviour
         Inventory inventory = GetComponent<Inventory>();
         inventory.AddNewItem(ingredient.ingredient);
 
+        GameEvents.WitchingZone.OnIngredientPickedUp?.Invoke(ingredient.transform.position);
+
         Destroy(ingredient.gameObject);
     }
 
@@ -300,15 +303,21 @@ public class WZPlayerInteract : MonoBehaviour
     //utility
     private void CastInteractRay(params string[] tagsToCheck)
     {
+        foreach (var mimic in FindObjectsByType<WZMimicAI>(FindObjectsSortMode.None))
+        {
+            mimic.SetBeingLookedAt(false);
+        }
+
         Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Ray ray = cam.ScreenPointToRay(center);
 
         didHit = Physics.Raycast(ray, out lastHit, pickupDistance);
+
         if (didHit)
         {
             foreach (string tag in tagsToCheck)
             {
-                if (lastHit.transform.CompareTag(tag))
+                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag))
                 {
                     //maybe store these at start?
                     Color newRetColor = new Color(baseReticleColor.r, baseReticleColor.g, baseReticleColor.b, baseReticleColor.a + (baseReticleColor.a * 0.25f));
