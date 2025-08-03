@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class PaintingSnapping : MonoBehaviour
 {
-    [SerializeField] public SnappableObject _snappable;
-    int _snapPointNum = 0;
+    bool _canSnap = false;
 
-    void RotateToNextSnapPoint()
+    private void OnTriggerEnter(Collider other)
     {
-        if (_snapPointNum < _snappable.SnapPoints.Length - 1) // so it goes like 0,1,2,3
+        if (other.CompareTag("Player"))
         {
-            _snapPointNum++;
-            gameObject.transform.rotation = _snappable.SnapPoints[_snapPointNum].rotation;
-            
+            _canSnap = true;
         }
-        else
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            _snapPointNum = 0;
-            gameObject.transform.rotation = _snappable.SnapPoints[_snapPointNum].rotation;
+            _canSnap = false;
         }
     }
 }
