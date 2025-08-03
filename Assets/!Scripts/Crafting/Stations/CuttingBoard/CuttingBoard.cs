@@ -2,9 +2,10 @@ using System;
 using FMODUnity;
 using UnityEngine;
 
-public class CuttingBoard : Singleton<CuttingBoard>
+public class CuttingBoard : CraftingStation<CuttingBoard>
 {
     public bool HasIngredient => _currentIngredient != null;
+    public CuttableIngredient CurrentIngredient => _currentIngredient;
     private CuttableIngredient _currentIngredient = null;
 
     public bool CanCut = false;
@@ -16,7 +17,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
     [Header("Sounds")]
     public EventReference onKnifeCutSound, onKnifeFailSound;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
         GameEvents.Crafting.OnToolSelected += Enable;
         GameEvents.Crafting.OnToolDeselected += Disable;
@@ -25,7 +26,7 @@ public class CuttingBoard : Singleton<CuttingBoard>
         //OnCutCancelled += RevertCurrentIngredient;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         GameEvents.Crafting.OnToolSelected -= Enable;
         GameEvents.Crafting.OnToolDeselected -= Disable;
@@ -97,13 +98,6 @@ public class CuttingBoard : Singleton<CuttingBoard>
         }
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (_currentIngredient == null) return;
-
-        if (!collision.gameObject.CompareTag("Ingredient")) return;
-    }
-
     public void RevertCurrentIngredient()
     {
         if (_currentIngredient == null) return;
@@ -124,5 +118,42 @@ public class CuttingBoard : Singleton<CuttingBoard>
 
         Destroy(_currentIngredient.gameObject);
         _currentIngredient = null;
+    }
+
+    protected override bool CanAddIngredient(WorldIngredient ingredient)
+    {
+        return _currentIngredient == null;
+    }
+
+    protected override bool WasProcessCompleted()
+    {
+        return false;
+    }
+
+    protected override void ApplyIngredientModifiers()
+    {
+        if (_currentIngredient == null) return;
+        _currentIngredient.GetComponent<WorldIngredient>().ModifiedState.Cut();
+    }
+
+    public override void AddIngredient(WorldIngredient ingredient)
+    {
+        if (!ingredient.BaseIngredient.CanBeCut) return;
+        if (ingredient.ModifiedState.HasBeenCut) return;
+        if (!ingredient.TryGetComponent(out CuttableIngredient cuttable)) return;
+
+        _currentIngredient = cuttable;
+        GameEvents.Crafting.OnItemPlacedOnCuttingBoard?.Invoke(ingredient);
+    }
+
+    public override void RemoveIngredient(bool shouldDestroy = false)
+    {
+        if (_currentIngredient == null) return;
+
+        if (!WasProcessCompleted())
+        {
+            RevertCurrentIngredient();
+            return;
+        }
     }
 }

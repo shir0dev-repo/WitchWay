@@ -22,6 +22,7 @@ public class CuttableIngredient : MonoBehaviour
     Vector3 _cursorPos = Vector3.zero;
     CuttingBoard _board;
 
+    public WorldIngredient Ingredient => _ingredient;
     private WorldIngredient _ingredient;
 
     int _cutCount = 0;
@@ -63,7 +64,7 @@ public class CuttableIngredient : MonoBehaviour
     }
 #endif
 
-    private void Update()
+    /*private void Update()
     {
         if (!_board.CanCut) return;
         
@@ -83,7 +84,6 @@ public class CuttableIngredient : MonoBehaviour
         {
             _isCutting = false;
             _cutTimer = _cutInterval;
-            CompareCuts();
         }
 
         if (!_isCutting) return;
@@ -97,25 +97,24 @@ public class CuttableIngredient : MonoBehaviour
                 _cursorPoints.Add(_cursorPos);
             }
         }
-    }
+    }*/
 
-    private void CompareCuts()
+    public bool CompareCuts(List<Vector3> cursorPoints, out Transform targetCutPoint)
     {
         bool success = false;
+        targetCutPoint = null;
 
-        if (_cursorPoints.Count < 2) return;
-        if (IsCutUpright() == false) return;
+        if (cursorPoints.Count < 2) return false;
+        if (IsVerticalCut(cursorPoints) == false) return false;
         
-        Transform targetCutPoint = null;
-
         foreach (Transform t in _cutPoints)
         {
             float xPosition = _mainCamera.WorldToScreenPoint(t.position).x;
 
             if (_cursorPoints.Any(p => Mathf.Abs(p.x - xPosition) > _dstThreshold))
             {
-            SoundManager.Instance.PlayOneShot(_board.onKnifeFailSound, t.position);
-            continue;
+                SoundManager.Instance.PlayOneShot(_board.onKnifeFailSound, t.position);
+                continue;
             }
             else
             {
@@ -125,26 +124,27 @@ public class CuttableIngredient : MonoBehaviour
             }
         }
 
+        UpdateChoppingProgress();
         if (success && targetCutPoint != null)
         {
             Debug.Log("Yay!");
             GameEvents.Crafting.OnCutItem?.Invoke(_ingredient, targetCutPoint);
             TryDetachSegment(targetCutPoint);
             SoundManager.Instance.PlayOneShot(_board.onKnifeCutSound, targetCutPoint.position);
-
+            return true;
             // on a successful cut, add to the count
         }
 
-        UpdateChoppingProgress();
+        
+        return false;
     }
 
-    private void TryDetachSegment(Transform targetCutPoint)
+    public void TryDetachSegment(Transform targetCutPoint)
     {
-        if (TryGetLastTwoSegments().Length == 2 && TryGetLastTwoSegments() != null)
+        var lastTwo = TryGetLastTwoSegments();
+        if (lastTwo != null && lastTwo.Length == 2)
         {
-            var lastTwo = TryGetLastTwoSegments();
             ChopLastTwoSegmentsLeft(lastTwo[0], lastTwo[1]);
-
             return; 
         }
 
@@ -229,6 +229,7 @@ public class CuttableIngredient : MonoBehaviour
         EndAction?.Invoke();
         Debug.Log("player is done cutting!" + '\n' + RateChopping());
     }
+
     string RateChopping()
     {
         if (_cutCount == 0) return "no cuts were made.";
@@ -253,12 +254,12 @@ public class CuttableIngredient : MonoBehaviour
             }
         }
     }
-    bool IsCutUpright()
+    bool IsVerticalCut(List<Vector3> cursorPoints)
     {
         float top, bottom;
 
-        top = _cursorPoints.First().y;
-        bottom = _cursorPoints.Last().y;
+        top = cursorPoints[0].y;
+        bottom = cursorPoints[^1].y;
 
         // Debug.Log("Top: "+top + " " + "Bottom: "+ bottom);
         // for debugging
