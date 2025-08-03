@@ -14,7 +14,6 @@ public class WZDialogueMonsterAI : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 2f;
 
     [Header("Spawning Settings")]
-    [SerializeField] private float spawnChance = 0.4f;
     [SerializeField] private float spawnDelay = 5f;
     [SerializeField] private float spawnDistance = 5f;
     [SerializeField] private float spawnHeight = 2f;
@@ -26,53 +25,23 @@ public class WZDialogueMonsterAI : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool debugMode = false;
 
-    private bool isMonsterVisible = false, isDialogueCompleted = false;
+    private bool isMonsterVisible = true, isDialogueCompleted = false;
     private float disappearTimer = 0f;
     private Coroutine reappearRoutine;
 
-    void OnEnable()
-    {
-        GameEvents.WitchingZone.OnRoomEntered += TrySpawnOnRoomEntered;
-    }
-
-    void OnDisable()
-    {
-        GameEvents.WitchingZone.OnRoomEntered -= TrySpawnOnRoomEntered;
-    }
-    void Start()
-    {
-        if (monsterTransform == null)
-        {
-            monsterTransform = transform;
-        }
-        GameEvents.WitchingZone.OnPlayerSpawned += () =>
-        {
-            if (playerTransform == null)
-            {
-                playerTransform = WZPlayerManager.Instance?.transform;
-            }
-        };
-
-        if (debugMode)
-        {
-            Debug.Log("Dialogue Monster AI initialized.");
-        }
-    }
-
     void Update()
     {
-        if (monsterTransform != null && playerTransform != null && isMonsterVisible)
+        if(isDialogueCompleted)
+        {
+            return;
+        }
+        if (monsterTransform != null && playerTransform != null)
         {
             Vector3 lookDir = playerTransform.position - monsterTransform.position;
             lookDir.y = 0;
             if (lookDir != Vector3.zero)
                 monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, Quaternion.LookRotation(lookDir), 10f * Time.deltaTime);
         }
-        if(isDialogueCompleted || monsterTransform == null || playerTransform == null)
-        {
-            return;
-        }
-        
 
         if (isMonsterVisible && playerTransform != null)
         {
@@ -95,14 +64,14 @@ public class WZDialogueMonsterAI : MonoBehaviour
                 disappearTimer = 0f;
             }
         }
-        // if (!isMonsterVisible && reappearRoutine == null && !isDialogueCompleted)
-        // {
-        //     if (debugMode)
-        //     {
-        //         Debug.Log("Monster is not visible. Starting reappear routine.");
-        //     }
-        //     reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
-        // }
+        if (!isMonsterVisible && reappearRoutine == null && !isDialogueCompleted)
+        {
+            if (debugMode)
+            {
+                Debug.Log("Monster is not visible. Starting reappear routine.");
+            }
+            reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
+        }
     }
 
     private void DisappearMonster()
@@ -165,24 +134,6 @@ public class WZDialogueMonsterAI : MonoBehaviour
                     yield break;
                 }
             }
-        }
-    }
-
-    private void TrySpawnOnRoomEntered(Room room)
-    {
-        if (isMonsterVisible || isDialogueCompleted)
-            return;
-
-        if (Random.value < spawnChance)
-        {
-            if (debugMode)
-                Debug.Log("Dialogue monster will attempt to spawn in this room.");
-            if (reappearRoutine == null)
-                reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
-        }
-        else if (debugMode)
-        {
-            Debug.Log("Dialogue monster did not spawn (chance failed).");
         }
     }
 }

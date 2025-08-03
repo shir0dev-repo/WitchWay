@@ -28,7 +28,7 @@ public class InventorySlot : IComparable<InventorySlot>
     }
 }
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
     private enum InventoryType
     {
@@ -54,8 +54,10 @@ public class Inventory : MonoBehaviour
     private List<GameObject> slotParents = new List<GameObject>();
     //private List<InventorySlot> slotItems = new List<InventorySlot>();
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         //Create full inventory of slots
         if (inventoryType == InventoryType.AllSlotsVisible)
         {

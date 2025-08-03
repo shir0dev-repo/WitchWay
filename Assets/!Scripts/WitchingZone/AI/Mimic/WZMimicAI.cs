@@ -41,7 +41,6 @@ public class WZMimicAI : MonoBehaviour
     void Start()
     {
         _state = new WZMimicData(transform.position, transform.rotation);
-        playerTransform = WZPlayerManager.Instance?.transform;
     }
 
     void Update()
