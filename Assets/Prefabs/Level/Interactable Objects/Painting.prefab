@@ -147,6 +147,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1ca4aeab2cbed4d89798e591825ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _snappableObject:
+    Object: {fileID: 4468467376784452459}
+    SnapPoints:
+    - {fileID: 962402968949968399}
+    - {fileID: 178399209074910448}
+    - {fileID: 3328978528778605330}
+    - {fileID: 3982938343047710679}
+    SnapOffset: {x: 0, y: 0, z: 0}
+    SnapDistance: 0
+  _correctPosition: {fileID: 0}
 --- !u!1 &6366676718410054326
 GameObject:
   m_ObjectHideFlags: 0
