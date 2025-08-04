@@ -5,10 +5,13 @@ public class PaintingSnapping : MonoBehaviour
     [SerializeField] SnappableObject _snappableObject;
 
     bool _canSnap = false;
+    int _currentIndex;
     [SerializeField] Transform _correctPosition;
     private void Start()
     {
-        RandomizePosition();
+        //RandomizePosition();
+        _currentIndex = 0;
+        ChangeGameObjectTransform(_currentIndex);
     }
 
     private void Update()
@@ -35,29 +38,36 @@ public class PaintingSnapping : MonoBehaviour
         }
     }
     void RotatePaintingToNextDirection()
-    {
-        Debug.Log("snapping to next cardinal position, not acutally tho");
+    { 
+        RotatePaintingToNextSnapPoint();
+        Debug.Log("snapping to next cardinal position: " + _snappableObject.SnapPoints[_currentIndex].name);
 
-        if (transform == _correctPosition)
+        if (transform.localRotation == _correctPosition.localRotation)
         {
-            PuzzleRoomPainting o = gameObject.transform.GetComponentInParent<PuzzleRoomPainting>();
-            if (o != null) 
-            {
-                o.IsSolved();
-            }
+            Debug.Log("painting is in the right position!");
         }
     }
     void RandomizePosition()
     {
-        Transform newTransform = _snappableObject.SnapPoints[Random.Range(0, 3)];
+        _currentIndex = Random.Range(0, _snappableObject.SnapPoints.Length - 1);
+        ChangeGameObjectTransform(_currentIndex);
+    }
+    void RotatePaintingToNextSnapPoint()
+    {
+        _currentIndex++;
 
-        if (newTransform == _correctPosition)
+        if (_currentIndex > _snappableObject.SnapPoints.Length - 1)
         {
-            newTransform = _snappableObject.SnapPoints[0];
+            _currentIndex = 0;
         }
 
-        gameObject.transform.position = newTransform.position;
-        gameObject.transform.rotation = newTransform.rotation;
+        ChangeGameObjectTransform (_currentIndex);
+    }
+    void ChangeGameObjectTransform(int nextTransform)
+    {
+        Transform newTransform = _snappableObject.SnapPoints[nextTransform];
+
+        gameObject.transform.rotation = newTransform.localRotation;
     }
     public Transform GetCorrectPosition()
     {
