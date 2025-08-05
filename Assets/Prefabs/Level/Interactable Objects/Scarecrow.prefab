@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1912858195494964872}
   - component: {fileID: 1101051452989316424}
   - component: {fileID: 3502303154879551775}
+  - component: {fileID: 2501939973544055092}
   m_Layer: 0
   m_Name: Scarecrow
   m_TagString: Untagged
@@ -69,6 +70,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hint: make the paintings on the right and the left face the one in the middle,
     thanks
+--- !u!114 &2501939973544055092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428663242111828703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0ecc5b6a649a34d9957096cabba8b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &8258419766813173939
 PrefabInstance:
   m_ObjectHideFlags: 0
