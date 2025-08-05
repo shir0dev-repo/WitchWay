@@ -8,6 +8,8 @@ public class ChanceIngredientSpawn : MonoBehaviour
 
     private void Awake()
     {
+        float scale = 1.0f;
+
         for (int i = 0; i < _possibleIngredients.Count; i++)
         {
             int rand = Random.Range(0, 100);
@@ -15,10 +17,15 @@ public class ChanceIngredientSpawn : MonoBehaviour
             if (rand <= _possibleIngredients[i].Chance)
             {
                 _ingredientObj = _possibleIngredients[i].Ingredient.WorldPrefab;
+                scale = _possibleIngredients[i].ObjectScale;
+                break;
             }
         }
 
         if (_ingredientObj != null)
-            Instantiate(_ingredientObj, transform);
+        {
+            GameObject go = Instantiate(_ingredientObj, transform);
+            go.transform.localScale = Vector3.one * scale;
+        }
     }
 }
