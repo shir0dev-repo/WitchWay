@@ -31,20 +31,18 @@ Shader "Toon/Cel-Shading"
     {
         Tags { 
             "RenderPipeline" = "UniversalRenderPipeline" 
-            "RenderType"="Opaque" 
+            "RenderType"="Opaque"
             //"Queue" = "Transparent"
-            "DisableBatching" = "True"
+            //"DisableBatching" = "True"
         }
         
         Pass
         {
-            Cull Back
-
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
-            #pragma multi_compile_fog
+            //#pragma multi_compile_fog
             // make shadows work
             #pragma multi_compile_fwdbase
 
@@ -69,7 +67,7 @@ Shader "Toon/Cel-Shading"
                 half3 tspace2       : TEXCOORD2;
                 float2 uv           : TEXCOORD3;
                 float3 viewDir      : TEXCOORD4;
-                UNITY_FOG_COORDS(5)
+                //UNITY_FOG_COORDS(5)
                 SHADOW_COORDS(6)
                 
                 float3 worldNormal  : NORMAL;
@@ -106,7 +104,7 @@ Shader "Toon/Cel-Shading"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                //UNITY_TRANSFER_FOG(o,o.vertex);
                 TRANSFER_SHADOW(o)
 
                 half3 wNormal = UnityObjectToWorldNormal(v.normal);
@@ -124,10 +122,10 @@ Shader "Toon/Cel-Shading"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            float4 frag (v2f i) : SV_Target
             {
                 // normals
-                fixed4 normSample = tex2D(_NormalTex, i.uv);
+                float4 normSample = tex2D(_NormalTex, i.uv);
                 float3 normal;
 
                 if (length(normSample - defaultBump) != 0) 
@@ -157,30 +155,30 @@ Shader "Toon/Cel-Shading"
                 // Specular
                 float specIntensity = pow(NdotH * lightIntensity, _Glossiness * _Glossiness);
                 float specIntensitySmooth = smoothstep(_SpecEdge0, _SpecEdge1, specIntensity);
-                fixed4 specSample = tex2D(_RoughnessTex, i.uv);
+                float4 specSample = tex2D(_RoughnessTex, i.uv);
                 float4 specularResult = _SpecColor * specIntensitySmooth * specSample;
 
                 // Fresnel
                 float4 rimDot = 1 - dot(viewDir, normal);
                 float rimIntensity = rimDot * pow(NdotL, _RimThreshold);
                 rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
-                fixed4 rimResult = rimIntensity * _RimColor;
+                float4 rimResult = rimIntensity * _RimColor;
 
                 // Emissive
-                fixed4 emissiveSample = tex2D(_EmissiveTex, i.uv);
+                float4 emissiveSample = tex2D(_EmissiveTex, i.uv);
                 float4 emissiveResult = _EmissiveColour * emissiveSample * _EmissiveStrength;
 
                 // sample the texture
-                fixed4 sample = tex2D(_MainTex, i.uv);
+                float4 sample = tex2D(_MainTex, i.uv);
 
-                fixed4 col = _Diffuse * sample * (_AmbientStrength + lightColor + specularResult + rimResult);
+                float4 col = _Diffuse * sample * (_AmbientStrength + lightColor + specularResult + rimResult);
                 col += emissiveResult;
                 // apply fog
 
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                //UNITY_APPLY_FOG(i.fogCoord, col);
+                return saturate(col);
             }
-            ENDCG
+            ENDHLSL
         }
         UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }

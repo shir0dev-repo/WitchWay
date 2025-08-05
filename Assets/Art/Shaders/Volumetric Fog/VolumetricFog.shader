@@ -126,7 +126,6 @@ Shader "Shir0dev/Volumetric Fog"
                 float4 sceneColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, IN.texcoord);
 
                 float depth = SampleSceneDepth(IN.texcoord);
-                float depthWS = lerp(_ProjectionParams.y, _ProjectionParams.z, depth);
                 float3 worldPos = ComputeWorldSpacePosition(IN.texcoord, depth, UNITY_MATRIX_I_VP);
 
                 float3 entryPoint = _WorldSpaceCameraPos;
@@ -138,14 +137,13 @@ Shader "Shir0dev/Volumetric Fog"
                 float2 pixelCoords = IN.texcoord * _BlitTexture_TexelSize.zw;
                 float distLimit = min(viewLength, _MaxDistance);
                 float distTravelled = InterleavedGradientNoise(pixelCoords, (int)(_Time.y / max(HALF_EPS, unity_DeltaTime.x))) * _NoiseOffset;
-                float transmittance = 1;
+                float transmittance = 1.0;
                 float4 fogCol = _Color;
 
                 while (distTravelled < distLimit)
                 {
                     float3 rayPos = entryPoint + rayDir * distTravelled;
                     
-
                     float density = get_density(rayPos);
                     if (density > 0)
                     {
@@ -154,10 +152,10 @@ Shader "Shir0dev/Volumetric Fog"
                         //float3 lightContribution = mainLight.color.rgb * _LightContribution.rgb * mainLight.shadowAttenuation * scattering;
 
                         float3 lightContribution = get_additional_light_contribution(transmittance, rayPos, rayDir);
-                        float3 color = lerp(0, lightContribution * density * _StepSize, saturate(_Height - rayPos.y));
+                        float3 color = lightContribution * density * _StepSize;//lerp(0, , saturate(_Height - rayPos.y));
                         fogCol.rgb += color;
                         
-                        float fogVal = exp(-pow(density, 2) * _StepSize);//lerp(1, exp(-density * _StepSize), saturate(_Height - rayPos.y));
+                        float fogVal = exp(-density * _StepSize);///* exp(-pow(density, 2) * _StepSize);// */lerp(1, exp(-density * _StepSize), saturate(_Height - rayPos.y));
                         transmittance *= fogVal;
                     }
 
