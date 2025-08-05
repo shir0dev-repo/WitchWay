@@ -5,15 +5,16 @@ public class PaintingSnapping : MonoBehaviour
     [SerializeField] SnappableObject _snappableObject;
 
     bool _canSnap = false;
+    public bool _isInCorrectPosition = false;
     int _currentIndex;
     [SerializeField] Transform _correctPosition;
+
     private void Start()
     {
         //RandomizePosition();
-        _currentIndex = 0;
-        ChangeGameObjectTransform(_currentIndex);
+        _currentIndex = 2;
+        ChangeGameObjectRotation(_currentIndex);
     }
-
     private void Update()
     {
         if (!_canSnap) { return; }
@@ -39,20 +40,26 @@ public class PaintingSnapping : MonoBehaviour
     }
     void RotatePaintingToNextDirection()
     { 
-        RotatePaintingToNextSnapPoint();
+        IterateThroughSnapPoints();
         Debug.Log("snapping to next cardinal position: " + _snappableObject.SnapPoints[_currentIndex].name);
 
         if (transform.localRotation == _correctPosition.localRotation)
         {
             Debug.Log("painting is in the right position!");
+            _isInCorrectPosition = true;
+
+            gameObject.GetComponentInParent<PuzzleRoomPainting>()?.IsSolved();
+            return;
         }
+
+        _isInCorrectPosition = false;
     }
     void RandomizePosition()
     {
         _currentIndex = Random.Range(0, _snappableObject.SnapPoints.Length - 1);
-        ChangeGameObjectTransform(_currentIndex);
+        ChangeGameObjectRotation(_currentIndex);
     }
-    void RotatePaintingToNextSnapPoint()
+    void IterateThroughSnapPoints()
     {
         _currentIndex++;
 
@@ -61,13 +68,15 @@ public class PaintingSnapping : MonoBehaviour
             _currentIndex = 0;
         }
 
-        ChangeGameObjectTransform (_currentIndex);
+        ChangeGameObjectRotation (_currentIndex);
     }
-    void ChangeGameObjectTransform(int nextTransform)
+    void ChangeGameObjectRotation(int nextTransform)
     {
         Transform newTransform = _snappableObject.SnapPoints[nextTransform];
 
         gameObject.transform.rotation = newTransform.localRotation;
+        // the gameobject as a whole will rotate according to the local rotation
+        // that was set in the snap point's rotation (eg south = y180 (euler angles))
     }
     public Transform GetCorrectPosition()
     {
