@@ -58,6 +58,7 @@ public class WZPlayerInteract : MonoBehaviour
 
     private GameObject currentlyDragging;
     private Vector3 hitPosition;
+    private float initialHitDistance = 0;
 
     private bool inInteract = false;
 
@@ -214,7 +215,15 @@ public class WZPlayerInteract : MonoBehaviour
         currentlyDragging = CheckForInteractable(draggableObjectTag);
         if (currentlyDragging != null)
         {
-            
+            if (currentlyDragging.TryGetComponent(out Rigidbody draggedRb))
+            {
+                draggedRb.useGravity = false;
+                if (draggedRb.isKinematic == false)
+                    draggedRb.linearVelocity = Vector3.zero;
+            }
+
+            initialHitDistance = Vector3.Distance(cam.transform.position, lastHit.point);
+            //hitPosition = lastHit.transform.InverseTransformPoint(lastHit.point);
         }
     }
 
@@ -233,7 +242,16 @@ public class WZPlayerInteract : MonoBehaviour
     {
         if (currentlyDragging != null)
         {
+            Vector3 targetWorldPosition = cam.transform.position + cam.transform.forward * initialHitDistance;
 
+            if (currentlyDragging.TryGetComponent(out Rigidbody draggedRb))
+            {
+                draggedRb.MovePosition(targetWorldPosition);
+            }
+            else
+            {
+                currentlyDragging.transform.position = targetWorldPosition;
+            }
         }
     }
 
