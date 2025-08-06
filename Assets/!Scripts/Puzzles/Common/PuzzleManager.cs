@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PuzzleManager : Singleton<PuzzleManager>
 {
-    private PuzzleBase _currentPuzzle = null;
+    [SerializeField] private PuzzleBase _currentPuzzle = null;
 
     private void OnEnable()
     {
