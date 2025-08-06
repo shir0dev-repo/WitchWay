@@ -240,9 +240,16 @@ public class WZPlayerInteract : MonoBehaviour
             Vector3 targetWorldPosition = cam.transform.position + cam.transform.forward * Vector3.Distance(cam.transform.position, hitPosition);
 
             Rigidbody draggedRb = currentlyDragging.GetComponent<Rigidbody>();
-            Vector3 direction = targetWorldPosition - currentlyDragging.transform.position;
-
-            draggedRb.linearVelocity = direction * objectDragSpeed;
+            
+            if (draggedRb != null && draggedRb.isKinematic == false)
+            {
+                Vector3 direction = targetWorldPosition - currentlyDragging.transform.position;
+                draggedRb.linearVelocity = direction * objectDragSpeed;
+            }
+            else
+            {
+                draggedRb.MovePosition(targetWorldPosition);
+            }
         }
     }
 
@@ -308,6 +315,8 @@ public class WZPlayerInteract : MonoBehaviour
         {
             foreach (string tag in tagsToCheck)
             {
+                if (string.IsNullOrEmpty(tag)) continue;
+
                 if (lastHit.transform.CompareTag(tag))
                 {
                     //maybe store these at start?
