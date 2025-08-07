@@ -214,11 +214,7 @@ public class WZPlayerInteract : MonoBehaviour
         currentlyDragging = CheckForInteractable(draggableObjectTag);
         if (currentlyDragging != null)
         {
-            Rigidbody draggedRb = currentlyDragging.GetComponent<Rigidbody>();
-            draggedRb.useGravity = false;
-            draggedRb.linearVelocity = Vector3.zero;
-
-            hitPosition = lastHit.point;
+            
         }
     }
 
@@ -237,19 +233,7 @@ public class WZPlayerInteract : MonoBehaviour
     {
         if (currentlyDragging != null)
         {
-            Vector3 targetWorldPosition = cam.transform.position + cam.transform.forward * Vector3.Distance(cam.transform.position, hitPosition);
-
-            Rigidbody draggedRb = currentlyDragging.GetComponent<Rigidbody>();
             
-            if (draggedRb != null && draggedRb.isKinematic == false)
-            {
-                Vector3 direction = targetWorldPosition - currentlyDragging.transform.position;
-                draggedRb.linearVelocity = direction * objectDragSpeed;
-            }
-            else
-            {
-                draggedRb.MovePosition(targetWorldPosition);
-            }
         }
     }
 
