@@ -88,7 +88,8 @@ MonoBehaviour:
   - {fileID: -9110866680682161930}
   - {fileID: -5988610610032996185}
   - {fileID: -4048900778983845446}
-  m_RendererFeatureMap: f658ff7d06b38f81a710d912612ee4acba91dd89316acfc7
+  - {fileID: 8587498605028814761}
+  m_RendererFeatureMap: f658ff7d06b38f81a710d912612ee4acba91dd89316acfc7a9afe7957bec2c77
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -114,3 +115,17 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &8587498605028814761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e28f7ce775378546869ad3b5c60dee6, type: 3}
+  m_Name: RoomChangePostProcessEffectRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Material: {fileID: 2100000, guid: ef9ffb6fabf1b59408369c86096e7e2a, type: 2}

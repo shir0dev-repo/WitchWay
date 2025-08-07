@@ -16,29 +16,34 @@ public class ScreenEffects : Singleton<ScreenEffects>
 
     [Header("Profiles")]
     [SerializeField] private List<EffectData> _effectProfiles;
-    
-    private List<Volume> _volumes = new();
+
+    private Volume _volume;
+
+    private void Start()
+    {
+        _volume = GetComponent<Volume>();
+    }
 
     public void DoScreenEffect(string effectName, float duration, float targetWeight, Action callback, bool resetOnFinish, bool forced = false)
     {
         EffectData effect = _effectProfiles.Find(e => e.name == effectName);
-        if (effect == null) return;
-
-        VolumeProfile v = effect.Profile;
-        Volume readyVolume = _volumes.FirstOrDefault(vol => vol.weight == 0);
-        if (readyVolume == null)
+        if (effect == null)
         {
-            readyVolume = gameObject.AddComponent<Volume>();
-            _volumes.Add(readyVolume);
+            callback();
+            return;
         }
 
-        var tween = DOTween.To(() => readyVolume.weight, x => readyVolume.weight = x, targetWeight, duration);
+        VolumeProfile v = effect.Profile;
+        
+        _volume.profile = effect.Profile;
+
+        var tween = DOTween.To(() => _volume.weight, x => _volume.weight = x, targetWeight, duration);
         TweenCallback onComplete;
         if (resetOnFinish)
             onComplete = () =>
             {
                 callback();
-                readyVolume.weight = 0.0f;
+                _volume.weight = 1.0f;
             };
         else onComplete = () => callback();
 

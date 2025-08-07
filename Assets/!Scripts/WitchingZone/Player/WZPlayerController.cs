@@ -65,6 +65,8 @@ public class WZPlayerController : Singleton<WZPlayerController>
 
     protected override void Awake()
     {
+        base.Awake();
+
         rb = GetComponent<Rigidbody>();
         camTransform = GetComponentInChildren<Camera>().transform;
 
@@ -235,6 +237,7 @@ public class WZPlayerController : Singleton<WZPlayerController>
             lookAction.Enable();
             jumpAction.Enable();
             crouchAction.Enable();
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
         else
         {
@@ -242,6 +245,7 @@ public class WZPlayerController : Singleton<WZPlayerController>
             lookAction.Disable();
             jumpAction.Disable();
             crouchAction.Disable();
+            rb.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
