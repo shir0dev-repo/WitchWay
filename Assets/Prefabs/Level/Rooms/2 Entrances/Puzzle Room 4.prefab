@@ -6069,19 +6069,8 @@ MonoBehaviour:
   _room: {fileID: -7586153199705807052}
   _reward: {fileID: 5957285735907626894}
   _paintingCollection:
-  - Object: {fileID: 8383481810273345983}
-    SnapPoints:
-    - {fileID: 1262033956152634323}
-    SnapOffset: {x: 0, y: 0, z: 0}
-    SnapDistance: 0
-  - Object: {fileID: 6178146931013564643}
-    SnapPoints:
-    - {fileID: 3715076208395970299}
-    SnapOffset: {x: 0, y: 0, z: 0}
-    SnapDistance: 0
-  - Object: {fileID: 5933437737823685070}
-    SnapPoints:
-    - {fileID: 3182933364029610875}
+  - Object: {fileID: 0}
+    SnapPoints: []
     SnapOffset: {x: 0, y: 0, z: 0}
     SnapDistance: 0
 --- !u!114 &5957285735907626894
@@ -6896,14 +6885,6 @@ PrefabInstance:
     - target: {fileID: 4468467376784452459, guid: 632e1dbe2e9c5a24d824c2279b43b713, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 33.591
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830161293650046622, guid: 632e1dbe2e9c5a24d824c2279b43b713, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8830161293650046622, guid: 632e1dbe2e9c5a24d824c2279b43b713, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

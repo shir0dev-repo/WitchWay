@@ -1,8 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PaintingSnapping : MonoBehaviour
 {
+    [SerializeField] WZInteractable interact;
     [SerializeField] string hint; // for debugging purposes
 
     bool _canPickUp = false;
@@ -12,8 +12,9 @@ public class PaintingSnapping : MonoBehaviour
     {
         if (!_canPickUp) { return; }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E))
         {
+            interact.Interacted();
             Debug.Log(hint);
         }
     }
