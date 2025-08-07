@@ -45,6 +45,7 @@ public class WZPlayerInteract : MonoBehaviour
     [Header("UI Objects")]
     [SerializeField] private CanvasGroup inventoryCanvasGroup;
 
+
     //private vars
     Camera cam;
 
@@ -58,6 +59,8 @@ public class WZPlayerInteract : MonoBehaviour
 
     private GameObject currentlyDragging;
     private Vector3 hitPosition;
+    private float initialHitDistance = 0;
+
 
     private bool inInteract = false;
 
@@ -206,6 +209,8 @@ public class WZPlayerInteract : MonoBehaviour
         Inventory inventory = GetComponent<Inventory>();
         inventory.AddNewItem(ingredient.ingredient);
 
+        GameEvents.WitchingZone.OnIngredientPickedUp?.Invoke(ingredient.transform.position);
+
         Destroy(ingredient.gameObject);
     }
 
@@ -214,7 +219,15 @@ public class WZPlayerInteract : MonoBehaviour
         currentlyDragging = CheckForInteractable(draggableObjectTag);
         if (currentlyDragging != null)
         {
-            
+            if (currentlyDragging.TryGetComponent(out Rigidbody draggedRb))
+            {
+                draggedRb.useGravity = false;
+                if (draggedRb.isKinematic == false)
+                    draggedRb.linearVelocity = Vector3.zero;
+            }
+
+            initialHitDistance = Vector3.Distance(cam.transform.position, lastHit.point);
+            //hitPosition = lastHit.transform.InverseTransformPoint(lastHit.point);
         }
     }
 
@@ -233,7 +246,16 @@ public class WZPlayerInteract : MonoBehaviour
     {
         if (currentlyDragging != null)
         {
-            
+            Vector3 targetWorldPosition = cam.transform.position + cam.transform.forward * initialHitDistance;
+
+            if (currentlyDragging.TryGetComponent(out Rigidbody draggedRb))
+            {
+                draggedRb.MovePosition(targetWorldPosition);
+            }
+            else
+            {
+                currentlyDragging.transform.position = targetWorldPosition;
+            }
         }
     }
 
@@ -291,17 +313,23 @@ public class WZPlayerInteract : MonoBehaviour
     //utility
     private void CastInteractRay(params string[] tagsToCheck)
     {
+        foreach (var mimic in FindObjectsByType<WZMimicAI>(FindObjectsSortMode.None))
+        {
+            mimic.SetBeingLookedAt(false);
+        }
+
         Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Ray ray = cam.ScreenPointToRay(center);
 
         didHit = Physics.Raycast(ray, out lastHit, pickupDistance);
+
         if (didHit)
         {
             foreach (string tag in tagsToCheck)
             {
                 if (string.IsNullOrEmpty(tag)) continue;
 
-                if (lastHit.transform.CompareTag(tag))
+                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag))
                 {
                     //maybe store these at start?
                     Color newRetColor = new Color(baseReticleColor.r, baseReticleColor.g, baseReticleColor.b, baseReticleColor.a + (baseReticleColor.a * 0.25f));
