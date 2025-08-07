@@ -3690,6 +3690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1067179714545731035, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: wzExitPortal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4462753044908955332, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
       propertyPath: slotsGrid
       value: 
@@ -3699,6 +3703,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 726286527}
     - target: {fileID: 5012756981459369055, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: inventoryCanvasGroup
+      value: 
+      objectReference: {fileID: 583407261}
+    - target: {fileID: 5012756981459369055, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: showIngredientsAction.m_Name
+      value: Show Ingredients
+      objectReference: {fileID: 0}
+    - target: {fileID: 6774186531164130374, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: reticleImage
+      value: 
+      objectReference: {fileID: 726286527}
+    - target: {fileID: 6774186531164130374, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
       propertyPath: inventoryCanvasGroup
       value: 
       objectReference: {fileID: 583407261}
