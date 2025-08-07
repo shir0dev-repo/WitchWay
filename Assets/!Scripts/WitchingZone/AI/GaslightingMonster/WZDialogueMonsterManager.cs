@@ -26,9 +26,9 @@ public class WZScareRoomManager : MonoBehaviour
         if (room.GetComponent<WZScareRoom>() && !dialogueMonsterAI.hasStarted)
         {
             currentScareRoom = room.GetComponent<WZScareRoom>();
-            dialogueMonsterAI.StartChase(currentScareRoom.monsterSpawnPoint.position, currentScareRoom.monsterSpawnPoint.rotation);
+            dialogueMonsterAI.StartChase(currentScareRoom.monsterSpawnPoint.position+new Vector3(0,1.3f,0), currentScareRoom.monsterSpawnPoint.rotation);
         }
-        else if (!room.GetComponent<PuzzleBase>())
+        else
         {
             dialogueMonsterAI.RoomEntered();
         }

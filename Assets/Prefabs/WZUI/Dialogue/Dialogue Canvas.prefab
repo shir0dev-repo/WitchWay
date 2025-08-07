@@ -148,7 +148,8 @@ GameObject:
   - component: {fileID: 2508932813389771277}
   - component: {fileID: 6147223238767439192}
   - component: {fileID: 8328794758472560017}
-  - component: {fileID: 6202389829082505095}
+  - component: {fileID: 5294942126684648549}
+  - component: {fileID: 8314083411314013188}
   m_Layer: 5
   m_Name: Dialogue Canvas
   m_TagString: Untagged
@@ -197,7 +198,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &6147223238767439192
 MonoBehaviour:
@@ -238,8 +239,8 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &6202389829082505095
+    m_Bits: 4095
+--- !u!114 &5294942126684648549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,14 +249,48 @@ MonoBehaviour:
   m_GameObject: {fileID: 2702721903940749494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0575155353de264398485ee9ca75217, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dbc905ace3cb3644975050f75c18d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueParent: {fileID: 5019312770789297054}
-  DialogTitleText: {fileID: 4075435568546714500}
-  DialogBodyText: {fileID: 724807093907691936}
-  responseButtonPrefab: {fileID: 9159245964153607041, guid: 6489cfdba7cad9a46aff8d92ea58b86c, type: 3}
+  dialogueParent: {fileID: 5019312770789297054}
+  titleText: {fileID: 4075435568546714500}
+  bodyText: {fileID: 724807093907691936}
+  responseButtonPrefab: {fileID: 9159245964153607041, guid: d76d3efe6943fa84daa495ce57727cd4, type: 3}
   responseButtonContainer: {fileID: 2671777557850870419}
+  interactAction:
+    m_Name: Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 98e20bac-5847-4fdc-a0a8-0d512f20733d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 0fff9dbf-aebe-4a4a-9c4c-7105486a35d5
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Interact
+      m_Flags: 0
+    m_Flags: 0
+--- !u!114 &8314083411314013188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702721903940749494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd9fd329664af543bbc986fec60fd77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sanityChangeEntries:
+  - node: {fileID: 11400000, guid: 59cc63a3dbe2ae549a8bc9119f5089de, type: 2}
+    sanityChange: -1
+  - node: {fileID: 11400000, guid: 02a228772475f88498a0dbcb817e6cd6, type: 2}
+    sanityChange: 1
 --- !u!1 &5019312770789297054
 GameObject:
   m_ObjectHideFlags: 0

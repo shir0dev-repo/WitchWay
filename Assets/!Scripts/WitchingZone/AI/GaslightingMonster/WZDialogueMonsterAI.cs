@@ -156,6 +156,8 @@ public class WZDialogueMonsterAI : MonoBehaviour
         if (!hasStarted || isDialogueCompleted)
             return;
 
+        DisappearMonster();
+
         if (debugMode)
             Debug.Log("Player entered a new room, monster is trying to spawn.");
 
