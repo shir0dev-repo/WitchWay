@@ -317,6 +317,8 @@ public class WZPlayerInteract : MonoBehaviour
         {
             foreach (string tag in tagsToCheck)
             {
+                if (string.IsNullOrEmpty(tag)) continue;
+
                 if (lastHit.transform.CompareTag(tag))
                 {
                     //maybe store these at start?
