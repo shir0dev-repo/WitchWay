@@ -75,7 +75,7 @@ public class WZChaseAI : MonoBehaviour
         }
     }
 
-    private void TransitionToState(WZChaseData.State newState)
+    public void TransitionToState(WZChaseData.State newState)
     {
         if (_state.currentState == newState) return;
 
