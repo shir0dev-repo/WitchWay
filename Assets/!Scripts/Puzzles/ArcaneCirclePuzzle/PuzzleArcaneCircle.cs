@@ -5,9 +5,6 @@ public class PuzzleArcaneCircle : PuzzleBase
 {
     [Header("Arcane Circle Settings")]
     [SerializeField] private Transform[] _standPositions;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private GameObject chestPrefab;
-    [SerializeField] private Transform chestSpawnPoint;
     [SerializeField] private float _standDuration = 5f;
     [SerializeField] private float proximityDistance = 2f;
     [SerializeField] private float standingDistance = 1f;
@@ -19,24 +16,32 @@ public class PuzzleArcaneCircle : PuzzleBase
     private bool isPlayerStandingOnSpot = false;
     private float _timeSpentStanding = 0f;
     private Coroutine whisperCoroutine;
-    private GameObject spawnedChest;
+    private Transform playerTransform;
+
 
     protected override void Awake()
     {
         base.Awake();
 
         ActivateRandomSpot();
-        
+    }
+    private void Start()
+    {
         if (playerTransform == null)
             playerTransform = WZPlayerManager.Instance?.transform;
     }
 
-    void Update()
+    public override bool IsSolved()
     {
-        if (HasBeenSolved || playerTransform == null) return;
-
         CheckPlayerProximityToActiveSpot();
         CheckPlayerStandingOnActiveSpot();
+
+        if (isPlayerStandingOnSpot && _timeSpentStanding >= _standDuration)
+        {
+            Debug.Log("Puzzle solved!");
+            return true;
+        }
+        return false;
     }
 
     private void ActivateRandomSpot()
@@ -51,7 +56,7 @@ public class PuzzleArcaneCircle : PuzzleBase
         if (spotGlowEffects[activeSpotIndex] != null)
             spotGlowEffects[activeSpotIndex].SetActive(true);
 
-        Debug.Log($"// TODO: Play subtle glow effect on spot {activeSpotIndex}");
+        Debug.Log($"Play subtle glow effect on spot {activeSpotIndex}");
     }
 
     private void CheckPlayerProximityToActiveSpot()
@@ -91,15 +96,10 @@ public class PuzzleArcaneCircle : PuzzleBase
             {
                 isPlayerStandingOnSpot = true;
                 _timeSpentStanding = 0f;
-                Debug.Log("Intensify whisper sounds");
+                Debug.Log("Player is now standing on the active spot");
             }
 
             _timeSpentStanding += Time.deltaTime;
-
-            if (_timeSpentStanding >= _standDuration)
-            {
-                SpawnChest();
-            }
         }
         else
         {
@@ -107,7 +107,7 @@ public class PuzzleArcaneCircle : PuzzleBase
             {
                 isPlayerStandingOnSpot = false;
                 _timeSpentStanding = 0f;
-                Debug.Log("Reset whisper intensity to normal");
+                Debug.Log("Player is no longer standing on the active spot");
             }
         }
     }
@@ -121,37 +121,8 @@ public class PuzzleArcaneCircle : PuzzleBase
         }
     }
 
-    private void SpawnChest()
-    {
-        if (spawnedChest != null) return;
-
-        Debug.Log("Play chest spawn sound effect");
-        Debug.Log("Play chest spawn visual effect");
-
-        if (whisperCoroutine != null)
-        {
-            StopCoroutine(whisperCoroutine);
-            whisperCoroutine = null;
-        }
-
-        spawnedChest = Instantiate(chestPrefab, chestSpawnPoint.position, chestSpawnPoint.rotation);
-        
-        if (spotGlowEffects[activeSpotIndex] != null)
-            spotGlowEffects[activeSpotIndex].SetActive(false);
-
-        Debug.Log("Chest spawned! Puzzle solved.");
-    }
-
-    public override bool IsSolved()
-    {
-        return spawnedChest != null;
-    }
-
     protected override void OnSolvePuzzle()
     {
-        Debug.Log("Play puzzle completion sound");
-        Debug.Log("Play puzzle completion visual effects");
-
         if (whisperCoroutine != null)
         {
             StopCoroutine(whisperCoroutine);
