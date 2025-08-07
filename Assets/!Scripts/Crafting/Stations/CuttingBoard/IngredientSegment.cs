@@ -66,7 +66,7 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
     {
         _rb.useGravity = false;
         _collider.isTrigger = true;
-        _rb.excludeLayers = ~(1 << LayerMask.NameToLayer("Cursor Collection"));
+        //_rb.excludeLayers = ~(1 << LayerMask.NameToLayer("Cursor Collection"));
     }
 
     public void Ungrab()
@@ -91,7 +91,8 @@ public class IngredientSegment : MonoBehaviour, IFollowCursor
             CuttingBoard.Instance.RevertCurrentIngredient();
             return;
         }
-        
+
+        CursorManager.Instance.ClearCursor(false);
         CursorManager.Instance.AttachToCursor<WorldIngredient>(_parentIngredient, _parentIngredient.transform);
         Grab();
         //CursorManager.Instance.AttachToCursor(transform, transform);

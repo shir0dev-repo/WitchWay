@@ -108,22 +108,34 @@ public class MagicDisc : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.TryGetComponent(out WorldIngredient ing)) return;
+        WorldIngredient ing = collision.gameObject.GetComponentInParent<WorldIngredient>(true);
+
+        if (ing == null) return;
         if (_currentlyHeldIngredients.Count >= 3) return;
 
         if (CursorManager.Instance != null)
             CursorManager.Instance.ClearCursor(false);
         
-        collision.collider.isTrigger = true;
-        collision.rigidbody.useGravity = false;
-        collision.rigidbody.linearVelocity = Vector3.zero;
-        collision.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        foreach (Rigidbody rb in ing.Rigidbodies)
+        {
+            rb.useGravity = false;
+            if (rb.isKinematic)
+                rb.linearVelocity = Vector3.zero;
+            
+        }
+
+        foreach (Collider c in ing.Colliders)
+        {
+            c.isTrigger = true;
+        }
+
         AddIngredient(ing);
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (!collision.gameObject.TryGetComponent(out WorldIngredient ing)) return;
+        WorldIngredient ing = collision.gameObject.GetComponentInParent<WorldIngredient>(true);
+        if (ing == null) return;
         if (CursorManager.Instance == null || CursorManager.Instance.AttachedObject != collision.transform) return;
 
         collision.collider.isTrigger = false;

@@ -206,12 +206,12 @@ public class CursorManager : Singleton<CursorManager>
         _restPivot = null;
         _attachedObject = null;
         IFollowCursor followCursor = _currentFollowCursor;
+        GameEvents.Crafting.OnObjectRemovedFromCursor?.Invoke(followCursor);
         _currentFollowCursor = null;
 
         _isObjectAttached = false;
         ToggleVisibility(true);
 
-        GameEvents.Crafting.OnObjectRemovedFromCursor?.Invoke(followCursor);
     }
 
     public static bool CastScreenRay(Vector2 mousePos, out RaycastHit hit)//, LayerMask layermask)

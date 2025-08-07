@@ -1,10 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class DialogueFunctions : MonoBehaviour
+public class WZDialogueMonsterFunctions : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private WZDialogueMonsterAI dialogueMonsterAI;
+
     [Header("Nodes that change sanity when entered")]
     [SerializeField] private List<SanityChangeEntry> sanityChangeEntries = new List<SanityChangeEntry>();
+
+    [Header("Node that completes dialogue")]
+    [SerializeField] private DialogueNode[] dialogueCompleteNode;
 
     [System.Serializable]
     public class SanityChangeEntry
@@ -25,6 +31,10 @@ public class DialogueFunctions : MonoBehaviour
                 entry.node.onNodeEnter.AddListener(() => ChangePlayerSanity(entry.sanityChange));
             }
         }
+        foreach (var node in dialogueCompleteNode)
+        {
+            node.onNodeEnter.AddListener(OnDialogueCompleted);
+        }
     }
 
     public static void ChangePlayerSanity(int change)
@@ -32,6 +42,14 @@ public class DialogueFunctions : MonoBehaviour
         if (WZPlayerManager.Instance != null)
         {
             WZPlayerManager.Instance.ModifySanity(change);
+        }
+    }
+
+    public void OnDialogueCompleted()
+    {
+        if (dialogueMonsterAI != null)
+        {
+            dialogueMonsterAI.CompleteDialogue();
         }
     }
 }

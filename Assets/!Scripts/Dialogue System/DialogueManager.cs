@@ -37,8 +37,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (node == null) return;
 
-        WZPlayerManager.Instance.SetCanMove(false);
-        WZPlayerManager.Instance.SetCursor(true);
+        WZPlayerManager.Instance.ToggleInput(false);
+        WZPlayerManager.Instance.ToggleCursor(true);
 
         ClearResponses();
         dialogueParent.SetActive(true);
@@ -150,8 +150,8 @@ public class DialogueManager : MonoBehaviour
         interactAction.Disable();
         currentNode = null;
 
-        WZPlayerManager.Instance.SetCanMove(true);
-        WZPlayerManager.Instance.SetCursor(false);
+        WZPlayerManager.Instance.ToggleInput(true);
+        WZPlayerManager.Instance.ToggleCursor(false);
     }
 
     public bool IsDialogueActive() => dialogueParent.activeSelf;
