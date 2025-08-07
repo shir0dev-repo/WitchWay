@@ -11,11 +11,23 @@ public class PaintingSnapping : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetMouseButtonDown(0))
         {
             Debug.Log(hint);
         }
     }
 
     public SnappableObject GetSnappableObject() { return _snapping; }
+    public void SnapToAnyPoint()
+    {
+        _snapping.SnapToPoint();
+        gameObject.transform.rotation = _snapping.ClosestSnapPoint.rotation;
+
+        CheckSnappedPosition();
+    }
+    void CheckSnappedPosition()
+    {
+        if (gameObject.transform == _correctPosition) { _isInCorrectPosition = true; }
+        else { _isInCorrectPosition = false; }
+    }
 }

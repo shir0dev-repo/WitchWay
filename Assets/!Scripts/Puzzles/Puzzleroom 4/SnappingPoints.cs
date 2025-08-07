@@ -8,7 +8,7 @@ public class SnappingPoints : MonoBehaviour
         {
             if (!other.gameObject.TryGetComponent(out PaintingSnapping paint)) { return; }
 
-            paint.GetSnappableObject().SnapToPoint();
+            paint.SnapToAnyPoint();
         }
     }
 }
