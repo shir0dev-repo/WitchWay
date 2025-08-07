@@ -16,12 +16,7 @@ Shader "Unlit/GrayscaleShader"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-
-            #pragma multi_compile _ _FORWARD_PLUS
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS
-            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
-
+            
             float _Strength;
 
             float4 frag (Varyings IN) : SV_Target
