@@ -1577,6 +1577,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1263768541}
   m_SourcePrefab: {fileID: 100100000, guid: 4360b755aa4d3d2438436bac50429aa7, type: 3}
+--- !u!114 &641021635 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5928159070674618964, guid: 4360b755aa4d3d2438436bac50429aa7, type: 3}
+  m_PrefabInstance: {fileID: 641021634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352fd212e4271bc46bd94a850b851cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &686640575
 Mesh:
   m_ObjectHideFlags: 0
@@ -2536,7 +2547,6 @@ GameObject:
   - component: {fileID: 1028721538}
   - component: {fileID: 1028721537}
   - component: {fileID: 1028721536}
-  - component: {fileID: 1028721539}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2605,18 +2615,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1028721539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1028721535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93a53fb73c3b3b341946dd67fb90f51a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1132619253 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8169998477571481871, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
@@ -3403,6 +3401,51 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &1843814722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1843814724}
+  - component: {fileID: 1843814723}
+  m_Layer: 0
+  m_Name: PuzzleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1843814723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843814722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a53fb73c3b3b341946dd67fb90f51a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentPuzzle: {fileID: 641021635}
+--- !u!4 &1843814724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843814722}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75470734, y: 0.7673166, z: 5.3571105}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1858509389 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7131735282135263216, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
@@ -3909,3 +3952,4 @@ SceneRoots:
   - {fileID: 1028721538}
   - {fileID: 1206925972}
   - {fileID: 641021634}
+  - {fileID: 1843814724}
