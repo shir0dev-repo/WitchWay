@@ -10,14 +10,14 @@ public class AISpawnerManager : MonoBehaviour
     {
         GameEvents.WitchingZone.OnDungeonGenerated += SpawnAIsInDungeon;
         GameEvents.WitchingZone.OnRoomEntered += OnRoomEntered;
-        GameEvents.WitchingZone.OnRoomExited += OnRoomExited; // Add this line
+        GameEvents.WitchingZone.OnRoomExited += OnRoomExited;
     }
 
     private void OnDisable()
     {
         GameEvents.WitchingZone.OnDungeonGenerated -= SpawnAIsInDungeon;
         GameEvents.WitchingZone.OnRoomEntered -= OnRoomEntered;
-        GameEvents.WitchingZone.OnRoomExited -= OnRoomExited; // Add this line
+        GameEvents.WitchingZone.OnRoomExited -= OnRoomExited;
     }
 
     private void SpawnAIsInDungeon(Dungeon2D dungeon)
@@ -40,7 +40,7 @@ public class AISpawnerManager : MonoBehaviour
 
                         foreach (var chaseAI in FindObjectsByType<WZChaseAI>(FindObjectsSortMode.None))
                         {
-                            if (Vector3.Distance(chaseAI.transform.position, spawnPoint.position) < 0.1f)
+                            if (Vector3.Distance(chaseAI.transform.position, spawnPoint.position) < 2f)
                             {
                                 chaseAI.TransitionToState(WZChaseData.State.Inactive);
                                 room.ChaseEnemies.Add(chaseAI);
