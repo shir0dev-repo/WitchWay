@@ -87,7 +87,11 @@ public class PotTemperature : Singleton<PotTemperature>
 
     void Update()
     {
-        if (!_isCooking) return;
+        if (!_isCooking)
+        {
+            SoundManager.Instance?.StopLoop("ConstantTempSound");
+            return;
+        }
 
         UpdateProgress();
         UpdateTargets();
@@ -151,6 +155,11 @@ public class PotTemperature : Singleton<PotTemperature>
         else
         {
             _isCooking = false;
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.StopLoop("ConstantTempSound");
+            }
 
             float timeHeated = _heatingTarget.TimeSpentAtTarget;
             float timeCooled = _coolingTarget.TimeSpentAtTarget;
@@ -278,6 +287,10 @@ public class PotTemperature : Singleton<PotTemperature>
         if (ing == null) return;
         else if (ing != _targetIngredient) return;
 
+        if (SoundManager.Instance != null && _isCooking)
+        {
+            SoundManager.Instance.StopLoop("ConstantTempSound");
+        }
         _targetIngredient = null;
         GameEvents.Crafting.OnObjectRemovedFromCursor -= PlaceInPot;
     }
