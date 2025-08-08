@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class BasketItems
@@ -25,10 +26,8 @@ public class CraftingRectArea
     public float depthValue;
 }
 
-public class StationsInventory : MonoBehaviour
+public class StationsInventoryHolder : InventoryHolder
 {
-    public static StationsInventory Instance { get; private set; }
-
     [Header("Basket Settings")]
     [SerializeField] private float spacing;
 
@@ -38,89 +37,63 @@ public class StationsInventory : MonoBehaviour
 
     [Header("Station Canvases")]
     [SerializeField] private CraftingRectArea[] craftingRects;
-    public CraftingRectArea[] GetCraftingRects()
-    {
-        return craftingRects;
-    }
+    public CraftingRectArea[] GetCraftingRects() => craftingRects;
 
     [SerializeField] private int _destroySectionIndex = 0;
     public int DestroySectionIndex => _destroySectionIndex;
 
-
-    //private vars
+    [Header("Boxes")]
     [SerializeField] private StationsInvBox[] boxes;
-    private List<IngredientSO> ingredients = new List<IngredientSO>();
-
-    private bool startDelayed = false;
 
     [Header("Sound")]
     [SerializeField] private EventReference OnItemTrashedSound;
 
-    void Awake()
-    {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+    private bool startDelayed = false;
 
-        //CreateBaskets();
-        //AddItemsToBaskets();
+    protected override void Awake()
+    {
+        base.Awake();
     }
 
     private void OnEnable()
     {
         GameEvents.Crafting.OnStationChanged += OnStationChangedHandler;
+        GameEvents.Crafting.OnItemPlacedInTrash += PermanentRemove;
     }
 
     private void OnDisable()
     {
         GameEvents.Crafting.OnStationChanged -= OnStationChangedHandler;
+        GameEvents.Crafting.OnItemPlacedInTrash -= PermanentRemove;
     }
 
-    void Start()
+    protected override void AfterPopulate()
     {
-        //setup triggers
-        GameEvents.Crafting.OnItemPlacedInTrash += PermanentRemove;
-
-        PopulateIngredients();
         SortIntoBoxes();
-
         StartCoroutine(WaitAfterStart());
     }
 
-    private void PopulateIngredients()
-    {
-        foreach (InventorySlotData slot in PersistantItemList.inventorySlots)
-        {
-            for (int i = 0; i < slot.amount; i++)
-                ingredients.Add(slot.ingredient);
-        }
-    }
-
+    //station logic
     private void SortIntoBoxes()
     {
-        foreach (StationsInvBox box in boxes)
+        foreach (StationsInvBox box in boxes) box.ClearItems();
+
+        List<BasketItems> items = new List<BasketItems>();
+        foreach (InventorySlotData slot in data.slots)
         {
-            box.ClearItems();
+            for (int i = 0; i < slot.amount; i++)
+            {
+                ModifiedIngredient mIngred = new ModifiedIngredient { BaseIngredient = slot.ingredient };
+                items.Add(new BasketItems(null, mIngred, 1));
+            }
         }
 
-        //quantify 
-        List<BasketItems> items = new();
-        foreach (IngredientSO ingred in ingredients)
-        {
-                ModifiedIngredient newMIngred = new ModifiedIngredient();
-                newMIngred.BaseIngredient = ingred;
-                items.Add(new BasketItems(null, newMIngred, 1));
-        }
-
-        //prep data
         int[] boxCounts = new int[boxes.Length];
         int currentBox = 0;
 
         foreach (BasketItems item in items)
         {
             int remaining = item.itemAmount;
-
             while (remaining > 0)
             {
                 int tries = 0;
@@ -132,16 +105,13 @@ public class StationsInventory : MonoBehaviour
 
                 if (tries >= boxes.Length)
                 {
-                    // NOTE: Should never happen ! Check if player adds too many ingredients from the shelf, before reaching this
-                    Debug.LogWarning("too many");
+                    Debug.LogWarning("to many items");
                     return;
                 }
 
                 boxes[currentBox].AddItem(new BasketItems(boxes[currentBox].transform, item.assignedIngredient, 1));
-
                 boxCounts[currentBox]++;
                 remaining--;
-
                 currentBox = (currentBox + 1) % boxes.Length;
             }
         }
@@ -149,58 +119,69 @@ public class StationsInventory : MonoBehaviour
 
     public void PermanentRemove(WorldIngredient ingredient)
     {
-        for (int i = 0; i < PersistantItemList.inventorySlots.Count; i++)
-        {
-            InventorySlotData slot = PersistantItemList.inventorySlots[i];
-            if (slot.ingredient == ingredient.BaseIngredient)
-            {
-                if (slot.amount > 1)
-                {
-                    slot.amount -= 1;
-                }
-                else
-                {
-                    PersistantItemList.inventorySlots.RemoveAt(i);
-                    SoundManager.Instance.PlayOneShot(OnItemTrashedSound, ingredient.transform.position);
-                }
+        bool removedStack;
+        bool good = RemoveItem(ingredient.BaseIngredient, out removedStack);
 
-                break;
+        if (good)
+        {
+            SortIntoBoxes();
+
+            if (removedStack)
+            {
+                if (SoundManager.Instance != null) SoundManager.Instance.PlayOneShot(OnItemTrashedSound, ingredient.transform.position);
             }
         }
     }
 
     private void OnStationChangedHandler(int stationId)
     {
-        print("station changed");
-        if (startDelayed)
-        {
-            StartCoroutine(SendToInventoryCoroutine());
-        }
+        if (startDelayed) StartCoroutine(SendToInventory());
     }
 
     private IEnumerator WaitAfterStart()
     {
         yield return new WaitForSeconds(0.5f);
-
         startDelayed = true;
     }
 
-    private IEnumerator SendToInventoryCoroutine()
+    private IEnumerator SendToInventory()
     {
         WorldIngredient[] ingredientsInWorld = FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None);
-        Queue<WorldIngredient> ingredientsToReturn = new Queue<WorldIngredient>(ingredientsInWorld);
+        Queue<WorldIngredient> queue = new Queue<WorldIngredient>(ingredientsInWorld);
 
         int boxIndex = 0;
         StationsInvBox invBox = boxes[boxIndex];
-        while (ingredientsToReturn.TryDequeue(out WorldIngredient wIng))
+
+        while (queue.TryDequeue(out WorldIngredient wIng))
         {
             if (wIng.TryGetComponent(out HoverToLocation hover))
             {
                 hover.Target = invBox.transform;
                 boxIndex = (boxIndex + 1) % boxes.Length;
+                invBox = boxes[boxIndex];
             }
 
             yield return null;
         }
+    }
+
+    //parent class hooks
+    protected override void OnItemAdded(InventorySlotData slot)
+    {
+        base.OnItemAdded(slot);
+
+        SortIntoBoxes();
+    }
+
+    protected override void OnItemAmountChanged(InventorySlotData slot)
+    {
+        base.OnItemAmountChanged(slot);
+        SortIntoBoxes();
+    }
+
+    protected override void OnItemRemoved(InventorySlotData slot)
+    {
+        base.OnItemRemoved(slot);
+        SortIntoBoxes();
     }
 }

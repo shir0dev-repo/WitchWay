@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//force recompile
 public class WZPlayerSanity : MonoBehaviour
 {
     private const int _SANITY_LIMIT = 10;
@@ -19,7 +20,7 @@ public class WZPlayerSanity : MonoBehaviour
 
         if (prevSanity > playerSanity)
             GameEvents.WitchingZone.OnSanityDecreased?.Invoke();
-        else 
+        else
             GameEvents.WitchingZone.OnSanityIncreased?.Invoke();
 
         GameEvents.WitchingZone.OnSanityChanged?.Invoke();

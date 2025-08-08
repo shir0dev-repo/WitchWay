@@ -204,7 +204,7 @@ public class WZPlayerInteract : MonoBehaviour
         }
 
         //add ingrediant to inventory
-        InventoryView inventory = GetComponent<InventoryView>();
+        WZInventoryHolder inventory = GetComponent<WZInventoryHolder>();
         inventory.AddNewItem(ingredient.ingredient);
 
         GameEvents.WitchingZone.OnIngredientPickedUp?.Invoke(ingredient.transform.position);
@@ -317,7 +317,7 @@ public class WZPlayerInteract : MonoBehaviour
         {
             foreach (string tag in tagsToCheck)
             {
-                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag))
+                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag) && reticleImage != null)
                 {
                     //maybe store these at start?
                     Color newRetColor = new Color(baseReticleColor.r, baseReticleColor.g, baseReticleColor.b, baseReticleColor.a + (baseReticleColor.a * 0.25f));
@@ -330,15 +330,21 @@ public class WZPlayerInteract : MonoBehaviour
                 }
                 else
                 {
-                    reticleImage.color = baseReticleColor;
-                    reticleImage.rectTransform.sizeDelta = baseReticleSize;
+                    if (reticleImage != null)
+                    {
+                        reticleImage.color = baseReticleColor;
+                        reticleImage.rectTransform.sizeDelta = baseReticleSize;
+                    }
                 }
             }
         }
         else
         {
-            reticleImage.color = baseReticleColor;
-            reticleImage.rectTransform.sizeDelta = baseReticleSize;
+            if (reticleImage != null)
+            {
+                reticleImage.color = baseReticleColor;
+                reticleImage.rectTransform.sizeDelta = baseReticleSize;
+            }
         }
 
 #if UNITY_ENGINE
@@ -369,12 +375,12 @@ public class WZPlayerInteract : MonoBehaviour
 
     public void EnableReticle()
     {
-        reticleImage.gameObject.SetActive(true);
+        reticleImage?.gameObject.SetActive(true);
     }
 
     public void DisableReticle()
     {
-        reticleImage.gameObject.SetActive(false);
+        reticleImage?.gameObject.SetActive(false);
     }
 
     public void EnableDisableAction(bool enabled, PlayerInteractActions[] actions)

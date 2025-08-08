@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//forcre recomiple
 public class WZPlayerManager : Singleton<WZPlayerManager>
 {
     private WZPlayerController playerController;

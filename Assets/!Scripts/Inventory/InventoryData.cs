@@ -56,6 +56,19 @@ public class InventoryData //hopefully this is good i dont really know what im d
 
     public int TotalDifferentItems() => slots.Count;
 
+    public InventorySlotData FindSlotByIngredient(IngredientSO ingredient)
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].ingredient == ingredient)
+            {
+                return slots[i];
+            }
+        }
+
+        return null;
+    }
+
     public bool CanAddOne() => TotalAmountCarrying() < maxAmountOfItems &&
                                 TotalDifferentItems() <= maxDifferentItems;
 
@@ -94,14 +107,42 @@ public class InventoryData //hopefully this is good i dont really know what im d
             {
                 slot.amount -= 1;
                 OnItemAmountChanged?.Invoke(slot);
-                return true;
             }
             else
             {
                 slots.RemoveAt(i);
                 OnItemRemoved?.Invoke(slot);
-                return true;
             }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool RemoveOne(IngredientSO ingredient, out bool removedStack)
+    {
+        removedStack = false;
+        if (TotalAmountCarrying() <= 0) return false;
+
+        for (int i = slots.Count - 1; i >= 0; i--)
+        {
+            InventorySlotData slot = slots[i];
+            if (slot.ingredient.ID != ingredient.ID) continue;
+
+            if (slot.amount > 1)
+            {
+                slot.amount -= 1;
+                OnItemAmountChanged?.Invoke(slot);
+            }
+            else
+            {
+                slots.RemoveAt(i);
+                removedStack = true;
+                OnItemRemoved?.Invoke(slot);
+            }
+
+            return true;
         }
 
         return false;

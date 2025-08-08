@@ -1115,12 +1115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab203d1622b01f14ca9996661c58f372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryType: 1
-  maxAmountOfItems: 15
-  maxDifferentItems: 10
-  amountOfSlots: 15
-  slotsGrid: {fileID: 138571484}
-  slotVisualObject: {fileID: 4433735583167603129, guid: 43cce3865e4a8ee46a993e0b69d87e79, type: 3}
+  populateFromPersistantList: 1
+  writeToPersistantList: 1
+  grid: {fileID: 1626260145}
   addTrigger: {fileID: 1316165806}
 --- !u!1001 &830328685
 PrefabInstance:
@@ -1658,7 +1655,6 @@ GameObject:
   - component: {fileID: 1579330511}
   - component: {fileID: 1579330510}
   - component: {fileID: 1579330509}
-  - component: {fileID: 1579330512}
   m_Layer: 5
   m_Name: InventorySlots
   m_TagString: Untagged
@@ -1754,33 +1750,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579330507}
   m_CullTransparentMesh: 1
---- !u!114 &1579330512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579330507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c1cbfda85b9354897ea9b525313d76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spacing: 0
-  yPos: 0
-  zPos: 0
-  craftingRects:
-  - screenRect: {fileID: 2138652120}
-    depthValue: -10
-  _destroySectionIndex: 1
-  boxes: []
-  OnItemTrashedSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!1 &1626260140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,6 +1762,7 @@ GameObject:
   - component: {fileID: 1626260144}
   - component: {fileID: 1626260143}
   - component: {fileID: 1626260142}
+  - component: {fileID: 1626260145}
   m_Layer: 5
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -1884,6 +1854,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1626260145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626260140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f773ed2dd1c10749abaa7146b6586c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  amountOfSlots: 15
+  slotsGrid: {fileID: 138571484}
+  slotVisualObject: {fileID: 4433735583167603129, guid: 43cce3865e4a8ee46a993e0b69d87e79, type: 3}
 --- !u!1 &1641646638
 GameObject:
   m_ObjectHideFlags: 0
