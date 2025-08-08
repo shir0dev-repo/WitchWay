@@ -204,7 +204,7 @@ public class WZPlayerInteract : MonoBehaviour
         }
 
         //add ingrediant to inventory
-        Inventory inventory = GetComponent<Inventory>();
+        InventoryView inventory = GetComponent<InventoryView>();
         inventory.AddNewItem(ingredient.ingredient);
 
         GameEvents.WitchingZone.OnIngredientPickedUp?.Invoke(ingredient.transform.position);

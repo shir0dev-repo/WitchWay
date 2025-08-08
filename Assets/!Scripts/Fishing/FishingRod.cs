@@ -182,8 +182,8 @@ public class FishingRod : MonoBehaviour
         // add item to inventory
         //SaveManager.Instance.CollectIngredient(fishedIngredient.name);
 
-        if (Inventory.Instance != null)
-            Inventory.Instance.AddNewItem(fishedIngredient);
+        if (InventoryView.Instance != null)
+            InventoryView.Instance.AddNewItem(fishedIngredient);
 
         ExitFishing();
     }

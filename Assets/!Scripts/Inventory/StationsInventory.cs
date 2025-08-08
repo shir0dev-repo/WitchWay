@@ -90,9 +90,9 @@ public class StationsInventory : MonoBehaviour
 
     private void PopulateIngredients()
     {
-        foreach (InventorySlot slot in PersistantItemList.inventorySlots)
+        foreach (InventorySlotData slot in PersistantItemList.inventorySlots)
         {
-            for (int i = 0; i < slot.ingredientAmt; i++)
+            for (int i = 0; i < slot.amount; i++)
                 ingredients.Add(slot.ingredient);
         }
     }
@@ -151,12 +151,12 @@ public class StationsInventory : MonoBehaviour
     {
         for (int i = 0; i < PersistantItemList.inventorySlots.Count; i++)
         {
-            InventorySlot slot = PersistantItemList.inventorySlots[i];
+            InventorySlotData slot = PersistantItemList.inventorySlots[i];
             if (slot.ingredient == ingredient.BaseIngredient)
             {
-                if (slot.ingredientAmt > 1)
+                if (slot.amount > 1)
                 {
-                    slot.ingredientAmt -= 1;
+                    slot.amount -= 1;
                 }
                 else
                 {

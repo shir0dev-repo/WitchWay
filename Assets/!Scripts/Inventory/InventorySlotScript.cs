@@ -3,12 +3,12 @@ using UnityEngine.EventSystems;
 
 public class InventorySlotScript : MonoBehaviour, IPointerDownHandler
 {
-    private Inventory inventory;
+    private InventoryView inventory;
     private IngredientSO ingredient;
 
     void Start()
     {
-        inventory = GameObject.FindFirstObjectByType<Inventory>();
+        inventory = GameObject.FindFirstObjectByType<InventoryView>();
     }
 
     public void SetIngredient(IngredientSO newIngred)
