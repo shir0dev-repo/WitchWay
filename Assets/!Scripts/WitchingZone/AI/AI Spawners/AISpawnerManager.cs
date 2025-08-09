@@ -63,7 +63,7 @@ public class AISpawnerManager : MonoBehaviour
         }
     }
 
-    private void OnRoomExited(Room room)
+    private void OnRoomExited(Room room, Entrance entrance)
     {
         Debug.Log($"Exiting room: {room.name}, ChaseEnemies: {room.ChaseEnemies.Count}");
         foreach (var chaseAI in room.ChaseEnemies)
