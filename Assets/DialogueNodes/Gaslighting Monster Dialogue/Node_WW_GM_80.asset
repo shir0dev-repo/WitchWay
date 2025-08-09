@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_80
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_80
+  speakerName: Gaslighting Monster
+  line: Only a few minutes. I was hoping to surprise you since it's been so long
+    since we've last seen each other!
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: Uh...do I know you?
+    nextNode: {fileID: 11400000, guid: 50a722afd4229754ba5f143ac421ba61, type: 2}
+  - responseText: I'm sorry but I've never seen you in my life.
+    nextNode: {fileID: 11400000, guid: 50a722afd4229754ba5f143ac421ba61, type: 2}
+  - responseText: Leave the conversation.
+    nextNode: {fileID: 11400000, guid: 6e6d1b986f84d5a468819e74fab5b201, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []

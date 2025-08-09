@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_64
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_64
+  speakerName: Gaslighting Monster
+  line: Then prove it.
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: What's 5+5?
+    nextNode: {fileID: 11400000, guid: c536a1ddc1620a4419b2aeb77985f618, type: 2}
+  - responseText: Do you see purple spots in your vision?
+    nextNode: {fileID: 11400000, guid: 9980a02fa4581a347b817c1235ffba71, type: 2}
+  - responseText: Did you wake up tasting something salty?
+    nextNode: {fileID: 11400000, guid: 8b41fe280a8c11d4281cfe5266f5623a, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []
