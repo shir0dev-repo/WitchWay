@@ -7,6 +7,9 @@ public class PuzzleRoomPainting : PuzzleBase
     [SerializeField] SnappableObject[] _paintingCollection;
     [SerializeField] List<GameObject> _paintings;
 
+    int _NumOfCorrectPaintings = 0;
+    bool _HasCorrectPaintings = false;
+
     private void Start()
     {
         foreach (var painting in _paintings)
@@ -18,8 +21,18 @@ public class PuzzleRoomPainting : PuzzleBase
         }
     }
 
+    public void AddToCorrectPaintings()
+    {
+        _NumOfCorrectPaintings++;
+
+        if (_NumOfCorrectPaintings == 3)
+        {
+            _HasCorrectPaintings = true;
+            Debug.Log("has been solved!");
+        }
+    }
     public override bool IsSolved()
     {
-        return false;
+        return _HasCorrectPaintings;
     }
 }

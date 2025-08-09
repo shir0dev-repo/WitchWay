@@ -385,6 +385,7 @@ public class WZPlayerInteract : MonoBehaviour
     {
         reticleImage.gameObject.SetActive(false);
     }
+    public GameObject GetCurrentlyDraggedObject() { return currentlyDragging; }
 
     public void EnableDisableAction(bool enabled, PlayerInteractActions[] actions)
     {

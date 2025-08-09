@@ -7,13 +7,25 @@ public class PaintingSnapping : MonoBehaviour
     [SerializeField] string hint; // for debugging purposes
     [SerializeField] Transform _correctPosition;
 
+    PuzzleRoomPainting room;
+    WZPlayerInteract playerInteract;
+
     public bool _isInCorrectPosition = false;
     bool _isCurrentlyGrabbing = false;
 
     public bool IsCurrentlyGrabbing => _isCurrentlyGrabbing;
 
+    private void Start()
+    {
+        room = GetComponentInParent<PuzzleRoomPainting>();
+        
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        playerInteract = player.GetComponent<WZPlayerInteract>();
+    }
     private void Update()
     {
+        if (!CheckIfThisIsCurrentlyGrabbedObject()) { return; }
+        
         if (Input.GetMouseButtonDown(0)) { Debug.Log(hint); }
         if (Input.GetMouseButton(0)) { _isCurrentlyGrabbing = true; }
         if (Input.GetMouseButtonUp(0)) { _isCurrentlyGrabbing = false;}
@@ -27,8 +39,24 @@ public class PaintingSnapping : MonoBehaviour
     }
     void CheckSnappedPosition()
     {
-        if (gameObject.transform.position == _correctPosition.position) { _isInCorrectPosition = true; }
+        if (gameObject.transform.position == _correctPosition.position) 
+        { 
+            _isInCorrectPosition = true;
+            room.AddToCorrectPaintings();
+        }
         else { _isInCorrectPosition = false; }
     }
-    public SnappableObject GetSnappableObject() { return _snapping; }
+    bool CheckIfThisIsCurrentlyGrabbedObject()
+    {
+        GameObject o = playerInteract.GetCurrentlyDraggedObject();
+
+        if (o != null && o == gameObject)
+        {
+            return true;
+        }
+
+        _isCurrentlyGrabbing = false;
+        return false;
+    }
+    public SnappableObject GetSnappableObject() { return _snapping; } 
 }

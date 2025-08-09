@@ -8,6 +8,7 @@ public class SnappingPoints : MonoBehaviour
     {
         if (_currentPainting != null && !_currentPainting.IsCurrentlyGrabbing)
         {
+            Debug.Log("should be snapping now");
             _currentPainting.SnapToAnyPoint();
             _currentPainting = null;
         }
@@ -17,6 +18,7 @@ public class SnappingPoints : MonoBehaviour
         if (other.CompareTag("WZDraggable") && other.TryGetComponent(out PaintingSnapping paint))
         {
             _currentPainting = paint;
+            Debug.Log(paint.name + " is in the collider");
         }
     }
     private void OnTriggerExit(Collider other)
