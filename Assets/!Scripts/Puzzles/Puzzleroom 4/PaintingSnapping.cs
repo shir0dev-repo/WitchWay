@@ -24,11 +24,16 @@ public class PaintingSnapping : MonoBehaviour
     }
     private void Update()
     {
+        if (_isCurrentlyGrabbing && Input.GetMouseButtonUp(0))
+        {
+            SnapToAnyPoint();
+            _isCurrentlyGrabbing = false;
+        }
+
         if (!CheckIfThisIsCurrentlyGrabbedObject()) { return; }
         
         if (Input.GetMouseButtonDown(0)) { Debug.Log(hint); }
         if (Input.GetMouseButton(0)) { _isCurrentlyGrabbing = true; }
-        if (Input.GetMouseButtonUp(0)) { _isCurrentlyGrabbing = false;}
     }
     public void SnapToAnyPoint()
     {

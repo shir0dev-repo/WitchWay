@@ -1417,8 +1417,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3715076208395970299}
-  - component: {fileID: 3420521695716617456}
-  - component: {fileID: 2283203701891328299}
   m_Layer: 0
   m_Name: middle
   m_TagString: Untagged
@@ -1441,39 +1439,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 264121097519502524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3420521695716617456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701697324063143461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e2c88421978444fb284ba75f70f11c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &2283203701891328299
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701697324063143461}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1751905292309243009
 GameObject:
   m_ObjectHideFlags: 0
@@ -5631,8 +5596,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3182933364029610875}
-  - component: {fileID: 4017669572590493688}
-  - component: {fileID: 362337789894026830}
   m_Layer: 0
   m_Name: right
   m_TagString: Untagged
@@ -5655,39 +5618,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 264121097519502524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4017669572590493688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7622848522946931849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e2c88421978444fb284ba75f70f11c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &362337789894026830
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7622848522946931849}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7711178946989142536
 GameObject:
   m_ObjectHideFlags: 0
@@ -6049,8 +5979,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1262033956152634323}
-  - component: {fileID: 1662324724237984077}
-  - component: {fileID: 6734820268680462802}
   m_Layer: 0
   m_Name: left
   m_TagString: Untagged
@@ -6073,39 +6001,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 264121097519502524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1662324724237984077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8535829709802126427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e2c88421978444fb284ba75f70f11c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &6734820268680462802
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8535829709802126427}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9066673663476160518
 GameObject:
   m_ObjectHideFlags: 0
