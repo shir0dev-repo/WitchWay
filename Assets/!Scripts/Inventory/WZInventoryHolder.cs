@@ -26,7 +26,6 @@ public class WZInventoryHolder : InventoryHolder
     {
         yield return new WaitForSeconds(0.5f);
         GameObject visual = grid.GetVisualForSlot(slot).transform.parent.gameObject;
-        print(visual);
         if (visual != null)
         {
             visual.GetComponent<InventorySlotScript>()?.ActiveInWZ();

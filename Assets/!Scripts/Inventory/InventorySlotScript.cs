@@ -17,6 +17,11 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         grid = GetComponentInParent<InventoryGridView>(true);
     }
 
+    public InventorySlotData GetSlotData()
+    {
+        return mySlot;
+    }
+
     public void SetIngredient(IngredientSO newIngred)
     {
         ingredient = newIngred;
@@ -67,8 +72,8 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         if (!inside)
         {
             SpawnWorldIngredient();
-            grid.EndDrag(true);
             holder.RemoveItem(ingredient);
+            grid.EndDrag(true);
         }
         else
         {

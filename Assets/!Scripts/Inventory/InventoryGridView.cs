@@ -251,10 +251,6 @@ public class InventoryGridView : MonoBehaviour
 
             //do we ned to update data to reflect chnaged order?
         }
-        else if (droppedOutside)
-        {
-            //nothing dont need anything here i dont hink
-        }
         else
         {
             draggingObj.transform.SetParent(originalParent, true);
