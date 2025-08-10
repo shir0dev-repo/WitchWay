@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8885394937196184768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_necromancy
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_necromancy
+  Guid:
+    Data1: -1427674072
+    Data2: 1108861944
+    Data3: 1494343577
+    Data4: 1928318566
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-8719643245999715517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27,6 +54,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 576
+--- !u!114 &-8447829765631054423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_failure
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_failure
+  Guid:
+    Data1: -1827187242
+    Data2: 1132071179
+    Data3: 873332892
+    Data4: -469329721
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-7778953639905432202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,9 +132,36 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638891374972332371
+  lastModified: 638904403857872312
   FileSizes: []
   Exists: 1
+--- !u!114 &-7301064004876062375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_evocation
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_evocation
+  Guid:
+    Data1: 1349263315
+    Data2: 1163562596
+    Data3: -1330173274
+    Data4: 1384483841
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-6817617300844638782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +244,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 391
+--- !u!114 &-5269549663569055214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/mus_witchingzone
+  m_EditorClassIdentifier: 
+  Path: event:/Music/mus_witchingzone
+  Guid:
+    Data1: 920477118
+    Data2: 1216117832
+    Data3: -1891433828
+    Data4: 2027118288
+  Banks:
+  - {fileID: -7680813633427519364}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 80000
 --- !u!114 &-4707610779992998120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +298,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
+--- !u!114 &-4639340065877925575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_abjuration
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_abjuration
+  Guid:
+    Data1: -70403929
+    Data2: 1216434850
+    Data3: 667628989
+    Data4: 1525648970
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-3877269456220062191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,10 +340,10 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638891374972144105
+  lastModified: 638904403857549733
   FileSizes:
   - Name: 
-    Value: 2712
+    Value: 3042
   Exists: 1
 --- !u!114 &-3863924317077239790
 MonoBehaviour:
@@ -495,6 +630,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-723865343107729466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_divination
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_divination
+  Guid:
+    Data1: 605516503
+    Data2: 1245009016
+    Data3: 223631772
+    Data4: -654217927
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-459893821822441617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,13 +844,20 @@ MonoBehaviour:
   - {fileID: 338928528335583836}
   - {fileID: -6331622657770547011}
   - {fileID: -2829811301683962972}
+  - {fileID: -5269549663569055214}
+  - {fileID: -8885394937196184768}
+  - {fileID: 8152137122142221941}
+  - {fileID: -4639340065877925575}
+  - {fileID: -7301064004876062375}
+  - {fileID: -8447829765631054423}
+  - {fileID: -723865343107729466}
   EditorParameters:
   - {fileID: -348203482615290266}
   MasterBanks:
   - {fileID: 4376869088834433634}
   StringsBanks:
   - {fileID: -3877269456220062191}
-  cacheTime: 638891374972506759
+  cacheTime: 638904403858072608
   cacheVersion: 131624
 --- !u!114 &272697249615256782
 MonoBehaviour:
@@ -1140,7 +1309,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638891374972506759
+  lastModified: 638904403858072608
   FileSizes: []
   Exists: 1
 --- !u!114 &7453970457105898225
@@ -1188,6 +1357,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 312
+--- !u!114 &8152137122142221941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_enchantment
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_enchantment
+  Guid:
+    Data1: -1110485205
+    Data2: 1157196837
+    Data3: -749965377
+    Data4: -623435243
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &9203598065917667374
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -146,7 +146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868785151689850950, guid: 2b7b22b4fbd4a5a4f8f8c97e593e0f99, type: 3}
       propertyPath: m_BlockingMask.m_Bits
-      value: 4160753663
+      value: 4095
       objectReference: {fileID: 0}
     - target: {fileID: 5907768880135370402, guid: 2b7b22b4fbd4a5a4f8f8c97e593e0f99, type: 3}
       propertyPath: m_Pivot.x
@@ -10374,6 +10374,146 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 911740806}
     - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Path
+      value: event:/SFX/magic circles/sfx_magic_success
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: evocationSound.Path
+      value: event:/SFX/magic circles/sfx_magic_activate_evocation
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: abjurationSound.Path
+      value: event:/SFX/magic circles/sfx_magic_activate_abjuration
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: divinationSound.Path
+      value: event:/SFX/magic circles/sfx_magic_activate_divination
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: necromancySound.Path
+      value: event:/SFX/magic circles/sfx_magic_activate_necromancy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawInvalidSound.Path
+      value: event:/SFX/magic circles/sfx_magic_failure
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: enchantmentSound.Path
+      value: event:/SFX/magic circles/sfx_magic_activate_enchantment
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data1
+      value: -1482099376
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data2
+      value: 1148326693
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data3
+      value: 761932986
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawValidSound.Guid.Data4
+      value: 56508916
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: evocationSound.Guid.Data1
+      value: 1349263315
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: evocationSound.Guid.Data2
+      value: 1163562596
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: evocationSound.Guid.Data3
+      value: -1330173274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: evocationSound.Guid.Data4
+      value: 1384483841
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: abjurationSound.Guid.Data1
+      value: -70403929
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: abjurationSound.Guid.Data2
+      value: 1216434850
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: abjurationSound.Guid.Data3
+      value: 667628989
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: abjurationSound.Guid.Data4
+      value: 1525648970
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: divinationSound.Guid.Data1
+      value: 605516503
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: divinationSound.Guid.Data2
+      value: 1245009016
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: divinationSound.Guid.Data3
+      value: 223631772
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: divinationSound.Guid.Data4
+      value: -654217927
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: necromancySound.Guid.Data1
+      value: -1427674072
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: necromancySound.Guid.Data2
+      value: 1108861944
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: necromancySound.Guid.Data3
+      value: 1494343577
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: necromancySound.Guid.Data4
+      value: 1928318566
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawInvalidSound.Guid.Data1
+      value: -1827187242
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawInvalidSound.Guid.Data2
+      value: 1132071179
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawInvalidSound.Guid.Data3
+      value: 873332892
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawInvalidSound.Guid.Data4
+      value: -469329721
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: enchantmentSound.Guid.Data1
+      value: -1110485205
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: enchantmentSound.Guid.Data2
+      value: 1157196837
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: enchantmentSound.Guid.Data3
+      value: -749965377
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: enchantmentSound.Guid.Data4
+      value: -623435243
+      objectReference: {fileID: 0}
+    - target: {fileID: 5544241100258873744, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: _symbols.Array.data[0].Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f61757aac86ed914fbe3081bd44ed508, type: 3}
@@ -10432,6 +10572,26 @@ PrefabInstance:
     - target: {fileID: 8606445484809329293, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       propertyPath: m_SizeDelta.y
       value: 624.6487
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Path
+      value: event:/SFX/magic circles/sfx_magic_drawing_lp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data1
+      value: -983130502
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data2
+      value: 1295555056
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data3
+      value: -1361293952
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683081008302083116, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      propertyPath: drawSound.Guid.Data4
+      value: 368632567
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
