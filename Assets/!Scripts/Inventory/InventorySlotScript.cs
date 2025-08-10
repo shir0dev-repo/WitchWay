@@ -39,24 +39,6 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         {
             pointerDownInBounds = RectTransformUtility.RectangleContainsScreenPoint(holder.InvBounds, eventData.position, eventData.pressEventCamera);
         }
-
-        /*if (ingredient != null)
-        {
-            GameObject worldObject = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity);
-            WorldIngredient wIngred = worldObject.GetComponent<WorldIngredient>();
-            if (wIngred)
-            {
-                if (worldObject.GetComponent<Rigidbody>())
-                {
-                    worldObject.GetComponent<Rigidbody>().isKinematic = false;
-                    worldObject.GetComponent<Rigidbody>().useGravity = false;
-                }
-
-                if (CursorManager.Instance != null) CursorManager.Instance.AttachToCursor(wIngred, worldObject.transform);
-            }
-
-            inventory.RemoveItem(ingredient);
-        }*/
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -64,6 +46,9 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         if (!pointerDownInBounds || grid == null || mySlot == null) return;
 
         grid.BeginDrag(mySlot, gameObject, eventData);
+
+        FindFirstObjectByType<WZPlayerInteract>()?.EnableDisableAction(false,
+            new PlayerInteractActions[] { PlayerInteractActions.showIngrediantsAction });
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -91,6 +76,9 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         }
 
         pointerDownInBounds = false;
+
+        FindFirstObjectByType<WZPlayerInteract>()?.EnableDisableAction(true,
+            new PlayerInteractActions[] { PlayerInteractActions.showIngrediantsAction });
     }
 
     public void OnPointerEnter(PointerEventData eventData)
