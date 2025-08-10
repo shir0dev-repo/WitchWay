@@ -110,10 +110,17 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
             }
 
             GameObject worldObject = Instantiate(ingredient.WorldPrefab, spawnPos, Quaternion.identity);
-            Destroy(worldObject.GetComponent<WorldIngredient>());
-            Destroy(worldObject.GetComponent<CrushableIngredientState>());
-            worldObject.GetComponent<WZWorldIngredient>().ingredient = ingredient;
+            //Destroy(worldObject.GetComponent<WorldIngredient>());
+            //Destroy(worldObject.GetComponent<CrushableIngredientState>());
+            
+            if (!worldObject.TryGetComponent(out WZWorldIngredient wzIng))
+            {
+                wzIng = worldObject.AddComponent<WZWorldIngredient>();
+            }
+
+            wzIng.ingredient = ingredient;
             worldObject.transform.localScale = worldObject.transform.localScale * 0.25f; //might want to make configurable
+            worldObject.tag = "Ingredient";
         }
         else
         {

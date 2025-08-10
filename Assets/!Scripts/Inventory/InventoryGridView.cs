@@ -75,7 +75,7 @@ public class InventoryGridView : MonoBehaviour
         Transform parent = (type == InventoryType.AllSlotsVisible) ? FindEmptySlot() ?? CreateAndReturnSlotParent() : CreateAndReturnSlotParent();
 
         GameObject obj = Instantiate(slotVisualObject, parent);
-        obj.GetComponentInChildren<Image>().sprite = slot.ingredient.Sprite;
+        obj.GetComponentInChildren<Image>(true).sprite = slot.ingredient.Sprite;
 
         TMP_Text text = obj.GetComponentInChildren<TMP_Text>(true);
         if (text) text.text = slot.amount > 1 ? slot.amount.ToString() : "";
@@ -133,8 +133,8 @@ public class InventoryGridView : MonoBehaviour
     private void CreateEmptySlot(int number)
     {
         GameObject slot = new GameObject($"Slot{number}");
-        slot.AddComponent<Image>();
-        RectTransform rt = slot.GetComponent<RectTransform>();
+        
+        RectTransform rt = slot.AddComponent<RectTransform>();
         rt.SetParent(slotsGrid, false);
         rt.sizeDelta = new Vector2(245, 245);
 
