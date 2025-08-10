@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WZInventoryHolder : InventoryHolder
@@ -17,12 +18,18 @@ public class WZInventoryHolder : InventoryHolder
     protected override void OnItemAdded(InventorySlotData slot)
     {
         base.OnItemAdded(slot);
+        StartCoroutine(DelayGetVisual(slot));
+    }
+    public void RemoveItemPublic(IngredientSO ingredient) => RemoveItem(ingredient);
 
-        GameObject visual = grid.GetVisualForSlot(slot);
+    private IEnumerator DelayGetVisual(InventorySlotData slot)
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameObject visual = grid.GetVisualForSlot(slot).transform.parent.gameObject;
+        print(visual);
         if (visual != null)
         {
             visual.GetComponent<InventorySlotScript>()?.ActiveInWZ();
         }
     }
-    public void RemoveItemPublic(IngredientSO ingredient) => RemoveItem(ingredient);
 }

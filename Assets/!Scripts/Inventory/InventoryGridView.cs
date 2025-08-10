@@ -184,7 +184,7 @@ public class InventoryGridView : MonoBehaviour
 
     public GameObject GetVisualForSlot(InventorySlotData slot)
     {
-        if (slotPartners.TryGetValue(slot, out var go))
+        if (slotPartners.TryGetValue(slot, out GameObject go))
             return go;
         return null;
     }
@@ -253,7 +253,7 @@ public class InventoryGridView : MonoBehaviour
         }
         else if (droppedOutside)
         {
-            print("outsisdeeeeeee");
+            //nothing dont need anything here i dont hink
         }
         else
         {

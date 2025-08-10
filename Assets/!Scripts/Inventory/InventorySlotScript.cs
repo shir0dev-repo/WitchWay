@@ -81,8 +81,9 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
 
         if (!inside)
         {
-            print("OUSIDE QWOPPPSPSP");
+            SpawnWorldIngredient();
             grid.EndDrag(true);
+            holder.RemoveItem(ingredient);
         }
         else
         {
@@ -105,6 +106,42 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = Mathf.Abs(Camera.main.transform.position.z);
         return Camera.main.ScreenToWorldPoint(mousePos);
+    }
+
+    private void SpawnWorldIngredient()
+    {
+        if (inWz)
+        {
+            float forwardDist = 5f;
+
+            Vector3 spawnPos = FindFirstObjectByType<WZPlayerInteract>().transform.position + FindFirstObjectByType<WZPlayerInteract>().transform.forward * forwardDist;
+            RaycastHit hit;
+            if (Physics.Raycast(spawnPos, Vector3.down, out hit, Mathf.Infinity))
+            {
+                spawnPos = hit.point;
+            }
+
+            GameObject worldObject = Instantiate(ingredient.WorldPrefab, spawnPos, Quaternion.identity);
+            Destroy(worldObject.GetComponent<WorldIngredient>());
+            Destroy(worldObject.GetComponent<CrushableIngredientState>());
+            worldObject.GetComponent<WZWorldIngredient>().ingredient = ingredient;
+            worldObject.transform.localScale = worldObject.transform.localScale * 0.25f; //might want to make configurable
+        }
+        else
+        {
+            GameObject worldObject = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity);
+            WorldIngredient wIngred = worldObject.GetComponent<WorldIngredient>();
+            if (wIngred)
+            {
+                if (worldObject.GetComponent<Rigidbody>())
+                {
+                    worldObject.GetComponent<Rigidbody>().isKinematic = false;
+                    worldObject.GetComponent<Rigidbody>().useGravity = false;
+                }
+
+                if (CursorManager.Instance != null) CursorManager.Instance.AttachToCursor(wIngred, worldObject.transform);
+            }
+        }
     }
 }
     
