@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -29,21 +29,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FogNoiseOverlay:
         m_Texture: {fileID: 11700000, guid: b3cfc386f472fa84db89809c1611988f, type: 2}
-        m_Scale: {x: 0.41, y: 0.83}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DensityMultiplier: 0.32
-    - _DensityThreshold: 0.178
-    - _Height: 4.41
-    - _LightScattering: 1
-    - _MaxDistance: 50
-    - _MinDistance: 0.99
+    - _DensityMultiplier: 0.14
+    - _DensityThreshold: 0.28
+    - _Height: 4.07
+    - _LightScattering: 0.3
+    - _MaxDistance: 100
+    - _MinDistance: 0.9
     - _NoiseOffset: 0.5
     - _NoiseTiling: 8.8
     - _StepSize: 0.5
     m_Colors:
-    - _Color: {r: 0.18901, g: 0.197005, b: 0.205, a: 1}
-    - _LightContribution: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 1}
+    - _Color: {r: 0.25520647, g: 0.2576433, b: 0.2924528, a: 1}
+    - _LightContribution: {r: 1.2452831, g: 1.2452831, b: 1.2452831, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

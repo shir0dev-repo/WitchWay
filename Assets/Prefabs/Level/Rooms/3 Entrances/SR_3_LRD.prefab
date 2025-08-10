@@ -750,7 +750,7 @@ GameObject:
   - component: {fileID: 8282184111894472647}
   - component: {fileID: 7216409598870064764}
   - component: {fileID: 3821586397703794029}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2415,6 +2415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c0aa46538c95845bf07af0077104cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySpawnPoints: []
 --- !u!1 &2815063240025844411
 GameObject:
   m_ObjectHideFlags: 0
