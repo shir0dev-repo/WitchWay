@@ -265,11 +265,30 @@ public class WZPlayerInteract : MonoBehaviour
     private void OnShowIngredients(InputAction.CallbackContext context)
     {
         inventoryCanvasGroup.alpha = 1;
+
+        //inv hover
+        WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
+        controller?.EnableDisableAction(false,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+
+        EnableDisableAction(false,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void UnShowIngredients(InputAction.CallbackContext context)
     {
         inventoryCanvasGroup.alpha = 0;
+
+        WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
+        controller?.EnableDisableAction(true,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+
+        EnableDisableAction(true,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnShowRecipes(InputAction.CallbackContext context)

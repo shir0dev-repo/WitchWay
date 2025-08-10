@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlotScript : MonoBehaviour, IPointerDownHandler
+public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 {
     private InventoryView inventory;
     private IngredientSO ingredient;
+
+    private bool inWz = false;
 
     void Start()
     {
@@ -14,6 +16,11 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler
     public void SetIngredient(IngredientSO newIngred)
     {
         ingredient = newIngred;
+    }
+
+    public void ActiveInWZ()
+    {
+        inWz = true;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -37,6 +44,14 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler
         }
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!inWz) return;
+
+        //display tooltip
+        print("entered");
+    }
+
     private Vector2 GetMousePos()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -44,3 +59,4 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler
         return Camera.main.ScreenToWorldPoint(mousePos);
     }
 }
+    

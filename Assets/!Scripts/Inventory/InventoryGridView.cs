@@ -174,4 +174,11 @@ public class InventoryGridView : MonoBehaviour
             }
         }
     }
+
+    public GameObject GetVisualForSlot(InventorySlotData slot)
+    {
+        if (slotPartners.TryGetValue(slot, out var go))
+            return go;
+        return null;
+    }
 }

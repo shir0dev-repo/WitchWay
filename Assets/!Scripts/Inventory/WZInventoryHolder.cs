@@ -14,5 +14,15 @@ public class WZInventoryHolder : InventoryHolder
     }
 
     public void AddNewItem(IngredientSO ingredient) => AddItem(ingredient);
+    protected override void OnItemAdded(InventorySlotData slot)
+    {
+        base.OnItemAdded(slot);
+
+        GameObject visual = grid.GetVisualForSlot(slot);
+        if (visual != null)
+        {
+            visual.GetComponent<InventorySlotScript>()?.ActiveInWZ();
+        }
+    }
     public void RemoveItemPublic(IngredientSO ingredient) => RemoveItem(ingredient);
 }
