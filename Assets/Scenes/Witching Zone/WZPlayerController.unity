@@ -929,7 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2aed16e1cfcd9d40b59eb7dd3b99a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: 7806abe1708df514abf315599fb94516, type: 2}
+  ingredient: {fileID: 11400000, guid: f9156e76a6b0a034386521cb8b1caca7, type: 2}
 --- !u!54 &501274166
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1312,11 +1312,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &583407261 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 7308113545249866584, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
-  m_PrefabInstance: {fileID: 7182690440630156993}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &616907860 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3159209015633530174, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
@@ -1464,7 +1459,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5767809652189004607, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
   m_PrefabInstance: {fileID: 7319759220894389168}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7319759220894389169}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b901388c889255345a256ad4e6a8ecec, type: 3}
@@ -2571,11 +2566,6 @@ Transform:
   - {fileID: 45412465}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1858509389 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7131735282135263216, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
-  m_PrefabInstance: {fileID: 7182690440630156993}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1876667680
 GameObject:
   m_ObjectHideFlags: 0
@@ -3188,6 +3178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WZ UI
       objectReference: {fileID: 0}
+    - target: {fileID: 6718780492257428758, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 3839
+      objectReference: {fileID: 0}
     - target: {fileID: 7131735282135263216, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -3209,6 +3203,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 374830563750942642, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: reticleImage
+      value: 
+      objectReference: {fileID: 726286527}
+    - target: {fileID: 374830563750942642, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: inventoryCanvasGroup
+      value: 
+      objectReference: {fileID: 869778793}
     - target: {fileID: 882040984405703135, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3217,18 +3219,18 @@ PrefabInstance:
       propertyPath: wzExitPortal
       value: 
       objectReference: {fileID: 33510627}
-    - target: {fileID: 4462753044908955332, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      propertyPath: slotsGrid
+    - target: {fileID: 1067179714545731035, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162314625361868669, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: grid
       value: 
-      objectReference: {fileID: 1858509389}
-    - target: {fileID: 6774186531164130374, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      propertyPath: reticleImage
+      objectReference: {fileID: 715122228}
+    - target: {fileID: 7162314625361868669, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+      propertyPath: invBounds
       value: 
-      objectReference: {fileID: 726286527}
-    - target: {fileID: 6774186531164130374, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      propertyPath: inventoryCanvasGroup
-      value: 
-      objectReference: {fileID: 583407261}
+      objectReference: {fileID: 869778792}
     - target: {fileID: 7863050949938521197, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3269,299 +3271,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4462753044908955332, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 882040984405703135, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7319759220894389171}
-    - targetCorrespondingSourceObject: {fileID: 882040984405703135, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7319759220894389170}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
---- !u!1 &7319759220894389169 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 882040984405703135, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-  m_PrefabInstance: {fileID: 7319759220894389168}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7319759220894389170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7319759220894389169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 882e38e8d09c37449acea3f7752b6b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  populateFromPersistantList: 1
-  writeToPersistantList: 1
-  invBounds: {fileID: 869778792}
-  grid: {fileID: 715122228}
---- !u!114 &7319759220894389171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7319759220894389169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d848dcd8e264464b829995235bd1434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactAction:
-    m_Name: Interact
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 15528e4b-49bc-488c-a7db-51091638ca48
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: cc0283ee-5c46-42f9-830b-ebdbebf49946
-      m_Path: <Keyboard>/e
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Interact
-      m_Flags: 0
-    - m_Name: 
-      m_Id: e666dc5e-f197-42d1-b6d7-a902f102255a
-      m_Path: <Gamepad>/buttonEast
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Interact
-      m_Flags: 0
-    m_Flags: 0
-  dragAction:
-    m_Name: Drag
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e90bb392-3210-41e2-9263-0b6d6a622d73
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: df727e78-e5f9-4601-897d-b20f9514123d
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Drag
-      m_Flags: 0
-    - m_Name: 
-      m_Id: a871b308-08d8-4ef4-b88e-8d764a263af3
-      m_Path: <Gamepad>/rightTrigger
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Drag
-      m_Flags: 0
-    m_Flags: 0
-  optionChangeAction:
-    m_Name: Option Change
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 41e47f97-4988-4a40-a57d-e6030c9ea718
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: WASD
-      m_Id: 203946e3-59af-4c7f-ad0b-23d981949ef7
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 4
-    - m_Name: up
-      m_Id: c8ddc688-a43e-473d-91fa-b6082aa2740a
-      m_Path: <Keyboard>/w
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: down
-      m_Id: b700eed8-3b99-43f5-ac81-26ff3a9ce79f
-      m_Path: <Keyboard>/s
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 71f50536-67fc-4161-a05e-5c1141104686
-      m_Path: <Keyboard>/a
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 083b2cab-4b4f-46c7-9791-9911b6c156dc
-      m_Path: <Keyboard>/d
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: ArrowKeys
-      m_Id: f39fbf0d-4982-4da3-97f5-1d2d3e4651fb
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 4
-    - m_Name: up
-      m_Id: 01820d10-3d91-45e0-9ac9-7adf57f6d85f
-      m_Path: <Keyboard>/upArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 2437aa7d-a73d-4089-95a6-d6bb2f243220
-      m_Path: <Keyboard>/downArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: left
-      m_Id: 1eb07c9c-1f63-470e-8a33-42bc96d25d82
-      m_Path: <Keyboard>/leftArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 4c3a7efb-a191-4bdd-98b5-d3febdc6ae9c
-      m_Path: <Keyboard>/rightArrow
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Option Change
-      m_Flags: 8
-    m_Flags: 0
-  selectAction:
-    m_Name: Select
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1d3629f4-a485-44ff-802d-ddbd665dc5d1
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 2cb41d09-202a-4ed4-9eef-647ddb1d9c41
-      m_Path: <Keyboard>/enter
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Select
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 03e13031-721f-4324-868c-882b68dd2a41
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Select
-      m_Flags: 0
-    m_Flags: 0
-  showIngrediantsAction:
-    m_Name: Show Ingrediants
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 1f5da583-bdf4-49c5-a1b5-7229096db549
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: da2256f5-eed0-4ea2-9964-57bbad6a4817
-      m_Path: <Keyboard>/tab
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Show Ingrediants
-      m_Flags: 0
-    - m_Name: 
-      m_Id: b173e336-dcf8-4c78-a3b0-2ca61d634af7
-      m_Path: <Gamepad>/buttonNorth
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Show Ingrediants
-      m_Flags: 0
-    m_Flags: 0
-  recipeBookAction:
-    m_Name: Recipe Book
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 90279d25-7452-4ae3-bcb3-79c6aa2527da
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 514421c7-7650-445a-b3af-134abb512adf
-      m_Path: <Keyboard>/r
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Recipe Book
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 76647513-f39a-4f72-9805-883773bb4813
-      m_Path: <Gamepad>/select
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Recipe Book
-      m_Flags: 0
-    m_Flags: 0
-  pauseAction:
-    m_Name: Pause
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 42082123-d65a-4d7f-a6bd-3258e7e10348
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 050a70f2-44e3-4178-9a7a-542a78128385
-      m_Path: <Keyboard>/escape
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Pause
-      m_Flags: 0
-    - m_Name: 
-      m_Id: ec0c6ab1-641a-4908-b8b5-e88d5dcb8673
-      m_Path: <Gamepad>/start
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Pause
-      m_Flags: 0
-    m_Flags: 0
-  reticleImage: {fileID: 726286527}
-  ingredientObjectTag: Ingredient
-  draggableObjectTag: WZDraggable
-  npcObjectTag: WZnpc
-  doorObjectTag: WZDoor
-  otherInteractableTag: WZInteractable
-  pickupDistance: 5
-  objectDragSpeed: 20
-  inventoryCanvasGroup: {fileID: 869778793}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
