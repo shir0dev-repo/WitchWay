@@ -52,8 +52,8 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
 
         grid.BeginDrag(mySlot, gameObject, eventData);
 
-        FindFirstObjectByType<WZPlayerInteract>()?.EnableDisableAction(false,
-            new PlayerInteractActions[] { PlayerInteractActions.showIngrediantsAction });
+        /*FindFirstObjectByType<WZPlayerInteract>()?.EnableDisableAction(false,
+            new PlayerInteractActions[] { PlayerInteractActions.showIngrediantsAction });*/
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -65,7 +65,7 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (grid == null || holder == null || holder.InvBounds == null) return;
+        if (grid == null || holder == null || holder.InvBounds == null || (FindFirstObjectByType<WZPlayerInteract>() != null && !FindFirstObjectByType<WZPlayerInteract>().inventoryOpen)) return;
 
         bool inside = RectTransformUtility.RectangleContainsScreenPoint(holder.InvBounds, eventData.position, eventData.pressEventCamera);
 
@@ -82,8 +82,8 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
 
         pointerDownInBounds = false;
 
-        FindFirstObjectByType<WZPlayerInteract>()?.EnableDisableAction(true,
-            new PlayerInteractActions[] { PlayerInteractActions.showIngrediantsAction });
+        /*FindFirstObjectByType<WZPlayerInteract>()?.EnableDisableAction(true,
+            new PlayerInteractActions[] { PlayerInteractActions.showIngrediantsAction });*/
     }
 
     public void OnPointerEnter(PointerEventData eventData)

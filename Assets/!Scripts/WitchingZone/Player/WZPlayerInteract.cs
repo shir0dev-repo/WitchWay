@@ -56,10 +56,9 @@ public class WZPlayerInteract : MonoBehaviour
     private Vector2 baseReticleSize;
 
     private bool paused = false;
-    private bool showingIngredients = false;
+    [HideInInspector] public bool inventoryOpen = false;
 
     private GameObject currentlyDragging;
-    private Vector3 hitPosition;
     private float initialHitDistance = 0;
 
     private bool inInteract = false;
@@ -95,9 +94,8 @@ public class WZPlayerInteract : MonoBehaviour
         optionChangeAction.started += OnDiaOptionChange;
         selectAction.started += OnDiaOptionSelect;
 
-        //showIngrediantsAction.performed += OnShowIngredients;
-        //showIngrediantsAction.canceled += UnShowIngredients;
-        showIngrediantsAction.started += OnShowIngredients;
+        showIngrediantsAction.performed += OnShowIngredients;
+        showIngrediantsAction.canceled += UnShowIngredients;
         recipeBookAction.performed += OnShowRecipes;
         recipeBookAction.canceled += UnShowRecipes;
         pauseAction.started += OnPauseGame;
@@ -112,9 +110,8 @@ public class WZPlayerInteract : MonoBehaviour
         optionChangeAction.started -= OnDiaOptionChange;
         selectAction.started -= OnDiaOptionSelect;
 
-        ///showIngrediantsAction.performed -= OnShowIngredients;
-        //showIngrediantsAction.canceled -= UnShowIngredients;
-        showIngrediantsAction.started -= OnShowIngredients;
+        showIngrediantsAction.performed -= OnShowIngredients;
+        showIngrediantsAction.canceled -= UnShowIngredients;
         recipeBookAction.performed -= OnShowRecipes;
         recipeBookAction.canceled -= UnShowRecipes;
         pauseAction.started -= OnPauseGame;
@@ -276,34 +273,35 @@ public class WZPlayerInteract : MonoBehaviour
     //misc controls
     private void OnShowIngredients(InputAction.CallbackContext context)
     {
-        showingIngredients = !showingIngredients;
-        if (showingIngredients)
-        {
-            inventoryCanvasGroup.alpha = 1;
+        inventoryCanvasGroup.alpha = 1;
+        inventoryOpen = true;
 
-            //inv hover
-            WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
-            controller?.EnableDisableAction(false,
-                new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+        //inv hover
+        WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
+        controller?.EnableDisableAction(false,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
 
-            EnableDisableAction(false,
-                new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+        EnableDisableAction(false,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
 
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-        else
-        {
-            inventoryCanvasGroup.alpha = 0;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
 
-            WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
-            controller?.EnableDisableAction(true,
-                new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+    private void UnShowIngredients(InputAction.CallbackContext context)
+    {
+        inventoryCanvasGroup.alpha = 0;
+        inventoryOpen = false;
 
-            EnableDisableAction(true,
-                new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+        WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
+        controller?.EnableDisableAction(true,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
 
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        EnableDisableAction(true,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+
+        Cursor.lockState = CursorLockMode.Locked;
+
+        FindFirstObjectByType<InventoryGridView>()?.EndDrag(false);
     }
 
     private void OnShowRecipes(InputAction.CallbackContext context)
