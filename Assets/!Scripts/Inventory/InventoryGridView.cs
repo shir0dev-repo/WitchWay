@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using System.Linq;
 
 public class InventoryGridView : MonoBehaviour
 {
@@ -79,7 +81,12 @@ public class InventoryGridView : MonoBehaviour
         if (text) text.text = slot.amount > 1 ? slot.amount.ToString() : "";
 
         InventorySlotScript slotScript = parent.GetComponent<InventorySlotScript>();
-        if (slotScript) slotScript.SetIngredient(slot.ingredient);
+        if (slotScript)
+        {
+            slotScript.SetIngredient(slot.ingredient);
+
+            slotScript.BindSlot(slot);
+        }
 
         slotPartners[slot] = obj;
     }
@@ -180,5 +187,140 @@ public class InventoryGridView : MonoBehaviour
         if (slotPartners.TryGetValue(slot, out var go))
             return go;
         return null;
+    }
+
+    //dragging handling
+    //this shit sucks dont ask me how it works it just does
+    [Header("Dragging")]
+    [SerializeField] private Canvas aboveCanvas;
+
+    private GameObject placeholder;
+    private RectTransform placeholderRT;
+    private GameObject draggingObj;
+    private RectTransform draggingRT;
+    private Transform originalParent;
+    private int originalIndex = -1;
+    private LayoutElement draggingLE;
+
+    public void BeginDrag(InventorySlotData slot, GameObject slotObj, PointerEventData evt)
+    {
+        if (draggingObj != null) EndDrag(true);
+
+        draggingObj = slotObj;
+        draggingRT = slotObj.GetComponent<RectTransform>();
+        originalParent = slotObj.transform.parent;
+        originalIndex = slotObj.transform.GetSiblingIndex();
+
+        //create placeholder
+        placeholder = new GameObject("PlaceHolder");
+        placeholderRT = placeholder.AddComponent<RectTransform>();
+        placeholderRT.SetParent(originalParent, false);
+        placeholderRT.SetSiblingIndex(originalIndex);
+        placeholderRT.sizeDelta = draggingRT.sizeDelta;
+
+        //lift
+        draggingObj.transform.SetParent(aboveCanvas.transform, true);
+
+        draggingLE = draggingObj.GetComponent<LayoutElement>();
+        if (draggingLE == null) draggingLE = draggingObj.AddComponent<LayoutElement>();
+        draggingLE.ignoreLayout = true;
+
+        UpdateDraggingPosition(evt);
+        UpdatePlaceholderPosition(evt);
+    }
+
+    public void Drag(PointerEventData evt)
+    {
+        if (!draggingObj) return;
+
+        UpdateDraggingPosition(evt);
+        UpdatePlaceholderPosition(evt);
+    }
+
+    public void EndDrag(bool droppedOutside)
+    {
+        if (!draggingObj) return;
+
+        if (draggingLE) draggingLE.ignoreLayout = false;
+
+        if (!droppedOutside && placeholderRT != null && placeholderRT.parent != null)
+        {
+            int newIndex = placeholderRT.GetSiblingIndex();
+            draggingObj.transform.SetParent(placeholderRT.parent, true);
+            draggingObj.transform.SetSiblingIndex(newIndex);
+
+            //do we ned to update data to reflect chnaged order?
+        }
+        else if (droppedOutside)
+        {
+            print("outsisdeeeeeee");
+        }
+        else
+        {
+            draggingObj.transform.SetParent(originalParent, true);
+            draggingObj.transform.SetSiblingIndex(originalIndex);
+        }
+
+        //cleaning time
+        if (placeholder) Destroy(placeholder);
+        placeholder = null; placeholderRT = null; draggingObj = null; draggingRT = null; originalIndex = -1; draggingLE = null;
+    }
+
+    private void UpdateDraggingPosition(PointerEventData evt)
+    {
+        RectTransform canvasRT = aboveCanvas.transform as RectTransform;
+        Camera cam = aboveCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : aboveCanvas.worldCamera;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRT, evt.position, cam, out Vector2 local))
+        {
+            draggingRT.localPosition = local;
+        }
+    }
+
+    private void UpdatePlaceholderPosition(PointerEventData evt)
+    {
+        if (!slotsGrid) return; //should never happen but safty
+
+        int targetindex = ComputeInsertIndex(evt.position);
+        if (targetindex < 0) targetindex = slotsGrid.childCount;
+
+        targetindex = Mathf.Clamp(targetindex, 0, slotsGrid.childCount);
+        if (placeholderRT != null && placeholderRT.parent == slotsGrid)
+        {
+            placeholderRT.SetSiblingIndex(targetindex);
+        }
+    }
+
+    private int ComputeInsertIndex(Vector2 screenPos) //insert spot decider
+    {
+        RectTransform gridRT = slotsGrid as RectTransform;
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(gridRT, screenPos, null, out Vector2 localPoint)) return -1;
+
+        List<RectTransform> children = Enumerable.Range(0, slotsGrid.childCount)
+                                    .Select(i => slotsGrid.GetChild(i) as RectTransform)
+                                    .Where(rt => rt != null)
+                                    .ToList(); //craxy
+
+        if (children.Count == 0) return 0;
+
+        //find closest
+        int bestIndex = children.Count - 1;
+        float best = float.MaxValue;
+
+        for (int i = 0; i < children.Count; i++)
+        {
+            RectTransform child = children[i];
+            Vector2 center = child.localPosition;
+            float dist = Vector2.SqrMagnitude(localPoint - center);
+            if (dist < best)
+            {
+                best = dist;
+                bestIndex = i;
+            }
+        }
+
+        RectTransform closest = children[bestIndex];
+        if (localPoint.x > closest.localPosition.x) bestIndex += 1;
+
+        return bestIndex;
     }
 }

@@ -1,21 +1,30 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
+public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private InventoryView inventory;
     private IngredientSO ingredient;
+    private InventoryGridView grid;
+    private InventoryHolder holder;
+    private InventorySlotData mySlot;
 
     private bool inWz = false;
+    private bool pointerDownInBounds = false;
 
     void Start()
     {
-        inventory = GameObject.FindFirstObjectByType<InventoryView>();
+        holder = GameObject.FindFirstObjectByType<InventoryHolder>();
+        grid = GetComponentInParent<InventoryGridView>(true);
     }
 
     public void SetIngredient(IngredientSO newIngred)
     {
         ingredient = newIngred;
+    }
+
+    public void BindSlot(InventorySlotData slot)
+    {
+        mySlot = slot;
     }
 
     public void ActiveInWZ()
@@ -25,7 +34,13 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (ingredient != null)
+        pointerDownInBounds = false;
+        if (holder != null && holder.InvBounds != null)
+        {
+            pointerDownInBounds = RectTransformUtility.RectangleContainsScreenPoint(holder.InvBounds, eventData.position, eventData.pressEventCamera);
+        }
+
+        /*if (ingredient != null)
         {
             GameObject worldObject = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity);
             WorldIngredient wIngred = worldObject.GetComponent<WorldIngredient>();
@@ -41,7 +56,40 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
             }
 
             inventory.RemoveItem(ingredient);
+        }*/
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (!pointerDownInBounds || grid == null || mySlot == null) return;
+
+        grid.BeginDrag(mySlot, gameObject, eventData);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (grid == null) return;
+
+        grid.Drag(eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (grid == null || holder == null || holder.InvBounds == null) return;
+
+        bool inside = RectTransformUtility.RectangleContainsScreenPoint(holder.InvBounds, eventData.position, eventData.pressEventCamera);
+
+        if (!inside)
+        {
+            print("OUSIDE QWOPPPSPSP");
+            grid.EndDrag(true);
         }
+        else
+        {
+            grid.EndDrag(false);
+        }
+
+        pointerDownInBounds = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
