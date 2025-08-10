@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 5767809652189004607}
   - component: {fileID: 1067179714545731035}
   - component: {fileID: 4462753044908955332}
+  - component: {fileID: 5012756981459369055}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -363,6 +364,266 @@ MonoBehaviour:
   slotsGrid: {fileID: 0}
   slotVisualObject: {fileID: 4433735583167603129, guid: 43cce3865e4a8ee46a993e0b69d87e79, type: 3}
   addTrigger: {fileID: 0}
+--- !u!114 &5012756981459369055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882040984405703135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d848dcd8e264464b829995235bd1434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactAction:
+    m_Name: Interact
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: ee3fe28f-0da3-44b1-98d5-52131d214a81
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: e9bb015e-baae-4fd8-b5a9-2c0a8cb9ae69
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Interact
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 77a1b6f0-9e4f-4a96-b94e-e87e8bb9fc62
+      m_Path: <Gamepad>/buttonEast
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Interact
+      m_Flags: 0
+    m_Flags: 0
+  dragAction:
+    m_Name: Drag
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 473a781f-421a-477f-aa30-8d15a653b9cd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 13ceeb83-858d-4153-8571-0bc28e756bcb
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Drag
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 1a5213c1-d685-4ade-b631-d53ea2836529
+      m_Path: <Gamepad>/rightTrigger
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Drag
+      m_Flags: 0
+    m_Flags: 0
+  optionChangeAction:
+    m_Name: Option Change
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: a5dbc0d9-339c-49c1-b4bc-69297abbe787
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: WASD
+      m_Id: 4da5abe5-a0dd-445d-a58e-25288d5f1a3a
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 4
+    - m_Name: up
+      m_Id: c1baa7c6-c020-418c-ae26-91c98975f2a3
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 063be410-de62-490f-a076-74bb9b0a50ff
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: left
+      m_Id: c8e34f95-f7bd-4ccb-9e42-533b00c5b8d7
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 450eddab-02ec-4bb6-b195-dbb5709bc848
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: ArrowKeys
+      m_Id: a3013cc2-d497-4415-842b-5448e7c1a53b
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 4
+    - m_Name: up
+      m_Id: 1f176339-66e9-4d4f-97cb-28755a52b613
+      m_Path: <Keyboard>/upArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: down
+      m_Id: e870ec13-2207-482d-9b93-1ea90d81760a
+      m_Path: <Keyboard>/downArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 8622b724-211e-4e22-ad90-a8e43c1d1bdf
+      m_Path: <Keyboard>/leftArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 538c5e58-6420-4025-abea-016f95dcef9c
+      m_Path: <Keyboard>/rightArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Option Change
+      m_Flags: 8
+    m_Flags: 0
+  selectAction:
+    m_Name: Select
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 98e75211-6f00-45cf-8db1-543143084780
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 40c2b4fa-3eb1-4fa9-9470-bc4b3f141cd1
+      m_Path: <Keyboard>/enter
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Select
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f791e492-9501-4329-9166-1a141eaaf1cc
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Select
+      m_Flags: 0
+    m_Flags: 0
+  showIngrediantsAction:
+    m_Name: Show Ingrediants
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 8173954d-c158-4743-b9a1-6ba0bdf3a2f2
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 248c762e-b01e-47f3-8296-44279169f692
+      m_Path: <Keyboard>/tab
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Show Ingrediants
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f948cda9-c3cd-46a1-842d-269ae5f5dd5f
+      m_Path: <Gamepad>/buttonNorth
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Show Ingrediants
+      m_Flags: 0
+    m_Flags: 0
+  recipeBookAction:
+    m_Name: Recipe Book
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 403f6a20-90c3-4d08-866f-62c983ec7657
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 9cf0fe62-1fc5-45a4-9c75-e1d2ebcc1503
+      m_Path: <Keyboard>/r
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Recipe Book
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f5e3134c-26da-4cd9-8314-cb9fb293661b
+      m_Path: <Gamepad>/select
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Recipe Book
+      m_Flags: 0
+    m_Flags: 0
+  pauseAction:
+    m_Name: Pause
+    m_Type: 1
+    m_ExpectedControlType: Button
+    m_Id: 4e657d26-444f-496f-a164-70306461ab4b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 702f1cb1-1b5f-4323-80e1-c862ea233f3b
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pause
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f9f14a46-baf8-4282-8401-ed04df4bf5c4
+      m_Path: <Gamepad>/start
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Pause
+      m_Flags: 0
+    m_Flags: 0
+  reticleImage: {fileID: 0}
+  ingredientObjectTag: Ingredient
+  draggableObjectTag: WZDraggable
+  npcObjectTag: WZnpc
+  doorObjectTag: WZDoor
+  otherInteractableTag: 
+  pickupDistance: 5
+  objectDragSpeed: 20
+  inventoryCanvasGroup: {fileID: 0}
 --- !u!1 &2389179300540845493
 GameObject:
   m_ObjectHideFlags: 0
