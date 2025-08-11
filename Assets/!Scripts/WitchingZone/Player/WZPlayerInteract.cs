@@ -56,9 +56,9 @@ public class WZPlayerInteract : MonoBehaviour
     private Vector2 baseReticleSize;
 
     private bool paused = false;
+    [HideInInspector] public bool inventoryOpen = false;
 
     private GameObject currentlyDragging;
-    private Vector3 hitPosition;
     private float initialHitDistance = 0;
 
     private bool inInteract = false;
@@ -205,7 +205,7 @@ public class WZPlayerInteract : MonoBehaviour
         }
 
         //add ingrediant to inventory
-        Inventory inventory = GetComponent<Inventory>();
+        WZInventoryHolder inventory = GetComponent<WZInventoryHolder>();
         inventory.AddNewItem(ingredient.ingredient);
 
         GameEvents.WitchingZone.OnIngredientPickedUp?.Invoke(ingredient.transform.position);
@@ -274,11 +274,34 @@ public class WZPlayerInteract : MonoBehaviour
     private void OnShowIngredients(InputAction.CallbackContext context)
     {
         inventoryCanvasGroup.alpha = 1;
+        inventoryOpen = true;
+
+        //inv hover
+        WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
+        controller?.EnableDisableAction(false,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+
+        EnableDisableAction(false,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void UnShowIngredients(InputAction.CallbackContext context)
     {
         inventoryCanvasGroup.alpha = 0;
+        inventoryOpen = false;
+
+        WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
+        controller?.EnableDisableAction(true,
+            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+
+        EnableDisableAction(true,
+            new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });
+
+        Cursor.lockState = CursorLockMode.Locked;
+
+        FindFirstObjectByType<InventoryGridView>()?.EndDrag(false);
     }
 
     private void OnShowRecipes(InputAction.CallbackContext context)
@@ -326,7 +349,7 @@ public class WZPlayerInteract : MonoBehaviour
         {
             foreach (string tag in tagsToCheck)
             {
-                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag))
+                if (!string.IsNullOrEmpty(tag) && lastHit.transform.CompareTag(tag) && reticleImage != null)
                 {
                     //maybe store these at start?
                     Color newRetColor = new Color(baseReticleColor.r, baseReticleColor.g, baseReticleColor.b, baseReticleColor.a + (baseReticleColor.a * 0.25f));
@@ -339,15 +362,21 @@ public class WZPlayerInteract : MonoBehaviour
                 }
                 else
                 {
-                    reticleImage.color = baseReticleColor;
-                    reticleImage.rectTransform.sizeDelta = baseReticleSize;
+                    if (reticleImage != null)
+                    {
+                        reticleImage.color = baseReticleColor;
+                        reticleImage.rectTransform.sizeDelta = baseReticleSize;
+                    }
                 }
             }
         }
         else
         {
-            reticleImage.color = baseReticleColor;
-            reticleImage.rectTransform.sizeDelta = baseReticleSize;
+            if (reticleImage != null)
+            {
+                reticleImage.color = baseReticleColor;
+                reticleImage.rectTransform.sizeDelta = baseReticleSize;
+            }
         }
 
 #if UNITY_ENGINE
@@ -378,12 +407,12 @@ public class WZPlayerInteract : MonoBehaviour
 
     public void EnableReticle()
     {
-        reticleImage.gameObject.SetActive(true);
+        reticleImage?.gameObject.SetActive(true);
     }
 
     public void DisableReticle()
     {
-        reticleImage.gameObject.SetActive(false);
+        reticleImage?.gameObject.SetActive(false);
     }
     public GameObject GetCurrentlyDraggedObject() { return currentlyDragging; }
 

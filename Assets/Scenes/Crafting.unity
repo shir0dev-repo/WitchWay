@@ -10433,7 +10433,8 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 624.6487
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3127813953919105621, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2956819817518101082, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
@@ -10445,13 +10446,72 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8744342488786263556, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 658492147}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3485843096227158787, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5649598872092470721}
   m_SourcePrefab: {fileID: 100100000, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
 --- !u!224 &5649598872092470716 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2956819817518101082, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
   m_PrefabInstance: {fileID: 5649598872092470715}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &5649598872092470717 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8506671947731680803, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+  m_PrefabInstance: {fileID: 5649598872092470715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &5649598872092470718 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3825464484048824700, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+  m_PrefabInstance: {fileID: 5649598872092470715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &5649598872092470719 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1875177431540695031, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+  m_PrefabInstance: {fileID: 5649598872092470715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5649598872092470720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3485843096227158787, guid: 26002b701522a534381a4f7ddede2c54, type: 3}
+  m_PrefabInstance: {fileID: 5649598872092470715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5649598872092470721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5649598872092470720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f778d73607bcee40bce0d9cdfd305ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  populateFromPersistantList: 1
+  writeToPersistantList: 1
+  spacing: 5
+  yPos: 0
+  zPos: 7
+  craftingRects:
+  - screenRect: {fileID: 5649598872092470717}
+    depthValue: 4
+  - screenRect: {fileID: 5649598872092470718}
+    depthValue: 7
+  - screenRect: {fileID: 5649598872092470719}
+    depthValue: 0
+  _destroySectionIndex: 0
+  boxes:
+  - {fileID: 735249373}
+  - {fileID: 1997285297}
+  - {fileID: 634493117}
+  OnItemTrashedSound:
+    Guid:
+      Data1: -10952324
+      Data2: 1133536382
+      Data3: 948638864
+      Data4: -553464592
+    Path: event:/SFX/misc/sfx_garbage
 --- !u!4 &6346570892620682374
 Transform:
   m_ObjectHideFlags: 0

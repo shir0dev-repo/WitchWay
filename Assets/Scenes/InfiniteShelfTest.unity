@@ -687,6 +687,107 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5921999689252539282, guid: 1dc8ad169b7e89b4c97a94951e93ae93, type: 3}
   m_PrefabInstance: {fileID: 7763252680851072052}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &308122361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 308122365}
+  - component: {fileID: 308122362}
+  - component: {fileID: 308122364}
+  - component: {fileID: 308122363}
+  m_Layer: 5
+  m_Name: InvAbove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!223 &308122362
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308122361}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &308122363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308122361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4095
+--- !u!114 &308122364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308122361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!224 &308122365
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308122361}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1001 &343699181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1080,7 +1181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 735662475}
-  - component: {fileID: 735662474}
+  - component: {fileID: 735662476}
   m_Layer: 0
   m_Name: InventoryManager
   m_TagString: Untagged
@@ -1088,25 +1189,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &735662474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735662473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b29e1354e0b3e47a608de641154b80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryType: 1
-  maxAmountofItems: 15
-  maxDifferentItems: 10
-  amountOfSlots: 15
-  slotsGrid: {fileID: 138571484}
-  slotVisualObject: {fileID: 4433735583167603129, guid: 43cce3865e4a8ee46a993e0b69d87e79, type: 3}
-  addTrigger: {fileID: 1316165806}
 --- !u!4 &735662475
 Transform:
   m_ObjectHideFlags: 0
@@ -1122,6 +1204,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &735662476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735662473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab203d1622b01f14ca9996661c58f372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  populateFromPersistantList: 1
+  writeToPersistantList: 1
+  invBounds: {fileID: 1579330508}
+  grid: {fileID: 1626260145}
+  addTrigger: {fileID: 1316165806}
 --- !u!1001 &830328685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1658,7 +1757,6 @@ GameObject:
   - component: {fileID: 1579330511}
   - component: {fileID: 1579330510}
   - component: {fileID: 1579330509}
-  - component: {fileID: 1579330512}
   m_Layer: 5
   m_Name: InventorySlots
   m_TagString: Untagged
@@ -1754,33 +1852,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579330507}
   m_CullTransparentMesh: 1
---- !u!114 &1579330512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579330507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c1cbfda85b9354897ea9b525313d76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spacing: 0
-  yPos: 0
-  zPos: 0
-  craftingRects:
-  - screenRect: {fileID: 2138652120}
-    depthValue: -10
-  _destroySectionIndex: 1
-  boxes: []
-  OnItemTrashedSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!1 &1626260140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1793,6 +1864,7 @@ GameObject:
   - component: {fileID: 1626260144}
   - component: {fileID: 1626260143}
   - component: {fileID: 1626260142}
+  - component: {fileID: 1626260145}
   m_Layer: 5
   m_Name: InventoryUI
   m_TagString: Untagged
@@ -1837,7 +1909,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4160753663
+    m_Bits: 4095
 --- !u!114 &1626260143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1884,6 +1956,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1626260145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626260140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f773ed2dd1c10749abaa7146b6586c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  amountOfSlots: 15
+  slotsGrid: {fileID: 138571484}
+  slotVisualObject: {fileID: 4433735583167603129, guid: 43cce3865e4a8ee46a993e0b69d87e79, type: 3}
+  aboveCanvas: {fileID: 308122362}
 --- !u!1 &1641646638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2570,5 +2659,6 @@ SceneRoots:
   - {fileID: 1343715613}
   - {fileID: 735662475}
   - {fileID: 1316165808}
+  - {fileID: 308122365}
   - {fileID: 1626260141}
   - {fileID: 23064442}

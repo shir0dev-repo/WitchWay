@@ -13,7 +13,7 @@ public static partial class GameEvents
 
         public static Action<Dungeon2D> OnDungeonGenerated;
 
-        public static Action<Room> OnRoomExited;
+        public static Action<Room, Entrance> OnRoomExited;
         public static Action<Room> OnRoomEntered;
 
         public static Action OnDoorUnlocked;

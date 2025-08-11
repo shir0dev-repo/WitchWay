@@ -74,9 +74,9 @@ public class CursorManager : Singleton<CursorManager>
         _targetZPosition = 0.0f;
 
         if (!_attachedObject.TryGetComponent(out WorldIngredient ing)) return;
-        if (StationsInventory.Instance == null) return;
+        if (FindFirstObjectByType<StationsInventoryHolder>() == null) return;
 
-        CraftingRectArea[] craftingRects = StationsInventory.Instance.GetCraftingRects();
+        CraftingRectArea[] craftingRects = FindFirstObjectByType<StationsInventoryHolder>().GetCraftingRects();
 
         if (craftingRects == null) return;
 
@@ -89,7 +89,7 @@ public class CursorManager : Singleton<CursorManager>
             if (rect.rect.Contains(localMousePosition))
             {
                 _targetZPosition = craftingRectArea.depthValue;
-                _attachedObjectInDestroyArea = i == StationsInventory.Instance.DestroySectionIndex;
+                _attachedObjectInDestroyArea = i == FindFirstObjectByType<StationsInventoryHolder>().DestroySectionIndex;
                 break;
             }
         }

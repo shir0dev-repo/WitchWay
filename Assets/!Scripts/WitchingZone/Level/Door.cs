@@ -3,7 +3,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField] private float _entryPositionOffset = 1.5f;
-    
+    [SerializeField] Entrance _entranceDirection = Entrance.None;
+
     public Room AttachedRoom { get; set; } = null;
 
     public bool IsLocked { get; private set; } = false;
@@ -18,6 +19,6 @@ public class Door : MonoBehaviour
         
         if (!collision.gameObject.TryGetComponent(out WZPlayerController controller)) return;
         controller.SetCanMove(false);
-        GameEvents.WitchingZone.OnRoomExited?.Invoke(AttachedRoom);
+        GameEvents.WitchingZone.OnRoomExited?.Invoke(AttachedRoom, _entranceDirection);
     }
 }

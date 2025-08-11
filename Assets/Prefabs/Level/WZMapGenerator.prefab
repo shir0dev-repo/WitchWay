@@ -305,9 +305,13 @@ MonoBehaviour:
   - Prefab: {fileID: 8871356885422626254, guid: 14fe737caf95cc94e870e72360f0a21e, type: 3}
     Entrances: 10
   - Prefab: {fileID: 7567844114083217493, guid: 033cb39d18245b442acec2baed831d8d, type: 3}
-    Entrances: 5
+    Entrances: 7
+  - Prefab: {fileID: 7089697871000977466, guid: 664f8a171678b884ab3d6ea596c06f23, type: 3}
+    Entrances: 13
+  - Prefab: {fileID: 8855947071504513570, guid: 447485acb2246fc438fccabe0c5618ff, type: 3}
+    Entrances: 11
   - Prefab: {fileID: 5763956799335852277, guid: 499ece606b6696d4590af819ff9d40cd, type: 3}
-    Entrances: 10
+    Entrances: 14
   - Prefab: {fileID: 4323026703188987941, guid: 0e0a5365c14701a478d309d7566375c0, type: 3}
     Entrances: 5
   - Prefab: {fileID: 2644151104919796756, guid: 17d19f8b68ee8904f9fec66c78b5ea17, type: 3}
@@ -406,7 +410,7 @@ MonoBehaviour:
     Entrances: 15
   - Prefab: {fileID: 964162002384994544, guid: 8338331b5b6088d498d017d4c646bd30, type: 3}
     Entrances: 15
-  _shouldDisableOnStart: 0
+  _shouldDisableOnStart: 1
   _dungeon:
     _nodes: []
   _generatorData:
@@ -426,6 +430,8 @@ MonoBehaviour:
   - Type: 2
     Color: {r: 1, g: 0, b: 0.99997807, a: 1}
     IsPuzzleReward: 0
+  _pixelFadeOutDuration: 0.6
+  _pixelFadeInDuration: 0.6
 --- !u!114 &7772381725034251849
 MonoBehaviour:
   m_ObjectHideFlags: 0

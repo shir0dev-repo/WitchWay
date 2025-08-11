@@ -41,6 +41,10 @@ public class WZMimicAI : MonoBehaviour
     void Start()
     {
         _state = new WZMimicData(transform.position, transform.rotation);
+        if (playerTransform == null)
+        {
+            playerTransform = WZPlayerManager.Instance.transform;
+        }
     }
 
     void Update()
@@ -48,6 +52,10 @@ public class WZMimicAI : MonoBehaviour
         if (playerTransform != null)
         {
             distanceToPlayer = Vector3.Distance(playerTransform.position, transform.position);
+        }
+        else
+        {
+            playerTransform = WZPlayerManager.Instance.transform;
         }
 
         if (_state.IsActive == false)

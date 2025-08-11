@@ -31,10 +31,10 @@
             "m_Id": "148d9f5deae64416ba7b8ffb2fdc00fc"
         },
         {
-            "m_Id": "5ba91df90ddc479788647e3e1b652e22"
+            "m_Id": "61e05b6439e7498fbad79c1d4369c98b"
         },
         {
-            "m_Id": "61e05b6439e7498fbad79c1d4369c98b"
+            "m_Id": "283bb9704eef4b14b73b8eaf25a9301e"
         }
     ],
     "m_GroupDatas": [],
@@ -105,7 +105,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "5ba91df90ddc479788647e3e1b652e22"
+                    "m_Id": "283bb9704eef4b14b73b8eaf25a9301e"
                 },
                 "m_SlotId": 0
             }
@@ -131,7 +131,7 @@
                 "m_Id": "8aa9f42cca5e4c26bdd1301681ffb176"
             },
             {
-                "m_Id": "5ba91df90ddc479788647e3e1b652e22"
+                "m_Id": "283bb9704eef4b14b73b8eaf25a9301e"
             }
         ]
     },
@@ -281,6 +281,55 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "283bb9704eef4b14b73b8eaf25a9301e",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SurfaceDescription.FullscreenEyeDepth",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "2c0c07dd9f0d4e6eae0144661af3b844"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "SurfaceDescription.FullscreenEyeDepth"
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "2c0c07dd9f0d4e6eae0144661af3b844",
+    "m_Id": 0,
+    "m_DisplayName": "Eye Depth",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "FullscreenEyeDepth",
+    "m_StageCapability": 2,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.SubGraphNode",
     "m_ObjectId": "2e581170e0bf4d58a73e4ccbaceaa23e",
     "m_Group": {
@@ -332,40 +381,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "5ba91df90ddc479788647e3e1b652e22",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.FullscreenLinear01Depth",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "aa27ec501912467f9f0cec87592eccf3"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.FullscreenLinear01Depth"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.SceneDepthNode",
     "m_ObjectId": "61e05b6439e7498fbad79c1d4369c98b",
     "m_Group": {
@@ -401,7 +416,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_DepthSamplingMode": 0
+    "m_DepthSamplingMode": 2
 }
 
 {
@@ -499,7 +514,7 @@
     "m_ObjectId": "96d7565433434ad0af9dc979ac8d2b25",
     "m_Version": 0,
     "m_fullscreenMode": 0,
-    "m_BlendMode": 0,
+    "m_BlendMode": 1,
     "m_SrcColorBlendMode": 0,
     "m_DstColorBlendMode": 1,
     "m_ColorBlendOperation": 0,
@@ -515,7 +530,7 @@
     "m_StencilFailOperation": 0,
     "m_StencilDepthFailOperation": 0,
     "m_DepthWrite": true,
-    "m_depthWriteMode": 1,
+    "m_depthWriteMode": 0,
     "m_AllowMaterialOverride": false,
     "m_DepthTestMode": 4
 }
@@ -544,21 +559,6 @@
     },
     "m_Labels": [],
     "m_ScreenSpaceType": 0
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "aa27ec501912467f9f0cec87592eccf3",
-    "m_Id": 0,
-    "m_DisplayName": "Linear01 Depth",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "FullscreenLinear01Depth",
-    "m_StageCapability": 2,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
 }
 
 {
