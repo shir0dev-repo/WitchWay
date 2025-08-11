@@ -22,6 +22,7 @@ public class Room : MonoBehaviour
     private List<Transform> enemySpawnPoints = new();
     public List<Transform> EnemySpawnPoints => enemySpawnPoints;
     public List<WZChaseAI> ChaseEnemies { get; private set; } = new();
+    public List<WZMimicAI> MimicEnemies { get; private set; } = new();
 
     private void OnEnable()
     {
