@@ -68,7 +68,8 @@ MonoBehaviour:
   - {fileID: -9110866680682161930}
   - {fileID: -5988610610032996185}
   - {fileID: 8587498605028814761}
-  m_RendererFeatureMap: f658ff7d06b38f81a710d912612ee4aca9afe7957bec2c77
+  - {fileID: 922738165480984112}
+  m_RendererFeatureMap: f658ff7d06b38f81a710d912612ee4aca9afe7957bec2c77308e30fe7839ce0c
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -94,6 +95,26 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &922738165480984112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: Grayscale Pass
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: 0
+  passMaterial: {fileID: 2100000, guid: 3a68649f39585354891dfe8830a50c56, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &8587498605028814761
 MonoBehaviour:
   m_ObjectHideFlags: 0
