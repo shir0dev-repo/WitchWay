@@ -14,11 +14,13 @@ public class WZDialogueMonsterAI : MonoBehaviour
     [SerializeField] private float groundCheckDistance = 2f;
 
     [Header("Spawning Settings")]
-    [SerializeField] private float spawnDelay = 5f;
     [SerializeField] private float spawnDistance = 5f;
     [SerializeField] private float spawnHeight = 2f;
     [SerializeField] private float spawnCheckRadius = 0.5f;
     [SerializeField] private float spawnCheckDelay = 1f;
+    [SerializeField] private float spawnChance = 0.5f;
+
+    [Header("Layer Masks")]
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private LayerMask obstacleMask;
 
@@ -29,22 +31,22 @@ public class WZDialogueMonsterAI : MonoBehaviour
     private float disappearTimer = 0f;
     private Coroutine reappearRoutine;
 
+    [HideInInspector] public bool hasStarted = false;
+
     void Update()
     {
-        if(isDialogueCompleted)
+        if (isDialogueCompleted || !hasStarted)
         {
             return;
         }
-        if (monsterTransform != null && playerTransform != null)
+
+        if (isMonsterVisible && playerTransform != null)
         {
             Vector3 lookDir = playerTransform.position - monsterTransform.position;
             lookDir.y = 0;
             if (lookDir != Vector3.zero)
                 monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, Quaternion.LookRotation(lookDir), 10f * Time.deltaTime);
-        }
 
-        if (isMonsterVisible && playerTransform != null)
-        {
             float dist = Vector3.Distance(playerTransform.position, monsterTransform.position);
             if (dist > disappearDistance)
             {
@@ -64,17 +66,9 @@ public class WZDialogueMonsterAI : MonoBehaviour
                 disappearTimer = 0f;
             }
         }
-        if (!isMonsterVisible && reappearRoutine == null && !isDialogueCompleted)
-        {
-            if (debugMode)
-            {
-                Debug.Log("Monster is not visible. Starting reappear routine.");
-            }
-            reappearRoutine = StartCoroutine(ReappearBehindPlayerCoroutine());
-        }
     }
 
-    private void DisappearMonster()
+    public void DisappearMonster()
     {
         isMonsterVisible = false;
         monsterTransform.gameObject.SetActive(false);
@@ -92,7 +86,7 @@ public class WZDialogueMonsterAI : MonoBehaviour
     private IEnumerator DisappearMonsterCoroutine()
     {
         yield return new WaitForSeconds(disappearDelay);
-        
+
         DisappearMonster();
     }
 
@@ -134,6 +128,42 @@ public class WZDialogueMonsterAI : MonoBehaviour
                     yield break;
                 }
             }
+        }
+    }
+
+    public void StartChase(Vector3 startPosition, Quaternion startRotation)
+    {
+        if (isDialogueCompleted)
+            return;
+
+        if (debugMode)
+        {
+            Debug.Log($"Starting chase at position: {startPosition}, rotation: {startRotation}");
+        }
+        monsterTransform.position = startPosition;
+        monsterTransform.rotation = startRotation;
+        hasStarted = true;
+
+        if (reappearRoutine != null)
+        {
+            StopCoroutine(reappearRoutine);
+            reappearRoutine = null;
+        }
+    }
+
+    public void RoomEntered()
+    {
+        if (!hasStarted || isDialogueCompleted)
+            return;
+
+        DisappearMonster();
+
+        if (debugMode)
+            Debug.Log("Player entered a new room, monster is trying to spawn.");
+
+        if (Random.value < spawnChance)
+        {
+            StartCoroutine(ReappearBehindPlayerCoroutine());
         }
     }
 }

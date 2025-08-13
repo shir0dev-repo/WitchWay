@@ -43,6 +43,10 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
     [SerializeField] private DungeonGeneratorData _generatorData;
     [SerializeField] private List<SpecialRoomType> _specialRoomTypes;
 
+    [Header("Room Changing Effect")]
+    [SerializeField] private float _pixelFadeOutDuration = 0.6f;
+    [SerializeField] private float _pixelFadeInDuration = 0.6f;
+
     private List<Room> _rooms = new();
     public Room GetRoom(Node n)
     {
@@ -56,10 +60,19 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
         return _rooms.Find(r => r.Node.Position == index);
     }
 
+    public Room GetRoom(Vector2Int nodeCoords)
+    {
+        return _rooms.Find(r => r.Node.Position == nodeCoords);
+    }
+
     private void OnEnable()
     {
         GameEvents.WitchingZone.OnRoomExited += UnloadRoom;
-        GameEvents.WitchingZone.OnRoomEntered += LoadRoom;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.WitchingZone.OnRoomExited -= UnloadRoom;
     }
 
     private void Start()
@@ -125,20 +138,48 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
 
     private void LoadRoom(Room room)
     {
+        room.gameObject.SetActive(true);
+        StartCoroutine(LoadRoomCoroutine(room));
+    }
+
+    private void UnloadRoom(Room room, Entrance exitDirection)
+    {
+        StartCoroutine(UnloadRoomCoroutine(room, exitDirection));
+    }
+
+    private IEnumerator LoadRoomCoroutine(Room room)
+    {
+        room.gameObject.SetActive(true);
+        Debug.Log(room.gameObject.activeInHierarchy);
+
+        WZPlayerController player = WZPlayerController.Instance;
+        Room currentRoom = DungeonManager.Instance.CurrentRoom;
+        Vector3 playerPos = player.transform.position;
+
+        Vector3 roomPosition = player.transform.position - currentRoom.transform.position;
+        Vector3 spawnPosition = room.transform.position - (roomPosition * 0.95f);
+
+        spawnPosition.y = player.transform.position.y;
+        player.transform.position = spawnPosition;
+        Vector3 lookTarget = room.transform.position;
+        lookTarget.y = player.transform.position.y;
+        player.transform.rotation = Quaternion.LookRotation((lookTarget - player.transform.position).normalized, Vector3.up);
         
+        currentRoom.gameObject.SetActive(false);
+
+        ScreenEffects se = ScreenEffects.Instance;
+        if (se != null)
+        {
+            bool effectFinished = false;
+            se.DoScreenEffect("Room Exit", _pixelFadeInDuration, 1.0f, () => effectFinished = true, false);
+            yield return new WaitUntil(() => effectFinished);
+        }
+
+        GameEvents.WitchingZone.OnRoomEntered?.Invoke(room);
+        player.SetCanMove(true);
     }
 
-    private void UnloadRoom(Room room)
-    {
-        StartCoroutine(UnloadRoomCoroutine(room));
-    }
-
-    private void LoadRoomCoroutine(Room room)
-    {
-
-    }
-
-    private IEnumerator UnloadRoomCoroutine(Room room)
+    private IEnumerator UnloadRoomCoroutine(Room room, Entrance exitDirection)
     {
         WZPlayerController player = WZPlayerController.Instance;
         if (player == null) yield break;
@@ -148,9 +189,37 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
         if (se != null)
         {
             bool effectFinished = false;
-            se.DoScreenEffect("Room Exit", 0.3f, 1.0f, () => effectFinished = true, false);
+            se.DoScreenEffect("Room Exit", _pixelFadeOutDuration, 0.0f, () => effectFinished = true, false);
             yield return new WaitUntil(() => effectFinished);
         }
+
+        Room currentRoom = DungeonManager.Instance.CurrentRoom;
+        Vector2Int enteredRoomCoord = currentRoom.Node.Position;
+
+        switch (exitDirection)
+        {
+            case Entrance.None:
+                break;
+            case Entrance.North:
+                enteredRoomCoord.y += 1;
+                break;
+            case Entrance.East:
+                enteredRoomCoord.x += 1;
+                break;
+            case Entrance.South:
+                enteredRoomCoord.y -= 1;
+                break;
+            case Entrance.West:
+                enteredRoomCoord.x -= 1;
+                break;
+        }
+
+        Room enteredRoom = GetRoom(enteredRoomCoord);
+        if (enteredRoom != null)
+        {
+            LoadRoom(enteredRoom);
+        }
+
         Debug.Log("new room !!!");
     }
 }
