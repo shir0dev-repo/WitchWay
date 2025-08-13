@@ -8,7 +8,17 @@ public class DebugMenuManager : MonoBehaviour
     public static DebugMenuManager Instance { get; private set; }
     bool isDebugMenuActive = false;
     [SerializeField] TMP_Text debugMenuButton;
+    [SerializeField] TextMeshProUGUI fpsText;
     [SerializeField] RectTransform debugMenuPanel;
+
+    private void Update()
+    {
+        if (fpsText != null)
+        {
+            int current = (int)(Time.frameCount / Time.time);
+            fpsText.text = current.ToString();
+        }
+    }
 
     public void ToggleDebugMenu()
     {
