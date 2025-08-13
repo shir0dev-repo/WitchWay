@@ -5,7 +5,7 @@ public class CraftingInteractable : MonoBehaviour, IInteractable
 {
     public bool Interact(ShopPlayerController player)
     {
-        SceneManager.LoadScene("Crafting", LoadSceneMode.Additive);
+        FindFirstObjectByType<ShopManager>().LoadArea(ShopArea.CraftingStation);
         return true;
     }
 }
