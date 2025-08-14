@@ -19,6 +19,7 @@ public class MusicManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        SoundManager.Instance.StopMusic();
         switch (scene.name)
         {
             case "Crafting":

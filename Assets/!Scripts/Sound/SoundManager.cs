@@ -13,12 +13,20 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private StudioEventEmitter _emitterMusic;
 
     private Dictionary<string, FMOD.Studio.EventInstance> _loopingInstances = new Dictionary<string, FMOD.Studio.EventInstance>();
+    private FMOD.Studio.EventInstance _currentMusicInstance;
+
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
 
     public void PlayMusicTrack(EventReference track)
     {
-        _emitterMusic.EventReference = track;
-        _emitterMusic.Play();
+        StopMusic();
+
+        _currentMusicInstance = RuntimeManager.CreateInstance(track);
+        _currentMusicInstance.start();
     }
 
     public void PlayOneShot(EventReference sound, Vector3 position = default)
@@ -85,5 +93,19 @@ public class SoundManager : Singleton<SoundManager>
     public bool IsLooping(string key)
     {
         return _loopingInstances.ContainsKey(key);
+    }
+
+    public void StopMusic()
+    {
+        if (_emitterMusic.IsPlaying())
+        {
+            _emitterMusic.Stop();
+        }
+        
+        if (_currentMusicInstance.isValid())
+        {
+            _currentMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            _currentMusicInstance.release();
+        }
     }
 }

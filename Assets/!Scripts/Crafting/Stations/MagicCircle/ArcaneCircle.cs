@@ -29,7 +29,9 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
     private Stack<RemoveLineCommand> _savedLines = new();
 
     [Header("Audio")]
-    [SerializeField] private EventReference drawValidSound;
+    [SerializeField] private EventReference drawValidSound, drawInvalidSound;
+    [SerializeField] private EventReference abjurationSound, divinationSound, enchantmentSound, evocationSound, necromancySound;
+
 
     public void Enable(ToolType type)
     {
@@ -91,10 +93,29 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
             if (gesturePair.GestureName == symbolName && accuracy >= gesturePair.AccuracyThreshold)
             {
                 result = gesturePair.Symbol;
-                SoundManager.Instance.PlayOneShot(drawValidSound, Camera.main.transform.position);
+                switch (gesturePair.Symbol)
+                {
+                    case AlchemicalSymbol.Abjuration:
+                        SoundManager.Instance.PlayOneShot(abjurationSound, Camera.main.transform.position);
+                        break;
+                    case AlchemicalSymbol.Divination:
+                        SoundManager.Instance.PlayOneShot(divinationSound, Camera.main.transform.position);
+                        break;
+                    case AlchemicalSymbol.Enchantment:
+                        SoundManager.Instance.PlayOneShot(enchantmentSound, Camera.main.transform.position);
+                        break;
+                    case AlchemicalSymbol.Evocation:
+                        SoundManager.Instance.PlayOneShot(evocationSound, Camera.main.transform.position);
+                        break;
+                    case AlchemicalSymbol.Necromancy:
+                        SoundManager.Instance.PlayOneShot(necromancySound, Camera.main.transform.position);
+                        break;
+                    default:
+                        break;
+                }
                 return true;
             }
-
+            SoundManager.Instance.PlayOneShot(drawInvalidSound, Camera.main.transform.position);
             return false;
         });
 
@@ -104,6 +125,7 @@ public class ArcaneCircle : Singleton<ArcaneCircle>
             _flashedSymbol.sprite = _symbols.FirstOrDefault(s =>  s.GestureName == symbolName).Sprite;
             _flashedSymbol.color = Color.white;
             DOTween.To(() => _flashedSymbol.color, (c) => _flashedSymbol.color = c, Color.clear, 1.5f).SetEase(Ease.OutCubic);
+            SoundManager.Instance.PlayOneShot(drawValidSound, Camera.main.transform.position);
             GameEvents.Crafting.OnSymbolDrawn?.Invoke(result);
         }
     }
