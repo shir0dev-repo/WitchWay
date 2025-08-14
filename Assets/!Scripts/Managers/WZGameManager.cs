@@ -27,5 +27,7 @@ public class WZGameManager : Singleton<WZGameManager>
         _playerSpawnPoint.position = spawnPosition;
         _playerSpawnPoint.rotation = Quaternion.identity;
         _playerSpawnPoint.gameObject.SetActive(true);
+
+        GameEvents.WitchingZone.OnPlayerSpawned?.Invoke(_playerSpawnPoint.GetComponent<WZPlayerManager>());
     }
 }

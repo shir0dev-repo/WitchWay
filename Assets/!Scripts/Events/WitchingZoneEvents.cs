@@ -12,6 +12,7 @@ public static partial class GameEvents
         public static Action OnSanityDecreased;
 
         public static Action<Dungeon2D> OnDungeonGenerated;
+        public static Action<WZPlayerManager> OnPlayerSpawned;
 
         public static Action<Room, Entrance> OnRoomExited;
         public static Action<Room> OnRoomEntered;

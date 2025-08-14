@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class WZMimicAI : MonoBehaviour
 {
@@ -24,7 +24,7 @@ public class WZMimicAI : MonoBehaviour
     [SerializeField] private float turnSpeed;
     [SerializeField] private float attackDelay;
     [SerializeField] private float attackDistance;
-    
+
     [Header("Jump Arc Settings")]
     [SerializeField] private float jumpHeight;
     [SerializeField] private float jumpDuration;
@@ -38,10 +38,15 @@ public class WZMimicAI : MonoBehaviour
     private float stareTimer = 0f;
     private bool isAirborne = false;
 
+    private void OnEnable()
+    {
+        GameEvents.WitchingZone.OnPlayerSpawned += (plr) => playerTransform = plr.transform;
+    }
+
     void Start()
     {
         _state = new WZMimicData(transform.position, transform.rotation);
-        if (playerTransform == null)
+        if (playerTransform == null && WZPlayerManager.Instance != null)
         {
             playerTransform = WZPlayerManager.Instance.transform;
         }
@@ -49,14 +54,15 @@ public class WZMimicAI : MonoBehaviour
 
     void Update()
     {
-        if (playerTransform != null)
+        if (playerTransform == null)
         {
-            distanceToPlayer = Vector3.Distance(playerTransform.position, transform.position);
+            if (WZPlayerManager.Instance != null)
+                playerTransform = WZPlayerManager.Instance.transform;
+            else
+                return;
         }
-        else
-        {
-            playerTransform = WZPlayerManager.Instance.transform;
-        }
+
+        distanceToPlayer = Vector3.Distance(playerTransform.position, transform.position);
 
         if (_state.IsActive == false)
         {
@@ -148,7 +154,7 @@ public class WZMimicAI : MonoBehaviour
         }
         transform.position += moveSpeed * Time.deltaTime * moveDir.normalized;
         */
-        
+
         Vector3 lookDir = playerTransform.position - transform.position;
         lookDir.y = 0;
         if (lookDir != Vector3.zero)
@@ -190,7 +196,7 @@ public class WZMimicAI : MonoBehaviour
     private IEnumerator ReturnToStart()
     {
         Vector3 startPos = _state.StartPosition;
-        
+
         while (Vector3.Distance(transform.position, startPos) > 0.1f)
         {
             Vector3 dir = (startPos - transform.position).normalized;
@@ -199,7 +205,7 @@ public class WZMimicAI : MonoBehaviour
         }
 
         transform.position = startPos;
-        
+
         transform.rotation = _state.StartRotation;
     }
     public IEnumerator MimicGrowl()
@@ -277,7 +283,7 @@ public class WZMimicAI : MonoBehaviour
             t += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        
+
         transform.position = landingPosition;
         yield return new WaitForSeconds(jumpDelay);
         _state.IsJumping = false;
