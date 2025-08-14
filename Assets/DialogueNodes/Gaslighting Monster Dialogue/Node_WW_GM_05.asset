@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_05
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_05
+  speakerName: Gaslighting Monster
+  line: I was waiting to see how long it would take for you to notice me!
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: You were being a little obvious about it.
+    nextNode: {fileID: 11400000, guid: 019269367b45d7f48a8516d44e60252e, type: 2}
+  - responseText: '*What''s this monster''s problem?*'
+    nextNode: {fileID: 11400000, guid: cdac5ba7fee512b4d80e41bc2eb62a7e, type: 2}
+  - responseText: Uh, how long have you been following me?
+    nextNode: {fileID: 11400000, guid: 04af710170a0344458daf2b08f4e557c, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []

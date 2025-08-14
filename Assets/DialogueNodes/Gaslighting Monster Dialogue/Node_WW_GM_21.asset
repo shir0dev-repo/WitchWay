@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_21
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_21
+  speakerName: Gaslighting Monster
+  line: '*sobs*'
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: Okay, okay, I'm sorry! I didn't mean to offend you.
+    nextNode: {fileID: 11400000, guid: 182dd9a7789159b4c962e2aa12f964f3, type: 2}
+  - responseText: ...I'm still going to need you to prove it to me.
+    nextNode: {fileID: 11400000, guid: ec78b49dafb46c24ab3ecb0b91245f58, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []

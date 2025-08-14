@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_98
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_98
+  speakerName: Gaslighting Monster
+  line: But-but-we're friends! Friends don't leave!
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: We're not friends.
+    nextNode: {fileID: 11400000, guid: 44b201a6eb5e79140bc9d7c7bc18d1b6, type: 2}
+  - responseText: I really don't have time for this. I'm still leaving.
+    nextNode: {fileID: 11400000, guid: 465300afe32935a47b201dd7d37bae39, type: 2}
+  - responseText: Friends don't lie.
+    nextNode: {fileID: 11400000, guid: 1871b4b17834b5941873dbcd8735d018, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []

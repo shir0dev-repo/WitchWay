@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_131
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_131
+  speakerName: Narrator
+  line: It only takes less than a heartbeat for the monster to attack. You feel its
+    claws shred into you, until all of a sudden...darkness.
+  typingSpeed: 0.05
+  nextNodeID: WW_GM_132
+  nextNode: {fileID: 11400000, guid: d0901432ee0e7d343972b0a4c6b873af, type: 2}
+  responses: []
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []

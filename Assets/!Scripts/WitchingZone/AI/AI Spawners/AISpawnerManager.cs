@@ -1,6 +1,7 @@
 using UnityEngine;
 using DungeonMaster2D;
 using System.Collections.Generic;
+using System.Collections;
 
 public class AISpawnerManager : MonoBehaviour
 {
@@ -38,25 +39,46 @@ public class AISpawnerManager : MonoBehaviour
                     {
                         aiSpawner.Spawn(spawnPoint.position, spawnPoint.rotation);
 
-                        foreach (var chaseAI in FindObjectsByType<WZChaseAI>(FindObjectsSortMode.None))
-                        {
-                            if (Vector3.Distance(chaseAI.transform.position, spawnPoint.position) < 2f)
-                            {
-                                chaseAI.TransitionToState(WZChaseData.State.Inactive);
-                                room.ChaseEnemies.Add(chaseAI);
-                                enemySpawned = true;
-                                break;
-                            }
-                        }
+                        StartCoroutine(FindAndAddSpawnedEnemies(room, spawnPoint.position));
+                        enemySpawned = true;
                     }
                 }
             }
         }
     }
 
+    private IEnumerator FindAndAddSpawnedEnemies(Room room, Vector3 spawnPosition)
+    {
+        yield return null;
+
+        foreach (var chaseAI in FindObjectsByType<WZChaseAI>(FindObjectsSortMode.None))
+        {
+            if (Vector3.Distance(chaseAI.transform.position, spawnPosition) < 2f)
+            {
+                chaseAI.TransitionToState(WZChaseData.State.Inactive);
+                room.ChaseEnemies.Add(chaseAI);
+                
+                chaseAI.transform.SetParent(room.transform);
+                break;
+            }
+        }
+
+        foreach (var mimicAI in FindObjectsByType<WZMimicAI>(FindObjectsSortMode.None))
+        {
+            if (Vector3.Distance(mimicAI.transform.position, spawnPosition) < 2f)
+            {
+                room.MimicEnemies.Add(mimicAI);
+                
+                mimicAI.transform.SetParent(room.transform);
+                break;
+            }
+        }
+    }
+
     private void OnRoomEntered(Room room)
     {
-        Debug.Log($"Entering room: {room.name}, ChaseEnemies: {room.ChaseEnemies.Count}");
+        Debug.Log($"Entering room: {room.name}, ChaseEnemies: {room.ChaseEnemies.Count}, MimicEnemies: {room.MimicEnemies.Count}");
+        
         foreach (var chaseAI in room.ChaseEnemies)
         {
             chaseAI.TransitionToState(WZChaseData.State.Idle);
@@ -65,7 +87,7 @@ public class AISpawnerManager : MonoBehaviour
 
     private void OnRoomExited(Room room, Entrance entrance)
     {
-        Debug.Log($"Exiting room: {room.name}, ChaseEnemies: {room.ChaseEnemies.Count}");
+        
         foreach (var chaseAI in room.ChaseEnemies)
         {
             chaseAI.TransitionToState(WZChaseData.State.Inactive);

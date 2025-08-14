@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5f7ac181d05bf4d828dfc60fbb8bb3, type: 3}
+  m_Name: Node_WW_GM_51
+  m_EditorClassIdentifier: 
+  nodeID: WW_GM_51
+  speakerName: Gaslighting Monster
+  line: Hey now. What's with the silence?
+  typingSpeed: 0.05
+  nextNodeID: 
+  nextNode: {fileID: 0}
+  responses:
+  - responseText: You're very...friendly for a monster.
+    nextNode: {fileID: 11400000, guid: fa117aa6010b9c642bd1f7b138c40bb7, type: 2}
+  - responseText: It's just, you know, most people are told not to speak to strangers.
+    nextNode: {fileID: 11400000, guid: b6a2a3cffc247ec429cd922825dd484e, type: 2}
+  - responseText: Leave the conversation.
+    nextNode: {fileID: 11400000, guid: 6e6d1b986f84d5a468819e74fab5b201, type: 2}
+  onNodeEnter:
+    m_PersistentCalls:
+      m_Calls: []
