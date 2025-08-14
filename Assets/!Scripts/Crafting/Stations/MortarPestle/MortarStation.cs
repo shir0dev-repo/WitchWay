@@ -20,9 +20,14 @@ public class MortarStation : Singleton<MortarStation>
         return ingredientsInMortar.Count;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         GameEvents.Crafting.OnSuccessfullyCrushedItem += SpawnCrushedItem;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnSuccessfullyCrushedItem -= SpawnCrushedItem;
     }
 
     private void SpawnCrushedItem(WorldIngredient ingredient)

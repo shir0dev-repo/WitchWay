@@ -50,11 +50,6 @@ public class StationsInventoryHolder : InventoryHolder
 
     private bool startDelayed = false;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     private void OnEnable()
     {
         GameEvents.Crafting.OnStationChanged += OnStationChangedHandler;
@@ -83,8 +78,7 @@ public class StationsInventoryHolder : InventoryHolder
         {
             for (int i = 0; i < slot.amount; i++)
             {
-                ModifiedIngredient mIngred = new ModifiedIngredient { BaseIngredient = slot.ingredient };
-                items.Add(new BasketItems(null, mIngred, 1));
+                items.Add(new BasketItems(null, slot.ingredient, 1));
             }
         }
 
@@ -120,7 +114,7 @@ public class StationsInventoryHolder : InventoryHolder
     public void PermanentRemove(WorldIngredient ingredient)
     {
         bool removedStack;
-        bool good = RemoveItem(ingredient.BaseIngredient, out removedStack);
+        bool good = RemoveItem(ingredient.ModifiedState, out removedStack);
 
         if (good)
         {

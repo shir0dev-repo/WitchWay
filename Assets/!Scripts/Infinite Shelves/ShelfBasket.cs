@@ -173,7 +173,10 @@ public class ShelfBasket : MonoBehaviour
 
     private void GrabIngredient()
     {
-        grabbedObject = Instantiate(storedIngredient.WorldPrefab, GetMousePos(), Quaternion.identity);
+        Vector3 spawnPoint = GetMousePos();
+        spawnPoint.z = -10;
+        grabbedObject = Instantiate(storedIngredient.WorldPrefab, spawnPoint, Quaternion.identity);
+        
         //Vector3 grabbedTransPos = grabbedObject.transform.position;
         //grabbedObject.transform.position = new Vector3(grabbedTransPos.x, grabbedTransPos.y, zGrabPos);
         WorldIngredient wIngred = grabbedObject.GetComponent<WorldIngredient>();

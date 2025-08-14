@@ -141,6 +141,8 @@ public class StationsInvBox : MonoBehaviour
     public void AddWorldItem(ModifiedIngredient ingredient)
     {
         basketItems.Add(new BasketItems(transform, ingredient, 1));
+        StationsInventoryHolder inv = FindFirstObjectByType<StationsInventoryHolder>();
+        
     }
 
     public void RemoveItem(ModifiedIngredient ingredient)

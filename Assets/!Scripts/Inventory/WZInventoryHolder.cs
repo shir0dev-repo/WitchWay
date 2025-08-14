@@ -14,13 +14,13 @@ public class WZInventoryHolder : InventoryHolder
         if (grid) grid.BindData(data);
     }
 
-    public void AddNewItem(IngredientSO ingredient) => AddItem(ingredient);
+    public void AddNewItem(ModifiedIngredient ingredient) => AddItem(ingredient);
     protected override void OnItemAdded(InventorySlotData slot)
     {
         base.OnItemAdded(slot);
         StartCoroutine(DelayGetVisual(slot));
     }
-    public void RemoveItemPublic(IngredientSO ingredient) => RemoveItem(ingredient);
+    public void RemoveItemPublic(ModifiedIngredient ingredient) => RemoveItem(ingredient);
 
     private IEnumerator DelayGetVisual(InventorySlotData slot)
     {

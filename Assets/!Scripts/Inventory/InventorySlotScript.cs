@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private IngredientSO ingredient;
+    private ModifiedIngredient ingredient;
     private InventoryGridView grid;
     private InventoryHolder holder;
     private InventorySlotData mySlot;
@@ -22,7 +22,7 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
         return mySlot;
     }
 
-    public void SetIngredient(IngredientSO newIngred)
+    public void SetIngredient(ModifiedIngredient newIngred)
     {
         ingredient = newIngred;
     }
@@ -114,7 +114,7 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
                 spawnPos = hit.point;
             }
 
-            GameObject worldObject = Instantiate(ingredient.WorldPrefab, spawnPos, Quaternion.identity);
+            GameObject worldObject = Instantiate(ingredient.BaseIngredient.WorldPrefab, spawnPos, Quaternion.identity);
             //Destroy(worldObject.GetComponent<WorldIngredient>());
             //Destroy(worldObject.GetComponent<CrushableIngredientState>());
             
@@ -123,13 +123,13 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
                 wzIng = worldObject.AddComponent<WZWorldIngredient>();
             }
 
-            wzIng.ingredient = ingredient;
+            wzIng.ingredient = ingredient.BaseIngredient;
             worldObject.transform.localScale = worldObject.transform.localScale * 0.25f; //might want to make configurable
             worldObject.tag = "Ingredient";
         }
         else
         {
-            GameObject worldObject = Instantiate(ingredient.WorldPrefab, GetMousePos(), Quaternion.identity);
+            GameObject worldObject = Instantiate(ingredient.BaseIngredient.WorldPrefab, GetMousePos(), Quaternion.identity);
             WorldIngredient wIngred = worldObject.GetComponent<WorldIngredient>();
             if (wIngred)
             {

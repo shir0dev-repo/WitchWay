@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 [Serializable]
 public class InventorySlotData : IComparable<InventorySlotData>
 {
-    public IngredientSO ingredient;
+    public ModifiedIngredient ingredient;
     public int amount;
 
-    public InventorySlotData(IngredientSO ingredient, int amount)
+    public InventorySlotData(ModifiedIngredient ingredient, int amount)
     {
         this.ingredient = ingredient;
         this.amount = amount;
@@ -16,7 +17,7 @@ public class InventorySlotData : IComparable<InventorySlotData>
     public int CompareTo(InventorySlotData other)
     {
         if (other == null) return 1;
-        return ingredient.ID.CompareTo(other.ingredient.ID);
+        return 0;
     }
 }
 
@@ -56,30 +57,17 @@ public class InventoryData //hopefully this is good i dont really know what im d
 
     public int TotalDifferentItems() => slots.Count;
 
-    public InventorySlotData FindSlotByIngredient(IngredientSO ingredient)
-    {
-        for (int i = 0; i < slots.Count; i++)
-        {
-            if (slots[i].ingredient == ingredient)
-            {
-                return slots[i];
-            }
-        }
-
-        return null;
-    }
-
     public bool CanAddOne() => TotalAmountCarrying() < maxAmountOfItems &&
                                 TotalDifferentItems() <= maxDifferentItems;
 
-    public bool AddOne(IngredientSO ingredient)
+    public bool AddOne(ModifiedIngredient ingredient)
     {
         if (!CanAddOne()) return false;
 
         //check stack
         for (int i = 0; i < slots.Count; i++)
         {
-            if (slots[i].ingredient.ID == ingredient.ID)
+            if (slots[i].ingredient == ingredient)
             {
                 slots[i].amount += 1;
                 OnItemAmountChanged?.Invoke(slots[i]);
@@ -94,14 +82,14 @@ public class InventoryData //hopefully this is good i dont really know what im d
         return true;
     }
 
-    public bool RemoveOne(IngredientSO ingredient)
+    public bool RemoveOne(ModifiedIngredient ingredient)
     {
         if (TotalAmountCarrying() <= 0) return false;
 
         for (int i = slots.Count - 1; i >= 0; i--)
         {
             InventorySlotData slot = slots[i];
-            if (slot.ingredient.ID != ingredient.ID) continue;
+            if (slot.ingredient != ingredient) continue;
 
             if (slot.amount > 1)
             {
@@ -120,7 +108,7 @@ public class InventoryData //hopefully this is good i dont really know what im d
         return false;
     }
 
-    public bool RemoveOne(IngredientSO ingredient, out bool removedStack)
+    public bool RemoveOne(ModifiedIngredient ingredient, out bool removedStack)
     {
         removedStack = false;
         if (TotalAmountCarrying() <= 0) return false;
@@ -128,7 +116,7 @@ public class InventoryData //hopefully this is good i dont really know what im d
         for (int i = slots.Count - 1; i >= 0; i--)
         {
             InventorySlotData slot = slots[i];
-            if (slot.ingredient.ID != ingredient.ID) continue;
+            if (slot.ingredient != ingredient) continue;
 
             if (slot.amount > 1)
             {

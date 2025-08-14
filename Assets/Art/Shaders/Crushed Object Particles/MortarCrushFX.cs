@@ -6,10 +6,16 @@ public class MortarCrushFX : MonoBehaviour
     Color _particleColor = Color.white;
     [SerializeField] private ParticleSystem _crushPS;
 
-    private void Start()
+    private void OnEnable()
     {
         GameEvents.Crafting.OnItemDurabilityChanged += SpawnParticleBurst;
         GameEvents.Crafting.OnItemPlacedInMortar += SetParticleParams;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnItemDurabilityChanged -= SpawnParticleBurst;
+        GameEvents.Crafting.OnItemPlacedInMortar -= SetParticleParams;
     }
 
     private void SetParticleParams(WorldIngredient ingredient)

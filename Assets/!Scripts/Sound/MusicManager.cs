@@ -23,10 +23,11 @@ public class MusicManager : MonoBehaviour
         switch (scene.name)
         {
             case "Crafting":
+            case "Shop":
                 SoundManager.Instance.PlayMusicTrack(CraftingTrack);
                 break;
             case "WitchingZone":
-                // WitchingZoneTrack
+                SoundManager.Instance.PlayMusicTrack(WitchingZoneTrack);
                 break;
             case "Menu":
                 // MenuTrack

@@ -71,9 +71,8 @@ public class CursorManager : Singleton<CursorManager>
 
     private void TryGetZTarget()
     {
-        _targetZPosition = 0.0f;
-
         if (!_attachedObject.TryGetComponent(out WorldIngredient ing)) return;
+        _targetZPosition = _attachedObject.transform.position.z;
         if (FindFirstObjectByType<StationsInventoryHolder>() == null) return;
 
         CraftingRectArea[] craftingRects = FindFirstObjectByType<StationsInventoryHolder>().GetCraftingRects();
@@ -190,7 +189,7 @@ public class CursorManager : Singleton<CursorManager>
         if (_attachedObject == null) return;
 
         _grabOffset = Vector3.zero;
-        
+        _targetZPosition = 0.0f;
         if (returnToRestPosition && _restPivot != null)
             _attachedObject.position = _restPivot.position;
         

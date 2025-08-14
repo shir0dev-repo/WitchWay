@@ -52,7 +52,7 @@ public abstract class InventoryHolder : MonoBehaviour
     {
         if (!writeToPersistantList) return;
 
-        int index = PersistantItemList.inventorySlots.FindIndex(s => s.ingredient.ID == slot.ingredient.ID);
+        int index = PersistantItemList.inventorySlots.FindIndex(s => s.ingredient == slot.ingredient);
         if (index >= 0) PersistantItemList.inventorySlots[index].amount = slot.amount;
         else PersistantItemList.inventorySlots.Add(new InventorySlotData(slot.ingredient, slot.amount));
     }
@@ -61,7 +61,7 @@ public abstract class InventoryHolder : MonoBehaviour
     {
         if (!writeToPersistantList) return;
 
-        int index = PersistantItemList.inventorySlots.FindIndex(s => s.ingredient.ID == slot.ingredient.ID);
+        int index = PersistantItemList.inventorySlots.FindIndex(s => s.ingredient == slot.ingredient);
         if (index >= 0) PersistantItemList.inventorySlots.RemoveAt(index);
     }
 
@@ -74,10 +74,10 @@ public abstract class InventoryHolder : MonoBehaviour
     }
 
     //other systems stuff
-    public void AddItem(IngredientSO ingredient) => data.AddOne(ingredient);
+    public void AddItem(ModifiedIngredient ingredient) => data.AddOne(ingredient);
 
-    public bool RemoveItem(IngredientSO ingredient) => data.RemoveOne(ingredient);
-    public bool RemoveItem(IngredientSO ingredient, out bool removedStack) => data.RemoveOne(ingredient, out removedStack);
+    public bool RemoveItem(ModifiedIngredient ingredient) => data.RemoveOne(ingredient);
+    public bool RemoveItem(ModifiedIngredient ingredient, out bool removedStack) => data.RemoveOne(ingredient, out removedStack);
 
     public void SortInventory() => data.Sort();
 

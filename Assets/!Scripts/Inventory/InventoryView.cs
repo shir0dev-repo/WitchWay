@@ -27,15 +27,15 @@ public class InventoryView : InventoryHolder
         if (addTrigger != null) addTrigger.onTriggerEnter += AddItemTrigger;
     }
 
-    public void AddNewItem(IngredientSO ingredient) => AddItem(ingredient);
-    public void RemoveItemPublic(IngredientSO ingredient) => RemoveItem(ingredient);
+    public void AddNewItem(ModifiedIngredient ingredient) => AddItem(ingredient);
+    public void RemoveItemPublic(ModifiedIngredient ingredient) => RemoveItem(ingredient);
 
     //add trigger
     public void AddItemTrigger(Collider collision)
     {
         if (collision.gameObject.TryGetComponent(out WorldIngredient worldIngredient))
         {
-            AddNewItem(worldIngredient.BaseIngredient);
+            AddNewItem(worldIngredient.ModifiedState);
             if (CursorManager.Instance != null)
                 CursorManager.Instance.ClearCursor(false);
             Destroy(collision.gameObject);

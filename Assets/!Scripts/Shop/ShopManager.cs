@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 public enum ShopArea { Shop = 0, CraftingStation = 1, Shelves = 2, Portal = 3 }
 public class ShopManager : PersistentSingleton<ShopManager>
 {
+    private struct LoadedArea
+    {
+        public ShopArea Area;
+        public Scene SceneReference;
+    }
+
     public ShopArea CurrentArea = ShopArea.Shop;
 
     public readonly Dictionary<ShopArea, string> _sceneAreaLookup = new();
@@ -33,11 +39,29 @@ public class ShopManager : PersistentSingleton<ShopManager>
 
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             SceneManager.sceneLoaded += SetActiveScene;
+            CurrentArea = area;
             ToggleShopArea(false);
+
             return true;
         }
 
         return false;
+    }
+
+    public async void UnloadArea()
+    {
+        if (_sceneAreaLookup.TryGetValue(CurrentArea, out string name))
+        {
+            Scene toRemove = SceneManager.GetSceneByName(name);
+            if (toRemove.isLoaded)
+            {
+                await SceneManager.UnloadSceneAsync(toRemove.buildIndex);
+
+                ToggleShopArea(true);
+                CurrentArea = ShopArea.Shop;
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName("Shop"));
+            }
+        }
     }
 
     private void SetActiveScene(Scene loadedScene, LoadSceneMode loadMode)

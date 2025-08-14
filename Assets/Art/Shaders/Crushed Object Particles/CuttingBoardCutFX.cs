@@ -5,10 +5,16 @@ public class CuttingBoardCutFX : MonoBehaviour
     Color _particleColor = Color.white;
     [SerializeField] private ParticleSystem _cutPS;
 
-    private void Start()
+    private void OnEnable()
     {
         GameEvents.Crafting.OnCutItem += SpawnParticleBurst;
         GameEvents.Crafting.OnItemPlacedOnCuttingBoard += SetParticleParams;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.Crafting.OnCutItem -= SpawnParticleBurst;
+        GameEvents.Crafting.OnItemPlacedOnCuttingBoard -= SetParticleParams;
     }
 
     private void SetParticleParams(WorldIngredient ingredient)
