@@ -48,13 +48,14 @@ GameObject:
   - component: {fileID: 1067179714545731035}
   - component: {fileID: 374830563750942642}
   - component: {fileID: 7162314625361868669}
+  - component: {fileID: 8715672830328036228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7863050949938521197
 Transform:
   m_ObjectHideFlags: 0
@@ -605,6 +606,7 @@ MonoBehaviour:
   pickupDistance: 5
   objectDragSpeed: 20
   inventoryCanvasGroup: {fileID: 0}
+  inventoryOpen: 0
 --- !u!114 &7162314625361868669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +623,18 @@ MonoBehaviour:
   writeToPersistantList: 1
   invBounds: {fileID: 0}
   grid: {fileID: 0}
+--- !u!114 &8715672830328036228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882040984405703135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0967d0c6fdbd24e4e9b7afa6c1ce3469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2389179300540845493
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,6 +27,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 576
+--- !u!114 &-7841209142813978709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_failure
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_failure
+  Guid:
+    Data1: -1827187242
+    Data2: 1132071179
+    Data3: 873332892
+    Data4: -469329721
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-7778953639905432202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,9 +105,36 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638899305406671049
+  lastModified: 638907805380654993
   FileSizes: []
   Exists: 1
+--- !u!114 &-7544634559854202451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/mus_witchingzone
+  m_EditorClassIdentifier: 
+  Path: event:/Music/mus_witchingzone
+  Guid:
+    Data1: 920477118
+    Data2: 1216117832
+    Data3: -1891433828
+    Data4: 2027118288
+  Banks:
+  - {fileID: -7680813633427519364}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 80000
 --- !u!114 &-6817617300844638782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +217,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 391
+--- !u!114 &-5866218329487055499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_divination
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_divination
+  Guid:
+    Data1: 605516503
+    Data2: 1245009016
+    Data3: 223631772
+    Data4: -654217927
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-4707610779992998120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,10 +286,10 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638899305406530917
+  lastModified: 638907805380324168
   FileSizes:
   - Name: 
-    Value: 2712
+    Value: 3042
   Exists: 1
 --- !u!114 &-3863924317077239790
 MonoBehaviour:
@@ -495,6 +576,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-711771119080117713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_necromancy
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_necromancy
+  Guid:
+    Data1: -1427674072
+    Data2: 1108861944
+    Data3: 1494343577
+    Data4: 1928318566
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-459893821822441617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,7 +618,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Testing.bank
   Name: Testing
   StudioPath: bank:/Testing
-  lastModified: 638882140560326797
+  lastModified: 638887121461556754
   FileSizes: []
   Exists: 1
 --- !u!114 &-348203482615290266
@@ -603,6 +711,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 312
+--- !u!114 &-293570660887502566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_abjuration
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_abjuration
+  Guid:
+    Data1: -70403929
+    Data2: 1216434850
+    Data3: 667628989
+    Data4: 1525648970
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &-8131420110358722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,13 +817,20 @@ MonoBehaviour:
   - {fileID: 338928528335583836}
   - {fileID: -6331622657770547011}
   - {fileID: -2829811301683962972}
+  - {fileID: -7544634559854202451}
+  - {fileID: -711771119080117713}
+  - {fileID: 2474538751972894382}
+  - {fileID: -293570660887502566}
+  - {fileID: 5810306317676570396}
+  - {fileID: -7841209142813978709}
+  - {fileID: -5866218329487055499}
   EditorParameters:
   - {fileID: -348203482615290266}
   MasterBanks:
   - {fileID: 4376869088834433634}
   StringsBanks:
   - {fileID: -3877269456220062191}
-  cacheTime: 638899305406791155
+  cacheTime: 638907805380875671
   cacheVersion: 131624
 --- !u!114 &272697249615256782
 MonoBehaviour:
@@ -827,6 +969,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 136000
+--- !u!114 &2474538751972894382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_enchantment
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_enchantment
+  Guid:
+    Data1: -1110485205
+    Data2: 1157196837
+    Data3: -749965377
+    Data4: -623435243
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &2851121932472143109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -951,7 +1120,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638899305406530917
+  lastModified: 638907805380273987
   FileSizes: []
   Exists: 1
 --- !u!114 &4642932315573501482
@@ -1071,6 +1240,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 347
+--- !u!114 &5810306317676570396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/magic circles/sfx_magic_activate_evocation
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/magic circles/sfx_magic_activate_evocation
+  Guid:
+    Data1: 1349263315
+    Data2: 1163562596
+    Data3: -1330173274
+    Data4: 1384483841
+  Banks:
+  - {fileID: 6709247235723291904}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4000
 --- !u!114 &6052489491461153480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1336,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638899305406791155
+  lastModified: 638907805380875671
   FileSizes: []
   Exists: 1
 --- !u!114 &7453970457105898225
@@ -1158,7 +1354,7 @@ MonoBehaviour:
   Path: Assets/Art/Audio/FMod Banks/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/Ambience
-  lastModified: 638847279484681594
+  lastModified: 638840520584814787
   FileSizes: []
   Exists: 1
 --- !u!114 &7593977309060973742

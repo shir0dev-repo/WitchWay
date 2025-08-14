@@ -17,11 +17,11 @@ public class SceneController : MonoBehaviour
         {
             SaveManager.Instance.ResetSave();
         }
-        SceneManager.LoadScene("Crafting");
+        SceneManager.LoadScene("Shop");
     }
     public void LoadButton()
     {
-        SceneManager.LoadScene("Crafting");     // change this to whatever the first tscene the player should see when hitting the play button from the main menu
+        SceneManager.LoadScene("Shop");     // change this to whatever the first tscene the player should see when hitting the play button from the main menu
     }
     public void QuitButton()
     {

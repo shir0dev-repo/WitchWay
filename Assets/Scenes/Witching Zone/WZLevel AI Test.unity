@@ -1311,17 +1311,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1143645507 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 258912982164260262, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
-  m_PrefabInstance: {fileID: 479465204}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1183024564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,11 +1665,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!225 &1357532512 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 7308113545249866584, guid: 70030723d82d33c4798f209e9b33b7fa, type: 3}
-  m_PrefabInstance: {fileID: 479465204}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1467396715
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,18 +2001,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 882040984405703135, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1766042952203789578, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      propertyPath: reticleImage
-      value: 
-      objectReference: {fileID: 1143645507}
-    - target: {fileID: 1766042952203789578, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
-      propertyPath: inventoryCanvasGroup
-      value: 
-      objectReference: {fileID: 1357532512}
     - target: {fileID: 7863050949938521197, guid: ae0d4e3bee6fafa45a6319e2f6afaee5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10000
