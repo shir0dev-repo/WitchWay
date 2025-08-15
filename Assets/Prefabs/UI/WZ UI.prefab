@@ -630,7 +630,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -1880, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4721863764448017701
 MonoBehaviour:
@@ -892,13 +892,14 @@ GameObject:
   - component: {fileID: 2510708059444681018}
   - component: {fileID: 7451222506753171065}
   - component: {fileID: 6718780492257428758}
+  - component: {fileID: 3741301793420886918}
   m_Layer: 5
   m_Name: WZ UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2157067000975947976
 RectTransform:
   m_ObjectHideFlags: 0
@@ -985,7 +986,21 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4095
+    m_Bits: 3839
+--- !u!114 &3741301793420886918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464948021429908238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d1a13783e1b6ac43996cda5c290b08e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sanityBar: {fileID: 3159209015633530174}
+  playerSanity: {fileID: 0}
 --- !u!1 &3738035827274511124
 GameObject:
   m_ObjectHideFlags: 0

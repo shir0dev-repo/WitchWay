@@ -11,7 +11,7 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
     private bool inWz = false;
     private bool pointerDownInBounds = false;
 
-    void Start()
+    void Awake()
     {
         holder = GameObject.FindFirstObjectByType<InventoryHolder>();
         grid = GetComponentInParent<InventoryGridView>(true);
@@ -125,6 +125,9 @@ public class InventorySlotScript : MonoBehaviour, IPointerDownHandler, IPointerE
 
             wzIng.ingredient = ingredient.BaseIngredient;
             worldObject.transform.localScale = worldObject.transform.localScale * 0.25f; //might want to make configurable
+            Transform room = WitchingZoneGenerator.Instance.GetRoom(worldObject.transform.position).transform;
+            worldObject.transform.SetParent(room);
+
             worldObject.tag = "Ingredient";
         }
         else

@@ -23,7 +23,7 @@ public class ShopManager : PersistentSingleton<ShopManager>
         _sceneAreaLookup.Add(ShopArea.Shop, "Shop");
         _sceneAreaLookup.Add(ShopArea.CraftingStation, "Crafting");
         _sceneAreaLookup.Add(ShopArea.Shelves, "Infinite Shelves");
-        _sceneAreaLookup.Add(ShopArea.Portal, "WZLevel");
+        _sceneAreaLookup.Add(ShopArea.Portal, "Witching Zone");
     }
 
     public bool LoadArea(ShopArea area)

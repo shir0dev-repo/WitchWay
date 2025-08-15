@@ -7,6 +7,7 @@ using System;
 using DG.Tweening;
 
 using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
 public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
 {
@@ -42,6 +43,7 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
     [SerializeField] private Dungeon2D _dungeon;
     [SerializeField] private DungeonGeneratorData _generatorData;
     [SerializeField] private List<SpecialRoomType> _specialRoomTypes;
+    public UnityEvent OnDungeonGenerated;
 
     [Header("Room Changing Effect")]
     [SerializeField] private float _pixelFadeOutDuration = 0.6f;
@@ -133,6 +135,7 @@ public class WitchingZoneGenerator : Singleton<WitchingZoneGenerator>
             }
         }
 
+        OnDungeonGenerated?.Invoke();
         GameEvents.WitchingZone.OnDungeonGenerated?.Invoke(_dungeon);
     }
 

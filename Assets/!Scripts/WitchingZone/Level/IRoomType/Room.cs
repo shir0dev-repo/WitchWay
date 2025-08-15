@@ -29,6 +29,11 @@ public class Room : MonoBehaviour
         GameEvents.WitchingZone.OnDungeonGenerated += Setup;
     }
 
+    private void OnDisable()
+    {
+        GameEvents.WitchingZone.OnDungeonGenerated -= Setup;
+    }
+
     private void Setup(Dungeon2D d)
     {
         if (Node == null)

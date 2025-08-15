@@ -279,7 +279,7 @@ public class WZPlayerInteract : MonoBehaviour
         //inv hover
         WZPlayerController controller = FindFirstObjectByType<WZPlayerController>();
         controller?.EnableDisableAction(false,
-            new PlayerControllerActions[] { PlayerControllerActions.moveAction, PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
+            new PlayerControllerActions[] { PlayerControllerActions.lookAction, PlayerControllerActions.jumpAction, PlayerControllerActions.crouchAction });
 
         EnableDisableAction(false,
             new PlayerInteractActions[] { PlayerInteractActions.interactAction, PlayerInteractActions.dragAction });

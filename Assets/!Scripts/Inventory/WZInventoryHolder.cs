@@ -11,6 +11,7 @@ public class WZInventoryHolder : InventoryHolder
         base.Awake();
 
         if (!grid) grid = FindFirstObjectByType<InventoryGridView>();
+        invBounds = grid.GetComponent<RectTransform>();
         if (grid) grid.BindData(data);
     }
 
@@ -25,10 +26,13 @@ public class WZInventoryHolder : InventoryHolder
     private IEnumerator DelayGetVisual(InventorySlotData slot)
     {
         yield return new WaitForSeconds(0.5f);
-        GameObject visual = grid.GetVisualForSlot(slot).transform.parent.gameObject;
-        if (visual != null)
+        GameObject visual = grid.GetVisualForSlot(slot);
+        if (visual == null) yield break;
+
+        visual = visual.transform.parent.gameObject;
+        if (visual != null && visual.TryGetComponent(out InventorySlotScript slotScript))
         {
-            visual.GetComponent<InventorySlotScript>()?.ActiveInWZ();
+            slotScript.ActiveInWZ();
         }
     }
 }

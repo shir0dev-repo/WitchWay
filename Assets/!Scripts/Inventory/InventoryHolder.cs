@@ -9,7 +9,7 @@ public abstract class InventoryHolder : MonoBehaviour
     public InventoryData data { get; private set; } = new InventoryData();
 
     [Header("Bounds")]
-    [SerializeField] private RectTransform invBounds;
+    [SerializeField] protected RectTransform invBounds;
     public RectTransform InvBounds => invBounds;
 
     protected virtual void Awake()
