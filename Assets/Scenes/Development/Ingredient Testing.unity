@@ -1553,6 +1553,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e67622855c7f30d488fc40fbd1af45ea, type: 3}
+--- !u!1001 &195517989791103310
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880912811649488373, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_Name
+      value: Crushed Dragonscale
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
 --- !u!1001 &1757005714665494370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1630,3 +1687,4 @@ SceneRoots:
   - {fileID: 806272607}
   - {fileID: 2110925908}
   - {fileID: 1962448323}
+  - {fileID: 195517989791103310}

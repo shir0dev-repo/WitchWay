@@ -121,10 +121,6 @@ public class CauldronMaster : Singleton<CauldronMaster>
 
             _ingredients.Clear();
         }
-        else
-        {
-            Debug.Log("Potion incomplete!");
-        }
     }
 
     private void OnTriggerEnter(Collider other)

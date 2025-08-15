@@ -1,15 +1,28 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ShopPlayerController : MonoBehaviour
+public class ShopPlayerController : Singleton<ShopPlayerController>
 {
+    [System.Serializable]
+    public struct SpriteFacingData
+    {
+        public Vector2 FaceDir;
+        public Sprite Sprite;
+    }
+
     public enum InputMode { Locked = 0, Freed = 1, Dialogue = 2 }
 
     [SerializeField] private LayerMask _groundLayer;
 
+    [Header("Visuals")]
+    [SerializeField] private List<SpriteFacingData> _sprites;
+
     [Header("Locomotion")]
     [SerializeField] private Vector2 _moveSpeed = Vector3.one * 5.0f;
     [SerializeField] private Rigidbody2D _rigidbody;
+
     [Header("Interaction")]
     [SerializeField] private Transform _interactPosition;
     [SerializeField] private float _interactRadius = 0.5f;
@@ -40,6 +53,7 @@ public class ShopPlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleMovement();
+        HandleAnimation();
     }
 
     private void RegisterInput()
@@ -60,6 +74,19 @@ public class ShopPlayerController : MonoBehaviour
             _interactPosition.localPosition = _inputThisFrame;
 
         _rigidbody.MovePosition(transform.position + new Vector3(moveDir.x, moveDir.y));
+    }
+
+    private void HandleAnimation()
+    {
+        if (_inputThisFrame == Vector2.zero) return;
+        if (!TryGetComponent(out SpriteRenderer sr)) return;
+        
+        Sprite sprite = _sprites.Find(s => s.FaceDir == _inputThisFrame).Sprite;
+
+        if (sprite != null)
+        {
+            sr.sprite = sprite;
+        }
     }
 
     private void TryInteract(InputAction.CallbackContext context)

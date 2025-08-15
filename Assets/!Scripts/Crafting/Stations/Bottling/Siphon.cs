@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Siphon : Singleton<Siphon>
 {
@@ -33,6 +34,11 @@ public class Siphon : Singleton<Siphon>
     {
         GameEvents.Crafting.OnBottleFilled -= EndMinigame;
         GameEvents.Crafting.OnBottlePlacedInBottler += StartMinigame;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.Crafting.OnBottlePlacedInBottler -= StartMinigame;
     }
 
     void Start()

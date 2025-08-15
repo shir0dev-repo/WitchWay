@@ -15,15 +15,25 @@ public class BottlingStation : Singleton<BottlingStation>
     public Bottle CurrentBottle => _bottle;
     private Bottle _bottle;
 
+    private PotionData _potionData = null;
+
     private void OnEnable()
     {
         GameEvents.Crafting.OnObjectRemovedFromCursor += AttachBottle;
+        GameEvents.Crafting.OnMixedPotionRequested += SetPotionData;
         GameEvents.Crafting.OnBottleFilled += FinishBottling;
     }
 
     private void OnDisable()
     {
         GameEvents.Crafting.OnObjectRemovedFromCursor -= AttachBottle;
+        GameEvents.Crafting.OnMixedPotionRequested -= SetPotionData;
+        GameEvents.Crafting.OnBottleFilled -= FinishBottling;
+    }
+
+    private void SetPotionData(PotionData data)
+    {
+        _potionData = data;
     }
 
     private void AttachBottle(IFollowCursor cursor)
@@ -51,6 +61,10 @@ public class BottlingStation : Singleton<BottlingStation>
     {
         _bottle = null;
         _pipe.SetActive(false);
+
+        if (_potionData != null)
+            GameEvents.Crafting.OnPotionFullyCompleted?.Invoke(_potionData);
+        _potionData = null;
     }
 
     private void ToggleRelevantComponents(bool toggle)

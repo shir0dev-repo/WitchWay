@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
-        m_Texture: {fileID: 2800000, guid: 1384d094eabf1db44a39e6ababc38264, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _RoughnessTex:
@@ -42,15 +42,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AmbientStrength: 0.3
-    - _Glossiness: 100
-    - _RimAmount: 0
-    - _RimThreshold: 0
-    - _SpecEdge0: 0.506
-    - _SpecEdge1: 0.649
+    - _AmbientStrength: 0.59
+    - _EmissiveStrength: 0
+    - _Glossiness: 32
+    - _RimAmount: 0.301
+    - _RimThreshold: 0.665
+    - _SpecEdge0: 0.844
+    - _SpecEdge1: 1
     m_Colors:
-    - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Diffuse: {r: 0.42372733, g: 0.43103802, b: 0.4339623, a: 1}
+    - _EmissiveColour: {r: 0, g: 0, b: 0, a: 1}
+    - _FXColor: {r: 1, g: 0.0047169924, b: 0.0047169924, a: 1}
+    - _RimColor: {r: 0.23673905, g: 0.30673957, b: 0.5283019, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -37,8 +37,15 @@ public class DialogueManager : MonoBehaviour
     {
         if (node == null) return;
 
-        WZPlayerManager.Instance.ToggleInput(false);
-        WZPlayerManager.Instance.ToggleCursor(true);
+        if (WZPlayerController.Instance != null)
+        {
+            WZPlayerManager.Instance.ToggleInput(false);
+            WZPlayerManager.Instance.ToggleCursor(true);
+        }
+        else if (ShopPlayerController.Instance != null)
+        {
+            ShopPlayerController.Instance.ToggleInput(ShopPlayerController.InputMode.Locked);
+        }
 
         ClearResponses();
         dialogueParent.SetActive(true);
@@ -149,9 +156,15 @@ public class DialogueManager : MonoBehaviour
         dialogueParent.SetActive(false);
         interactAction.Disable();
         currentNode = null;
-
-        WZPlayerManager.Instance.ToggleInput(true);
-        WZPlayerManager.Instance.ToggleCursor(false);
+        if (WZPlayerManager.Instance != null)
+        {
+            WZPlayerManager.Instance.ToggleInput(true);
+            WZPlayerManager.Instance.ToggleCursor(false);
+        }
+        else if (ShopPlayerController.Instance != null)
+        {
+            ShopPlayerController.Instance.ToggleInput(ShopPlayerController.InputMode.Freed);
+        }
     }
 
     public bool IsDialogueActive() => dialogueParent.activeSelf;

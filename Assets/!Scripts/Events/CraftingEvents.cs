@@ -82,7 +82,6 @@ public static partial class GameEvents
         public static Action<PotionData> OnSuccessfullyMixedPotion;
         public static Action<RecipeSO> OnFailedToMixPotion;
 
-
         // Bottler events
         // TODO: Add Bottle class as parameter
         public static Action OnBottleSelected;
@@ -92,7 +91,7 @@ public static partial class GameEvents
         public static Action OnBottlingStationSelected;
         public static Action<float> OnBottleFillChanged;
         public static Action OnBottleFilled;
-
+        public static Action<PotionData> OnPotionFullyCompleted;
         // Recipe events
         public static Action<RecipeSO> OnRecipeUnlocked;
     }

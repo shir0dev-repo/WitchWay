@@ -777,6 +777,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1282929248 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7880912811649488373, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+  m_PrefabInstance: {fileID: 1692449063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1438679883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,66 +1361,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spritedObjects:
-  - TargetPrefab: {fileID: 5445807108987374733, guid: 9bd0d4a9ad2dd7942b3d005a3bc1118d, type: 3}
+  - TargetPrefab: {fileID: 1282929248}
     Position: {x: 0, y: 0, z: 0}
-    EulerRotation: {x: -30, y: 0, z: 0}
-    Scale: {x: 1, y: 1, z: 1}
-    OutputFileName: CrushedAmethyst
-  - TargetPrefab: {fileID: 3114237181974206438, guid: 3f3748531a821d64f84967881b460db0, type: 3}
-    Position: {x: 0, y: -0.67, z: 0}
     EulerRotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 1, y: 1, z: 1}
-    OutputFileName: Amethyst
-  - TargetPrefab: {fileID: 6980780654309340183, guid: 9a1f7e4f49563664489db43ddb0ab6af, type: 3}
-    Position: {x: 0, y: -0.09, z: 0}
-    EulerRotation: {x: 0, y: 49.15999, z: 341.41}
-    Scale: {x: 1, y: 1, z: 1}
-    OutputFileName: Dragonscale
-  - TargetPrefab: {fileID: 2636917449264128722, guid: f019f3ec614b25b428ac9c3b48203edb, type: 3}
-    Position: {x: 0, y: 0, z: 0}
-    EulerRotation: {x: 340.2, y: 354.93, z: 0}
-    Scale: {x: 2, y: 2, z: 2}
-    OutputFileName: Ectoplasm
-  - TargetPrefab: {fileID: 6898099833362151345, guid: df0f350bd0165d04fb1a9cd1e6f3b16e, type: 3}
-    Position: {x: 0, y: 0.15, z: 0}
-    EulerRotation: {x: 338, y: 10.000005, z: -0.00000023020614}
-    Scale: {x: 2, y: 2, z: 2}
-    OutputFileName: CrushedHeart
-  - TargetPrefab: {fileID: 7927925732942435965, guid: 5524fb27b3207694b985023e16041034, type: 3}
-    Position: {x: -0.06, y: 0.36, z: 0}
-    EulerRotation: {x: 323.2, y: 11.459993, z: 0.000000533121}
-    Scale: {x: 1.75, y: 1.75, z: 1.75}
-    OutputFileName: SlicedHeart
-  - TargetPrefab: {fileID: 6693240687505344851, guid: ad68e2439d837314b907a28d8707fe6c, type: 3}
-    Position: {x: -0.07, y: 0.4, z: 0}
-    EulerRotation: {x: 281.19995, y: 64.77999, z: 294.6}
-    Scale: {x: 2, y: 2, z: 2}
-    OutputFileName: FairyHeart
-  - TargetPrefab: {fileID: 17548535806173022, guid: 7197c2c2cc5a3054e8b7170d9b633594, type: 3}
-    Position: {x: 0.03, y: 0.1, z: 0}
-    EulerRotation: {x: 21.770002, y: 172.9, z: 0.00000011491761}
-    Scale: {x: 2, y: 2, z: 2}
-    OutputFileName: CrushedOakroot
-  - TargetPrefab: {fileID: 8682706879769559136, guid: ffbda3242008bd34e9a078e98c09444c, type: 3}
-    Position: {x: 0.2, y: 0.5, z: 0}
-    EulerRotation: {x: 330.66, y: 28.9, z: 334.6}
-    Scale: {x: 4, y: 4, z: 4}
-    OutputFileName: SlicedOakroot
-  - TargetPrefab: {fileID: 1169835833099662794, guid: e67622855c7f30d488fc40fbd1af45ea, type: 3}
-    Position: {x: -0.034, y: 0.723, z: 0}
-    EulerRotation: {x: 317.19543, y: 82.93443, z: 73.403046}
-    Scale: {x: 2, y: 2, z: 2}
-    OutputFileName: Oakroot
-  - TargetPrefab: {fileID: 7570606435075991950, guid: dbc1b9e6d27eced47b94a16b84ecf47b, type: 3}
-    Position: {x: 0, y: 0, z: 0}
-    EulerRotation: {x: 340.2, y: 354.93, z: 0}
-    Scale: {x: 2, y: 2, z: 2}
-    OutputFileName: WitchesButter
-  - TargetPrefab: {fileID: 1645228012021632560, guid: c7566ed24f37c3946998f27667637770, type: 3}
-    Position: {x: -0.1, y: 0, z: 0}
-    EulerRotation: {x: 337.34894, y: 7.542395, z: 345.82913}
-    Scale: {x: 1, y: 1, z: 1}
-    OutputFileName: SlicedDragonscale
+    Scale: {x: 4.32, y: 4.32, z: 4.32}
+    OutputFileName: Crushed Dragonscale
   _renderTexture: {fileID: 8600000, guid: 755cdc6fa896a5b429ebc4e0f805d963, type: 2}
   _backgroundColour: {r: 1, g: 0, b: 0, a: 1}
   _tolerance: 0.1
@@ -1435,6 +1385,87 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1692449063
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.98319143
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.12411884
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.13284533
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.016770497
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -14.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -15.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3658332363039340281, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991003916025515121, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880912811649488373, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_Name
+      value: Crushed Dragonscale
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880912811649488373, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 329b7244ae5b63149b313d694332b1f8, type: 3}
 --- !u!1001 &1767165886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1739,5 +1770,6 @@ SceneRoots:
   - {fileID: 1557860895}
   - {fileID: 9048708810040583043}
   - {fileID: 5981544111455730766}
+  - {fileID: 1692449063}
   - {fileID: 1215679678}
   - {fileID: 1045357146}
