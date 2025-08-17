@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.UI;
 
 public class CauldronController : Singleton<CauldronController>
 {
@@ -18,11 +19,16 @@ public class CauldronController : Singleton<CauldronController>
     [SerializeField, Range(0, 1)] private float _deviationOKThreshold = 0.5f;
     [SerializeField, Range(1, 5)] private float _deviationHoldTime = 3.0f;
     [SerializeField, Range(5, 50)] private int _maxPointCount = 25;
-    
+
+    [Header("Visuals")]
+    [SerializeField] private SpriteRenderer _circleUI;
+    [SerializeField] private float _arrowRotateAccel = 2.5f;
+    [SerializeField] private float _maxArrowRotateSpeed = 8.0f;
+    private float _arrowRotateVelocity = 0.0f;
+
     private bool _isStirringCW = true;
     float TimeSpentStirring = 6f;
     private Vector3 _cursorPos = Vector3.zero;
-    //private List<Vector3> _cursorPoints = new();
 
     private float _addInterval = 0.1f;
     private float _addTimer = 0.0f;
@@ -31,19 +37,25 @@ public class CauldronController : Singleton<CauldronController>
     float switchStirDirectionTimer = 4.0f;
 
     private float _progress = 0.0f;
-    private float _progressLastFrame = 0.0f;
-    private float _invocationTimer = 0.5f;
 
     void Start()
     {
         switchStirDirectionTimer = _directionSwitchTimer;
         gameObject.SetActive(false);
+        _circleUI.gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
         _progress = 0.0f;
         _holdTimer = 0.0f;
+        _isStirringCW = true;
+        _circleUI.gameObject.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        _circleUI.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -54,7 +66,6 @@ public class CauldronController : Singleton<CauldronController>
 
         if (Input.GetMouseButton(0))
         {
-            _progressLastFrame = _progress;
             // add cursor position to point list
             TryAddPoint();
 
@@ -62,7 +73,7 @@ public class CauldronController : Singleton<CauldronController>
             
             bool withinDev = IsWithinDeviationThreshold(Deviation.Deviation);
             bool correctDirection = IsStirringCorrectDirection(Deviation.Direction, _isStirringCW);
-
+            
             _stdDevUGUI.text =
             $"Deviation: {Deviation.Deviation:F2} " +
             "\nTarget: " + (_isStirringCW ? "CW" : "CCW") +
@@ -70,22 +81,33 @@ public class CauldronController : Singleton<CauldronController>
 
             if (!correctDirection)
             {
-                StirringInWrongDirection();      
-                return;
+                UpdateStirringUI(false);
             }
 
             if (!withinDev)
             {
+                UpdateStirringUI(correctDirection);
                 _holdTimer = 0.0f;
-                return;
             }
 
-            _progress += Time.deltaTime;
+            if (!correctDirection || !withinDev)
+            {
+                _arrowRotateVelocity = Mathf.Clamp(_arrowRotateVelocity - _arrowRotateAccel * Time.deltaTime, 0.0f, _maxArrowRotateSpeed);
+                return;
+            }
+            else
+            {
+                _arrowRotateVelocity = Mathf.Clamp(_arrowRotateVelocity + _arrowRotateAccel * Time.deltaTime, 0.0f, _maxArrowRotateSpeed);
+                _progress += Time.deltaTime;
+                UpdateStirringUI(true);
+            }
+
             
             if (_progress >= _mixTimer)
             {
                 GameEvents.Crafting.OnCauldronMixSequenceCompleted?.Invoke();
                 gameObject.SetActive(false);
+                _circleUI.gameObject.SetActive(false);
             }
             else
             {
@@ -94,17 +116,19 @@ public class CauldronController : Singleton<CauldronController>
 
             // compare deviation to threshold
             _holdTimer += Time.deltaTime;
-            if (_holdTimer >= _deviationHoldTime)
-            {
-                ChangeStirringDirection();
-            }
-
             switchStirDirectionTimer -= Time.deltaTime;
-            if (switchStirDirectionTimer <= 0)
+            
+            if (switchStirDirectionTimer <= 0 || _holdTimer >= _deviationHoldTime)
             {
                 ChangeStirringDirection();
                 switchStirDirectionTimer = _directionSwitchTimer;
+                _holdTimer = 0.0f;
             }
+        }
+        else // !GetMouseButton(0)
+        {
+            _arrowRotateVelocity = Mathf.Clamp(_arrowRotateVelocity - _arrowRotateAccel * Time.deltaTime, 0.0f, _maxArrowRotateSpeed);
+            UpdateStirringUI(true);
         }
     }
 
@@ -179,16 +203,19 @@ public class CauldronController : Singleton<CauldronController>
     {
         _isStirringCW = !_isStirringCW;
         GameEvents.Crafting.OnCauldronMixStepCompleted?.Invoke();
+        SpriteRenderer sr = _circleUI.GetComponent<SpriteRenderer>();
+        _arrowRotateVelocity = 0.0f;
+        sr.flipX = !sr.flipX;
     }
 
     void StirringInWrongDirection()
     {
-        TimeSpentStirring -= Time.deltaTime;
+        
+    }
 
-        if (TimeSpentStirring <= 0)
-        {
-            TimeSpentStirring = 6f;
-            Debug.Log("you've been stirring the wrong way for a while...");
-        }
+    private void UpdateStirringUI(bool stirringCorrectDirection)
+    {
+        float speed = Mathf.Clamp(_arrowRotateVelocity, 0.0f, _maxArrowRotateSpeed);
+        _circleUI.transform.Rotate(0, 0, _circleUI.flipX ? speed : -speed);
     }
 }
