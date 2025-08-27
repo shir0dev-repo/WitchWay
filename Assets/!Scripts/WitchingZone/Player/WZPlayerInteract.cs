@@ -162,26 +162,17 @@ public class WZPlayerInteract : MonoBehaviour
         GameObject interactedObject = CheckForInteractable(ingredientObjectTag, npcObjectTag, doorObjectTag, otherInteractableTag); //if null no object found
         if (interactedObject != null && !inInteract)
         {
-            if (interactedObject.CompareTag(ingredientObjectTag))
+            if (interactedObject.CompareTag(ingredientObjectTag) && interactedObject.TryGetComponent(out WZWorldIngredient ing))
             {
-                IngrediantInteracted(interactedObject.GetComponent<WZWorldIngredient>());
+                IngrediantInteracted(ing);
             }
-            else if (interactedObject.CompareTag(npcObjectTag) && !DialogueManager.Instance.IsDialogueActive())
+            else if (interactedObject.CompareTag(npcObjectTag) && !DialogueManager.Instance.IsDialogueActive() && interactedObject.TryGetComponent(out DialogueActor actor))
             {
-                interactedObject.GetComponent<DialogueActor>()?.Interact();
+                actor.Interact();
             }
-            else if (interactedObject.CompareTag(doorObjectTag))
+            else if (interactedObject.CompareTag(otherInteractableTag) && interactedObject.TryGetComponent(out WZInteractable interactable))
             {
-                interactedObject.GetComponent<WZDoor>()?.Interact();
-            }
-            else if (interactedObject.CompareTag(otherInteractableTag))
-            {
-                WZInteractable interactable = interactedObject.GetComponent<WZInteractable>();
-                interactable?.Interacted();
-            }
-            else
-            {
-                Debug.LogWarning("Interacted with an object that is not an ingredient or NPC: " + interactedObject.name);
+                interactable.Interacted();
             }
         }
     }
