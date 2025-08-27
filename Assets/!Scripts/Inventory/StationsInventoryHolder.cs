@@ -129,34 +129,13 @@ public class StationsInventoryHolder : InventoryHolder
 
     private void OnStationChangedHandler(int stationId)
     {
-        if (startDelayed) StartCoroutine(SendToInventory());
+        
     }
 
     private IEnumerator WaitAfterStart()
     {
         yield return new WaitForSeconds(0.5f);
         startDelayed = true;
-    }
-
-    private IEnumerator SendToInventory()
-    {
-        WorldIngredient[] ingredientsInWorld = FindObjectsByType<WorldIngredient>(FindObjectsSortMode.None);
-        Queue<WorldIngredient> queue = new Queue<WorldIngredient>(ingredientsInWorld);
-
-        int boxIndex = 0;
-        StationsInvBox invBox = boxes[boxIndex];
-
-        while (queue.TryDequeue(out WorldIngredient wIng))
-        {
-            if (wIng.TryGetComponent(out HoverToLocation hover))
-            {
-                hover.Target = invBox.transform;
-                boxIndex = (boxIndex + 1) % boxes.Length;
-                invBox = boxes[boxIndex];
-            }
-
-            yield return null;
-        }
     }
 
     //parent class hooks

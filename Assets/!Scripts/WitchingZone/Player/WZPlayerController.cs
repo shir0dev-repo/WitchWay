@@ -236,7 +236,7 @@ public class WZPlayerController : Singleton<WZPlayerController>
             lookAction.Enable();
             jumpAction.Enable();
             crouchAction.Enable();
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
         else
         {

@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using FMODUnity;
+using DungeonMaster2D;
+using System.Collections;
 
 public class MusicManager : MonoBehaviour
 {
@@ -26,8 +28,8 @@ public class MusicManager : MonoBehaviour
             case "Shop":
                 SoundManager.Instance.PlayMusicTrack(CraftingTrack);
                 break;
-            case "WitchingZone":
-                SoundManager.Instance.PlayMusicTrack(WitchingZoneTrack);
+            case "Witching Zone":
+                StartCoroutine(PlayWZTrackCoroutine());
                 break;
             case "Menu":
                 // MenuTrack
@@ -36,5 +38,19 @@ public class MusicManager : MonoBehaviour
                 Debug.Log("MusicManager: Unhandled scene loaded: " + scene.name);
                 break;
         }
+    }
+
+    private IEnumerator PlayWZTrackCoroutine()
+    {
+        WZPlayerController controller = null;
+        do
+        {
+            controller = WZPlayerController.Instance;
+            yield return new WaitForEndOfFrame();
+        } while (controller == null);
+
+        yield return new WaitUntil(() => controller.gameObject.activeInHierarchy);
+
+        SoundManager.Instance.PlayMusicTrack(WitchingZoneTrack);
     }
 }

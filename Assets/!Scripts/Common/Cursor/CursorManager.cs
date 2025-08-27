@@ -202,6 +202,11 @@ public class CursorManager : Singleton<CursorManager>
             }
         }
 
+        if (StationManager.Instance != null)
+        {
+            _attachedObject.SetParent(StationManager.Instance.CurrentStationArea);
+        }
+
         _restPivot = null;
         _attachedObject = null;
         IFollowCursor followCursor = _currentFollowCursor;

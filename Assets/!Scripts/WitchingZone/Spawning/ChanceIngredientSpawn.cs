@@ -35,6 +35,7 @@ public class ChanceIngredientSpawn : MonoBehaviour
             go.transform.localScale = Vector3.one * scale;
             GameObject room = WitchingZoneGenerator.Instance.GetRoom(go.transform.position).gameObject;
             go.transform.SetParent(room.transform);
+            go.tag = "Ingredient";
         }
     }
 }

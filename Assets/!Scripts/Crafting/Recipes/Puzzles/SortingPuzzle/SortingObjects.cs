@@ -84,7 +84,7 @@ public class SortingObjects : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
             imageComponent.sprite = correctSprite;
         }
         canvasGroup.blocksRaycasts = false;
-        transform.SetAsFirstSibling();      // did anyone else know this existed? I feel so silly
+        transform.SetSiblingIndex(transform.parent.childCount - 2);      // did anyone else know this existed? I feel so silly
     }
 
     public void PleaseHideTheseIdiots()

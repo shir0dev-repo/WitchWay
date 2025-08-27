@@ -18,23 +18,25 @@ public class StationManager : MonoBehaviour
     [Header("Controls")]
     [SerializeField] private InputAction _changeStationAction;
 
-    [Header("Cutting Board")]
-    [SerializeField] private CuttingBoard _cuttingBoard;
-    [SerializeField] private Transform _cuttingBoardTransform;
+    [Header("Prep Board")]
+    [SerializeField] private Transform _prepBoardArea;
+    [SerializeField] private Transform _prepBoardPivot;
 
-    [Header("Mortar & Pestle")]
-    [SerializeField] private PestleTool _pestle;
-    [SerializeField] private Transform _mortarPestleTransform;
+    [Header("Temperature Pot")]
+    [SerializeField] private Transform _tempPotArea;
+    [SerializeField] private Transform _tempPotPivot;
 
     [Header("Magic Circle")]
-    [SerializeField] private SymbolPainter _magicCircle;
-    [SerializeField] private Transform _magicCircleTransform;
+    [SerializeField] private Transform _magicCircleArea;
+    [SerializeField] private Transform _arcaneCirclePivot;
 
     [Header("Cauldron")]
-    [SerializeField] private CauldronController _cauldron;
     [SerializeField] private Transform _cauldronArea;
+    [SerializeField] private Transform _cauldronPivot;
 
     private int _currentTransformIndex = 0;
+
+    public Transform CurrentStationArea { get; private set; }
 
     [HideInInspector]
     public bool recipeBookOpen = false;
@@ -58,6 +60,8 @@ public class StationManager : MonoBehaviour
     {
         if (Instance == null)
             Instance = this;
+
+        CurrentStationArea = _prepBoardArea;
     }
 
     private void OnEnable()
@@ -99,17 +103,24 @@ public class StationManager : MonoBehaviour
     {
         Vector3 targetPos = (targetStation) switch
         {
-            0 => _cuttingBoardTransform.position,  // Cutting Board
-            1 => _mortarPestleTransform.position,  // Mortar and Pestle
-            2 => _magicCircleTransform.position,   // Magic Circle
-            3 => _cauldronArea.position,           // Cauldron
+            0 => _prepBoardPivot.position,  // Cutting Board
+            1 => _tempPotPivot.position,  // Mortar and Pestle
+            2 => _arcaneCirclePivot.position,   // Magic Circle
+            3 => _cauldronPivot.position,           // Cauldron
             _ => Vector3.zero
         };
 
         CameraManager.Instance.MoveToPosition(targetPos);
         _currentTransformIndex = targetStation;
         GameEvents.Crafting.OnStationChanged?.Invoke(targetStation);
-        OnStationChanged.Invoke(targetStation); // DEPRECATED
+        CurrentStationArea = (targetStation) switch
+        {
+            0 => _prepBoardArea,
+            1 => _tempPotArea,
+            2 => _magicCircleArea,
+            3 => _cauldronArea,
+            _ => null
+        };
     }
 
     private void MoveToStation(InputAction.CallbackContext context)

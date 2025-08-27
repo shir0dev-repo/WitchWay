@@ -48,6 +48,15 @@ public class ShopManager : PersistentSingleton<ShopManager>
         return false;
     }
 
+    public void QuitGame()
+    {
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveGame();
+            Application.Quit();
+        }
+    }
+
     public async void UnloadArea()
     {
         if (_sceneAreaLookup.TryGetValue(CurrentArea, out string name))

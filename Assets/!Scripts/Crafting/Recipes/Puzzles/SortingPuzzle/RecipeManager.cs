@@ -22,7 +22,7 @@ public class RecipeManager : MonoBehaviour
         else
         {
             recipeImg.gameObject.SetActive(false);
-            SetSortingActive(false);
+            SetSortingActive(true);
         }
     }
 
